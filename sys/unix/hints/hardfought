@@ -1,0 +1,70 @@
+#
+# NetHack 3.7  linux $NHDT-Date: 1596498415 2020/08/03 23:46:55 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.32 $
+# Copyright (c) Kenneth Lorber, Kensington, Maryland, 2007.
+# NetHack may be freely redistributed.  See license for details.
+#
+#-PRE
+# Linux hints file
+# This hints file provides a chrooted build for Linux, specifically
+# for Ubuntu dapper.
+# Does not copy required libraries or termcap files into the chroot.
+
+COMPILEREVISION?=1
+
+# this is the chroot dir
+PREFIX=/opt/nethack/chroot
+
+# this is the dir where NetHack is inside the chroot
+HACKDIR=/nh370.35-hdf
+INSTDIR=$(PREFIX)$(HACKDIR)
+# DGL does not use the shell script launcher
+SHELLDIR=/tmp
+VARDIR=$(INSTDIR)/var
+
+
+POSTINSTALL=cp -n sys/unix/sysconf $(INSTDIR)/sysconf; $(CHOWN) $(GAMEUID) $(INSTDIR)/sysconf; $(CHGRP) $(GAMEGRP) $(INSTDIR)/sysconf; chmod $(VARFILEPERM) $(INSTDIR)/sysconf;
+
+CFLAGS1=-DCOMPRESS=\"/bin/gzip\" -DCOMPRESS_EXTENSION=\".gz\"
+CFLAGS=-g -O0 -I../include -DNOTPARMDECL $(CFLAGS1) -DDLB
+CFLAGS+=-Wno-format-overflow
+CFLAGS+=-DSYSCF -DSYSCF_FILE=\"$(HACKDIR)/sysconf\" -DSECURE
+CFLAGS+=-DTIMED_DELAY
+CFLAGS+=-DHACKDIR=\"$(HACKDIR)\"
+CFLAGS+=-DVAR_PLAYGROUND=\"$(HACKDIR)/var\"
+CFLAGS+=-DCONFIG_ERROR_SECURE=FALSE
+CFLAGS+=-DCURSES_GRAPHICS
+CFLAGS+=-DPANICLOG_FMT2
+CFLAGS+=-DTTY_TILES_ESCCODES
+CFLAGS+=-DDGAMELAUNCH
+CFLAGS+=-DLIVELOG_ENABLE
+CFLAGS+=-DDUMPLOG
+CFLAGS+=-DDUMPHTML
+CFLAGS+=-DSCORE_ON_BOTL
+
+# when building liblua.a, avoid warning that use of tmpnam() should be
+# replaced by mkstemp(); the lua code doesn't use nethack's config.h so
+# this needs to be passed via make rather than defined in unixconf.h
+SYSCFLAGS=-DLUA_USE_POSIX
+
+LINK=$(CC)
+# Only needed for GLIBC stack trace:
+LFLAGS=-rdynamic
+
+WINSRC = $(WINTTYSRC) $(WINCURSESSRC)
+WINOBJ = $(WINTTYOBJ) $(WINCURSESOBJ)
+WINLIB = $(WINTTYLIB) $(WINCURSESLIB)
+
+WINTTYLIB=-lcurses -ltinfo
+
+# if TTY_TILES_ESCCODES
+WINSRC += tile.c
+WINOBJ += tile.o
+
+CHOWN=true
+CHGRP=true
+GAMEUID=games
+GAMEGRP=games
+
+VARDIRPERM = 0755
+VARFILEPERM = 0600
+GAMEPERM = 0755

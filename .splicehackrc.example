@@ -1,0 +1,164 @@
+####### AntiGulp's SpliceHack RC File ########
+# Hi, I'm AntiGulp!
+# Feel free to copy any or all of these settings for yourself. Many of the
+# status highlights, menucolors, and message settings are based on those
+# found on the wiki.
+
+####### SpliceHack Personalization #######
+#OPTIONS=birdname:Frightful
+#OPTIONS=dragonname:Draciel
+#OPTIONS=orientation:gay
+
+####### SpliceHack Challenges #######
+#OPTIONS=illfated
+#OPTIONS=intrinsicswap
+#OPTIONS=marathon
+#OPTIONS=clumsy
+#OPTIONS=hallucinating
+#OPTIONS=tips
+
+######## Personalization ########
+#OPTIONS=name:Antigulp
+#OPTIONS=catname:Catra
+#OPTIONS=dogname:Big Dang Doggo
+#OPTIONS=horsename:Bad Horse
+#OPTIONS=gender:female
+#OPTIONS=fruit:kumquat
+
+####### Challenges #######
+#OPTIONS=blind
+#OPTIONS=nudist
+
+####### Verbose ######
+OPTIONS=verbose
+
+####### Numpad #######
+OPTIONS=number_pad:0
+
+####### Gameplay #######
+OPTIONS=paranoid_confirm:quit wand-break Were-change
+OPTIONS=pushweapon
+OPTIONS=autodig
+OPTIONS=autoopen
+AUTOCOMPLETE=travel
+
+######## Autopickup #######
+OPTIONS=autopickup
+OPTIONS=pickup_types:?$
+OPTIONS=pickup_thrown
+
+######## News and Mail ########
+OPTIONS=news
+OPTIONS=mail
+
+####### High Scores #######
+OPTIONS=scores:10t 2a o
+
+######## Display ########
+OPTIONS=boulder:0
+OPTIONS=symset:DECgraphics
+OPTIONS=hilite_pet
+OPTIONS=hilite_pile
+OPTIONS=lit_corridor
+OPTIONS=use_darkgray
+OPTIONS=vt_tiledata
+
+######## GUI #########
+OPTIONS=windowtype:curses
+OPTIONS=showexp
+OPTIONS=showscore
+OPTIONS=hitpointbar
+OPTIONS=force_invmenu
+OPTIONS=time
+OPTIONS=disclose:+i +a +v +g +c +o
+OPTIONS=menu_objsyms
+OPTIONS=statuslines:3
+OPTIONS=!implicit_uncursed
+
+######## Curses-Specific GUI ########
+#OPTIONS=perm_invent
+OPTIONS=align_status:right
+OPTIONS=align_message:top
+OPTIONS=petattr:U
+OPTIONS=popup_dialog
+OPTIONS=clicklook
+OPTIONS=mouse_support
+
+######## Menu Colors ########
+OPTIONS=color, menucolors
+# Good Stuff
+MENUCOLOR=" blessed "=cyan&bold
+MENUCOLOR=" uncursed "=green
+# Bad Stuff
+MENUCOLOR=" cursed "=orange&bold
+MENUCOLOR="cheap plastic imitation"=orange&bold
+MENUCOLOR="wand of cancellation"=magenta
+MENUCOLOR="loadstone"=magenta
+# Forgotten Spell
+MENUCOLOR="[a-zA-Z] - [a-zA-Z ]+[ ]+[0-9]+\*[ ]+[a-z]+[ ]+[0-9]+%"=magenta
+# Misc
+MENUCOLOR="gold piece"=yellow
+
+######## Status Highlights ########
+OPTIONS=statushilites:10
+# Hit Points
+OPTIONS=hilite_status:hitpoints/100%/brightgreen
+OPTIONS=hilite_status:hitpoints/<100%/green
+OPTIONS=hilite_status:hitpoints/<60%/yellow
+OPTIONS=hilite_status:hitpoints/<40%/red
+# Power
+OPTIONS=hilite_status:power/100%/brightgreen
+OPTIONS=hilite_status:power/<100%/green
+OPTIONS=hilite_status:power/<60%/yellow
+OPTIONS=hilite_status:power/<40%/red
+# Status
+OPTIONS=hilite_status:armor-class/always/cyan
+OPTIONS=hilite_status:carrying-capacity/burdened/yellow/stressed/orange/strained/orange/overtaxed/red/overloaded/red
+OPTIONS=hilite_status:experience-level/changed/white
+OPTIONS=hilite_status:hunger/hungry/yellow/weak/red/fainting/red/satiated/yellow
+OPTIONS=hilite_status:condition/major_troubles/red/minor_troubles/yellow//movement/cyan
+OPTIONS=hilite_status:alignment/chaotic/red/lawful/white/neutral/gray
+OPTIONS=hilite_status:gold/always/yellow
+OPTIONS=hilite_status:characteristics/up/green&bold/down/red&bold
+
+######## Messages ########
+
+# Annoying messages
+MSGTYPE=hide "You displaced *"
+MSGTYPE=hide "You swap places with *"
+MSGTYPE=norep "Your tentacles suck the .*"
+MSGTYPE=norep "You see here a *"
+MSGTYPE=norep "You see here an *"
+# Improtant Messages
+MSGTYPE=stop "You wrest .*"
+MSGTYPE=stop "You feel a strange vibration under your *."
+MSGTYPE=stop "You see a strange vibration under *."
+MSGTYPE=stop "You feel a strange vibration beneath you."
+# Dangerous situations
+MSGTYPE=stop "You don't feel very well."
+MSGTYPE=stop "You are turning a little green."
+MSGTYPE=stop "Your limbs are getting oozy."
+MSGTYPE=stop "Your skin begins to peel away."
+MSGTYPE=stop "You are turning into a green slime."
+MSGTYPE=stop "You are slowing down."
+MSGTYPE=stop "Your limbs are stiffening."
+MSGTYPE=stop "It constricts your throat!"
+MSGTYPE=stop "You find it hard to breathe."
+MSGTYPE=stop "You're gasping for air."
+MSGTYPE=stop "Your blood is having trouble reaching your brain."
+MSGTYPE=stop "You can no longer breathe."
+MSGTYPE=stop "You're turning blue."
+MSGTYPE=stop "Your consciousness is fading."
+MSGTYPE=stop "You feel deathly sick."
+MSGTYPE=stop "You feel much worse."
+MSGTYPE=stop "You feel even worse."
+MSGTYPE=stop "You fail to cast the spell correctly."
+MSGTYPE=stop "You see here a cockatrice corpse."
+MSGTYPE=stop "You see here a chickatrice corpse."
+MSGTYPE=stop "You are beginning to feel weak."
+
+######## Developer Settings ########
+OPTIONS=playmode:debug
+OPTIONS=sanity_check
+#OPTIONS=nopet
+BIND=^q:wizmakemap
