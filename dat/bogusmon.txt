@@ -4,13 +4,114 @@
 #
 # Hallucinatory monsters
 #
-#
 # prefix codes:
-# dash          -  female, personal name
-# underscore    _  female, general name
-# plus          +  male, personal name
-# vertical bar  |  male, general name
-# equals        =  gender not specified, personal name
+# dash		-  female, personal name
+# underscore	_  female, general name
+# plus		+  male, personal name
+# vertical bar	|  male, general name
+# equals	=  gender not specified, personal name
+
+# Junethack 2018
+invader from the ivory tower
+improved tin opener
+baseball-cap-toting elemental
+
+# Junethack 2019
+-Nega-Antigulp
+horrific bug
+
+# Junethack 2020
+fake newt
+Order of the Cockatrice member
+teamsplatter
+smile mold
+teenage NetHack ninja turtle
+
+# Creepypasta
+white hand
++Ben Drowned
++Jeff
++Solomon
+
+# Bad Gaming Things
+DLC
+alpha gamer
+
+# BSG
+cylon
+
+# Angband
+clear icky thing
+
+# Anime
+catgirl
+superpowered butler
+toast-munching schoolkid
+
+# M.U.G.E.N.
+wayward hitbox
+palette-swapped doppelganger
++omega Tiger Woods
+
+# eldritch abominations
+=Cthulu
+=Yog-Sothoth
+=Nyarlathotep
+=IT
+
+# Berserk
++ Evil Otto
+
+# Homestuck
+kernelsprite
+lusus
++hella jeff
+
+# Bionicle
+rahkshi
+
+# Bioshock
+splicer
+
+# Umineko
+logic error
+_golden witch
+tiny bomb
+
+# SSBM
+happy feet
+dashdancer
+
+# Dwarf Fortress
+flaming dwarf
+tantrum-throwing dwarf
+drunken cat
+
+# SLASH'EM
+bunny
+bat from Hell
+shoggoth
+
+# Powergaming and speedrunning
+polypiler
+pudding farmer
+speedrunner
+lawful female dwarven valkyrie with Excalibur
+Elbereth-spammer
+enexto-abuser
+
+# Self-deprecation / this variant
+questionable addition
+poorly balanced monster
+obscure reference
+clunky mechanic
+incongruous reference
+absurdly powerful mystic scarab
+ill-timed release
+
+# Cataclysm
+smoker zombie
+shady zombie
 
 # misc.
 jumbo shrimp
@@ -19,14 +120,10 @@ gnu
 killer penguin
 giant cockroach
 giant slug
-maggot
 pterodactyl
-tyrannosaurus rex
 basilisk
 beholder
-nightmare
 efreeti
-marid
 rot grub
 bookworm
 master lichen
@@ -63,6 +160,7 @@ stuffed raccoon puppet
 viking
 wee green blobbie
 wereplatypus
+wereshopkeeper
 hag of bolding
 blancmange
 raging nerd
@@ -80,6 +178,79 @@ tofurkey
 shrinking violet
 shallow one
 spherical cow
+protagonist
+=Nethack
++Rodney
+explosive weasel
+animated chainsaw
+wren
+studio audience
+pumpkin king
+cliche
+overused trope
+-War
+runaway shopping cart
+modern art
+angry onion
+reanimator
+overclocked microwave
+chronomancer
+lotus eater lad
+|king of all birds
+dishwasher
+antimatter fragment
+core warrior
+worm that remains stationary
+insulated eel
+really big rock
+scintillating serpent
+devourer
+mad cow
+ascii art
+railgun enthusiast
+man in the mirror
+beast inside
+sensual cabbage
+sleep stealer
+funky frog
+wonky whale
+medium giant
+|ghost of Christmas past
+mistake
+wumbo warrior
+headbanger
+dumpster diving panda pounder
+_witch of the Westmereland
+obviously evil uncle
+pop culture reference
+wiggly one
+wonky transistor
+fanged bagel
+disapproving parent
+raisin ninja
+illusiory armorlandia
+venemous vermillion viper
+moobeast
+moon person
++bob, Bob, he's our man, if he can't do it no one can
+large intestines
+fifteen-headed grizzly bear
+gunslinger
+fool
+megabeast
+chimneysweep
+corpulent cook
+CEO
+salt golem
+misspent youth
+mad scientist
+homicidal AI
+patent infringement
+sock puppet
+soul eater
+drunken master
+pet rock
+weedwhacker maniac
 electric giraffe
 steam dragon
 omnibus
@@ -89,6 +260,9 @@ octahedron
 dungeon core
 quale
 holloway
+funky monkey
+living bonfire
+cheese golem
 
 # Quendor (Zork, &c.)
 grue
@@ -114,21 +288,33 @@ kestrel
 xeroc
 venus flytrap
 
+# Too real
+hallucination
+
 # Wizardry
 creeping coins
 
 # Greek legend
-hydra
+satyr
 siren
+nemean lion
+-Scylla
+golden bovine
+
+# Norse
+ulsfark
+|nidhog
 
 # Monty Python
 killer bunny
+beast of aaaaaaaarrrgh
 
 # The Princess Bride
 rodent of unusual size
 
 # Wallace & Gromit
 were-rabbit
+wrong trousers
 
 # "Only you can prevent forest fires!
 +Smokey Bear
@@ -136,6 +322,8 @@ were-rabbit
 # Discworld
 Luggage
 vampiric watermelon
+|librarian
+pictsie
 
 # Lord of the Rings
 Ent
@@ -148,6 +336,7 @@ wiggle
 # Lewis Carroll
 white rabbit
 snark
+mome rath
 
 # Dr. Dolittle
 pushmi-pullyu
@@ -166,6 +355,13 @@ Ewok
 # Tonari no Totoro
 Totoro
 
+# Nasuverse
+servant
+
+# Jojo
+beautiful duwang
+enemy stand
+
 # Nausicaa
 ohmu
 
@@ -174,6 +370,11 @@ youma
 
 # Pokemon (Meowth)
 nyaasu
+
+#TPP
++Digrat
+-Bird Jesus
++King Fonz
 
 # monster movies
 -Godzilla
@@ -191,8 +392,15 @@ Terminator
 # Bubblegum Crisis
 boomer
 
+# TDG
++Jeremiah the Bullfrog
+
 # Dr. Who ("Exterminate!")
 Dalek
+Weeping Angel
+
+# Unfortunate...
+VFD
 
 # HGttG
 microscopic space fleet
@@ -236,7 +444,8 @@ Predator
 mother-in-law
 
 # Actual creatures
-praying mantis
+billy goat
+okapi
 beluga whale
 chicken
 coelacanth
@@ -246,11 +455,26 @@ slow loris
 sea cucumber
 tapeworm
 liger
-velociraptor
 corpulent porpoise
 quokka
 potoo
 lemming
+giant squid
+ant-lion
+gnat swarm
+barnacle
+ferret
+water bear
+blue-footed booby
+spiny lumpsucker
+blobfish
+zebroid
+axolotl
+naked mole rat
+narwhal
+pronghorn
+beaver
+sea slug
 dhole
 
 # european cryptids
@@ -262,7 +486,6 @@ tatzelwurm
 dahu
 
 # fictitious beasts
-dropbear
 wild haggis
 jackalope
 flying pig
@@ -270,13 +493,14 @@ hippocampus
 hippogriff
 kelpie
 catoblepas
-phoenix
-amphisbaena
+trow
+flying monkey
 
 # Unusually animate body parts
 bouncing eye
 floating nose
 wandering eye
+crossing eye
 
 # Computerese
 buffer overflow
@@ -288,6 +512,11 @@ netsplit
 wiki
 peer
 COBOL
+segmentation fault
+goto statement
+spaghetti code
+recursion
+deferred feature
 wire shark
 
 # bugs
@@ -295,6 +524,8 @@ bohrbug
 mandelbug
 schroedinbug
 heisenbug
+junethack bug
+dune bug
 
 # DooM
 cacodemon
@@ -312,15 +543,22 @@ hearse
 roomba
 miniature blimp
 dust speck
+silver dragon scale mail
+amulet of reflection
+|Amulet of Yendor
+wand of wishing
+frisbee
 
 # DnD monster
 gazebo
+stench kow
 
 # SciFi elements
 gray goo
 magnetic monopole
 first category perpetual motion device
 big dumb object
+second law of thermodynamics
 
 # Ultima
 +Lord British
@@ -345,6 +583,10 @@ dinkus
 # Their actual character
 apostrophe golem
 voluptuous ampersand
+turgid exclamation point
+fragile question mark
+alphanumeric character
+jagged asterisk
 
 # Web comics and animation
 +Bob the angry flower
@@ -372,8 +614,13 @@ little green man
 # Portal
 weighted Companion Cube
 
-# /b/
-/b/tard
+# corruptions and glitches
++ZZAZZ
+MissingNo
+-M
+=Test0
+corrupted cream pie
+bad egg
 
 # South Park
 manbearpig
@@ -382,13 +629,24 @@ manbearpig
 bonsai-kitten
 tie-thulu
 +Domo-kun
-looooooooooooong cat
 nyan cat
+dummy thicc soldier
+goose
+horde of 30 to 50 feral hogs
+
+# Undertale
++sans
 
 # the Internet is made for cat pix
 ceiling cat
 basement cat
 monorail cat
+knife cat
+bode
+looooooooooooong cat
+
+# the internet has good dogs
+big doggo
 
 # POWDER
 tridude
@@ -419,6 +677,8 @@ enderman
 
 # Pun
 wight supremacist
+bad pun
+groaner
 
 # Starcraft 2
 zergling
@@ -427,12 +687,15 @@ zergling
 existential angst
 figment of your imagination
 flash of insight
+bad thoughts
+hopes and dreams
 
 # Fish
 ghoti
 
 # Roald Dahl
 vermicious knid
+BFG
 
 # Carcassonne
 meeple
@@ -454,6 +717,11 @@ clown
 mime
 peddler
 haggler
+math problem
+bad RNG
+
+# Pirates of Penzance
+modern major general
 
 # soundex and typos of monsters
 gloating eye
@@ -463,10 +731,12 @@ mortar orc
 acid blog
 acute blob
 aria elemental
+arc lich
 aliasing priest
 aligned parasite
 aligned parquet
 aligned proctor
+amber hulk
 baby balky dragon
 baby blues dragon
 baby caricature
@@ -475,13 +745,22 @@ baby grainy dragon
 baby bong worm
 baby long word
 baby parable worm
+bad cone
 barfed devil
+barge cat
+blue dragoon
 beer wight
 boor wight
 brawny mold
 rave spider
+clockatrice
+clod giant
 clue golem
+craven
+cockathrice
 bust vortex
+dead dragon
+ear piercer
 errata elemental
 elastic eel
 electrocardiogram eel
@@ -496,7 +775,9 @@ frosted giant
 geriatric snake
 gnat ant
 giant bath
+gilded dragon
 grant beetle
+green gold
 greater snake
 grind bug
 giant mango
@@ -504,30 +785,50 @@ glossy golem
 gnome laureate
 gnome dummy
 gooier ooze
+great worm
+green gold
 green slide
 guardian nacho
+hearth elemental
 hell hound pun
+hole hound
 high purist
 hairnet devil
+hanger hulk
+hax golem
+holistic sphere
 ice trowel
 killer beet
 feather golem
+lampshades
+lie kin
 lounge worm
+monochromatic dragon
 mountain lymph
 pager golem
 pie fiend
 prophylactic worm
+razor flagon
+silt golem
 sock mole
+lockatrice
 rogue piercer
+score peon
 seesawing sphere
 simile mimic
 moldier ant
+mommy
+skull ettin
 stain vortex
 scone giant
 umbrella hulk
 vampire mace
+velocirapper
 verbal jabberwock
+waiter elemental
+wall rush
 water lemon
 water melon
 winged grizzly
+yellow gold
 yellow wight

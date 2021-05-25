@@ -1,0 +1,125 @@
+# NetHack may be freely redistributed.  See license for details.
+# Random tips at the start of the game
+#
+Catnip can help you befriend felines, but it might make them a bit confused at first.
+Drawing from a deck of fate? That's quite a gamble!
+Bring a deck of cards to a demon. It just might save your life!
+Demons may be interested in bargaining with more than just money.
+The mysterious force has left the dungeon.
+Performing the invocation ritual may draw the ire of the royalty of Gehennom.
+Luckless Folly becomes more powerful the more unlucky you are.
+The Amulet of Yendor blocks all forms of teleportation.
+Wind attacks can push you into dangerous areas.
+Sonic attacks can shatter anything made of glass or gemstones.
+Psionic attacks will not harm something without a mind.
+Psionic beams cannot be reflected.
+Void dragons can disintegrate you with a melee attack.
+Mystic scarabs have armor that is extremely difficult to penetrate.
+Phoenixes explode upon death.
+Use the #give command to lend your pet items.
+Deadly poison won't kill you outright, but it's still awfully dangerous.
+They say that the Oracle knows all the secrets of SpliceHack.
+Monsters can wake each other up by roaring.
+Guards don't like lycanthropes.
+If you see a banshee, plug your ears!
+Are you a creature of the night? If so, keep away from silver.
+Lord Surtur's attacks are ground-shaking.
+Thoth Amon has access to many kinds of magic.
+Nalzok is a big fan of summoning hell-p.
+The Dark One recently discovered the utility of casting two spells at once.
+Demons hate angels.
+Fire resistance may only be partial protection against Mephisto.
+Combining a mask with an amulet of unchanging is a rather poor plan.
+Masks degrade in power when taken off, and cursed masks will break apart.
+Be wary when disguised. It's all too easy to become the mask...
+The bones of high level players might spawn spectres.
+Attacking a barbed devil can be a painful experience.
+The Astral Plane is home to more player monsters than you might expect.
+Monsters can sacrifice corpses on altars.
+Monsters can ascend instead of you, should they manage to sacrifice the Amulet!
+Furnaces contain lava. As such, drinking from them is a rather poor idea.
+Dragons have learned how to manipulate certain items with their claws.
+Don't let a monster get ahold of a wand of wishing...
+See some colored stairs? They probably lead to a branch.
+Looking for a challenge? Marathon mode gives you 999 hp, but you cannot heal!
+Looking for a challenge? Try one of the new challenge modes!
+If you hate silver, you will take extra damage from it.
+Not sure what a monster is? Try using the encyclopedia.
+Drawing from a deck of fate is far more risky than using a fountain.
+Have a question? Check the wiki, not the tip of the day!
+Getting tired of the tip of the day? Disable it in the config file.
+Wands of wonder cannot grant wishes.
+Dragonmasters cannot wear dragon scale mail.
+Dragonmasters can tame chromatic dragons.
+Floating eyes are a bit less common in the dungeon these days.
+Fire resistance only halves the damage from Mephisto's hellfire.
+Beware Buer! His claws are quite sharp!
+A tryst with Malcanthet ends poorly as often as not.
+Wands of poison gas create poison gas when engraving.
+Meet a monster zapping a corrupted knife of poison gas? Please report this.
+SpliceHack supports the curses UI! Try editing your config file.
+Extra wishes? Try wishing for Vladsbane.
+Extra wishes and feeling unlucky? Try wishing for Luckless Folly.
+Silver golems are especially deadly to infernal players.
+Tips of the day sometimes are not very helpful.
+Stairs hidden under some items? Try using #terrain.
+Void dragons are not a valid polymorph, so don't even think about it.
+Masks make for excellent wishes.
+Dragonmasters' pet dragons can help get them out of sticky situations.
+Dragonmasters' pet dragons allow them to gain energy more quickly.
+Gnolls are particularly good hiders.
+Gnolls are stronger than you might think.
+Pets can gain intrinsics from corpses, just like the player can.
+Monsters can wear water walking boots.
+Monsters can wear cloaks of displacement.
+Landsharks are quite good at jumping.
+Earmuffs are actually quite valuable.
+You must be at least level 10 to enter the quest.
+(Do not) use magic to destroy death.
+Monsters are capable of riding other monsters.
+Death rides a pale horse.
+Headless horsemen are known to ride nightmares.
+Did you know? Noty was the first known player to ascend SpliceHack.
+Reading a scroll of cloning while polymorphed can be a frightful combination.
+Cheshire cats are difficult to pinpoint.
+Not sure how dangerous a monster is? Try looking at it.
+Leprechauns love all types of gold, not just gold pieces.
+Zouthern monsters are slightly less tough than in the land of Slash'Em.
+Anubites are excellent jumpers.
+Transmuters can change the materials of your items.
+Rings of blood magic allow you to convert hit points to power.
+Merfolk have poor abilities, but begin the game with one of the most powerful techniques.
+You can encounter the big room up to three times.
+Vlad's castle has a large courtyard.
+Vlad is accompanied by his son Alucard, a powerful vampire in his own right.
+Luckless Folly grows more powerful the more unlucky you are.
+Monsters can counter the cards played by cartomancers with their own cards.
+One-Eyed Sam does not take kindly to attempts to steal from her.
+SpliceHack incorporates features from a variety of variants, most notably XNetHack and SLASH'EM.
+Packrats will pick up just about anything.
+A helm of opaque thoughts will make your head flayer-proof!
+Use #technique to use special role and race-specific powers.
+Giants loathe dwarves and gnomes.
+Ghouls can paralyze opponents by way of touch.
+The touch of a drow can put even the hardiest of monsters to sleep.
+A ghoulish monk is going to have a tough time staying fed.
+Sapphire, silver, and crystal golems are known for their reflective abilities.
+If you see a hydra, don't slash'em!
+Brood wasp stings can have delayed symptoms.
+If you donate enough at a temple, the priest might just teach you how to perform a blessing.
+If you encounter a bug, please report it on GitHub.
+Steel golems can disenchant your items, so keep your distance.
+You will level up more quickly at high levels in SpliceHack than in vanilla NetHack.
+Nazgul will often shriek, and are known to ride fell beasts.
+Some monsters, such as giants, can knock you backwards.
+You can cook food using a furnace.
+Spiked chains can be used to strike enemies both near and far.
+Eating a penguin? I wouldn't try it.
+With the right stimulus, you can hatch a phenix egg very quickly.
+Use your config file to define your character's sexuality.
+Gleipnir can reel in monsters from very long distances.
+Eating a werecockatrice can be hazardous to your health.
+The mere glance of a barghest can steal your luck away.
+Monsters can wear rings.
+The higher your cooking skill, the less likely you are to burn your food.
+Overcooked food is not very satisfying.
