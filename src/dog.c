@@ -329,7 +329,7 @@ mon_arrive(struct monst *mtmp, boolean with_you)
     fromdlev.dlevel = mtmp->mtrack[2].y;
     memset(mtmp->mtrack, 0, sizeof mtmp->mtrack);
 
-    if (mtmp == u.usteed)
+    if (mtmp == u.usteed || mtmp->rider_id)
         return; /* don't place steed on the map */
     if (with_you) {
         /* When a monster accompanies you, sometimes it will arrive
@@ -469,6 +469,8 @@ mon_arrive(struct monst *mtmp, boolean with_you)
 
     if (failed_to_place)
         m_into_limbo(mtmp); /* try again next time hero comes to this level */
+
+    update_monsteed(mtmp);
 }
 
 /* heal monster for time spent elsewhere */
@@ -583,6 +585,8 @@ keepdogs(boolean pets_only) /* true for ascension or final escape */
         mtmp2 = mtmp->nmon;
         if (DEADMONSTER(mtmp))
             continue;
+        if (has_erid(mtmp) || mtmp->rider_id)
+            continue;
         if (pets_only) {
             if (!mtmp->mtame)
                 continue; /* reject non-pets */
@@ -691,6 +695,11 @@ migrate_to_level(struct monst *mtmp,
     d_level new_lev;
     xchar xyflags;
     int num_segs = 0; /* count of worm segments */
+
+    /* Recursive call to migrate monster steeds. */
+    if (mtmp->mextra && ERID(mtmp) && ERID(mtmp)->m1) {
+        migrate_to_level(ERID(mtmp)->m1, tolev, xyloc, cc);
+    }
 
     if (mtmp->isshk)
         set_residency(mtmp, TRUE);

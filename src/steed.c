@@ -19,6 +19,147 @@ rider_cant_reach(void)
     You("aren't skilled enough to reach from %s.", y_monnam(u.usteed));
 }
 
+void update_monsteed(mtmp)
+struct monst *mtmp;
+{
+    if (has_erid(mtmp)) {
+        ERID(mtmp)->m1->mx = mtmp->mx;
+        ERID(mtmp)->m1->my = mtmp->my;
+        ERID(mtmp)->m1->mpeaceful = mtmp->mpeaceful;
+    }
+}
+
+void mount_monster(mtmp, pm)
+struct monst *mtmp;
+int pm;
+{
+    register struct monst *mount;
+
+    /* small hack here: make it in a random spot to avoid failures due to there
+       not being enough room. */
+    mount = makemon(&mons[pm], 0, 0, MM_ADJACENTOK);
+    if (!mount || is_covetous(mount->data)) {
+        return;
+    } else {
+        remove_monster(mount->mx, mount->my);
+        newsym(mount->mx, mount->my);
+    }
+    newerid(mtmp);
+    ERID(mtmp)->m1 = mount;
+    ERID(mtmp)->mid = mount->m_id;
+    ERID(mtmp)->m1->rider_id = mtmp->m_id;
+    ERID(mtmp)->m1->mx = mtmp->mx;
+    ERID(mtmp)->m1->my = mtmp->my;
+    newsym(mtmp->mx, mtmp->my);
+
+    if (!rn2(3) && can_saddle(mount) && !which_armor(mount, W_SADDLE)) {
+        struct obj *otmp = mksobj(SADDLE, TRUE, FALSE);
+        put_saddle_on_mon(otmp, mount);
+    }
+}
+
+boolean mount_up(rider)
+struct monst *rider;
+{
+    register struct monst *steed, *nmon;
+
+    if (rider->mtame || rider == u.ustuck || rider->mpeaceful || has_erid(rider) 
+        || rider->mtrapped || !humanoid(rider->data) || mindless(rider->data)
+        || bigmonst(rider->data) || is_animal(rider->data) || unsolid(rider->data))
+        return FALSE;
+
+    for (steed = fmon; steed; steed = nmon) {
+        nmon = steed->nmon;
+        if (nmon == rider)
+            nmon = rider->nmon;
+        if (monnear(rider, steed->mx, steed->my) && can_saddle(steed) 
+            && !DEADMONSTER(steed)
+            && !is_covetous(steed->data) && !steed->mtame
+            && steed != u.ustuck && steed->mcanmove
+            && !steed->msleeping && !steed->rider_id) {
+            break;
+        }
+    }
+    if (!steed)
+        return FALSE;
+    if (canseemon(rider)) {
+        pline("%s clambers onto %s!", Monnam(rider), 
+            canseemon(steed) ?  mon_nam(steed) : "something");
+    } else if (!Deaf) {
+        You_hear("someone %s.", Hallucination ? "getting on their high horse" : "jump into a saddle");
+    }
+    remove_monster(steed->mx, steed->my);
+    newsym(steed->mx, steed->my);
+    newerid(rider);
+    ERID(rider)->m1 = steed;
+    ERID(rider)->mid = steed->m_id;
+    ERID(rider)->m1->rider_id = rider->m_id;
+    ERID(rider)->m1->mx = rider->mx;
+    ERID(rider)->m1->my = rider->my;
+    newsym(rider->mx, rider->my);
+    return TRUE;
+}
+
+void
+newerid(mtmp)
+struct monst *mtmp;
+{
+    if (!mtmp->mextra)
+        mtmp->mextra = newmextra();
+    if (!ERID(mtmp)) {
+        ERID(mtmp) = (struct erid *) alloc(sizeof(struct erid));
+        (void) memset((genericptr_t) ERID(mtmp), 0, sizeof(struct erid));
+    }
+}
+
+void
+free_erid(mtmp)
+struct monst *mtmp;
+{
+    if (mtmp->mextra && ERID(mtmp)) {
+        ERID(mtmp)->m1->rider_id = 0; /* Remove pointer to monster in steed */
+        free((genericptr_t) ERID(mtmp));
+        ERID(mtmp) = (struct erid *) 0;
+    }
+}
+
+void
+separate_steed_and_rider(rider)
+struct monst *rider;
+{
+    struct monst *steed;
+    coord cc;
+    if (!has_erid(rider))
+        return;
+    steed = ERID(rider)->m1;
+    free_erid(rider);
+    /* TODO: Figure out what's going on here */
+    if (!DEADMONSTER(rider)) {
+        enexto(&cc, rider->mx, rider->my, rider->data);
+        rloc_to(rider, cc.x, cc.y);
+    }
+    if (!DEADMONSTER(steed)) {
+        enexto(&cc, steed->mx, steed->my, steed->data);
+        rloc_to(steed, cc.x, cc.y);
+    }
+    update_monster_region(rider);
+    update_monster_region(steed);
+}
+
+struct monst*
+get_mon_rider(mtmp)
+struct monst *mtmp;
+{
+    struct monst *mtmp2;
+    if (!mtmp->rider_id)
+        return (struct monst *) 0;
+    for (mtmp2 = fmon; mtmp2; mtmp2 = mtmp2->nmon) {
+        if (mtmp->rider_id == mtmp2->m_id)
+            return mtmp2;
+    }
+    return (struct monst *) 0;
+}
+
 /*** Putting the saddle on ***/
 
 /* Can this monster wear a saddle? */
@@ -772,7 +913,8 @@ place_monster(struct monst* mon, int x, int y)
                    mon->mstate, buf);
         return;
     }
-    if ((othermon = g.level.monsters[x][y]) != 0) {
+    if (((othermon = g.level.monsters[x][y]) != 0) && !((has_erid(g.level.monsters[x][y])
+        || (has_erid(mon) && ERID(mon)->m1 == g.level.monsters[x][y])))) {
         describe_level(buf);
         monnm = minimal_monnam(mon, FALSE);
         othnm = (mon != othermon) ? minimal_monnam(othermon, TRUE) : "itself";

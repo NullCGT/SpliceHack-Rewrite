@@ -668,6 +668,7 @@ dochug(register struct monst* mtmp)
             tmp = m_move(mtmp, 0);
         if (tmp != 2)
             distfleeck(mtmp, &inrange, &nearby, &scared); /* recalc */
+        update_monsteed(mtmp);
 
         switch (tmp) { /* for pets, cases 0 and 3 are equivalent */
         case 0: /* no movement, but it can still attack you */
@@ -895,6 +896,9 @@ m_move(register struct monst* mtmp, register int after)
             return 0; /* still in trap, so didn't move */
     }
     ptr = mtmp->data; /* mintrap() can change mtmp->data -dlc */
+
+    if (mtmp->rider_id)
+        return 0;
 
     if (mtmp->meating) {
         mtmp->meating--;

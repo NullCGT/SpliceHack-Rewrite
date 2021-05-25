@@ -843,6 +843,12 @@ savemon(NHFILE* nhfp, struct monst* mtmp)
             if (nhfp->structlevel)
                 bwrite(nhfp->fd, (genericptr_t) EDOG(mtmp), buflen);
         }
+        buflen = ERID(mtmp) ? (int) sizeof (struct erid) : 0;
+        if (nhfp->structlevel)
+            bwrite(nhfp->fd, (genericptr_t) &buflen, sizeof(int));
+        if (buflen > 0)
+            if (nhfp->structlevel)
+                bwrite(nhfp->fd, (genericptr_t) ERID(mtmp), buflen);
         /* mcorpsenm is inline int rather than pointer to something,
            so doesn't need to be preceded by a length field */
         if (nhfp->structlevel)

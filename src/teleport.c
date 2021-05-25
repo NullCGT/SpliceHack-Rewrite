@@ -1222,6 +1222,7 @@ rloc_to(struct monst* mtmp, register int x, register int y)
     memset(mtmp->mtrack, 0, sizeof mtmp->mtrack);
     place_monster(mtmp, x, y); /* put monster down */
     update_monster_region(mtmp);
+    update_monsteed(mtmp);
 
     if (mtmp->wormno) /* now put down tail */
         place_worm_tail_randomly(mtmp, x, y);

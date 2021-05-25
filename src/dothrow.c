@@ -933,6 +933,14 @@ mhurtle(struct monst *mon, int dx, int dy, int range)
     if (mon->data->msize >= MZ_HUGE || mon == u.ustuck || mon->mtrapped)
         return;
 
+    /* Is the monster riding another monster? */
+    if (has_erid(mon)) {
+        if (canseemon(mon))
+            pline("%s is knocked straight off %s %s!",
+                  Monnam(mon), mhis(mon), l_monnam(ERID(mon)->m1));
+        separate_steed_and_rider(mon);
+    }
+
     /* Make sure dx and dy are [-1,0,1] */
     dx = sgn(dx);
     dy = sgn(dy);

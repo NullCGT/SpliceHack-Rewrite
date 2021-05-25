@@ -172,6 +172,11 @@ struct edog {
     Bitfield(killed_by_u, 1); /* you attempted to kill him */
 };
 
+struct erid {
+    struct monst *m1; /* monster being ridden */
+    unsigned int mid;   /* pointer to attached monster id */
+};
+
 /***
  **     mextra.h -- collection of all monster extensions
  */
@@ -182,6 +187,7 @@ struct mextra {
     struct eshk *eshk;
     struct emin *emin;
     struct edog *edog;
+    struct erid *erid;
     int mcorpsenm; /* obj->corpsenm for mimic posing as statue or corpse,
                     * obj->spe (fruit index) for one posing as a slime mold,
                     * or an alignment mask for one posing as an altar */
@@ -193,6 +199,7 @@ struct mextra {
 #define ESHK(mon) ((mon)->mextra->eshk)
 #define EMIN(mon) ((mon)->mextra->emin)
 #define EDOG(mon) ((mon)->mextra->edog)
+#define ERID(mon) ((mon)->mextra->erid)
 #define MCORPSENM(mon) ((mon)->mextra->mcorpsenm)
 
 #define has_mgivenname(mon) ((mon)->mextra && MGIVENNAME(mon))
@@ -201,6 +208,7 @@ struct mextra {
 #define has_eshk(mon)  ((mon)->mextra && ESHK(mon))
 #define has_emin(mon)  ((mon)->mextra && EMIN(mon))
 #define has_edog(mon)  ((mon)->mextra && EDOG(mon))
+#define has_erid(mon)  ((mon)->mextra && ERID(mon))
 #define has_mcorpsenm(mon) ((mon)->mextra && MCORPSENM(mon) != NON_PM)
 
 #endif /* MEXTRA_H */

@@ -32,6 +32,7 @@ static struct fruit *loadfruitchn(NHFILE *);
 static void freefruitchn(struct fruit *);
 static void ghostfruit(struct obj *);
 static boolean restgamestate(NHFILE *, unsigned int *, unsigned int *);
+static void restmonsteeds(boolean);
 static void restlevelstate(unsigned int, unsigned int);
 static int restlevelfile(xchar);
 static void restore_msghistory(NHFILE *);
@@ -374,6 +375,14 @@ restmon(NHFILE* nhfp, struct monst* mtmp)
             if (nhfp->structlevel)
                 mread(nhfp->fd, (genericptr_t) EDOG(mtmp), sizeof(struct edog));
         }
+        /* erid - steed */
+        if (nhfp->structlevel)
+            mread(nhfp->fd, (genericptr_t) &buflen, sizeof(buflen));
+        if (buflen > 0) {
+            newerid(mtmp);
+            if (nhfp->structlevel)
+                mread(nhfp->fd, (genericptr_t) ERID(mtmp), sizeof(struct erid));
+        }
         /* mcorpsenm - obj->corpsenm for mimic posing as corpse or
            statue (inline int rather than pointer to something) */
         if (nhfp->structlevel)
@@ -636,6 +645,7 @@ restgamestate(NHFILE* nhfp, unsigned int* stuckid, unsigned int* steedid)
     }
     g.migrating_objs = restobjchn(nhfp, FALSE);
     g.migrating_mons = restmonchn(nhfp);
+    restmonsteeds(FALSE);
 
     if (nhfp->structlevel) {
         mread(nhfp->fd, (genericptr_t) g.mvitals, sizeof g.mvitals);
@@ -700,6 +710,48 @@ restgamestate(NHFILE* nhfp, unsigned int* stuckid, unsigned int* steedid)
     /* inventory display is now viable */
     iflags.perm_invent = defer_perm_invent;
     return TRUE;
+}
+
+/* TODO: Drop this down so it does not take O(n^2) time */
+static void
+restmonsteeds(boolean ghostly)
+{
+    register struct monst *mtmp;
+    register struct monst *mon;
+    unsigned int steed_id;
+
+    for (mon = fmon; mon; mon = mon->nmon) {
+        if (mon->mextra && ERID(mon)) {
+             /* The steed id will change on loading a bones file */
+            if(ghostly) {
+                lookup_id_mapping(ERID(mon)->mid, &steed_id);
+            } else {
+                steed_id = ERID(mon)->mid;
+            }
+            for (mtmp = fmon; mtmp; mtmp = mtmp->nmon) {
+              if (mtmp->m_id == steed_id)
+                  break;
+            }
+            if (!mtmp) {
+                /* steed probably died but was not cleaned up due to other issues */
+                impossible("Cannot find monster steed.");
+                free_erid(mon);
+            } else 
+                ERID(mon)->m1 = mtmp;
+        }
+    }
+
+    for (mon = g.migrating_mons; mon; mon = mon->nmon) {
+        if (mon->mextra && ERID(mon)) {
+            for (mtmp = g.migrating_mons; mtmp; mtmp = mtmp->nmon) {
+              if (mtmp->m_id == ERID(mon)->mid)
+                  break;
+            }
+            if (!mtmp)
+                panic("Cannot find monster steed.");
+            ERID(mon)->m1 = mtmp;
+        }
+    }
 }
 
 /* update game state pointers to those valid for the current level (so we
@@ -1076,6 +1128,7 @@ getlev(NHFILE* nhfp, int pid, xchar lev)
     restore_timers(nhfp, RANGE_LEVEL, elapsed);
     restore_light_sources(nhfp);
     fmon = restmonchn(nhfp);
+    restmonsteeds(ghostly);
 
     /* rest_worm(fd); */    /* restore worm information */
     rest_worm(nhfp);    /* restore worm information */

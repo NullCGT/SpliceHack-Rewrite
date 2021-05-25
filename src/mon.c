@@ -215,6 +215,9 @@ mon_sanity_check(void)
             if (x != u.ux || y != u.uy)
                 impossible("steed (%s) claims to be at <%d,%d>?",
                            fmt_ptr((genericptr_t) mtmp), x, y);
+        } else if (mtmp->rider_id) {
+            /* TODO: clean up this case and make it into a more airtight check */
+            continue;
         } else if (g.level.monsters[x][y] != mtmp) {
             impossible("mon (%s) at <%d,%d> is not there!",
                        fmt_ptr((genericptr_t) mtmp), x, y);
@@ -1024,6 +1027,10 @@ movemon(void)
             if (hideunder(mtmp))
                 continue;
         }
+
+        /* small chance to mount a nearby monster */
+        if ((mtmp->data == &mons[PM_WIZARD_OF_YENDOR] && !rn2(5)) || !rn2(75))
+            if (mount_up(mtmp)) continue;
 
         /* continue if the monster died fighting */
         if (Conflict && !mtmp->iswiz && m_canseeu(mtmp)) {
@@ -2048,7 +2055,7 @@ monnear(struct monst* mon, int x, int y)
 void
 dmonsfree(void)
 {
-    struct monst **mtmp, *freetmp;
+    struct monst **mtmp, *freetmp, *ridertmp;
     int count = 0;
     char buf[QBUFSZ];
 
@@ -2058,6 +2065,9 @@ dmonsfree(void)
         if (DEADMONSTER(freetmp) && !freetmp->isgd) {
             *mtmp = freetmp->nmon;
             freetmp->nmon = NULL;
+            if (!!(ridertmp = get_mon_rider(freetmp))) {
+                separate_steed_and_rider(ridertmp);
+            }
             dealloc_monst(freetmp);
             count++;
         } else
@@ -2214,6 +2224,11 @@ copy_mextra(struct monst* mtmp2, struct monst* mtmp1)
             newedog(mtmp2);
         *EDOG(mtmp2) = *EDOG(mtmp1);
     }
+    if (ERID(mtmp1)) {
+        if (!ERID(mtmp2))
+            newerid(mtmp2);
+        *ERID(mtmp2) = *ERID(mtmp1);
+    }
     if (has_mcorpsenm(mtmp1))
         MCORPSENM(mtmp2) = MCORPSENM(mtmp1);
 }
@@ -2236,6 +2251,8 @@ dealloc_mextra(struct monst* m)
             free((genericptr_t) x->emin);
         if (x->edog)
             free((genericptr_t) x->edog);
+        if (x->erid)
+            free((genericptr_t) x->erid);
         /* [no action needed for x->mcorpsenm] */
 
         free((genericptr_t) x);
@@ -2293,6 +2310,14 @@ m_detach(
         del_light_source(LS_MONSTER, monst_to_any(mtmp));
     if (M_AP_TYPE(mtmp))
         seemimic(mtmp);
+    if (has_erid(mtmp)) {
+        separate_steed_and_rider(mtmp);
+    }
+    if (mtmp->rider_id) {
+        struct monst *mtmp2 = get_mon_rider(mtmp);
+        if (mtmp2) free_erid(mtmp2);
+        newsym(mtmp->mx, mtmp->my);
+    }
     if (onmap)
         newsym(mtmp->mx, mtmp->my);
     unstuck(mtmp);
@@ -3326,6 +3351,7 @@ mnexto(struct monst* mtmp)
             pline("%s suddenly %s!", Amonnam(mtmp),
                   !Blind ? "appears" : "arrives");
     }
+    update_monsteed(mtmp);
     return;
 }
 

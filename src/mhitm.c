@@ -704,6 +704,10 @@ engulf_target(struct monst *magr, struct monst *mdef)
     if (mdef->data->msize >= MZ_HUGE)
         return FALSE;
 
+    /* can't swallow something if riding / being ridden */
+    if (magr->rider_id || mdef->rider_id || has_erid(magr))
+        return FALSE;
+
     /* (hypothetical) engulfers who can pass through walls aren't
      limited by rock|trees|bars */
     if ((magr == &g.youmonst) ? Passes_walls : passes_walls(magr->data))
@@ -736,6 +740,13 @@ gulpmm(register struct monst *magr, register struct monst *mdef,
 
     if (!engulf_target(magr, mdef))
         return MM_MISS;
+
+    if (has_erid(mdef)) {
+        if (g.vis) {
+            pline("%s plucks %s right off %s mount!", Monnam(magr), mon_nam(mdef), mhis(mdef));
+        }
+        separate_steed_and_rider(mdef);
+    }
 
     if (g.vis) {
         /* [this two-part formatting dates back to when only one x_monnam

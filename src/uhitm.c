@@ -157,7 +157,8 @@ attack_checks(struct monst *mtmp,
      */
     if (!canspotmon(mtmp)
         && !glyph_is_warning(glyph) && !glyph_is_invisible(glyph)
-        && !(!Blind && mtmp->mundetected && hides_under(mtmp->data))) {
+        && !(!Blind && mtmp->mundetected && hides_under(mtmp->data))
+        && (!has_erid(mtmp) || !canspotmon(ERID(mtmp)->m1))) {
         pline("Wait!  There's %s there you can't see!", something);
         map_invisible(g.bhitpos.x, g.bhitpos.y);
         /* if it was an invisible mimic, treat it as if we stumbled

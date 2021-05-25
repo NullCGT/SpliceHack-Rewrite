@@ -271,6 +271,8 @@ map_object(register struct obj *obj, register int show)
 void
 map_invisible(register xchar x, register xchar y)
 {
+    if (m_at(x,y) && has_erid(m_at(x, y)) && mon_visible(ERID(m_at(x, y))->m1))
+        return;
     if (x != u.ux || y != u.uy) { /* don't display I at hero's location */
         if (g.level.flags.hero_memory)
             levl[x][y].glyph = GLYPH_INVISIBLE;
@@ -472,6 +474,8 @@ display_monster(xchar x, xchar y,    /* display position */
                 num = petnum_to_glyph(PM_LONG_WORM_TAIL);
             else
                 num = pet_to_glyph(mon, rn2_on_display_rng);
+        } else if (has_erid(mon) || mon->rider_id) {
+            num = ridden_mon_to_glyph(mon, rn2_on_display_rng);
         } else if (sightflags == DETECTED) {
             if (worm_tail)
                 num = detected_monnum_to_glyph(
@@ -802,6 +806,8 @@ newsym(register int x, register int y)
                 display_monster(x, y, mon,
                                 see_it ? PHYSICALLY_SEEN : DETECTED,
                                 worm_tail);
+            } else if (mon && !mon_visible(mon) && has_erid(mon) && mon_visible(ERID(mon)->m1)) {
+                display_monster(x, y, ERID(mon)->m1, PHYSICALLY_SEEN, FALSE);
             } else if (mon && mon_warning(mon) && !is_worm_tail(mon)) {
                 display_warning(mon);
             } else if (glyph_is_invisible(lev->glyph)) {

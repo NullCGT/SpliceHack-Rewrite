@@ -490,7 +490,8 @@ find_defensive(struct monst* mtmp)
             /* skip if there's no trap or can't/won't move onto trap */
             if ((t = t_at(xx, yy)) == 0
                 || (!ignore_boulders && sobj_at(BOULDER, xx, yy))
-                || onscary(xx, yy, mtmp))
+                || onscary(xx, yy, mtmp)
+                || has_erid(mtmp) || mtmp->rider_id)
                 continue;
             /* use trap if it's the correct type */
             if (is_hole(t->ttyp)

@@ -1198,6 +1198,8 @@ makemon(register struct permonst *ptr,
         newemin(mtmp);
     if (mmflags & MM_EDOG)
         newedog(mtmp);
+    if (mmflags & MM_ERID)
+        newerid(mtmp);
     if (mmflags & MM_ASLEEP)
         mtmp->msleeping = 1;
     mtmp->nmon = fmon;
@@ -1239,6 +1241,39 @@ makemon(register struct permonst *ptr,
     mtmp->mcansee = mtmp->mcanmove = TRUE;
     mtmp->seen_resistance = M_SEEN_NOTHING;
     mtmp->mpeaceful = (mmflags & MM_ANGRY) ? FALSE : peace_minded(ptr);
+
+    /* mounting */
+    if (!(mmflags & MM_NOCOUNTBIRTH) && ! (mmflags & MM_NOERID)) {
+        switch (mndx) {
+            case PM_KNIGHT:
+                mount_monster(mtmp, !rn2(2) ? PM_PONY : PM_HORSE);
+                break;
+            #if 0
+            case PM_DARK_KNIGHT:
+                mount_monster(mtmp, Inhell ? PM_NIGHTMARE : PM_PONY);
+                break;
+            case PM_DRAGONMASTER:
+                mount_monster(mtmp, PM_BABY_GRAY_DRAGON + 
+                    rn2(PM_YELLOW_DRAGON - PM_BABY_GRAY_DRAGON));
+                break;
+            case PM_HEADLESS_HORSEMAN:
+                mount_monster(mtmp, PM_NIGHTMARE);
+                break;
+            case PM_DEATH:
+                mount_monster(mtmp, PM_PALE_HORSE);
+                break;
+            case PM_FAMINE:
+                mount_monster(mtmp, PM_BLACK_HORSE);
+                break;
+            case PM_PESTILENCE:
+                mount_monster(mtmp, PM_WHITE_HORSE);
+                break;
+            case PM_NAZGUL:
+                mount_monster(mtmp, PM_FELL_BEAST);
+                break;
+            #endif
+        }
+    }
 
     switch (ptr->mlet) {
     case S_MIMIC:

@@ -2486,6 +2486,13 @@ extern struct obj *findgold(struct obj *);
 
 /* ### steed.c ### */
 
+extern void mount_monster(struct monst *, int);
+extern boolean mount_up(struct monst *);
+extern void update_monsteed(struct monst *);
+extern void newerid(struct monst *);
+extern void free_erid(struct monst *);
+extern void separate_steed_and_rider(struct monst *);
+extern struct monst * get_mon_rider(struct monst *);
 extern void rider_cant_reach(void);
 extern boolean can_saddle(struct monst *);
 extern int use_saddle(struct obj *);

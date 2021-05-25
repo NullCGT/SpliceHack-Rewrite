@@ -304,6 +304,9 @@ look_at_monster(char *buf,
     char *name, monnambuf[BUFSZ], healthbuf[BUFSZ];
     boolean accurate = !Hallucination;
 
+    if (!mon_visible(mtmp) && has_erid(mtmp) && mon_visible(ERID(mtmp)->m1))
+        mtmp = ERID(mtmp)->m1;
+
     name = (mtmp->data == &mons[PM_COYOTE] && accurate)
               ? coyotename(mtmp, monnambuf)
               : distant_monnam(mtmp, ARTICLE_NONE, monnambuf);
@@ -318,6 +321,10 @@ look_at_monster(char *buf,
                     ? "peaceful "
                     : "",
             name);
+    if (mtmp->mextra && ERID(mtmp) && ERID(mtmp)->m1)
+        Sprintf(eos(buf), ", riding %s", a_monnam(ERID(mtmp)->m1));
+    if (mtmp->rider_id)
+        Sprintf(eos(buf), ", being ridden");
     if (u.ustuck == mtmp) {
         if (u.uswallow || iflags.save_uswallow) /* monster detection */
             Strcat(buf, is_animal(mtmp->data)
