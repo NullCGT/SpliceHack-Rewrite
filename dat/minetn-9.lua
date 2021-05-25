@@ -91,7 +91,7 @@ des.monster("gnomish wizard")
 des.monster("gnomish wizard")
 des.monster("gnomish wizard")
 des.monster("gnome")
-des.monster("gnome noble")
+des.monster("gnome ruler")
 
 -- Boo!
 des.monster("dwarf zombie")

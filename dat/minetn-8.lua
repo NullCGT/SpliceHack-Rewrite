@@ -65,10 +65,10 @@ for i = 1, 4+d(8) do
     des.monster({ id = "gnome", coord={x,y}})
 end
 des.monster({ id = "gnome", coord={outside:rndcoord(1)}})
-des.monster({ id = "gnome noble", coord={outside:rndcoord(1)}})
+des.monster({ id = "gnome ruler", coord={outside:rndcoord(1)}})
 des.monster({ id = "gnome", coord={outside:rndcoord(1)}})
-des.monster({ id = "gnome noble", coord={outside:rndcoord(1)}})
-des.monster({ id = "gnome noble", coord={outside:rndcoord(1)}})
+des.monster({ id = "gnome ruler", coord={outside:rndcoord(1)}})
+des.monster({ id = "gnome ruler", coord={outside:rndcoord(1)}})
 des.monster({ id = "gnomish wizard", coord={outside:rndcoord(1)}})
 des.monster({ id = "gnomish wizard", coord={outside:rndcoord(1)}})
 des.monster({ id = "dwarf", coord={outside:rndcoord(1)}})

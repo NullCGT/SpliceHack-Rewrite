@@ -27,6 +27,7 @@ while(<DATA>){
 __DATA__
 T (tile files optionally generated for X ports at playground creation time)
 F pet_mark.xbm
+F riding_mark.xbm
 F rip.xpm
 F x11tiles
 T (files generated for Qt interface on Mac OS X)

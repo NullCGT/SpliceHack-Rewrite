@@ -7,6 +7,7 @@
 des.level_init({ style = "solidfill", fg = " " });
 
 des.level_flags("mazelevel", "noteleport", "hardfloor", "shortsighted")
+des.message("You arrive in a field of flaming desolation.")
 -- The player lands, upon arrival, in the
 -- lower-right.  The location of the
 -- portal to the next level is randomly chosen.
@@ -35,7 +36,7 @@ des.map([[
 .................................LL....................LL...................
 ]]);
 des.teleport_region({ region = {69,16,69,16} })
-des.levregion({ region = {0,0,75,19}, exclude = {65,13,75,19}, type="portal", name="water" })
+des.levregion({ region = {0,0,75,19}, exclude = {65,13,75,19}, type="portal", name="brass" })
 
 des.trap("fire")
 des.trap("fire")

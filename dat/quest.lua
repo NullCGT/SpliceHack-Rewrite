@@ -36,8 +36,8 @@ questtext = {
  %c:	return(pl_character);
  %r:	return((char *)rank_of(u.ulevel));
  %R:	return((char *)rank_of(MIN_QUEST_LEVEL));
- %s:	return((flags.female) ? "sister" : "brother" );
- %S:	return((flags.female) ? "daughter" : "son" );
+ %s:	return (sibling_gender());
+ %S:	return(child_gender());
  %l:	return((char *)ldrname());
  %i:	return(intermed());
  %o:	return(artiname());
@@ -86,6 +86,8 @@ questtext = {
          "\"Thy reckoning is at hand, %p.\"",
          "\"Thou shalt be brought before %D for thy crimes!\"",
          "\"With %D as my witness, I shall strike thee down.\"",
+         "\"STOP! %D commands it!\"",
+         "\"Thy fate is sealed!\"",
       },
       banished = {
          synopsis = "[You are banished from %H for betraying your allegiance to %d.]",
@@ -122,13 +124,25 @@ Go now!  You are banished from this place.]],
          "\"Verily, thy corpse could not smell worse!\"",
          "\"Wait!  I shall polymorph into a grid bug to give thee a fighting chance!\"",
          "\"Why search for the Amulet?  Thou wouldst but lose it, cretin.\"",
+         "\"Go hug a manticore!\"",
          "\"Thou ought to be a comedian, thy skills are so laughable!\"",
          "\"Thy gaze is so vacant, I thought thee a floating eye!\"",
          "\"Thy head is unfit for a mind flayer to munch upon!\"",
+         "\"Thou art but a talentles rube!\"",
+         "\"Once I am finished with thee, I think I may feed upon thy pet!\"",
+         "\"Is thy name truly \'%p?\' Truly, \'dunnderhead\' wouldst be more fitting!\"",
+         "\"Thou calls thyself a %r? In seriousness?\"",
          "\"Only thy reflection could love thee!\"",
          "\"Hast thou considered masking thy odor?\"",
+         "\"Thy mother is a sow, and thy father is a cow!\"",
+         "\"Wouldst thou assist me with directions? I appear to be at an idiot convention!\"",
          "\"Hold! Thy face is a most exquisite torture!\"",
          "\"I wouldst fart in thy direction, but it might improve thy smell!\"",
+         "\"Thhbbbbbt!!!\"",
+         "\"I bite my thumb at thee!\"",
+         "\"I cannot wait to drag thy body across a sea of spikes!\"",
+         "\"I wonder, what circle awaits thou after I slay thee?\"",
+         "\"Nyeah nyeah, thou canst hurt me!\"",
       },
       legacy = {
          synopsis = "[%dC has chosen you to recover the Amulet of Yendor for %dI.]",
@@ -150,6 +164,360 @@ from birth as the instrument of %d.  You are destined
 to recover the Amulet for your deity, or die in the
 attempt.  Your hour of destiny has come.  For the sake
 of us all:  Go bravely with %d!]],
+      },
+      legacy_angel = {
+         synopsis = "[%dC has chosen you to recover the Amulet of Yendor for %dI.]",
+         output = "menu",
+         text = [[It is written in the Book of %d:
+
+    After the Creation, the cruel god Moloch rebelled
+    against the authority of Marduk the Creator.
+    Moloch stole from Marduk the most powerful of all
+    the artifacts of the gods, the Amulet of Yendor,
+    and he hid it in the dark cavities of Gehennom, the
+    Under World, where he now lurks, and bides his time.
+
+As an angel of %d, you watched it happen.
+
+Your %G %d seeks to possess the Amulet, and with it
+to gain righteous ascendance over the other gods.
+
+You, a newly trained %r, have been chosen as the 
+holy weapon of %d.  You are to descend from the outer
+realms to recover the Amulet for your deity, or die in the
+attempt.  Your hour of destiny has come.  For the sake
+of us all:  Go bravely with %d!]],
+      },
+      legacy_convict = {
+         synopsis = "[%dC has chosen you to recover the Amulet of Yendor for %dI.]",
+         output = "menu",
+         text = [[
+            It is written in the Book of %d:
+
+    After the Creation, the cruel god Moloch rebelled
+    against the authority of Marduk the Creator.
+    Moloch stole from Marduk the most powerful of all
+    the artifacts of the gods, the Amulet of Yendor,
+    and he hid it in the dark cavities of Gehennom, the
+    Under World, where he now lurks, and bides his time.
+
+Your %G %d seeks to possess the Amulet, and with it
+to gain deserved ascendance over the other gods.
+
+You, a newly escaped %r, have chosen to redeem
+yourself by recovering the Amulet for %d.  You are
+determined to recover the Amulet for your deity, or die
+in the attempt.  Your hour of destiny has come.  For
+the sake of us all:  Go bravely with %d!
+         ]],
+      },
+      angel_edicts = {
+         synopsis = "[You must obey the edicts of %d.]",
+         output = "menu",
+         text = [[
+As an angel of %d, you must follow these edicts:
+
+1) Thou must not to harm the innocent.
+2) Thou must not steal.
+3) Thou must not consort with demons.
+         ]],
+      },
+      into_the_planes = {
+         synopsis = "[You leave the dungeon.]",
+         output = "menu",
+         text = [[
+Flight.
+Climb.
+Ascension. 
+
+Your blood rushes in your ears as you break free of the dungeon.
+The screams of demons, the roaring of beasts and the scrape of claws on 
+stone echo behind you.
+
+As the sunlight graces your face, you cast one last look over your shoulder.
+The dungeon itself appears to be dissolving, fading in the light of day
+like a half-remembered dream.
+
+You feel a yank from the Amulet of Yendor, and the world begins to shimmer
+and fade around you. The last thing you see before you are pulled into the
+beyond is a cloaked figure, tearing his way free of the rapidly vanishing
+dungeon as a pebble breaching the surface of a pond. His hands crackle with 
+dark energy, and his features are twisted in hate. He leaps at you, and his
+hands sieze upon the Amulet.
+
+"So thou thought thou couldst evade me, fool."
+         ]]
+      },
+      Dudley_greeting = {
+         synopsis = "[Dudley greets you.]",
+         output = "menu",
+         text = [[
+"Hail, traveler! Come here, and let old Dudley have a look-see at you."
+
+The old man peers at you, and a toothless grin spreads across his
+wizened face.
+
+"Ah. a seeker of the amulet. Chosen by %d, unless Dudley is much mistaken.
+Come, warm your bones by my fire. You have a long journey ahead of you."
+         ]],
+      },
+      Dudley_dungeon = {
+         synopsis = "[Dudley muses on the nature of %Z.]",
+         output = "menu",
+         text = [[
+"These are the aptly-named Dungeons of Doom. How many adventurers have
+passed through these dark halls, in hopes of plundering their riches? Not even
+Dudley can say, but the bones littering the floor speak to their number."
+
+"You already know this, though, do you not? You wish to know something deeper.
+You wish to know about the true nature of this place.
+
+In truth, this place is less of a dungeon, and more of a crossroads. A place
+where myths and legends collide, and story is spliced upon story. 
+An adventurer may be lucky enough to recover a sword from a world not their own, 
+or unfortunate enough to stumble across their own corpse. All things are possible
+within these walls, after a fashion.
+
+Of course, this is but one interpretation, and this place is but one version
+of %Z. Who can say what the nature of this cairn truly is?"
+         ]]
+      },
+      Dudley_combat = {
+         synopsis = "[Dudley gives you some tips about combat.]",
+         output = "menu",
+         text = [[
+
+         ]]
+      },
+      Dudley_amulet = {
+         synopsis = "[Dudley tells you to run.]",
+         output = "menu",
+         text = [[
+The dungeon shudders around you. Dudley waves his arms at you, spittle flying
+from his lips as he yells.
+
+"Flee, you damned fool, flee! This place be not long for the mortal realm! The
+Wizard of puruses you, and he will not stop until he possesses the amulet
+once more."
+
+The dungeon rumbles again, and Dudley sighs, staring up at the rapidly cracking
+ceiling.
+
+"I am an old man. In my time, I have seen this place devour thousands upon thousands
+of adventurers. Among them, but a few have have shown as much spirit as you. Perhaps
+you shall be one of those to escape the cycle."
+
+He smiles wryly, and stares at you with eyes full of both sadness and hope.
+
+"Go. Leave the dungeon. I'll see you on the other side, %p."
+         ]]
+      },
+      Juiblex = {
+         synopsis = "[Juiblex appears!]",
+         output = "menu",
+         text = [[
+            A massive pillar of slime towers above you, larger than you would believe to
+be possible. It hisses, spits, and bubbles, filling the air around it with
+noxious vapours. Most striking of all is the burning hatred that emanates from
+it, so intense that it feels almost like a physical force and you have to
+struggle not to let it push you back.
+
+Juiblex, the Faceless Lord, has arrived.
+         ]],
+      },
+      Zuggotomoy = {
+         synopsis = "[Zuggotomoy appears!]",
+         output = "menu",
+         text = [[The thing that rises up in front of you is humanoid, but only just. Its skin
+is composed of a patchwork of vile mold and fungi, and the scent that emanates
+from it makes you feel physically ill. Instead of legs, its lower body tapers
+off into a mass of fungoid tendrils.
+         
+Zuggotomoy, the Queen of Fungi, is here.]],
+      },
+      Buer = {
+         synopsis = "[Buer appears!]",
+         output = "menu",
+         text = [[Before you is a bizarre creature. Most of its body is the head of an enormous
+lion, from which five limbs radiate like the arms of some sort of bizarre
+starfish. Its eyes blaze with crimson light, and saliva drips from its
+serrated teeth.
+
+Buer has come out to hunt.]],
+      },
+      Pazuzu = {
+         synopsis = "[Pazuzu appears!]",
+         output = "menu",
+         text = [[Your nose is filled with the scent of rotting flesh, and the sound of wing
+beats fills your ears. A voice whispers in your ear, "Perhaps, mortal, it is time for us to
+make a deal."
+
+Pazuzu alights next to you.]],
+      },
+      Kostchtchie = {
+         synopsis = "[Kostchtchie storms in!]",
+         output = "menu",
+         text = [[An enormous giant stands before you, his skin slick with frost. His eyes bulge
+with rage, which radiates off of him almost like heat from a furnace.
+
+"I AM KOSTCHTCHIE!"
+
+Kostchtchie is itching for a fight.]],
+      },
+      Yeenoghu = {
+         synopsis = "[Yeenoghu appears!]",
+         output = "menu",
+         text = [[The hulking humanoid that stands before you is nearly three meters tall
+and has the head of a hyena. In one hand it grips a  flail, and the other hand
+crackles with magical energy. When it opens its mouth, the unholy din that
+emerges could charitably be called a laugh.
+
+Yeenoghu has come to call.]],
+      },
+      Baphomet = {
+         synopsis = "[Baphomet appears!]",
+         output = "menu",
+         text = [[The thing that stands in front of you has the head of a bull, but that is where
+the resemblance stops. His body bulges with cords of grotesquely swollen muscle
+and his skin is slick with blood.
+
+"Fool! You dare trifle with Baphomet?!"]],
+      },
+      Orcus = {
+         synopsis = "[Orcus appears!]",
+         output = "menu",
+         text = [[Blackness cloaks the being in front of you. All you can see of them is a
+muscular form, two burning yellow eyes, and a pair of claws. One of the claws
+clutches a skull-topped wand, about which a miasma of dark magic gathers.
+
+"I am Orcus, Lord of the Dead. Goodbye."]],
+      },
+      Geryon = {
+         synopsis = "[Geryon appears!]",
+         output = "menu",
+         text = [[The monster you now face is nothing short of horrifying. The upper body seems to
+be a combination of three separate humanoids that have been forcibly merged.
+The lower body is serpentine and distended, tapering off into an enormous
+stinger. The hands of the monster end in wicked claws.
+
+"Greetings, Mortal. I am Geryon."]],
+      },
+      Dispater = {
+         synopsis = "[Dispater appears!]",
+         output = "menu",
+         text = [[The being in front of you sniffs in disdain and tosses his ram's horns. He is
+dressed in fine clothing, and his skin is covered in bony protrusions. A
+flickering gray aura surrounds him, which occasionally curls into a bestial
+shape.
+
+"Is this the one who seeks the Amulet of Yendor? How utterly pathetic. I,
+Dispater, shall dispatch you."]],
+      },
+      Malcanthet = {
+         synopsis = "[Malcanthet appears!]",
+         output = "menu",
+         text = [[A soft voice whispers in your ear.
+
+"Think you could take some time off from your search for the amulet, mortal?
+I could use some exercise."
+
+A humanoid shimmers into existence in front of you. Their form constantly shifts
+from female, to male, to neither. The only constant is their breathtaking beauty
+and the cloud of writhing tendrils protruding from their back.
+
+Malcanthet is here."]],
+      },
+      Baalzebub = {
+         synopsis = "[Baalzebub appears!]",
+         output = "menu",
+         text = [[A maddening buzz fills your ears. Thousands of flies appear from everywhere,
+swarming through the air to coalesce into a horrible, pulsating mass, which
+continually spews torrents of insects as it expands.
+
+Baalzebub, Lord of the Flies approaches.]],
+      },
+      Mephisto = {
+         synopsis = "[Mephisto appears!]",
+         output = "menu",
+         text = [[The area in front of you is suddenly consumed in a roaring wave of hellfire.
+Out of the flames steps a demon, power radiating off him. You recognize him on
+sight. Mephisto.
+
+"So, you are the latest pawn sent forth by %d. I hope you prove more
+entertaining than the previous guests I have entertained."]],
+      },
+      Asmodeus = {
+         synopsis = "[Asmodeus appears!]",
+         output = "menu",
+         text = [[The air around you is filled with a momentary hissing, before a figure appears
+in a flash of frost. He grins at you, displaying a mouth full of fangs.
+
+"I am Asmodeus. Come to me, %r."]],
+      },
+      Demogorgon = {
+         synopsis = "[Demogorgon.]",
+         output = "menu",
+         text = [[A great beast drags itself from the earth in a shower of stone, roaring loudly
+enough that the world shakes around it. You cannot wrap your mind around the
+entirety of its form, and instead must process bits and pieces of it at a time.
+
+Four lashing tentacles, thick with rot.
+Thick, scaly legs ending in knifelike claws.
+The cloying smell of mildew mixed with blood.
+A pair of rabid mandrill heads, their eyes trained on you.
+Prince of Demons.]],
+      },
+      Death = {
+         synopsis = "[You encounter Death.]",
+         output = "menu",
+         text = [[Blocking the way in front of you stands a huge horse, pale as the moon.
+Its rider is cloaked in a black robe, taller than a man, and holding a
+gleaming scythe. He turns to face you, revealing his head to be a grinning
+skull. Instead of eyes, two icy blue pinpoints of light shine as brightly
+as stars.]],
+      },
+      Pestilence = {
+         synopsis = "[You encounter Pestilence.]",
+         output = "menu",
+         text = [[A disgusting stench assaults your nose as a blinding white horse thunders
+to a stop ahead. Its rider wears a sickly green cloak covered in splotches
+of mildew and circled by several flies. A glittering crown, looking
+rather out of place, rests on his head. With a ghastly leer he extends a
+diseased finger toward you.]],
+      },
+      Famine = {
+         synopsis = "[You encounter Famine.]",
+         output = "menu",
+         text = [[A horse, dark as midnight, rears up before you, with a hunched figure
+seated on its back. He is wearing a thin gray cowl and clutching a set of
+black iron balance scales. He lowers his hood and glares at you, revealing
+a badly emaciated face. Under his fevered gaze, a pang of hunger goes
+through your stomach.]],
+      },
+      Wizard_of_Yendor = {
+         synopsis = "[You encounter the Wizard of Yendor!]",
+         output = "menu",
+         text = [[A man stands before you. He wears an elaborate robe trimmed with gold, and
+he regards you with a fiendish gaze. The very air around him pulsates with
+a fell power, and sparks fly from his fingers.
+"Not since the fall of Yendor has a puny mortal dared to cross my path.
+Thou art a fool to challenge me. Prepare to die!"]],
+      },
+      Vlad_the_Impaler = {
+         synopsis = "[You encounter Vlad the Impaler!]",
+         output = "menu",
+         text = [[In a swirl of dark vapor, a tall figure appears, garbed in a high-collared black
+velvet cloak. His skin is very pale, except for some disturbing red stains
+around his mouth.  His lips curl into a sneer, revealing long white fangs.
+"I am Vlad Dracula, the Impaler. Tonight I will feast on thy blood."]],
+      },
+      Envy = {
+         synopsis = "[You encounter Envy!]",
+         output = "menu",
+         text = [[With a loud "crack" and a flash of emerald light, a horrifying being appears
+before you. Its heavy coils have no start or end, and its body is a sickly
+green. The creature stares at you with eyes filled to the brim with disgust.
+"I... am... Envy..."]],
       },
       quest_complete_no_bell = {
          text = [["The silver bell which was hoarded by %n will be
@@ -624,6 +992,221 @@ magic portal which brought you here."]],
       },
       posthanks = {
          text = "\"Tell us, %p, have you fared well on your great quest?\"",
+      },
+   },
+   Car = {
+      assignquest = {
+         synopsis = "[\"Find and defeat %n, recover %o, and return with it.\"]",
+         output = "text",
+         text = [["You have soundly defeated me, %p.  You are ready.
+
+"Just after you left to improve your deck, %n appeared and battled us
+into submission with his monster-summoning cards. The beasts you saw here
+are but a fraction of the horde he summoned. He stole the decks of many of
+your fellow students.
+
+"Worst of all, he stole from us %o, the most powerful of all known cards.
+If he should play a game with it, he could destroy the very fabric of
+reality.
+
+"You must find %i, and take back %o from %n. It is your destiny.
+
+"Please, %p, recover %o for us, and return it here. And remember: Believe in
+your cards, and they shall come through for you."]],
+      },
+      badalign = {
+         synopsis = "[\"You have wandered from the path of the %a.  Come back when you have atoned.\"]",
+         output = "text",
+         text = [["%pC!  You have wandered from the path of the %a!
+If you attempt to overcome %n in this state, he will surely
+enslave your soul.  Your only hope, and ours, lies in your purification.
+Go forth, and return when you feel ready."]],
+      },
+      badlevel = {
+         synopsis = "[\"You are too inexperienced.  Come back when you are %Ra.\"]",
+         output = "text",
+         text = [["Alas, %p, you clearly love your cards, but your skill with them is still
+immature. Your loss to me tells me all I need to know.
+
+"Improve your deck, and pray to %d for guidance. Only then may you
+return and face me again."]],
+      },
+      discourage = {
+         "\"Trying to run away, %c? Cowardice no different than forfeit!\"",
+         "\"Please, %c, you disappoint me! Your cards are worthless!\"",
+         "\"You are running low on spell cards, %c. Will this be a victory by lack of a deck?\"",
+         "\"%o is the perfect complement to my perfect deck!\"",
+         "\"Tsk tsk tsk, %c. I really expected better from you.\"",
+         "\"l only cast me from the school because I was too skillful!\"",
+         "\"Love for your cards? Don't make me laugh. I shall defeat you through skill alone!\"",
+         "\"Your mentor %l fell to me. What makes you think you will do any better?\"",
+         "\"%d cannot help you now, %c.\"",
+         "\"A mere %r cannot hope to defeat me.\"",
+         "\"%d cannot help you now, %c.\"",
+         "\"A mere %r cannot hope to defeat me.\"",
+         "\"You fool! You cannot begin to imagine the cards that lurk in my deck!\"",
+         "\"The rules are meaningless, for I hold all the cards!\"",
+         "\"You look nervous, %c. Have you finally realized how outclassed you are?\"",
+
+      },
+      encourage = {
+         "\"When you encounter %n, remember your training with me.\"",
+         "\"Strike quickly, before %n can draw an opening hand.\"",
+         "\"%n plays a deck focused on summoning snakes and nagas.\"",
+         "\"If %o is played on the first turn, it may as well be over.\"",
+         "\"Possessing %o is not the same as knowing how to use it. A card is only as powerful as the player behind it.\"",
+         "\"Be careful, %n is a wily player.\"",
+         "\"I would send some of my students with you, but few of them have their decks still intact.\"",
+         "\"Play to your strengths, that is in a %a style.\"",
+         "\"Use all of your spell cards against %n.\"",
+      },
+      firsttime = {
+         synopsis = "[You arrive back at %H, but something is wrong here.]",
+         output = "text",
+         text = [[You find yourself standing in sight of %H. However, something is horribly wrong.
+Cards lay scattered about the ground like common trash, and strange shapes
+lumber about! The usual sounds of card games being played are oddly absent.
+]],
+      },
+      goal_first = {
+         synopsis = "[You enter an arena.  %nC is waiting for you.]",
+         output = "text",
+         text = [[You find yourself in an enormous arena, with a high, vaulted ceiling.
+It sounds as if a magnificent crowd is cheering, but no such crowd is present.
+
+Instead, %n is there, shuffling their deck and cackling.
+With a flick of their wrist, they draw seven cards. The game has begun.]],
+      },
+      goal_next = {
+         text = "Once again, you find yourself in %ns arena.",
+      },
+      gotit = {
+         synopsis = "[%oC belongs to you now.]",
+         output = "text",
+         text = [[As you pick up %o you realize it is the perfect complement to your
+spell cards. In fact, it is the perfect complement to any deck. No
+wonder it was banned.
+
+You realize that with this card, you can do anything.]],
+      },
+      guardtalk_after = {
+         "\"When %n sent his minions, they stole all of my rarest cards!\"",
+         "\"You seem a much more experienced player than when we last met, %p.\"",
+         "\"Have you collected any interesting cards during your journey?\"",
+         "\"%p, you must defeat %n, for our sake.\"",
+         "\"%lC was unable to defeat %n, although their game was mighty.\"",
+      },
+      guardtalk_before = {
+         "\"Do you know what time it is?\"",
+         "\"I look to %d for guidance in these hard times.\"",
+         "\"What has become of %o?\"",
+         "\"Please, %p, tell us the story of your game with %n. What cards did you use?\"",
+         "\"My deepest thanks, %p.\"",
+         "\"%pC, how good to see you!\""
+      },
+      hasamulet = {
+         synopsis = "[\"Take the Amulet to the altar of %d on the Astral Plane and offer it.\"]",
+         output = "text",
+         text = [["I see you have the Amulet, %p.
+
+"There is no more time for friendly games. Here is what you must do:
+
+"Leave the dungeon behind.  The Amulet will then transport you
+into the Astral Planes, where you shall face the last, most terrible
+duel of all.
+
+"Sacrifice the Amulet on the altar, and become the greatest player of
+spell cards to have ever lived."]],
+      },
+      killed_nemesis = {
+         synopsis = "[%nC curses you, but you feel the overpowering aura of magic fading.]",
+         output = "text",
+         text = [["I see now," gasps %n. "It was never about the power of the cards,
+or the skill of the player, but about the love the player has for
+their cards. Thank you, %c, you have taught me much."
+
+With that, %n collapses. They will never oppose you again.]],
+      },
+      leader_first = {
+         synopsis = "[\"You have returned.  We are in dire need of your help.\"]",
+         output = "text",
+         text = [["%pC, how good to see you!.
+
+"We are in dire need of your help, my %S.
+
+"But first, I must examine your cards, and determine if your deck is
+strong enough. Defeat me with your cards, and prove yourself worthy!"]],
+      },
+      leader_last = {
+         synopsis = "[\"You did not love your cards...\"]",
+         output = "text",
+         text = [["%pC!  You clearly have no love for your cards, and do not believe in
+them.
+
+"I expel you from %H!  Your performance brings me shame.""
+
+"You shall not see %H again."]],
+      },
+      leader_next = {
+         text = "\"Again, you return to us, %p.  I shall grant you a rematch.\"",
+      },
+      leader_other = {
+         text = "\"Ah, %p.  Come to try again? Perhaps you are worthier now.\"",
+      },
+      locate_first = {
+         synopsis = "[You %x many torn spell cards, and notice bones of previous students.]",
+         output = "text",
+         text = [[You descend in the basement cavern of the school. You %x a trail of torn
+spell cards, and you cannot help but to notice the numerous skeletons
+dressed in the garb of your school. Evidently you are not the first
+student to be sent after %n...]],
+      },
+      locate_next = {
+         text = "Once again, you approach %i.",
+      },
+      nemesis_first = {
+         synopsis = "[%nC brags about his prowess with spell cards.]",
+         output = "text",
+         text = [["Another pathetic student of %l, here to challenge me to a card game?
+I doubt you have even held a deck before! I shall battle you, and show
+you the true meaning of defeat!"]],
+      },
+      nemesis_next = {
+         text = "\"Trying to run away, %c? Cowardice no different than forfeit!\"",
+      },
+      nemesis_other = {
+         text = "\"Please, %c, you disappoint me! Your cards are worthless!\"",
+      },
+      nemesis_wantsit = {
+         text = [["Return %o to me, you idiot! It is completely wrong for your deck!"]],
+      },
+      nexttime = {
+         text = [[Once again, you arrive back at %H.]],
+      },
+      offeredit = {
+         synopsis = "[Keep %o.  It will help in your quest for the Amulet of Yendor.]",
+         output = "text",
+         text = [[%l takes %o in his hand and runs his finger along the edge.
+Then he shakes his head.
+
+"It chose you, not me. I am not worthy of it.
+Go back to %Z and fulfill your destiny."]],
+      },
+      offeredit2 = {
+         synopsis = "[\"You are worthier of %o. Return to %Z to search for the Amulet.\"]",
+         output = "text",
+         text = [[%l gazes reverently at %o, then back at you.
+
+"You are its keeper now, and the time has come to resume your search
+for the Amulet.  %Z await your return through the
+magic portal which brought you here."]],
+      },
+      othertime = {
+         text = [[For some reason, you think that this may be the last time you will
+enter %H.]],
+      },
+      posthanks = {
+         text = "\"%pC!  Welcome back. Care for a quick game, for old time's sake?\"",
       },
    },
    Cav = {
@@ -1299,6 +1882,387 @@ may be the last time you stand before %l.]],
          text = "\"Well met, %p.  How goeth thy search for the Amulet of Yendor?\"",
       },
    },
+   Dan = {
+      assignquest = {
+         synopsis = "[\"Take down %n and get %o back.\"]",
+         output = "text",
+         text = [["Excellent dancing, %p. Now, I shall fill you in.
+         
+In a fit of hubris, a number of our dancers performed a corrupted version of our usual ritual.
+The elemental they summoned was not of this reality. It slew them, and retreated deep within
+%i.
+
+%nC warps time itself around it, and turns elementals that would otherwise be our friends against us.
+If left unchecked, I fear it shall tear reality itself apart.
+
+I have already tried and failed to kill the Elemental. Where I have failed, however, you may
+succeed."
+
+%lC places a hand on your shoulder.
+
+"Go forth, %p, and become the dancer you are meant to be."]],
+      },
+      badalign = {
+         synopsis = "[You have danced off the path of %a.  Come back when you are ready.]",
+         output = "text",
+         text = [["%pC!  You have strayed from the light of the %a!
+I cannot in good conscience send you to fight %n.
+Go forth, and come back when you are more devout."]],
+      },
+      badlevel = {
+         synopsis = "[You are too slow. Come back when you are %Ra.]",
+         output = "text",
+         text = [["Pretty good, %p, but if you cannot keep up with me you will never
+defeat %n Come back when you have quciker feet!"]],
+      },
+      discourage = {
+         "\"Tick tock...\"",
+         "\"It's just a jump to the left...\"",
+         "\"The dance cannot last forever...\"",
+         "\"The end of the dance approaches...\"",
+         "\"All elements fade, in the end... Only time is left...\"",
+         "\"Goodbye, %p...\"",
+      },
+      encourage = {
+         "\"%nC is far more dangerous than you imagine.\"",
+         "\"%nC will try to trap you in a slower time stream. Try not to touch it!\"",
+         "\"The caves are dangerous. Stay light on your feet!\"",
+         "\"Be careful, %i is deadly to the unprepared.\"",
+         "\"Call upon %d if you are in need of aid.\"",
+         "\"It takes two to tango. Consider bringing a pet with you.\"",
+         "\"There is no pale moon or devil here, %p. %nC is far more than you imagine.\"",
+         "\"Beings of fire, wind, earth and water - Protect %p in this perilous time.\"",
+         "\"Do not lose hope! All of us will be there in spirt.\"",
+         "\"It is a great thing you are doing, %p.\"",
+      },
+      firsttime = {  
+         synopsis = "[You arrive at %H, but something is amiss.]",
+         output = "text",
+         text = [[You suddenly find yourself at %H.
+Something is amiss, however. Instead of the whooping of excited festival-goers,
+you hear screams of pain, and see beings of fire, water, earth, air, and other
+substances wandering through the trees.
+
+You ready yourself for the fight of your life.]],
+      },
+      goal_first = {
+         synopsis = "[You have located the lair of %n.]",
+         output = "text",
+         text = [[Time slows to a crawl when you enter the depths of %i. %nC
+must be very close.]],
+      },
+      goal_next = {
+         text = "You arrive back in the lair of %n.",
+      },
+      gotit = {
+         synopsis = "[You feel the power of %o flowing through you.]",
+         output = "text",
+         text = [[As you touch %o, you feel the power of it flow through your body.
+You feel that if you asked it to, it would fight at your side.]],
+      },
+      guardtalk_after = {
+         "\"Yahoo! Thank you, %p!\"",
+         "\"Come and dance with us, %p!\"",
+         "\"The time elemental is slain!\"",
+         "\"Let us dance in celebration.\"",
+         "\"We are saved! You watusi'd that wacky time warper!\"",
+      },
+      guardtalk_before = {
+         "\"Please, %p, help us!\"",
+         "\"My feet... please...\"",
+         "\"I feel like I just performed in cut time.\"",
+         "\"Ow.\"",
+         "\"The elements have turned against us!\"",
+      },
+      hasamulet = {
+         synopsis = "[Take the Amulet to the Astral Plane and deliver it to %d.]",
+         output = "text",
+         text = [["Congratulations, %p! You have found the Amulet of Yendor! Quickly now,
+sashay off to the Astral Plane, and offer it upon the altar to %d.
+
+We're all cheering for you, %p!"]],
+      },
+      killed_nemesis = {
+         synopsis = "[%nC is destroyed.]",
+         output = "text",
+         text = [[%nC discorporates, and the flow of time around you returns to normal.
+The world is once again safe.]],
+      },
+      leader_first = {
+         synopsis = "[You have returned in our hour of great need.]",
+         output = "text",
+         text = [["%pC! You have returned, and in our hour of need no less!
+
+Let us have a dance-off to determine if you are ready for this task."]],
+      },
+      leader_last = {
+         synopsis = "[You are a terrible dancer.]",
+         output = "text",
+         text = [["Truly, %pC? Have you learned nothing in your travels? %nC is obviously
+always going to be beyond your skills. Begone!"]],
+      },
+      leader_next = {
+         text = "\"%pC, welcome back. Ready for another dance?\"",
+      },
+      leader_other = {
+         text = "\"%pC. Back again. One last dance, for old time's sake?\"",
+      },
+      locate_first = {
+         synopsis = "[You have reached %i.]",
+         output = "text",
+         text = [[The air in %i is full of regular zephyrs, like the breath of a living being.
+The walls pulse with flashes of heat and cold, and the very ground underneath your feet shifts
+and trembles.]],
+      },
+      locate_next = {
+         text = "Again, you descend into %i.",
+      },
+      nemesis_first = {
+         synopsis = "[%nC is here.]",
+         output = "text",
+         text = [["Your time grows short... Your dance number has ended..."]],
+      },
+      nemesis_next = {
+         text = "\"TICK...\"",
+      },
+      nemesis_other = {
+         text = "\"...TOCK.\"",
+      },
+      nemesis_wantsit = {
+         text = [["Give... me... %o..."]],
+      },
+      nexttime = {
+         text = "You arrive again at %H. You need to talk to %l as fast as possible.",
+      },
+      offeredit = {
+         synopsis = "[%lC tells you to take %o on your quest.]",
+         output = "text",
+         text = [[%l applauds and smiles.
+
+    "Congratulations, %p. You have done what we could not, and defeated %n. Your dance skills
+    far exceed my own, and you are truly worthy of retrieving the Amulet of Yendor."
+    
+    "Go now. Continue to make me proud."]],
+      },
+      offeredit2 = {
+         synopsis = "[%lC refuses %o.  Return to %Z to search for the Amulet.]",
+         output = "text",
+         text = [[%lC looks at %o, then back at you.
+
+    "It's yours. You need it more than I."]],
+      },
+      othertime = {
+         text = [[For what may be the final time, you arrive at %H.]],
+      },
+      posthanks = {
+         text = "\"Great to see you, %p! How's it going?\"",
+      },
+   },
+   Dra = {
+      assignquest = {
+         synopsis = "[\"Find %n, defeat %ni, and return %o to us.\"]",
+         output = "text",
+         text = [["You have probably already guessed what has happened, %p.
+Your once companion %n appeared, leading a flock of chimeras toward us. %nh was
+mounted on his draconic companion, Voanairruth. The group attacked our nests and
+destroyed our eggs, then escaped.
+The fiend also had the gall to steal the greatest treasure of our horde,
+the mighty %o.
+
+"You must go to %i.  Once there, you can slay
+%n for his atrocities. Bring us back %o as proof that you have killed %ni."
+
+"Go forth, %p, and be our champion."]],
+      },
+      badalign = {
+         synopsis = "[You have wandered from the path of the %a.  Come back when you are ready.]",
+         output = "text",
+         text = [["%pC!  You have not kept to the path of %a!
+If you attempt to revenge yourself upon %n in this state, you will only
+doom your own soul.  You must purify yourself.
+Go forth, and return when you have thought hard on what you must do."]],
+      },
+      badlevel = {
+         synopsis = "[You are too weak. Come back when you are %Ra.]",
+         output = "text",
+         text = [["%pC, I am afraid you are not yet strong enough to seek %n.
+Only %Ra with the help of %d could ever hope to take revenge on our foe."]],
+      },
+      discourage = {
+         "\"I will kill you first. Then your dragons.\"",
+         "\"I cannot believe that I once looked up to you!\"",
+         "\"Thinking about running away? You disappoint me, %p.\"",
+         "\"You may have been raised by dragons, but you have none of their strength.\"",
+         "\"%d cannot save you now.\"",
+         "\"Your attempts to kill me are truly pitiful.\"",
+         "\"This boneyard shall be your grave as well!\"",
+         "\"Voanairruth! Tear out the heart of %p!\"",
+         "\"Are you afraid, %p? Afraid that I am better than you!\"",
+         "\"I was far more worthy of being raised by %l than you were, %p.\"",
+      },
+      encourage = {
+         "\"%nC was raised as you were, and knows as much about dragons as you.\"",
+         "\"%nC will no doubt be accompanied by Voanairruth, his white dragon.\"",
+         "\"It pains me to ask you to fight your brother, but you must take revenge for the loss of our children.\"",
+         "\"Be careful, %i is a sacred place, but is also very dangerous.\"",
+         "\"Do not be afraid to call on %d for help in your quest.\"",
+         "\"Legends say that %o can speak; perhaps it will aid you as well.\"",
+         "\"Use the training we gave you to defeat %n.\"",
+         "\"%d will be the wind beneath your wings.\"",
+         "\"Do not lose yourself in vengance. We value you more than we do the death of %n and Voanairruth.\"",
+         "\"I am sure you will do great things one day, %p.\"",
+      },
+      firsttime = {  
+         synopsis = "[You arrive at %H, but something is amiss.]",
+         output = "text",
+         text = [[You suddenly find yourself at %H.
+The nests of dragons are all around you,
+and you are surrounded by waterfalls and a myriad of beautiful flowers.
+Dragons of all shapes and colors wheel through the stormy skies
+above, swooping and diving through the clouds.
+
+You are finally home, and look forward to seeing the dragons that raised you
+again.
+
+However, something is wrong. The air is filled with angry roars and keening.
+A few of the nests are singed, and some of them are on fire. Here and
+there are piles of scales, and pieces of broken shell are scattered all about.
+
+Thunder lows above, and lightning flashes. Your blood begins to boil. Someone
+must pay for these atrocities.]],
+      },
+      goal_first = {
+         synopsis = "[You have found the hiding place of %n and %nj dragon.]",
+         output = "text",
+         text = [[Sweat prickles across your body, although the air grows even colder. You have
+reached the deepest part of %i.  This is where %n and Voanairruth must be
+hiding.]],
+      },
+      goal_next = {
+         text = "You arrive back in the depths of the boneyard.",
+      },
+      gotit = {
+         synopsis = "[You feel the power of %o flowing through you.]",
+         output = "text",
+         text = [[As you touch %o, you feel the power of it flow through your body.
+You feel that if you asked it to, it would fight at your side.]],
+      },
+      guardtalk_after = {
+         "\"ROAR!\"",
+         "\"Roar!\"",
+         "\"Roar!!!\"",
+         "\"GROAR!\"",
+         "\"Grooooaaaarroood job, %p!\"",
+      },
+      guardtalk_before = {
+         "\"ROAR!\"",
+         "\"Roar!\"",
+         "\"Roar!!!\"",
+         "\"ROAR!!!\"",
+         "\"GROAR!\"",
+      },
+      hasamulet = {
+         synopsis = "[Take the Amulet to the Astral Plane and deliver it to %d.]",
+         output = "text",
+         text = [["Congratulations, %p. You posses the Amulet of Yendor! It is truly a
+great addition to your hoard. As your mother, I am proud.
+
+In truth, however, the Amulet has a greater purpose, as do you. Take the
+Amulet to the Astral Plane, and offer it upon the altar to %d.
+
+Go forth, %p. Become more than what you are."]],
+      },
+      killed_nemesis = {
+         synopsis = "[%nC has been slain.]",
+         output = "text",
+         text = [[%nC collapses, %nj body spent. Your vengance over the loss
+of your siblings is complete. You cannot help but feel slightly sad, however.
+In different circumstances, %n could have remained your friend,
+and you could have grown up together under the watchful eye of %l.]],
+      },
+      leader_first = {
+         synopsis = "[You have returned at a time of great peril.]",
+         output = "text",
+         text = [["%pC! You have returned to us in our time of peril!
+
+I must test your skills in order to determine if you have the strength
+to be our champion."]],
+      },
+      leader_last = {
+         synopsis = "[You are unworthy to be the champion of your homeland.]",
+         output = "text",
+         text = [["You still think you are worthy to be our champion? You disgust me,
+%pC! Leave this place and never return!"
+
+"You shall not be the one to enact our vengance upon %n."]],
+      },
+      leader_next = {
+         text = "\"%pC, you have returned.  Are you strong enough now to be our champion?\"",
+      },
+      leader_other = {
+         text = "\"You have returned again, %p. Are you yet skilled enough?\"",
+      },
+      locate_first = {
+         synopsis = "[You have reached %i.]",
+         output = "text",
+         text = [[The air here is cool, and above you arch the enormous bones of dragons long
+since dead. You have reached the grotto containing %i.]],
+      },
+      locate_next = {
+         text = "Again, you descend to %i.",
+      },
+      nemesis_first = {
+         synopsis = "[%nC challenges you.]",
+         output = "text",
+         text = [["So, this is who %l sent to fight me. It seems that the dragons
+are not merely content with losing their eggs, but their %R
+as well.
+I am glad that unlike you I saw the benefits to leaving them, old friend."
+
+%nCs lips curl at the word "friend."
+
+"Let us duel, %p, and determine which of us is truly stronger."]],
+      },
+      nemesis_next = {
+         text = "\"I was raised by the dragons alongside you, %p. Yet I am far stronger.\"",
+      },
+      nemesis_other = {
+         text = "\"Once Voanairruth I defeat you, I will allow him to feed on your corpse!\"",
+      },
+      nemesis_wantsit = {
+         text = [["Return %o to me, you fool! It is rightfully mine, not yours!"]],
+      },
+      nexttime = {
+         text = "Once again, you arrive at %H. You must speak to %l as soon as possible.",
+      },
+      offeredit = {
+         synopsis = "[%lC tells you to take %o, and to return when you have triumphed.]",
+         output = "text",
+         text = [[When %l sees %o, she nods, and roars:
+
+    Well done, %p. Although your actions will not return the eggs
+    we have lost, I can be at peace knowing that %n will not
+    trouble us again. Truly, it was a mistake to raise %ni as my
+    own.
+
+    Take %o and continue in your quest. Return to me when you have
+    found what you seek.]],
+      },
+      offeredit2 = {
+         synopsis = "[%lC refuses %o.  Return to %Z to search for the Amulet.]",
+         output = "text",
+         text = [[%lC looks at %o, then back at you.
+
+"It is yours now. It is but a fragment of our hoard, and you have a greater
+need of it than we do."]],
+      },
+      othertime = {
+         text = [[For what may be the final time, you arrive at %H.]],
+      },
+      posthanks = {
+         text = "\"Ah, %p. Your quest goes well, I hope?\"",
+      },
+   },
    Mon = {
       assignquest = {
          synopsis = "[Find %i, then continue to %ns lair.  Defeat %ni and return with %o.]",
@@ -1509,6 +2473,431 @@ may be the final time you come here.]],
       },
       posthanks = {
          text = "\"Welcome back, %p.  How is your quest for the Amulet going?\"",
+      },
+   },
+   Con = {
+      assignquest = {
+         synopsis = "[Journey downward to recover %o from %n.]",
+         output = "text",
+         text = [["Yes, %p, it looks like you are now ready to
+help us.  Things have become much worse since you
+left.  The dungeons are overrun by vermin, guards
+have become brutal and corrupt, and I believe that
+%n has had dealings with dark powers.
+
+"I had spent many years enchanting my iron ball
+with powers to help lead an escape from this place,
+turning it into %o.
+Unfortunately, %n stole it from me,
+likely using it for dark, twisted purposes.
+
+"We need your help to go down to the warden's level
+to defeat the corrupt %n and recover
+%o for us so that
+%H will be safe again."]],
+      },
+      badalign = {
+         synopsis = "[\"Return when you serve %d more faithfully.\"]",
+         output = "text",
+         text = [["%p, I see that you are not yet a loyal servant of
+%d.  Leave this place for now, and only
+return when you have cleansed your spirit.  Only then
+will you be ready to stand up to %n and
+recover %o."]],
+      },
+      badlevel = {
+         synopsis = "[\"Return once you are a %R.\"]",
+         output = "text",
+         text = [["%p, I am afraid that a %r will be no
+match for %n.  If I sent you now,
+she would dispatch you all too easily.
+
+"Continue your other quest, and practice your
+skills.  Return to us once you have achieved the rank
+of %R."]],
+      },
+      discourage = {
+         "\"You should never come back.  You will not escape here alive again!\"",
+         "\"Even all of your pathetic lot put together would not be enough to defeat me.\"",
+         "\"You are no more than lowly prison scum.  You are unworthy to even challenge me.\"",
+         "\"Even %l could not stand up to me, so you have no chance at all.\"",
+         "\"Even %o would not be enough to make you my equal.\"",
+         "\"Your pathetic devotion to %d will not save you, either.\"",
+         "\"After I kill you, I will go after %l next, and any that dare to defy me again!\"",
+         "\"Die with dishonor, lowly %c!\"",
+         "\"Once a %c, always a %c.\"",
+         "\"How about you find yourself a cosy little cell, and hope that I forgive your insolence?\"",
+      },
+      encourage = {
+         "\"The sooner you are able to recover %o, the better off we will be.\"",
+         "\"I am not sure what has happened, but even without %o, %n will make a formidable opponent.\"",
+         "\"Stay true to the teachings of %d, and good fortune will be with you.\"",
+         "\"I am afraid without the power of %o to protect us, we will soon be overwhelmed.\"",
+         "\"%n used to be a woman of honor before turning to dark ways.  It is much too late for redemption, however.\"",
+         "\"%n is arrogant, and will try to diminish your confidence.  Do not let yourself be discouraged!\"",
+         "\"You will have to be very alert, and will need to use all of your cunning if you hope to defeat %n.\"",
+         "\"Call upon the power of %d to protect you when you encounter %n.\"",
+         "\"If you remain true to your faith, you should be able to sense the power of %o when you are near.\"",
+         "\"You should be able to defeat %n easily enough in a fair fight.  Unfortunately, she doesn't fight fair.\"",
+      },
+      firsttime = {
+         synopsis = "[You arrive in %H, but something is amiss.]",
+         output = "text",
+         text = [[Somehow, you have been captured and teleported back to
+%H!  But wait, the portal you went through is still
+here.  You had heard your old mentor %l,
+the prison chaplain who taught you the ways of
+%d calling for your help.  Also, %H
+is not as you had left it.  There seems to be damage
+to the walls, and you hear sounds of strife all
+around you.]],
+      },
+      goal_first = {
+         synopsis = "[You sense the presence of %o.]",
+         output = "text",
+         text = [[You sense the presence of %o as soon as you
+enter this level.  If %o is here, then
+%n must not be far away.]],
+      },
+      goal_next = {
+         text = "Once again, you find yourself in the abode of %n, and feel the presence of %o.",
+      },
+      gotit = {
+         synopsis = "[You feel the power of %o, and know that you must return it to %l.]",
+         output = "text",
+         text = [[As you pick up %o, you feel its power
+flow through you, protecting you, and making you
+more aware of your surroundings.  You know that
+you need to get it back to %l as soon
+as possible now.]],
+      },
+      guardtalk_after = {
+         "\"Thank you for ridding us of %n.  I hope the new warden will be better.\"",
+         "\"Take me with you!  I will be glad to be rid of this awful place.\"",
+         "\"Don't forget to come back for us once you have completed your quest!\"",
+         "\"Thank you for coming back to help us in our hour of need!\"",
+         "\"Leave while you still can!  If you can escape, maybe there is hope for the rest of us.\"",
+      },
+      guardtalk_before = {
+         "\"How did you manage to escape?\"",
+         "\"How is life on the outside?\"",
+         "\"Between the abusive guards, and the nasty vermin, I don't know how we will hold out.\"",
+         "\"This place used to be so much nicer before %n became corrupt.\"",
+         "\"You are really back?  I thought you were gone forgood.\"",
+      },
+      hasamulet = {
+         synopsis = "[\"Take the amulet to the Astral plane and offer it to %d.\"]",
+         output = "text",
+         text = [["Congratulations, %p!  You have redeemed yourself
+and proven yourself a worthy servant of %d,
+and in doing so have made all of us proud.
+
+"One final task remains for you now.  You must take
+the Amulet up to the Great Temple of %d, on
+the Astral plane.  There you must offer the Amulet
+to %d."]],
+      },
+      killed_nemesis = {
+         synopsis = "[%nC apologizes as %nh dies.]",
+         output = "text",
+         text = [[As %n approaches death, you see sudden
+clarity in her eyes.
+
+"What have I done?  Those demons have been clouding my mind.
+Please forgive me, %p, although I know that I
+probably do not deserve it.  Take 
+%o back to %l
+with my blessing."
+
+With a final coughing fit, %n spasms, and her
+eyes see no more.]],
+      },
+      leader_first = {
+         synopsis = "[%lH wants to see if you are ready.]",
+         output = "text",
+         text = [["%p, I am very happy to see that you are
+alive and well!  We were all proud of your daring
+escape, and hoped that you were doing well.
+Things have become much worse in your absence,
+however, and we desperately need your help.  Let
+me have a look at you, and see if you are ready."]],
+      },
+      leader_last = {
+         synopsis = "[You are not even fit to be a convict.]",
+         output = "text",
+         text = [["You have betrayed us all, %p!  Begone from
+here, and don't come back!  You are not even worthy
+to share a cell with the least of us now."]],
+      },
+      leader_next = {
+         text = "\"I see that you are back, %p.  I hope that you are now ready to help us?  Let me see if you are.\"",
+      },
+      leader_other = {
+         text = "\"Once again, you have returned.  Let me see if you are finally ready to help us.\"",
+      },
+      locate_first = {
+         synopsis = "[You are getting closer to the warden.]",
+         output = "text",
+         text = [[This must be the level that leads to the warden's
+area.  You must be getting closer to
+%o now!]],
+      },
+      locate_next = {
+         text = "Once again, you find yourself near the entrance to the warden's area.  Hopefully, you can acquire %o before it's too late!",
+      },
+      nemesis_first = {
+         synopsis = "[\"You will not take %o from me.\"]",
+         output = "text",
+         text = [["So, %p.  You have returned, and are here to get
+%o for %l?
+What makes you think you can get it if
+%l couldn't?  I have many
+allies that have made me even stronger."]],
+      },
+      nemesis_next = {
+         text = "\"I see that you have returned, %p. I suggest you leave and save yourself while you still have a chance.\"",
+      },
+      nemesis_other = {
+         text = "\"Back again, %p?  You will certainly die in your attempt to defeat me.\"",
+      },
+      nemesis_wantsit = {
+         text = [["I will get %o from you, just as I did
+%l!  You can not defeat me."]],
+      },
+      nexttime = {
+         text = "You have returned to %H.  Somehow, things are even worse now than when you were on your previous visit.  Has %l managed to still hold out?",
+      },
+      offeredit = {
+         synopsis = "[%lC tells you to take %o.]",
+         output = "text",
+         text = [["Congratulations, %p!  You have returned with
+your life, and with %o!  I had
+planned to use %o to lead an
+escape from here, but with %n defeated,
+life should go back to normal before long.
+
+"Whether I like it or not, I know my place is here.  I
+see that %o has already attuned
+itself to you.  I offer it to you in hopes that
+it will aid in your quest to recover the Amulet
+of Yendor." ]],
+      },
+      offeredit2 = {
+         synopsis = "[%lC tells you that you are the keeper of %o.]",
+         output = "text",
+         text = [[%l looks upon %o
+with fondness.
+"You are its keeper now.  Take it with you back to
+%Z, through the magic portal
+that brought you here."]],
+      },
+      othertime = {
+         text = [[The situation seems to degrade, and you wonder how long
+your fellow %gp can hold out against the corrupt
+guards and creatures of the Underdark that pervade the
+formerly tranquil %H.]],
+      },
+      posthanks = {
+         text = "\"Welcome back, %p.  We have done well in your absence.  How far have you come with your quest to regain the Amulet of Yendor for %d?\"",
+      },
+   },
+   Pir = {
+      assignquest = {
+         synopsis = "[Ye be tasked with destroying %n and retrieving %oh.]",
+         output = "text",
+         text = [["I always knew ye had greatness in ye, %S. As a %g, perhaps ye may
+succeed where I once failed.
+
+"In my youth, I sailed with the immortal Dread Pirate, Roberts. In our
+adventures, we came to oppose Blackbeard, then mightiest of the servants
+of the Devil, in his quest for %o.
+
+"Our final duel took place at the center of %i. Roberts,
+himself a mighty follower of %d, bested Blackbeard
+at swordplay, sending him tumbling into the caldera. But Blackbeard
+was able to place a mighty curse on %o, and I was
+unable to stop it plunging into the caldera to join him.
+
+"Now these Yendorans have come to claim what I lost, and in my age
+I be unable to stop them. So it falls to ye, my %S. Drive these
+soldiers from %H, then sail to %i, destroy %n
+once and fer all, and claim %o, in yer own name!"]],
+      },
+      badalign = {
+         synopsis = "[Ye must atone fer yer sins. Return when ye be ready.]",
+         output = "text",
+         text = [["Ye must follow %d through %a waters to reach %i.
+
+"As ye be now ye would never make it. Do not return to %H
+until ye be wise in the ways o' %d."]],
+      },
+      badlevel = {
+         synopsis = "[Ye ain't strong enough yet. Come back when ye be %Ra.]",
+         output = "text",
+         text = [["Ye be still too weak.  Return a proven %R. Perhaps then
+ye will be ready.
+
+"Go now, and follow %d to glory and riches."]],
+      },
+      discourage = {
+         "\"I defeated death, even %l couldn't destroy me at his best. What hope have ye, %p?\"",
+         "\"I am the mightiest follower of the Devil the world has ever known! Your weak devotion to %d will not save ye.\"",
+         "\"Beg for mercy now, and I will only kill ye.\"",
+         "\"Abandon your %a ways! Slink off and never face me again!\"",
+         "\"Vengeance will be mine, %p. I will make %l pay, for what he did to me!\"",
+         "\"The Brethren of the Coast are finished. Now I rule the seas!\"",
+         "\"With %o I control all the treasures of the sea!\"",
+         "\"I will never die!\"",
+         "\"Are ye truly the greatest pirate %H has left? It will share your fate!\"",
+         "\"Die in vain, %p! I will send %l to join ye!\"",
+      },
+      encourage = {
+         "\"Do not be shaken by the fearsome form of %n.\"",
+         "\"To enter %i you must find a hidden fissure in the rocks.\"",
+         "\"Oh, an' Captain Ketch owes me for a new house!\"",
+         "\"Captain Ketch sailed to %i, but the ship was lost on the rocks an' Ketch doesn't know the way into the caves.\"",
+         "\"If ye do not destroy %n, he will follow you back here!\"",
+         "\"Sharks swim in the waters around %i.\"",
+         "\"It be pitch black in %i!\"",
+         "\"There be much treasure lost in the waves around %i.\"",
+         "\"Only the %a can reach %i.\"",
+         "\"Trust %d in yer hour of need.\"",
+      },
+      firsttime = {
+         synopsis = "[Ye find yerself at Tortuga, but there be soldiers about!]",
+         output = "text",
+         text = [[Ye breathe deeply of the sweet bouquet that is %H.
+
+...It'll linger.
+
+Rather than the chaotic din ye recall, a eerie silence greets yer
+lugs. In the distance, ye hear soldiers on patrol. Seems yer pirate
+brethren be in need of yer assistance!]],
+      },
+      goal_first = {
+         synopsis = "[Ye sense %o at the heart of %i.]",
+         output = "text",
+         text = [[Ye sense the presence of %o at the heart of %i.]],
+      },
+      goal_next = {
+         text = "Ye know that soon ye shall claim %o for yer own.",
+      },
+      gotit = {
+         synopsis = "[%nC be dragged into the depths of Hell.]",
+         output = "text",
+         text = [[As ye pick up %o, ye feel a great
+weight has been lifted from your shoulders.  Your only thoughts are
+to quickly return to %H and find %l.]]
+      },
+      guardtalk_after = {
+         "\"Have ye found much booty in the Dungeons o' Doom?\"",
+         "\"Did ye send Ketch to feed the fishes?\"",
+         "\"Arrrr!\"",
+         "\"Ol' %l once sailed with the Dread Pirate Roberts, or so they say.\"",
+         "\"Be there comely lasses in the Dungeons o' Doom?\"",
+      },
+      guardtalk_before = {
+         "\"The soldiers o' Yendor attacked %H and destroyed %l's home!\"",
+         "\"These Yendorans 'ave disturbed the dead that lay in Davy Jones's Locker!\"",
+         "\"Ol' %l once sailed with the Dread Pirate Roberts, or so they say.\"",
+         "\"%n has risen and scattered the soldiers sent to %i. Now the dead attack %H as well!\"",
+         "\"Captain Ketch led the attack and sank many o' our ships. Now Ketch be trapped on %i.\"",
+      },
+      hasamulet = {
+         synopsis = "[Ye must sail the seas of the Astral Plane!]",
+         output = "text",
+         text = [["Ye have claimed the Amulet of Yendor! Truly ye were destined to be
+the greatest %S of the Breathren of the Coast!
+
+"Now ye must travel to the astral sea, and offer the Amulet on the
+High Altar of %d!"]],
+      },
+      killed_nemesis = {
+         synopsis = "[%nC be dragged into the depths of Hell.]",
+         output = "text",
+         text = [[A great crack opens below %n, and a huge, flaming hand
+reaches out to seize his wispy form. He curses ye:
+    NO! I won't die here, %p! It is ye who's soul will feed
+	the Devil! I am king of all the oceans, I cannot be killed!
+	I will haunt ye until %d betrays ye!]],
+      },
+      leader_first = {
+         synopsis = "[%lC challenges ye to prove yer worth.]",
+         output = "text",
+         text = [["So, %p. Ye have returned to yer brethren. We 'ave need of a canny
+%S of the coast to show these Yendorans to the plank.
+
+"Let me be see'n if ye BE that %S."]],
+      },
+      leader_last = {
+         synopsis = "[Ye be an utter failure.]",
+         output = "text",
+         text = [["Me mercy is at an end, %p. Leave %H and never return."]],
+      },
+      leader_next = {
+         text = "\"Ye try me patience, %p. I hope that this time ye be ready.\"",
+      },
+      leader_other = {
+         text = "\"I hope for yer sake ye are prepared at last.\"",
+      },
+      locate_first = {
+         synopsis = "[Ye have reached %i. The minions of %n be everywhere.]",
+         output = "text",
+         text = [[Ye have reached the treacherous waters around %i at last.
+The ghostly minions of %n are everywhere around you.]],
+      },
+      locate_next = {
+         text = "Ye know that this time you must find and destroy %n.",
+      },
+      nemesis_first = {
+         synopsis = "[%nC threatens to send ye to %d.]",
+         output = "text",
+         text = [["So, %p, %l thinks that ye can claim %o,
+when even he could not?!
+
+"He must be senile to send %ra to destroy me, when even in his prime
+he failed at the same task! No, it is your soul that shall go to %d."]],
+      },
+      nemesis_next = {
+         text = "\"I have been toying with ye, %p. This time I will kill ye.\"",
+      },
+      nemesis_other = {
+         text = "\"Flee now, %p. A %c cannot destroy %n. If ye do not flee, I will inflict so much suffering on ye that %l will feel guilty for ever having sent his %S to me!\"",
+      },
+      nemesis_wantsit = {
+         text = "\"Return %o to me, or I shall visit torments on ye even Judas knows naught of.\"",
+      },
+      nexttime = {
+         text = "Once again, you breathe the bouquet that is %H.",
+      },
+      offeredit = {
+         synopsis = "[Return to %Z and find the Wizard of Yendor.]",
+         output = "text",
+         text = [[As %l senses %o, the lines on his face harden
+into what may be his version of a smile.
+    Ye have claimed %o.  Ye hold in
+	yer hands all the treasures of the sea.  Ye may well be
+	the next Dread Pirate, greater even than Roberts. My
+	%S, ye should seek a treasure greater than any pirate
+	has ever sought before: the Amulet of Yendor.
+
+	The great Wizard, who lives in Yendor, knows that ye
+	can claim this prize. It was he who sent the soldiers here.
+	Return to %Z, and claim yer destiny!]],
+      },
+      offeredit2 = {
+         synopsis = "[Take %oC and return through the portal.]",
+         output = "text",
+         text = [["%oC is yers.  Yer destiny awaits through the portal that
+brought ye here."]],
+      },
+      othertime = {
+         text = [[Ye are back on %H.
+Ye fear that soon the brethren of the coast will have to abandon
+%H.]],
+      },
+      posthanks = {
+         text = "\"Tell me of yer adventures in yer quest for the Amulet of Yendor.\"",
       },
    },
    Pri = {

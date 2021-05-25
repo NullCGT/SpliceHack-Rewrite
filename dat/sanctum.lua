@@ -127,6 +127,10 @@ des.monster("L")
 des.monster("V")
 des.monster("V")
 des.monster("V")
+-- Shambling horrors!
+des.monster({ id = "shambling horror", peaceful = 0 })
+des.monster({ id = "shambling horror", peaceful = 0 })
+des.monster({ id = "shambling horror", peaceful = 0 })
 des.stair("up", 63,15)
 -- Teleporting to this level is allowed after the invocation creates its
 -- entrance.  Force arrival in that case to be on rightmost third of level.

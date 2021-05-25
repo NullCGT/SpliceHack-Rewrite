@@ -3,10 +3,20 @@
 # NetHack may be freely redistributed.  See license for details.
 # Random engravings on the floor
 #
-Elbereth
+# Removed Elbereth as a valid engraving to prevent Elbereth being chosen as a
+# potential warding word.
 # trap engravings
 Vlad was here
 ad aerarium
+
+# The Shining
+All work and no play makes Urdo a dull priest.
+
+# The NetHack Song, by Rob Balder
+ASCII stupid question and you'll get a stupid ANSI.
+
+# Junenethack 2018
+Improved Tin Openers rule!
 
 # take-offs and other famous engravings
 Owlbreath
@@ -14,40 +24,97 @@ Galadriel
 Kilroy was here
 Frodo lives
 
+# Secret codes
+00111010 00101001
+- .... .. ...     -- . ... ... .- --. .     .. ...     ... . -.-. .-. . -
+
+# Graffiti from other adventurers
+Elbrett
+Come and find me on the 30th floor!
+It was plastic the whole time?
+
+# DoDonPachi
+TARGET FOR THE WEAK POINTS OF THE F**KIN' DUNGEON
+
+# The Incredibles
+KRONOS
+
+# Dune
+The splice must flow.
+
+# Generally creepy messages
+help help help help help
+my eyes
+they're after me
+RUN RUN RUN
+they all lived in a crooked house
+the end is near
+Hello? Anybody?
+
+# Creepypasta
+Watch the sky.
+Pale Luna smiles at you.
+
+# House of Leaves
+This is not for you.
+
+# Robert W. Chambers
+The Yellow Sign
+
+# White Plume Mountain
+Fabulous riches and hideous death await!
+
+# Frustrating messages
+Sorry, adventurer, your amulet is in another dungeon.
+
 # Journey to the Center of the Earth
 A.S. ->
 <- A.S.
+
 # Adventure
 You won't get it up the steps
+
 # Inferno
 Lasciate ogni speranza o voi ch'entrate.
+
 # Prisoner
 Well Come
+
 # God's Final Message to His Creation (from "So Long, and Thanks for All
 # the Fish" by Douglas Adams):
 We apologize for the inconvenience.
+
 # Thriller
 See you next Wednesday
+
 # Smokey Stover
 notary sojak
 
+# Silly songs
 For a good time call 8?7-5309
+
 # Various zoos around the world
 Please don't feed the animals.
+
 # A palindrome
 Madam, in Eden, I'm Adam.
+
 # Siskel & Ebert
 Two thumbs up!
+
 # The First C Program
 Hello, World!
 ^?MAIL
+
 # AOL
 You've got mail!
 ^.
 # Clueless
 As if!
+
 # 200x incarnation of Dr.Who
 BAD WOLF
+Don't blink.
 
 # Gang tag
 Arooo!  Werewolves of Yendor!
@@ -71,6 +138,8 @@ The Vibrating Square
 This is a pit!
 This is not the dungeon you are looking for.
 Watch out, there's a gnome with a wand of death behind that door!
+Look out behind you!
+Come and see
 
 # Misc fun
 This square deliberately left blank.
@@ -82,6 +151,8 @@ Haermund Hardaxe carved these runes
 Need a light?  Come visit the Minetown branch of Izchak's Lighting Store!
 Snakes on the Astral Plane - Soon in a dungeon near you
 You are the one millionth visitor to this place!  Please wait 200 turns for your wand of wishing.
+One-Eyed Sam's: For all of your extralegal needs.
+Come to Happy's Mask Shop! Our masks will reshape your whole life.
 
 # DnD
 Warning, Exploding runes!
@@ -91,3 +162,22 @@ If you can read these words then you are not only a nerd but probably dead.
 
 # Portal
 The cake is a lie
+
+# dril
+Face god and walk backwards into Gehennom
+
+# LOTR
+Speak, friend, and enter.
+
+# The Oracle
+Please stop by and take a look at my statues! Love, the Oracle.
+
+# SCP
+I am bees.
+
+# Robot finds kitten
+kittens this way
+
+# Threats
+GET OUT
+Death to the elves!
