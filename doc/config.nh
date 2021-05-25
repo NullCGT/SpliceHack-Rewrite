@@ -9,8 +9,8 @@
 # playing.
 #
 # Copy the contents of this file into
-# * defaults.nh, same folder as nethack.exe or nethackW.exe (DOS, Windows)
-# * ~/.nethackrc (Unix, linux, Mac OS X)
+# * defaults.nh, same folder as SpliceHack.exe or SpliceHackW.exe (DOS, Windows)
+# * ~/.splicehackrc (Unix, linux, Mac OS X)
 # * "NetHack Defaults" on pre-OSX Mac and BeOS
 # * NetHack.cnf on Amiga, Atari, OS/2, and VMS
 #
@@ -34,8 +34,10 @@
 # Set your character's role, race, gender, and alignment
 #OPTIONS=role:Valkyrie, race:Human, gender:female, align:lawful
 
-# Set the default dog, cat, and horse names, and your fruit
+# Set the default dog, cat, bird, dragon, and horse names, and your fruit
+#OPTIONS=birdname:Polly
 #OPTIONS=dogname:Fido
+#OPTIONS=dragonname:Flame
 #OPTIONS=catname:Morris
 #OPTIONS=horsename:Silver
 #OPTIONS=fruit:guava
@@ -82,6 +84,12 @@
 # Conduct/Role-playing: starts with no worn armor.
 # Wearing any armor will make you lose this conduct
 #OPTIONS=nudist
+# Conduct/Role-playing: deaf from birth.
+#OPTIONS=deaf
+# Conduct/Role-playing: hallucinating from birth.
+#OPTIONS=hallucinating
+# Conduct/Role-playing: fumbling from birth.
+#OPTIONS=clumsy
 
 # Disable loading and saving of bones files
 #OPTIONS=!bones
@@ -137,6 +145,9 @@
 
 # Always show the "uncursed" for inventory objects. Useful for MENUCOLORs
 #OPTIONS=implicit_uncursed
+
+# Swap out intrinsics when eating (see changelog)
+#OPTIONS=intrinsicswap
 
 # Do not show the legacy intro text at game start
 #OPTIONS=!legacy
@@ -222,7 +233,7 @@
 
 # Specify the type of your initial pet, if you are playing a character class
 # that uses multiple types of pets; or choose to have no initial pet at all.
-# Possible values are "cat", "dog", "horse", and "none".
+# Possible values are "cat", "dog", "horse", "bird", and "none".
 #OPTIONS=pettype:cat
 
 # Threshold when item pile under you is shown in a popup list. Persistent.
@@ -393,8 +404,8 @@
 #OPTIONS=windowcolors:status windowtext/window message windowtext/window
 
 # HACKDIR is the default location for everything.
-# Note: On Windows HACKDIR defaults to the location of the NetHack.exe or
-# NetHackw.exe file so setting HACKDIR below to override that is not usually
+# Note: On Windows HACKDIR defaults to the location of the SpliceHack.exe or
+# SpliceHackW.exe file so setting HACKDIR below to override that is not usually
 # necessary or recommended.
 #HACKDIR=c:\games\nethack
 
@@ -528,4 +539,3 @@
 #OPTIONS=statushilites
 # Use highlighting in the status lines when it changes?
 #OPTIONS=hilite_status:hitpoints/30%/bright-magenta/normal
-

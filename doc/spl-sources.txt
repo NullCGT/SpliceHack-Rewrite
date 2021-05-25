@@ -1,0 +1,162 @@
+# This file lists the origin of various changes in SpliceHack. In many cases,
+# the code copied had to be manually updated to be compatible with 3.6, or small
+# changes had to be made to fit with SpliceHack's balance.
+
+####################
+# Code and Patches #
+####################
+
+# Slash'em Extended
+- Autorecover patch by Kerio
+
+# DynaHack
+- Skill Progress
+
+#XNetHack
+- Object Materials Patch
+- Colored Altars and Stairs Patch
+- Paranoid Water and Lava
+- Peaceful Displacement
+- Monster Lookup
+- Many code refactors
+- Other Minor QOL Changes
+- Code for SLASH'EM fungus growth.
+- Fixes to monster intrinsics.
+- Code for object probabilities
+- Mjollnir invocation.
+- Monster HP calculation.
+- Holiday-themed fruits.
+
+#Biodiversity Patch
+- Umbral Hulk
+- Hunger Hulk
+- Nosferatu
+
+#SLASH'EM
+  #Monsters
+    - Zouthern Animals (damage output reduced)
+    - Hydra (heavily modified)
+    - Hellcat (permanently invisible)
+    - Ruby Golem (hp reduced)
+    - Sapphire Golem (hp reduced)
+    - Steel Golem (hp reduced)
+    - Crystal Golem (hp reduced)
+    - Gnolls
+    - Spitting Beetle
+    - Glowing Eye
+    - Bloodshot Eye
+    - Blinking Eye
+    - Deep One
+    - Deeper One
+    - Deepest One
+    - Acid Worm
+    - Ogre Mage
+    - Wax Golem
+    - Quickling
+    - Genetic Engineer
+    - Hellbat
+    - Hellrat
+    - Drow
+    - ghoul mage
+    - ghast
+    - movanic deva (only appear in planes)
+    - monadic deva (only appear in planes)
+    - astral deva (only appear in planes)
+    - planetar (only appear in planes)
+    - solar (only appear in planes)
+    - weretiger (not randomly generated)
+    - chicken
+    - arc bug
+    - spark bug
+    - lightning bug
+  #Items
+    - Plague Artifact
+    - Doomblade Artifact
+    - Luck Blade Artifact
+    - Sword of Balance Artifact
+    - Sword of Justice Artifact
+    - Bat from Hell Artifact
+    - Serpent's Tongue Artifact
+    - Drow Items
+    - Medical Kit and associated items
+    - Potions of blood and vampire blood
+    - Wand of create horde (nerfed)
+    - Cheese
+  #Other
+    - Drow Race
+    - Techniques Code
+    - Various tiles
+    - Vampire Race
+    - Shopkeeper services.
+
+#SliceHack
+- Various bug fixes.
+- Being an awesome variant.
+- Dragonmaster changes.
+
+#Lethe Patch
+- Gehennom Levels
+- Scroll of Elementalism
+
+#DNetHack
+- Inspiration for Creeping Kudzu
+- Code for race fields and expanded races
+- Chakrams
+
+#UnNetHack
+- Black Market Code
+- Shambling Horror
+
+#FIQHack
+- XP Curve Code
+
+#GruntHack
+- Intelligent Pets Patch
+- Monster amulet flight.
+
+#EvilHack
+- Updated Nazgul
+- Fixes to monster steeds
+- Monster amulet flight
+- Updated SporkHack monsters
+
+#SporkHack
+- Locusts
+
+#ChrisANG
+- Pirate Patch
+
+#Nephi
+- Grudge Patch
+- Colored Walls and Floors Patch
+- Gold Dragon Patch
+
+#L
+- Dilapidated Armory Patch
+
+#RPresser
+- Epitaph Patch
+
+#NAO 3.4.1
+- Highlight Hidden Stairs Patch
+
+# Karl Garrison
+- Convict Patch
+
+# Pasi Kallinen
+- Changing mazes patch
+
+################
+# Other Thanks #
+################
+
+#Jonadab
+- Tiletool.pl
+
+#Hardfought.org
+- Hosting
+- Constant feedback and encouragement
+- Being a source for YANIs
+
+#You
+- Thanks for playing.
