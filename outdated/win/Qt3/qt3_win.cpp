@@ -10,7 +10,7 @@
 //    Michael Hohmuth <hohmuth@inf.tu-dresden.de>
 //       - Userid control
 //    Svante Gerhard <svante@algonet.se>
-//       - .nethackrc tile and font size settings
+//       - .splicehackrc tile and font size settings
 //    Dirk Schoenberger <schoenberger@signsoft.com>
 //       - KDE support
 //       - SlashEm support
@@ -140,8 +140,8 @@ extern "C" void play_sound_for_message(const char* str);
 // Warwick prefers it this way...
 #define QT_CHOOSE_RACE_FIRST
 
-static const char nh_attribution[] = "<center><big>NetHack</big>"
-	"<br><small>by the NetHack DevTeam</small></center>";
+static const char nh_attribution[] = "<center><big>SpliceHack</big>"
+	"<br><small>a variant by AntiGulp</small></center>";
 
 static QString
 aboutMsg()
@@ -170,7 +170,7 @@ aboutMsg()
 #else
         "Qt:\n     http://www.troll.no/\n"      // obsolete
 #endif
-        "NetHack:\n     %s\n",
+        "SpliceHack:\n     %s\n",
         // arguments
 #ifdef QT_VERSION_MAJOR
         QT_VERSION_MAJOR,
@@ -670,7 +670,7 @@ NetHackQtSettings::NetHackQtSettings(int w, int h) :
 	tileheight.setValue(30);
     }
 
-    // Tile/font sizes read from .nethackrc
+    // Tile/font sizes read from .splicehackrc
     if (qt_tilewidth != NULL) {
 	tilewidth.setValue(atoi(qt_tilewidth));
 	free(qt_tilewidth);
@@ -3569,7 +3569,7 @@ NetHackQtMainWindow::NetHackQtMainWindow(NetHackQtKeyBuffer& ks) :
     addToolBar(toolbar);
     menubar = menuBar();
 
-    setCaption("Qt NetHack");
+    setCaption("Qt SpliceHack");
     if ( qt_compact_mode )
 	setIcon(QPixmap(nh_icon_small));
     else
@@ -4053,8 +4053,8 @@ void NetHackQtMainWindow::keyPressEvent(QKeyEvent* event)
 void NetHackQtMainWindow::closeEvent(QCloseEvent* e)
 {
     if ( g.program_state.something_worth_saving ) {
-	switch ( QMessageBox::information( this, "NetHack",
-	    "This will end your NetHack session",
+	switch ( QMessageBox::information( this, "SpliceHack",
+	    "This will end your SpliceHack session",
 	    "&Save", "&Cancel", 0, 1 ) )
 	{
 	    case 0:
@@ -4102,7 +4102,7 @@ NetHackQtYnDialog::NetHackQtYnDialog(NetHackQtKeyBuffer& keysrc,const char* q,co
     question(q), choices(ch), def(df),
     keysource(keysrc)
 {
-    setCaption("NetHack: Question");
+    setCaption("SpliceHack: Question");
 }
 
 char NetHackQtYnDialog::Exec()
@@ -4592,7 +4592,7 @@ NetHackQtSavedGameSelector::NetHackQtSavedGameSelector(const char** saved) :
     QLabel* logo = new QLabel(this); vbl->addWidget(logo);
     logo->setAlignment(AlignCenter);
     logo->setPixmap(QPixmap("nhsplash.xpm"));
-    QLabel* attr = new QLabel("by the NetHack DevTeam",this);
+    QLabel* attr = new QLabel("a variant by AntiGulp",this);
     attr->setAlignment(AlignCenter);
     vbl->addWidget(attr);
     vbl->addStretch(2);
@@ -5000,7 +5000,7 @@ char NetHackQtBind::qt_yn_function(const char *question, const char *choices, CH
 #ifdef USE_POPUPS
 	// Improve some special-cases (DIRKS 08/02/23)
 	if (strcmp (choices,"ynq") == 0) {
-	    switch (QMessageBox::information (qApp->mainWidget(),"NetHack",question,"&Yes","&No","&Quit",0,2))
+	    switch (QMessageBox::information (qApp->mainWidget(),"SpliceHack",question,"&Yes","&No","&Quit",0,2))
 	    {
 	      case 0: return 'y'; 
 	      case 1: return 'n'; 
@@ -5009,7 +5009,7 @@ char NetHackQtBind::qt_yn_function(const char *question, const char *choices, CH
 	}
 
 	if (strcmp (choices,"yn") == 0) {
-	    switch (QMessageBox::information(qApp->mainWidget(),"NetHack",question,"&Yes", "&No",0,1))
+	    switch (QMessageBox::information(qApp->mainWidget(),"SpliceHack",question,"&Yes", "&No",0,1))
 	    {
 	      case 0: return 'y';
 	      case 1: return 'n'; 

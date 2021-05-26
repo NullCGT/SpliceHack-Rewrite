@@ -16,7 +16,7 @@ struct cross_target_s cross_target = {
     "0000000000000000000000000000000000000000",
     "master",
     "1.0.0-0",
-    "NetHack Version 1.0.0-0 - last build Tue Jul 28 13:18:57 1987.",
+    "SpliceHack Version 1.0.0-0 - last build Tue Jul 28 13:18:57 1987.",
     0x01010000UL,
     0x00000000UL,
     0x00000000UL,

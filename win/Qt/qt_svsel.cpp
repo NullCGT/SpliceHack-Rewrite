@@ -66,7 +66,7 @@ NetHackQtSavedGameSelector::NetHackQtSavedGameSelector(const char** saved) :
     QHBoxLayout* hb;
 
     char cvers[BUFSZ];
-    QString qvers = QString("NetHack ") + QString(version_string(cvers));
+    QString qvers = QString("SpliceHack ") + QString(version_string(cvers));
     QLabel *vers = new QLabel(qvers, this);
     vers->setAlignment(Qt::AlignCenter);
     vbl->addWidget(vers);
@@ -76,7 +76,7 @@ NetHackQtSavedGameSelector::NetHackQtSavedGameSelector(const char** saved) :
     logo->setPixmap(QPixmap("nhsplash.xpm"));
     vbl->addWidget(logo);
 
-    QLabel *attr = new QLabel("by the NetHack DevTeam", this);
+    QLabel *attr = new QLabel("a variant by AntiGulp", this);
     attr->setAlignment(Qt::AlignCenter);
     vbl->addWidget(attr);
     vbl->addStretch(2);

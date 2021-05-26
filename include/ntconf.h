@@ -82,8 +82,8 @@
                      * objects being thrown when the hangup occurs.    \
                      */
 
-#define CONFIG_FILE ".nethackrc"
-#define CONFIG_TEMPLATE ".nethackrc.template"
+#define CONFIG_FILE ".splicehackrc"
+#define CONFIG_TEMPLATE ".splicehackrc.template"
 #define SYSCF_TEMPLATE "sysconf.template"
 #define SYMBOLS_TEMPLATE "symbols.template"
 #define GUIDEBOOK_FILE "Guidebook.txt"

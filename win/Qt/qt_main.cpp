@@ -482,7 +482,7 @@ aboutMsg()
 #else
         "Qt:\n     http://www.troll.no/\n"      // obsolete
 #endif
-        "NetHack:\n     %s\n", // DEVTEAM_URL
+        "SpliceHack:\n     %s\n", // DEVTEAM_URL
         // arguments
 #ifdef QT_VERSION_MAJOR
         QT_VERSION_MAJOR,

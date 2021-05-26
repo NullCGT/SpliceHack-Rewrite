@@ -194,9 +194,9 @@ curses_init_nhwindows(int *argcp UNUSED,
        /* VERSION_STRING */
 # else
 #  ifdef VERSION_STRING
-    sprintf(window_title, "%s %s", "NetHack", VERSION_STRING);
+    sprintf(window_title, "%s %s", "SpliceHack", VERSION_STRING);
 #  else
-    sprintf(window_title, "%s", "NetHack");
+    sprintf(window_title, "%s", "SpliceHack");
 #  endif
        /* VERSION_STRING */
 # endif/* DEF_GAME_NAME */

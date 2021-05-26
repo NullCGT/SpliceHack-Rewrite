@@ -597,7 +597,7 @@ enum optset_restrictions {
 #define QSORTCALLBACK
 #endif
 
-#define DEVTEAM_EMAIL "devteam@nethack.org"
-#define DEVTEAM_URL "https://www.nethack.org/"
+#define DEVTEAM_EMAIL "/u/AnticlimacticGulp"
+#define DEVTEAM_URL "https://www.github.com/NullCGT/SpliceHack"
 
 #endif /* HACK_H */

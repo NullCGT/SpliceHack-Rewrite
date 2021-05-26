@@ -188,7 +188,7 @@ Notes:
     representation) can also be present; see the "Guidebook" for details.
     (Guidebook.txt can be found in the [.doc] subdirectory; a copy gets
     placed in the playground directory by install.com.  Also, an example
-    configuration file can be found in [.win.X11]nethack.rc.)
+    configuration file can be found in [.win.X11]splicehack.rc.)
 
 4.  [As mentioned above, the set of Makefiles is out of date so disregard
     this note....]

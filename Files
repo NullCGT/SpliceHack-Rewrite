@@ -336,7 +336,7 @@ vmsmain.c     vmsmisc.c     vmstty.c      vmsunix.c
 
 sys/winnt:
 (files for Windows 7/8.x/10 version)
-.nethackrc.template  Install.nt           Makefile.gcc
+.splicehackrc.template  Install.nt           Makefile.gcc
 Makefile.msc         console.rc           nethack.def
 nh340key.c           nhdefkey.c           nhico.uu
 nhraykey.c           nhsetup.bat          ntsound.c
@@ -371,7 +371,7 @@ qt_yndlg.h
 win/X11:
 (files for X versions)
 Install.X11     NetHack.ad      Window.c        X11-issues.txt
-dialogs.c       ibm.bdf         nethack.rc      nh10.bdf
+dialogs.c       ibm.bdf         splicehack.rc      nh10.bdf
 nh32icon        nh56icon        nh72icon        nh_icon.xpm
 pet_mark.xbm    pilemark.xbm    rip.xpm         tile2x11.c
 winX.c          winmap.c        winmenu.c       winmesg.c
@@ -419,7 +419,7 @@ mhmsgwnd.c             mhmsgwnd.h             mhrip.c
 mhrip.h                mhsplash.c             mhsplash.h
 mhstatus.c             mhstatus.h             mhtext.c
 mhtext.h               mnsel.uu               mnselcnt.uu
-mnunsel.uu             mswproc.c              nethack.rc
+mnunsel.uu             mswproc.c              splicehack.rc
 nhresource.h           petmark.uu             pilemark.uu
 ridingmark.uu
 record.uu              resource.h             rip.uu

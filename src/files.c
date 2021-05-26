@@ -2063,7 +2063,7 @@ unlock_file(const char *filename)
 
 const char *default_configfile =
 #ifdef UNIX
-    ".nethackrc";
+    ".splicehackrc";
 #else
 #if defined(MAC) || defined(__BEOS__)
     "NetHack Defaults";
@@ -2192,9 +2192,9 @@ fopen_config_file(const char *filename, int src)
 #else /* should be only UNIX left */
     envp = nh_getenv("HOME");
     if (!envp)
-        Strcpy(tmp_config, ".nethackrc");
+        Strcpy(tmp_config, ".splicehackrc");
     else
-        Sprintf(tmp_config, "%s/%s", envp, ".nethackrc");
+        Sprintf(tmp_config, "%s/%s", envp, ".splicehackrc");
 
     set_configfile_name(tmp_config);
     if ((fp = fopen(configfile, "r")) != (FILE *) 0)
@@ -4507,7 +4507,7 @@ reveal_paths(void)
                            (int) (sizeof buf - 1 - strlen(buf)));
                 if (access(buf, 4) == -1) {
                     /* second alternate failed too, so revert to the
-                       original default ("$HOME/.nethackrc") for message */
+                       original default ("$HOME/.splicehackrc") for message */
                     copynchars(endp, default_configfile,
                                (int) (sizeof buf - 1 - strlen(buf)));
                 }
