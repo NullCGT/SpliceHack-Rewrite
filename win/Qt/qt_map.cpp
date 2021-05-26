@@ -68,6 +68,22 @@ static const char *pile_mark_xpm[] = {
 "..X..",
 "..X.."
 };
+/* XPM */
+static const char *riding_mark_xpm[] = {
+/* width height ncolors chars_per_pixel */
+"8 7 2 1",
+/* colors */
+". c None",
+"  c #00FF00",
+/* pixels */
+"      ..",
+" ..... .",
+" ..... .",
+"      ..",
+"   .....",
+" ..  ...",
+" ....  ."
+};
 
 // temporary
 extern int qt_compact_mode;
@@ -118,6 +134,7 @@ NetHackQtMapViewport::NetHackQtMapViewport(NetHackQtClickBuffer& click_sink) :
     pet_annotation = QPixmap(qt_compact_mode ? pet_mark_small_xpm
                                              : pet_mark_xpm);
     pile_annotation = QPixmap(pile_mark_xpm);
+    riding_annotation = QPixmap(riding_mark_xpm);
 
     Clear(); // initializes glyph[][], glyphttychar, glyphcolor, glyphflags
     cursor.setX(0);
@@ -202,6 +219,9 @@ void NetHackQtMapViewport::paintEvent(QPaintEvent* event)
                            && ::iflags.hilite_pile) {
                     painter.drawPixmap(QPoint(i * gW, j * gH),
                                        pile_annotation);
+                } else if ((special & MG_RIDDEN) != 0) {
+                    painter.drawPixmap(QPoint(i * gW, j * gH),
+                                       riding_annotation);
                 }
 #endif
             }
@@ -223,6 +243,9 @@ void NetHackQtMapViewport::paintEvent(QPaintEvent* event)
                            && ::iflags.hilite_pile) {
                     painter.drawPixmap(QPoint(i * gW, j * gH),
                                        pile_annotation);
+                } else if ((special & MG_RIDDEN) != 0) {
+                    painter.drawPixmap(QPoint(i * gW, j * gH),
+                                       riding_annotation);
                 }
 	    }
 	}
@@ -674,6 +697,7 @@ NetHackQtMapWindow::NetHackQtMapWindow(NetHackQtClickBuffer& click_sink) :
     pet_annotation = QPixmap(qt_compact_mode ? pet_mark_small_xpm
                                              : pet_mark_xpm);
     pile_annotation = QPixmap(pile_mark_xpm);
+    riding_annotation = QPixmap(riding_mark_xpm);
 
     cursor.setX(0);
     cursor.setY(0);
@@ -882,6 +906,11 @@ void NetHackQtMapWindow::paintEvent(QPaintEvent* event)
                     painter.drawPixmap(QPoint(i*qt_settings->glyphs().width(),
                                              j*qt_settings->glyphs().height()),
                                        pile_annotation);
+                } else if ((special & MG_RIDDEN) != 0
+                           && ::iflags.hilite_pile) {
+                    painter.drawPixmap(QPoint(i*qt_settings->glyphs().width(),
+                                             j*qt_settings->glyphs().height()),
+                                       riding_annotation);
                 }
 #endif
 	    }
@@ -907,6 +936,11 @@ void NetHackQtMapWindow::paintEvent(QPaintEvent* event)
                     painter.drawPixmap(QPoint(i*qt_settings->glyphs().width(),
                                              j*qt_settings->glyphs().height()),
                                        pile_annotation);
+                } else if ((special & MG_OBJPILE) != 0
+                           && ::iflags.hilite_pile) {
+                    painter.drawPixmap(QPoint(i*qt_settings->glyphs().width(),
+                                             j*qt_settings->glyphs().height()),
+                                       riding_annotation);
                 }
 #endif
 	    }

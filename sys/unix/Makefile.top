@@ -48,14 +48,14 @@ DIRPERM  = 0755
 
 # per discussion in Install.X11 and Install.Qt
 #VARDATND =
-# VARDATND = x11tiles NetHack.ad pet_mark.xbm pilemark.xbm
-# VARDATND = x11tiles NetHack.ad pet_mark.xbm pilemark.xbm rip.xpm
+# VARDATND = x11tiles NetHack.ad pet_mark.xbm riding_mark.xbm pilemark.xbm
+# VARDATND = x11tiles NetHack.ad pet_mark.xbm riding_mark.xbm pilemark.xbm rip.xpm
 # for Atari/Gem
 # VARDATND = nh16.img title.img GEM_RSC.RSC rip.img
 # for BeOS
 # VARDATND = beostiles
 # for Gnome
-# VARDATND = x11tiles pet_mark.xbm pilemark.xbm rip.xpm mapbg.xpm
+# VARDATND = x11tiles pet_mark.xbm riding_mark.xbm pilemark.xbm rip.xpm mapbg.xpm
 
 VARDATD = bogusmon data engrave epitaph oracles options quest.lua rumors
 VARDAT = $(VARDATD) $(VARDATND)
@@ -182,6 +182,9 @@ pet_mark.xbm:
 
 pilemark.xbm:
 	( cd dat ; $(MAKE) pilemark.xbm )
+
+riding_mark.xbm:
+	( cd dat ; $(MAKE) riding_mark.xbm )
 
 rip.xpm:
 	( cd dat ; $(MAKE) rip.xpm )

@@ -49,6 +49,7 @@ private:
         QPoint cursor;
         QPixmap pet_annotation;
         QPixmap pile_annotation;
+		QPixmap riding_annotation;
         NetHackQtClickBuffer &clicksink;
         Clusterizer change;
 

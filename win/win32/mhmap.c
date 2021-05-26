@@ -883,6 +883,24 @@ paintTile(PNHMapWindow data, int i, int j, RECT * rect)
         SelectObject(hdcPetMark, bmPetMarkOld);
         DeleteDC(hdcPetMark);
     }
+    if ((glyph != NO_GLYPH) && (data->map[i][j].glyphflags & MG_RIDDEN)) {
+        /* apply riding mark transparently over
+            monster image */
+        HDC hdcRidingMark;
+        HBITMAP bmRidingMarkOld;
+
+        /* this is DC for ridingmark bitmap */
+        hdcRidingMark = CreateCompatibleDC(data->backBufferDC);
+        bmRidingMarkOld =
+            SelectObject(hdcRidingMark, GetNHApp()->bmpRidingMark);
+
+        (*GetNHApp()->lpfnTransparentBlt)(
+            data->backBufferDC, rect->left, rect->top,
+            data->xBackTile, data->yBackTile, hdcRidingMark, 0, 0,
+            TILE_X, TILE_Y, TILE_BK_COLOR);
+        SelectObject(hdcRidingMark, bmRidingMarkOld);
+        DeleteDC(hdcRidingMark);
+    }
 #ifdef USE_PILEMARK
     if ((glyph != NO_GLYPH) && (data->map[i][j].glyphflags & MG_OBJPILE)
         && iflags.hilite_pile) {
