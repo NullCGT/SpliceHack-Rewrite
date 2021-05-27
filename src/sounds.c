@@ -642,8 +642,7 @@ domonnoise(register struct monst* mtmp)
             }
         } else if (mtmp->mpeaceful) {
             if (kindred && isnight) {
-                Sprintf(verbuf, "Good feeding %s!",
-                        flags.female ? "sister" : "brother");
+                Sprintf(verbuf, "Good feeding %s!", ubrother());
                 verbl_msg = verbuf;
             } else if (nightchild && isnight) {
                 Sprintf(verbuf, "How nice to hear you, child of the night!");
@@ -942,7 +941,7 @@ domonnoise(register struct monst* mtmp)
     } break;
     case MS_ARREST:
         if (mtmp->mpeaceful)
-            verbalize("Just the facts, %s.", flags.female ? "Ma'am" : "Sir");
+            verbalize("Just the facts, %s.", flags.female == FEMALE ? "Ma'am" : flags.female == MALE ? "Sir" : "Mix");
         else {
             static const char *const arrest_msg[3] = {
                 "Anything you say can be used against you.",

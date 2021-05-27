@@ -237,6 +237,7 @@ change_sex(void)
     /* setting u.umonster for caveman/cavewoman or priest/priestess
        swap unintentionally makes `Upolyd' appear to be true */
     boolean already_polyd = (boolean) Upolyd;
+    int newgender;
 
     /* Some monsters are always of one sex and their sex can't be changed;
      * Succubi/incubi can change, but are handled below.
@@ -244,15 +245,20 @@ change_sex(void)
      * !already_polyd check necessary because is_male() and is_female()
      * are true if the player is a priest/priestess.
      */
+    /* Select gender from the list at random excluding the starting gender */
+    newgender = MALE + (poly_gender() + rn2(ROLE_GENDERS - 1) + 1) % ROLE_GENDERS;
+
     if (!already_polyd
         || (!is_male(g.youmonst.data) && !is_female(g.youmonst.data)
             && !is_neuter(g.youmonst.data)))
-        flags.female = !flags.female;
+        flags.female = newgender;
     if (already_polyd) /* poly'd: also change saved sex */
-        u.mfemale = !u.mfemale;
+        u.mfemale = newgender;
     max_rank_sz(); /* [this appears to be superfluous] */
-    if ((already_polyd ? u.mfemale : flags.female) && g.urole.name.f)
+    if ((already_polyd ? u.mfemale : flags.female == FEMALE) && g.urole.name.f)
         Strcpy(g.pl_character, g.urole.name.f);
+    else if ((already_polyd ? u.mfemale : flags.female == NEUTRAL) && g.urole.name.n)
+        Strcpy(g.pl_character, g.urole.name.n);
     else
         Strcpy(g.pl_character, g.urole.name.m);
     u.umonster = ((already_polyd ? u.mfemale : flags.female)
@@ -373,6 +379,8 @@ newman(void)
             /* use saved gender we're about to revert to, not current */
             ((Upolyd ? u.mfemale : flags.female) && g.urace.individual.f)
                 ? g.urace.individual.f
+                : ((Upolyd ? u.mfemale : flags.female) && g.urace.individual.n)
+                ? g.urace.individual.n
                 : (g.urace.individual.m)
                    ? g.urace.individual.m
                    : g.urace.noun);

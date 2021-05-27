@@ -397,7 +397,7 @@ enum explosion_types {
 #define hero_glyph                                                    \
     monnum_to_glyph((Upolyd || !flags.showrace)                       \
                         ? u.umonnum                                   \
-                        : (flags.female && g.urace.femalenum != NON_PM) \
+                        : (flags.female == FEMALE && g.urace.femalenum != NON_PM) \
                               ? g.urace.femalenum                       \
                               : g.urace.malenum)
 

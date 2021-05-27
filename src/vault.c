@@ -1069,7 +1069,7 @@ paygd(boolean silently)
         gy = g.rooms[EGD(grd)->vroom].ly + rn2(2);
         Sprintf(buf, "To Croesus: here's the gold recovered from %s the %s.",
                 g.plname,
-                pmname(&mons[u.umonster], flags.female ? FEMALE : MALE));
+                pmname(&mons[u.umonster], flags.female));
         make_grave(gx, gy, buf);
     }
     for (coins = g.invent; coins; coins = nextcoins) {

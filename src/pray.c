@@ -1590,7 +1590,7 @@ dosacrifice(void)
                 verbalize(
           "In return for thy service, I grant thee the gift of Immortality!");
                 You("ascend to the status of Demigod%s...",
-                    flags.female ? "dess" : "");
+                    flags.female == FEMALE ? "dess" : "");
                 done(ASCENDED);
             }
             /*NOTREACHED*/

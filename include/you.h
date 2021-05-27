@@ -18,6 +18,7 @@
 struct RoleName {
     const char *m; /* name when character is male */
     const char *f; /* when female; null if same as male */
+    const char *n; /* when nonbinary; null if same as male */
 };
 
 struct RoleAdvance {
@@ -291,17 +292,25 @@ struct Gender {
     const char *he;       /* he/she/it */
     const char *him;      /* him/her/it */
     const char *his;      /* his/her/its */
+    const char *brother;  /* brother/sister/sibling */
+    const char *son;      /* son/daughter/child */
+    const char *sir;      /* sir/madam/mix */
+    const char *express;  /* masculine/feminine/nonconforming */
     const char *filecode; /* file code */
     short allow;          /* equivalent ROLE_ mask */
 };
-#define ROLE_GENDERS 2    /* number of permitted player genders
+#define ROLE_GENDERS 3    /* number of permitted player genders
                              increment to 3 if you allow neuter roles */
 
 extern const struct Gender genders[]; /* table of available genders */
 /* pronouns for the hero */
-#define uhe()      (genders[flags.female ? 1 : 0].he)
-#define uhim()     (genders[flags.female ? 1 : 0].him)
-#define uhis()     (genders[flags.female ? 1 : 0].his)
+#define uhe()      (genders[flags.female].he)
+#define uhim()     (genders[flags.female].him)
+#define uhis()     (genders[flags.female].his)
+#define ubrother()     (genders[flags.female].brother)
+#define uson()     (genders[flags.female].son)
+#define usir()     (genders[flags.female].sir)
+#define uexpression()   (genders[flags.female].express)
 /* pronoun_gender() flag masks */
 #define PRONOUN_NORMAL 0 /* none of the below */
 #define PRONOUN_NO_IT  1
@@ -405,6 +414,7 @@ struct you {
     struct attribs macurr,      /* for monster attribs */
                    mamax;       /* for monster attribs */
     int ulycn;                  /* lycanthrope type */
+    int mfemale;               /* saved human value of flags.female */
 
     unsigned ucreamed;
     unsigned uswldtim;          /* time you have been swallowed */
@@ -413,7 +423,6 @@ struct you {
     Bitfield(uinwater, 1);      /* if you're currently in water (only
                                    underwater possible currently) */
     Bitfield(uundetected, 1);   /* if you're a hiding monster/piercer */
-    Bitfield(mfemale, 1);       /* saved human value of flags.female */
     Bitfield(uinvulnerable, 1); /* you're invulnerable (praying) */
     Bitfield(uburied, 1);       /* you're buried */
     Bitfield(uedibility, 1);    /* blessed food detect; sense unsafe food */
@@ -480,6 +489,6 @@ struct you {
 }; /* end of `struct you' */
 
 #define Upolyd (u.umonnum != u.umonster)
-#define Ugender ((Upolyd ? u.mfemale : flags.female) ? 1 : 0)
+#define Ugender (Upolyd ? u.mfemale : flags.female)
 
 #endif /* YOU_H */

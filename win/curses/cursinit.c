@@ -510,6 +510,8 @@ curses_choose_character(void)
                             flags.initgend, flags.initalign)) {
                     if (flags.initgend >= 0 && flags.female && roles[i].name.f)
                         choices[n] = roles[i].name.f;
+                    else if (flags.initgend >= 0 && flags.female && roles[i].name.n)
+                        choices[n] = roles[i].name.n;
                     else
                         choices[n] = roles[i].name.m;
                     pickmap[n++] = i;

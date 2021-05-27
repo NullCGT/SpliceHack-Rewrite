@@ -550,12 +550,13 @@ encode_extended_achievements(void)
         case ACH_BGRM:
             achievement = "entered_bigroom";
             break;
+        /* TODO: Fix nonbinary achievments. */
         /* rank 0 is the starting condition, not an achievement; 8 is Xp 30 */
         case ACH_RNK1: case ACH_RNK2: case ACH_RNK3: case ACH_RNK4:
         case ACH_RNK5: case ACH_RNK6: case ACH_RNK7: case ACH_RNK8:
             Sprintf(rnkbuf, "attained_the_rank_of_%s",
                     rank_of(rank_to_xlev(absidx - (ACH_RNK1 - 1)),
-                            Role_switch, (achidx < 0) ? TRUE : FALSE));
+                            Role_switch, FALSE));
             strNsubst(rnkbuf, " ", "_", 0); /* replace every ' ' with '_' */
             achievement = lcase(rnkbuf);
             break;

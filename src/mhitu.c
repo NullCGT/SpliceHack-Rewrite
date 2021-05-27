@@ -1860,7 +1860,8 @@ doseduce(struct monst *mon)
         if (!Deaf) {
             if (!(ld() && mon->female)) {
                 verbalize("You're such a %s; I wish...",
-                          flags.female ? "sweet lady" : "nice guy");
+                          flags.female == FEMALE ? "sweet lady" 
+                            : flags.female == MALE ? "nice guy" : "wonderful person");
             } else {
                 struct obj *yourgloves = u_carried_gloves();
 

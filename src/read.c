@@ -2310,8 +2310,7 @@ do_genocide(int how)
         if (Upolyd)
             Strcpy(buf, pmname(g.youmonst.data, flags.female ? FEMALE : MALE));
         else {
-            Strcpy(buf, (flags.female && g.urole.name.f) ? g.urole.name.f
-                                                       : g.urole.name.m);
+            Strcpy(buf, rolename_gender(flags.female));
             buf[0] = lowc(buf[0]);
         }
     } else {

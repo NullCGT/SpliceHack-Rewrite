@@ -786,7 +786,7 @@ dump_everything(int how,
             aligns[1 - u.ualign.type].adj,
             genders[flags.female].adj,
             g.urace.adj,
-            (flags.female && g.urole.name.f) ? g.urole.name.f : g.urole.name.m);
+            rolename_gender(flags.female));
     putstr(0, ATR_SUBHEAD, pbuf);
     putstr(NHW_DUMPTXT, 0, "");
 
@@ -1423,7 +1423,7 @@ really_done(int how)
         if (!Upolyd) {
             /* Base corpse on race when not poly'd since original u.umonnum
                is based on role, and all role monsters are human. */
-            mnum = (flags.female && g.urace.femalenum != NON_PM)
+            mnum = (flags.female == FEMALE && g.urace.femalenum != NON_PM)
                        ? g.urace.femalenum
                        : g.urace.malenum;
         }
@@ -1532,9 +1532,7 @@ really_done(int how)
 
     Sprintf(pbuf, "%s %s the %s...", Goodbye(), g.plname,
             (how != ASCENDED)
-                ? (const char *) ((flags.female && g.urole.name.f)
-                    ? g.urole.name.f
-                    : g.urole.name.m)
+                ? (rolename_gender(flags.female))
                 : (const char *) (flags.female ? "Demigoddess" : "Demigod"));
 
 #if defined(DUMPLOG) || defined(DUMPHTML)

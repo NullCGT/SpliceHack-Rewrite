@@ -761,8 +761,7 @@ Amulet_on(void)
         /* Don't use same message as polymorph */
         if (orig_sex != poly_gender()) {
             makeknown(AMULET_OF_CHANGE);
-            You("are suddenly very %s!",
-                flags.female ? "feminine" : "masculine");
+            You("are suddenly very %s!", uexpression());
             g.context.botl = 1;
             newsym(u.ux, u.uy); /* glyphmon flag and tile may have gone
                                    from male to female or vice versa */

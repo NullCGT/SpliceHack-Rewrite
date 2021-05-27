@@ -192,7 +192,7 @@ convert_arg(char c)
         str = g.plname;
         break;
     case 'c':
-        str = (flags.female && g.urole.name.f) ? g.urole.name.f : g.urole.name.m;
+        str = rolename_gender(flags.female);
         break;
     case 'r':
         str = rank_of(u.ulevel, Role_switch, flags.female);
@@ -201,10 +201,10 @@ convert_arg(char c)
         str = rank_of(MIN_QUEST_LEVEL, Role_switch, flags.female);
         break;
     case 's':
-        str = (flags.female) ? "sister" : "brother";
+        str = ubrother();
         break;
     case 'S':
-        str = (flags.female) ? "daughter" : "son";
+        str = uson();
         break;
     case 'l':
         str = ldrname();

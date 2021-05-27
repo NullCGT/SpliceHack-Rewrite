@@ -31,7 +31,7 @@ struct flag {
     boolean end_own;         /* list all own scores */
     boolean explore;         /* in exploration mode (aka discover mode) */
 #define discover flags.explore
-    boolean female;
+    int female;
     boolean friday13;        /* it's Friday the 13th */
     boolean goldX;           /* for BUCX filtering, whether gold is X or U */
     boolean help;            /* look in data file for info about stuff */

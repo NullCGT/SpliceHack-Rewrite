@@ -1253,9 +1253,12 @@ X11_player_selection_prompts(void)
                 if (ok_role(i, flags.initrace, flags.initgend,
                             flags.initalign)) {
                     choices[i] = roles[i].name.m;
-                    if (flags.initgend >= 0 && flags.female
+                    if (flags.initgend >= 0 && flags.female == FEMALE
                         && roles[i].name.f)
                         choices[i] = roles[i].name.f;
+                    else if (flags.initgend >= 0 && flags.female == NEUTRAL
+                        && roles[i].name.n)
+                        choices[i] = roles[i].name.n;
                     ++availcount;
                 }
             }

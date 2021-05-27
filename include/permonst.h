@@ -79,7 +79,7 @@ extern NEARDATA struct permonst mons[]; /* the master list of monster types */
    never generated randomly and cannot be polymorphed into */
 
 #ifdef PMNAME_MACROS
-#define pmname(pm,g) ((((g) == MALE || (g) == FEMALE) && (pm)->pmnames[g]) \
+#define pmname(pm,g) ((((g) == MALE || (g) == FEMALE || (g) == NEUTRAL) && (pm)->pmnames[g]) \
                         ? (pm)->pmnames[g] : (pm)->pmnames[NEUTRAL])
 #endif
 #endif /* PERMONST_H */

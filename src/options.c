@@ -4039,6 +4039,7 @@ optfn_boolean(int optidx, int req, boolean negated, char *opts, char *op)
         }
         /* Before the change */
         switch (optidx) {
+        /*
         case opt_female:
             if (!strncmpi(opts, "female", 3)) {
                 if (!g.opt_initial && flags.female == negated) {
@@ -4057,6 +4058,7 @@ optfn_boolean(int optidx, int req, boolean negated, char *opts, char *op)
                 }
             }
             break;
+        */
         }
         /* this dates from when 'O' prompted for a line of options text
            rather than use a menu to control access to which options can
@@ -6750,7 +6752,7 @@ parse_role_opts(int optidx, boolean negated, const char *fullname,
                                         != empty_optstr) {
         boolean val_negated = FALSE;
 
-        while ((*op == '!') || !strncmpi(op, "no", 2)) {
+        while ((*op == '!') || (!strncmpi(op, "no", 2) && strncmpi(op, "nonbin", 6))) {
             if (*op == '!')
                 op++;
             else
@@ -7254,8 +7256,6 @@ doset(void) /* changing options via menu by Per Liboriussen */
                 && (bool_p = allopt[i].addr) != 0
                 && ((allopt[i].setwhere <= set_gameview && pass == 0)
                     || (allopt[i].setwhere >= set_in_game && pass == 1))) {
-                if (bool_p == &flags.female)
-                    continue; /* obsolete */
                 if (allopt[i].setwhere == set_wizonly && !wizard)
                     continue;
                 if ((is_wc_option(name) && !wc_supported(name))

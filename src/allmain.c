@@ -696,7 +696,7 @@ void
 welcome(boolean new_game) /* false => restoring an old game */
 {
     char buf[BUFSZ];
-    boolean currentgend = Upolyd ? u.mfemale : flags.female;
+    int currentgend = Upolyd ? u.mfemale : flags.female;
 
     /* skip "welcome back" if restoring a doomed character */
     if (!new_game && Upolyd && ugenocided()) {
@@ -719,16 +719,18 @@ welcome(boolean new_game) /* false => restoring an old game */
     *buf = '\0';
     if (new_game || u.ualignbase[A_ORIGINAL] != u.ualignbase[A_CURRENT])
         Sprintf(eos(buf), " %s", align_str(u.ualignbase[A_ORIGINAL]));
-    if (!g.urole.name.f
+    if ((!g.urole.name.f || !g.urole.name.n)
         && (new_game
-                ? (g.urole.allow & ROLE_GENDMASK) == (ROLE_MALE | ROLE_FEMALE)
+                ? ((g.urole.allow & ROLE_GENDMASK) != (ROLE_MALE)
+                    && (g.urole.allow & ROLE_GENDMASK) != (ROLE_FEMALE)
+                    && (g.urole.allow & ROLE_GENDMASK) != (ROLE_NEUTER))
                 : currentgend != flags.initgend))
         Sprintf(eos(buf), " %s", genders[currentgend].adj);
 
     pline(new_game ? "%s %s, welcome to SpliceHack!  You are a%s %s %s."
                    : "%s %s, the%s %s %s, welcome back to SpliceHack!",
           Hello((struct monst *) 0), g.plname, buf, g.urace.adj,
-          (currentgend && g.urole.name.f) ? g.urole.name.f : g.urole.name.m);
+                rolename_gender(currentgend));
 
     l_nhcore_call(new_game ? NHCORE_START_NEW_GAME : NHCORE_RESTORE_OLD_GAME);
 }

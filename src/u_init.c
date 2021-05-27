@@ -654,7 +654,7 @@ u_init(void)
     u.umortality = 0;
     u.ugrave_arise = NON_PM;
 
-    u.umonnum = u.umonster = (flags.female && g.urole.femalenum != NON_PM)
+    u.umonnum = u.umonster = (flags.female == FEMALE && g.urole.femalenum != NON_PM)
                                  ? g.urole.femalenum
                                  : g.urole.malenum;
     u.ulycn = NON_PM;

@@ -168,8 +168,8 @@ opt_##a,
                 &iflags.wc_eight_bit_input)
     NHOPTB(extmenu, 0, opt_in, set_in_game, Off, Yes, No, No, NoAlias,
                 &iflags.extmenu)
-    NHOPTB(female, 0, opt_in, set_in_config, Off, Yes, No, No, "male",
-                &flags.female)
+    /* NHOPTB(female, 0, opt_in, set_in_config, Off, Yes, No, No, "male",
+                &flags.female) */
     NHOPTB(fixinv, 0, opt_out, set_in_game, On, Yes, No, No, NoAlias,
                 &flags.invlet_constant)
     NHOPTC(font_map, 40, opt_in, set_gameview, Yes, Yes, Yes, No, NoAlias,
@@ -199,7 +199,7 @@ opt_##a,
     NHOPTB(fullscreen, 0, opt_in, set_in_config, Off, Yes, No, No, NoAlias,
                 &iflags.wc2_fullscreen)
     NHOPTC(gender, 8, opt_in, set_gameview, No, Yes, No, No, NoAlias,
-                "your starting gender (male or female)")
+                "your starting gender (male, female, or nonbinary)")
     NHOPTB(goldX, 0, opt_in, set_in_game, Off, Yes, No, No, NoAlias,
                 &flags.goldX)
     NHOPTB(guicolor, 0, opt_out, set_in_game, On, Yes, No, No,  NoAlias,

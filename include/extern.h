@@ -168,7 +168,7 @@ extern void timebot(void);
 extern int xlev_to_rank(int);
 extern const char *rank(void);
 extern int rank_to_xlev(int);
-extern const char *rank_of(int, short, boolean);
+extern const char *rank_of(int, short, int);
 extern int title_to_mon(const char *, int *, int *);
 extern void max_rank_sz(void);
 #ifdef SCORE_ON_BOTL
@@ -2228,6 +2228,7 @@ extern void role_menu_extra(int, winid, boolean);
 extern void role_init(void);
 extern const char *Hello(struct monst *);
 extern const char *Goodbye(void);
+extern const char *rolename_gender(int);
 
 /* ### rumors.c ### */
 

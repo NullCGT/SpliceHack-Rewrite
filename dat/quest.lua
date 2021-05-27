@@ -36,8 +36,8 @@ questtext = {
  %c:	return(pl_character);
  %r:	return((char *)rank_of(u.ulevel));
  %R:	return((char *)rank_of(MIN_QUEST_LEVEL));
- %s:	return (sibling_gender());
- %S:	return(child_gender());
+ %s:	return (ubrother());
+ %S:	return(uson());
  %l:	return((char *)ldrname());
  %i:	return(intermed());
  %o:	return(artiname());

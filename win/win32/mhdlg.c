@@ -314,6 +314,7 @@ static const int s_psc_id[psc_control_count] = {
     IDC_PLSEL_ALIGN_CHAOTIC,
     IDC_PLSEL_GENDER_MALE,
     IDC_PLSEL_GENDER_FEMALE,
+    IDC_PLSEL_GENDER_NONBINARY
     IDOK,
     IDC_PLSEL_RANDOM,
     IDCANCEL
@@ -600,8 +601,10 @@ plselInitDialog(struct plsel_data * data)
         lvitem.iSubItem = 0;
         lvitem.state = 0;
         lvitem.stateMask = LVIS_FOCUSED;
-        if (flags.female && roles[i].name.f)
+        if (flags.female == FEMALE && roles[i].name.f)
             lvitem.pszText = NH_A2W(roles[i].name.f, wbuf, BUFSZ);
+        else if (flags.female == NEUTRAL && roles[i].name.n)
+            lvitem.pszText = NH_A2W(roles[i].name.n, wbuf, BUFSZ);
         else
             lvitem.pszText = NH_A2W(roles[i].name.m, wbuf, BUFSZ);
         if (ListView_InsertItem(role_list->hWnd, &lvitem) == -1) {
@@ -781,6 +784,7 @@ PlayerSelectorDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
         case IDC_PLSEL_GENDER_MALE:
         case IDC_PLSEL_GENDER_FEMALE:
+        case IDC_PLSEL_GENDER_NONBINARY:
             if (HIWORD(wParam) == BN_CLICKED) {
                 int i = LOWORD(wParam) - IDC_PLSEL_GENDER_MALE;
                 if (ok_gend(flags.initrole, flags.initrace, i, ROLE_RANDOM)) {
@@ -992,6 +996,8 @@ plselDrawItem(HWND hWnd, WPARAM wParam, LPARAM lParam)
     if (wParam == IDC_PLSEL_ROLE_LIST) {
         if (flags.female && roles[i].name.f)
             string = roles[i].name.f;
+        else if (flags.female && roles[i].name.n)
+            string = roles[i].name.n;
         else
             string = roles[i].name.m;
         selected = (flags.initrole == i);

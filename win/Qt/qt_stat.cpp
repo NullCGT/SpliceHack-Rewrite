@@ -793,7 +793,7 @@ void NetHackQtStatusWindow::updateStats()
 
     if (Upolyd) {
 	buf = nh_capitalize_words(pmname(&mons[u.umonnum],
-                                  ::flags.female ? FEMALE : MALE));
+                                  ::flags.female));
     } else {
 	buf = rank_of(u.ulevel, g.pl_character[0], ::flags.female);
     }

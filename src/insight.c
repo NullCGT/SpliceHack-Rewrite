@@ -283,9 +283,7 @@ enlightenment(int mode,  /* BASICENLIGHTENMENT | MAGICENLIGHTENMENT (| both) */
     /* as in background_enlightenment, when poly'd we need to use the saved
        gender in u.mfemale rather than the current you-as-monster gender */
     Snprintf(buf, sizeof(buf), "%s the %s's attributes:", tmpbuf,
-             ((Upolyd ? u.mfemale : flags.female) && g.urole.name.f)
-                ? g.urole.name.f
-                : g.urole.name.m);
+             Upolyd ? rolename_gender(u.mfemale) : rolename_gender(flags.female));
 
     /* title */
     enlght_out_attr(ATR_HEADING, buf); /* "Conan the Archeologist's attributes:" */
@@ -353,7 +351,7 @@ background_enlightenment(int unused_mode UNUSED, int final)
 
     /* note that if poly'd, we need to use u.mfemale instead of flags.female
        to access hero's saved gender-as-human/elf/&c rather than current */
-    innategend = (Upolyd ? u.mfemale : flags.female) ? 1 : 0;
+    innategend = (Upolyd ? u.mfemale : flags.female);
     role_titl = (innategend && g.urole.name.f) ? g.urole.name.f
                                                : g.urole.name.m;
     rank_titl = rank_of(u.ulevel, Role_switch, innategend);
@@ -2152,7 +2150,7 @@ show_achievements(int final) /* used "behind the curtain" by enl_foo() macros */
         case ACH_RNK5: case ACH_RNK6: case ACH_RNK7: case ACH_RNK8:
             Sprintf(buf, "attained the rank of %s",
                     rank_of(rank_to_xlev(absidx - (ACH_RNK1 - 1)),
-                            Role_switch, (achidx < 0) ? TRUE : FALSE));
+                            Role_switch, FALSE));
             you_have_X(buf);
             break;
 
@@ -2198,7 +2196,7 @@ record_achievement(schar achidx)
     if (absidx >= ACH_RNK1 && absidx <= ACH_RNK8) {
         livelog_printf(achieve_msg[absidx].llflag, "attained the rank of %s",
                        rank_of(rank_to_xlev(absidx - (ACH_RNK1 - 1)),
-                               Role_switch, (achidx < 0) ? TRUE : FALSE));
+                               Role_switch, FALSE));
     }
     else
         livelog_write_string(achieve_msg[absidx].llflag, achieve_msg[absidx].msg);

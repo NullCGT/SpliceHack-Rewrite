@@ -211,7 +211,7 @@ dosit(void)
                 /* Magical voice not affected by deafness */
                 pline("A voice echoes:");
                 verbalize("Thine audience hath been summoned, %s!",
-                          flags.female ? "Dame" : "Sire");
+                          flags.female == FEMALE ? "Dame" : flags.female == MALE ? "Sire" : "Your Majesty");
                 while (cnt--)
                     (void) makemon(courtmon(), u.ux, u.uy, NO_MM_FLAGS);
                 break;
@@ -220,7 +220,7 @@ dosit(void)
                 /* Magical voice not affected by deafness */
                 pline("A voice echoes:");
                 verbalize("By thine Imperious order, %s...",
-                          flags.female ? "Dame" : "Sire");
+                          flags.female == FEMALE ? "Dame" : flags.female == MALE ? "Sire" : "Your Majesty");
                 do_genocide(5); /* REALLY|ONTHRONE, see do_genocide() */
                 break;
             case 9:
@@ -291,7 +291,7 @@ dosit(void)
     } else if (lays_eggs(g.youmonst.data)) {
         struct obj *uegg;
 
-        if (!flags.female) {
+        if (!flags.female == FEMALE) {
             pline("%s can't lay eggs!",
                   Hallucination
                       ? "You may think you are a platypus, but a male still"

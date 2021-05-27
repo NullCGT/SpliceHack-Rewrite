@@ -1579,9 +1579,7 @@ namefloorobj(void)
         char tmpbuf[BUFSZ];
 
         /* straight role name */
-        unames[0] = ((Upolyd ? u.mfemale : flags.female) && g.urole.name.f)
-                     ? g.urole.name.f
-                     : g.urole.name.m;
+        unames[0] = Upolyd ? rolename_gender(u.mfemale) : rolename_gender(flags.female);
         /* random rank title for hero's role
 
            note: the 30 is hardcoded in xlev_to_rank, so should be

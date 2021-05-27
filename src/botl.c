@@ -309,7 +309,7 @@ rank_to_xlev(int rank)
 }
 
 const char *
-rank_of(int lev, short monnum, boolean female)
+rank_of(int lev, short monnum, int female)
 {
     register const struct Role *role;
     register int i;
@@ -323,15 +323,19 @@ rank_of(int lev, short monnum, boolean female)
 
     /* Find the rank */
     for (i = xlev_to_rank((int) lev); i >= 0; i--) {
-        if (female && role->rank[i].f)
+        if (female == FEMALE && role->rank[i].f)
             return role->rank[i].f;
+        if (female == NEUTRAL && role->rank[i].n)
+            return role->rank[i].n;
         if (role->rank[i].m)
             return role->rank[i].m;
     }
 
     /* Try the role name, instead */
-    if (female && role->name.f)
+    if (female == FEMALE && role->name.f)
         return role->name.f;
+    else if (female == NEUTRAL && role->name.n)
+        return role->name.n;
     else if (role->name.m)
         return role->name.m;
     return "Player";
@@ -352,7 +356,7 @@ title_to_mon(const char *str, int *rank_indx, int *title_length)
     for (i = 0; roles[i].name.m; i++) {
         /* loop through each of the rank titles for role #i */
         for (j = 0; j < 9; j++) {
-            if (roles[i].rank[j].m
+            if ((roles[i].rank[j].m || roles[i].rank[j].n)
                 && !strncmpi(str, roles[i].rank[j].m,
                              strlen(roles[i].rank[j].m))) {
                 if (rank_indx)

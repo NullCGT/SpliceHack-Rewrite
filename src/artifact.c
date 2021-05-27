@@ -1266,7 +1266,7 @@ artifact_hit(struct monst *magr, struct monst *mdef, struct obj *otmp,
                 *dmgptr = 2 * mdef->mhp + FATAL_DAMAGE_MODIFIER;
                 pline(behead_msg[rn2(SIZE(behead_msg))], wepdesc,
                       mon_nam(mdef));
-                if (Hallucination && !flags.female)
+                if (Hallucination && flags.female == MALE)
                     pline("Good job Henry, but that wasn't Anne.");
                 otmp->dknown = TRUE;
                 return TRUE;

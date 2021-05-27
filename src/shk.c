@@ -2666,13 +2666,13 @@ append_honorific(char *buf)
 
     Strcat(buf, honored[rn2(SIZE(honored) - 1) + u.uevent.udemigod]);
     if (is_vampire(g.youmonst.data))
-        Strcat(buf, (flags.female) ? " dark lady" : " dark lord");
+        Strcat(buf, (flags.female == FEMALE) ? " dark lady" : (flags.female == MALE) ? " dark lord" : " dark liege");
     else if (is_elf(g.youmonst.data))
-        Strcat(buf, (flags.female) ? " hiril" : " hir");
+        Strcat(buf, (flags.female == FEMALE) ? " hiril" : " hir");
     else
         Strcat(buf, !is_human(g.youmonst.data) ? " creature"
-                                             : (flags.female) ? " lady"
-                                                              : " sir");
+                                             : (flags.female == FEMALE) ? " lady"
+                                             : (flags.female == MALE) ? " sir" : " mx");
 }
 
 void
@@ -3908,10 +3908,10 @@ shopdig(register int fall)
                 if (u.utraptype == TT_PIT)
                     verbalize(
                         "Be careful, %s, or you might fall through the floor.",
-                        flags.female ? "madam" : "sir");
+                        usir());
                 else
-                    verbalize("%s, do not damage the floor here!",
-                        flags.female ? "Madam" : "Sir");
+                    verbalize("Please, %s, do not damage the floor here!",
+                        usir());
             }
         }
         if (Role_if(PM_KNIGHT)) {
