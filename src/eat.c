@@ -1856,11 +1856,13 @@ fprefx(struct obj *otmp)
                                 : "Mmm, tripe... not bad!");
         } else {
             pline("Yak - dog food!");
+            if (Role_if(PM_CONVICT))
+    			pline("At least it's not prison food.");
             more_experienced(1, 0);
             newexplevel();
             /* not cannibalism, but we use similar criteria
                for deciding whether to be sickened by this meal */
-            if (rn2(2) && !CANNIBAL_ALLOWED())
+            if (rn2(2) && !CANNIBAL_ALLOWED() && !Role_if(PM_CONVICT))
                 make_vomiting((long) rn1(g.context.victual.reqtime, 14),
                               FALSE);
         }
@@ -1923,7 +1925,10 @@ fprefx(struct obj *otmp)
             /* increasing existing nausea means that it will take longer
                before eventual vomit, but also means that constitution
                will be abused more times before illness completes */
-            make_vomiting((Vomiting & TIMEOUT) + (long) d(10, 4), TRUE);
+            if (Role_if(PM_CONVICT) && (rn2(8) > u.ulevel)) {
+		        You_feel("a slight stomach ache.");	/* prisoners are used to bad food */
+		    } else
+                make_vomiting((Vomiting & TIMEOUT) + (long) d(10, 4), TRUE);
         } else {
  give_feedback:
             pline("This %s is %s", singular(otmp, xname),
@@ -2753,7 +2758,8 @@ doeat(void)
         default:
             if (otmp->otyp == PANCAKE || otmp->otyp == FORTUNE_COOKIE /*eggs*/
                 || otmp->otyp == CREAM_PIE || otmp->otyp == CANDY_BAR /*milk*/
-                || otmp->otyp == LUMP_OF_ROYAL_JELLY)
+                || otmp->otyp == LUMP_OF_ROYAL_JELLY
+                || otmp->otyp == CHEESE)
                 if (!u.uconduct.unvegan++ && !ll_conduct)
                     livelog_printf(LL_CONDUCT, "consumed animal products (%s) for the first time",
                                    food_xname(otmp, FALSE));
@@ -2902,6 +2908,7 @@ gethungry(void)
         && (carnivorous(g.youmonst.data)
             || herbivorous(g.youmonst.data)
             || metallivorous(g.youmonst.data))
+        && ((!Role_if(PM_CONVICT) && !Race_if(PM_GHOUL)) || (g.moves % 2) || (u.uhs < HUNGRY))
         && !Slow_digestion)
         u.uhunger--; /* ordinary food consumption */
 

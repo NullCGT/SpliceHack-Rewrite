@@ -2012,12 +2012,11 @@ static char *limit(char* name, int pref) /* limit a name to 30 characters length
 void
 do_objs(void)
 {
-    int i, sum = 0;
+    int i = 0;
     char *c, *objnam;
     int nspell = 0;
     int prefix = 0;
     char class = '\0';
-    boolean sumerr = FALSE;
 
     filename[0] = '\0';
 #ifdef FILE_PREFIX
@@ -2038,15 +2037,8 @@ do_objs(void)
         if (!(objnam = tmpdup(OBJ_NAME(objects[i]))))
             continue;
 
-        /* make sure probabilities add up to 1000 */
         if (objects[i].oc_class != class) {
-            if (sum && sum != 1000) {
-                Fprintf(stderr, "prob error for class %d (%d%%)", class, sum);
-                (void) fflush(stderr);
-                sumerr = TRUE;
-            }
             class = objects[i].oc_class;
-            sum = 0;
         }
 
         for (c = objnam; *c; c++)
@@ -2111,14 +2103,6 @@ do_objs(void)
             Fprintf(ofp, "%s\t%d\n", limit(objnam, prefix), i);
         prefix = 0;
 
-        sum += objects[i].oc_prob;
-    }
-
-    /* check last set of probabilities */
-    if (sum && sum != 1000) {
-        Fprintf(stderr, "prob error for class %d (%d%%)", class, sum);
-        (void) fflush(stderr);
-        sumerr = TRUE;
     }
 
     Fprintf(ofp, "#define\tLAST_GEM\t(JADE)\n");
@@ -2147,8 +2131,6 @@ do_objs(void)
     Fprintf(ofp, "#define\tNROFARTIFACTS\t%d\n", i - 1);
     Fprintf(ofp, "\n#endif /* ONAMES_H */\n");
     Fclose(ofp);
-    if (sumerr)
-        exit(EXIT_FAILURE);
     return;
 }
 

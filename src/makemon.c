@@ -192,6 +192,9 @@ m_initweap(register struct monst *mtmp)
             case PM_LIEUTENANT:
                 w1 = rn2(2) ? BROADSWORD : LONG_SWORD;
                 break;
+            case PM_PRISON_GUARD:
+                w1 = rn2(2) ? LONG_SWORD : SILVER_SABER;
+                break;
             case PM_CAPTAIN:
             case PM_WATCH_CAPTAIN:
                 w1 = rn2(2) ? LONG_SWORD : SILVER_SABER;
@@ -581,6 +584,9 @@ m_initinv(register struct monst *mtmp)
             case PM_GUARD:
                 mac = -1;
                 break;
+            case PM_PRISON_GUARD:
+                mac = -2;
+                break;
             case PM_SOLDIER:
                 mac = 3;
                 break;
@@ -698,6 +704,11 @@ m_initinv(register struct monst *mtmp)
             mkmonmoney(mtmp, (long) rn1(10, 20));
         } else if (quest_mon_represents_role(ptr, PM_MONK)) {
             (void) mongets(mtmp, rn2(11) ? ROBE : CLOAK_OF_MAGIC_RESISTANCE);
+        } else if (ptr == &mons[PM_MINER]) {
+		    (void) mongets(mtmp, PICK_AXE);
+		    otmp = mksobj(BRASS_LANTERN, TRUE, FALSE);
+			(void) mpickobj(mtmp, otmp);
+            begin_burn(otmp, FALSE);
         }
         break;
     case S_NYMPH:

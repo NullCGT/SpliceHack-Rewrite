@@ -89,6 +89,11 @@
     <Luafiles Include = "cav-goal.lua"/>
     <Luafiles Include = "cav-loca.lua"/>
     <Luafiles Include = "cav-strt.lua"/>
+    <Luafiles Include = "con-fila.lua"/>
+    <Luafiles Include = "con-filb.lua"/>
+    <Luafiles Include = "con-goal.lua"/>
+    <Luafiles Include = "con-loca.lua"/>
+    <Luafiles Include = "con-strt.lua"/>
     <Luafiles Include = "hea-fila.lua"/>
     <Luafiles Include = "hea-filb.lua"/>
     <Luafiles Include = "hea-goal.lua"/>

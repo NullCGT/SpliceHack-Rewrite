@@ -163,6 +163,10 @@ static NEARDATA struct artifact artilist[] = {
       PHYS(5, 0), DFNS(AD_BLND), NO_CARY, 0, A_LAWFUL, NON_PM, NON_PM, 1500L,
       NO_COLOR),
 
+    A("Luck Blade", BROADSWORD, (SPFX_RESTR | SPFX_LUCK | SPFX_INTEL), 0, 0,
+      PHYS(5,6),	NO_DFNS,	NO_CARY,	0, A_CHAOTIC, PM_CONVICT, NON_PM, 3000L,
+      NO_COLOR),
+
     /*
      *      The artifacts for the quest dungeon, all self-willed.
      */
@@ -245,6 +249,12 @@ A("The Palantir of Westernesse",        CRYSTAL_BALL,
       (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL), (SPFX_EREGEN | SPFX_HSPDAM), 0,
       NO_ATTK, DFNS(AD_MAGM), NO_CARY, CREATE_PORTAL, A_NEUTRAL, PM_WIZARD,
       NON_PM, 4000L, NO_COLOR),
+
+    A("The Iron Ball of Liberation", HEAVY_IRON_BALL,
+      (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL),
+      (SPFX_STLTH | SPFX_SEARCH | SPFX_WARN), 0,
+      NO_ATTK,	NO_DFNS,	CARY(AD_MAGM),
+      PHASING,	A_NEUTRAL, PM_PRISONER, NON_PM, 5000L, NO_COLOR),
 
     /*
      *  terminator; otyp must be zero

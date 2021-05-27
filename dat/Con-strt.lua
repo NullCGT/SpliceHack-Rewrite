@@ -41,6 +41,10 @@ des.levregion({ region = {71,03,71,03}, exclude = {0,0,0,0}, type="branch" })
 des.altar({x=70,y=16,align="chaos",type="shrine"})
 -- Robert the Lifer
 des.monster({id="Robert the Lifer", x=74, y=18})
+des.monster({ id = "Robert the Lifer", coord = {74, 18}, inventory = function()
+  des.object({ id = "stiletto", spe = 4, buc = "cursed" });
+  des.object({ id = "striped shirt", spe = 4, buc = "cursed" });
+end })
 -- fellow prisoners
 des.monster("inmate")
 des.monster("inmate")

@@ -439,6 +439,8 @@ ARMOR("leather jacket", None,
 /* shirts */
 ARMOR("Hawaiian shirt", None,
       1, 0, 0,  0,  8, 0,   5,   3, 10, 0,  ARM_SHIRT, CLOTH, CLR_MAGENTA),
+ARMOR("striped shirt", None,
+	1, 0, 0,  0,  0, 0,   5,   2, 10, 0,  ARM_SHIRT, CLOTH, CLR_GRAY),
 ARMOR("T-shirt", None,
       1, 0, 0,  0,  2, 0,   5,   2, 10, 0,  ARM_SHIRT, CLOTH, CLR_WHITE),
 
@@ -539,7 +541,7 @@ BOOTS("levitation boots", "snow boots",
     OBJECT(OBJ(name, stone),                                          \
            BITS(0, 0, spec, 0, mgc, spec, 0, 0, 0,                    \
                 HARDGEM(mohs), 0, P_NONE, metal),                     \
-           power, RING_CLASS, 0, 0, 3, cost, 0, 0, 0, 0, 15, color)
+           power, RING_CLASS, 1, 0, 3, cost, 0, 0, 0, 0, 15, color)
 RING("adornment", "wooden",
      ADORNED,                  100, 1, 1, 2, WOOD, HI_WOOD),
 RING("gain strength", "granite",
@@ -778,6 +780,7 @@ FOOD("slime mold",           75,  1,  5, 0, VEGGY, 250, HI_ORGANIC),
 FOOD("lump of royal jelly",   0,  1,  2, 0, VEGGY, 200, CLR_YELLOW),
 FOOD("cream pie",            25,  1, 10, 0, VEGGY, 100, CLR_WHITE),
 FOOD("candy bar",            13,  1,  2, 0, VEGGY, 100, CLR_BROWN),
+FOOD("cheese",               14,  2,  2, 0, FLESH, 250, CLR_YELLOW),
 FOOD("fortune cookie",       55,  1,  1, 0, VEGGY,  40, CLR_YELLOW),
 FOOD("pancake",              25,  2,  2, 0, VEGGY, 200, CLR_YELLOW),
 FOOD("lembas wafer",         20,  2,  5, 0, VEGGY, 800, CLR_WHITE),

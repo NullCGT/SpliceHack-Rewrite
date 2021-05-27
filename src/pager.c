@@ -2011,7 +2011,7 @@ docontact(void)
     }
     putstr(cwin, 0, "To contact the SpliceHack development team directly,");
     /*XXX overflow possibilities*/
-    Sprintf(buf, "message us on reddit <%s>.",
+    Sprintf(buf, "message us on IRC <%s> or find us on reddit.",
             DEVTEAM_EMAIL);
     putstr(cwin, 0, buf);
     putstr(cwin, 0, "");

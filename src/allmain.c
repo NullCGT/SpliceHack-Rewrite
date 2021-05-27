@@ -682,9 +682,21 @@ newgame(void)
     (void) makedog();
     docrt();
 
+    /* punish convicts */
+    if (Role_if(PM_CONVICT)) {
+        setworn(mkobj(CHAIN_CLASS, TRUE), W_CHAIN);
+        setworn(mkobj(BALL_CLASS, TRUE), W_BALL);
+        uball->spe = 1;
+        placebc();
+        newsym(u.ux,u.uy);
+    }
+
     if (flags.legacy) {
         flush_screen(1);
-        com_pager("legacy");
+        if (Role_if(PM_CONVICT)) {
+		    com_pager("legacy_convict");
+        } else
+            com_pager("legacy");
     }
 
     urealtime.realtime = 0L;

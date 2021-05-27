@@ -106,7 +106,7 @@ shuffle(int o_low, int o_high, boolean domaterial)
 void
 init_objects(void)
 {
-    int i, first, last, sum, prevoclass;
+    int i, first, last, prevoclass;
     char oclass;
 #ifdef TEXTCOLOR
 #define COPY_OBJ_DESCR(o_dst, o_src) \
@@ -167,6 +167,7 @@ init_objects(void)
                 break;
             }
         }
+#if 0
  checkprob:
         sum = 0;
         for (i = first; i < last; i++)
@@ -178,6 +179,7 @@ init_objects(void)
         }
         if (sum != 1000)
             error("init-prob error for class %d (%d%%)", oclass, sum);
+#endif
         first = last;
         prevoclass = (int) oclass;
     }

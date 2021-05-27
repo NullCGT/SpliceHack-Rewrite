@@ -1552,8 +1552,10 @@ goto_level(d_level *newlevel, boolean at_stairs, boolean falling, boolean portal
                 if (flags.verbose)
                     You("fly down %s.",
                         g.at_ladder ? "along the ladder" : "the stairs");
-            } else if (near_capacity() > UNENCUMBERED
-                       || Punished || Fumbling) {
+            } else if (near_capacity() > UNENCUMBERED || (Punished &&
+    		    ((uwep != uball) || ((P_SKILL(P_FLAIL) < P_BASIC))
+                || !Role_if(PM_CONVICT)))
+    		    || Fumbling) {
                 You("fall down the %s.", g.at_ladder ? "ladder" : "stairs");
                 if (Punished) {
                     drag_down();

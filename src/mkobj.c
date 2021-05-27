@@ -205,7 +205,8 @@ mksobj_migr_to_species(
 struct obj *
 mkobj(int oclass, boolean artif)
 {
-    int tprob, i, prob = rnd(1000);
+    int tprob, i, prob;
+    int first_obj, last_obj, total_prob;
 
     if (oclass == RANDOM_CLASS) {
         const struct icp *iprobs = Is_rogue_level(&u.uz)
@@ -218,13 +219,23 @@ mkobj(int oclass, boolean artif)
         oclass = iprobs->iclass;
     }
 
+    /* get total probability of objects in this class */
+    first_obj = g.bases[(int) oclass];
+    last_obj = g.bases[(int) oclass + 1] - 1;
+    total_prob = 0;
+    for (i = first_obj; i <= last_obj; ++i) {
+        total_prob += objects[i].oc_prob;
+    }
+
     if (oclass == SPBOOK_no_NOVEL) {
         i = rnd_class(g.bases[SPBOOK_CLASS], SPE_BLANK_PAPER);
         oclass = SPBOOK_CLASS; /* for sanity check below */
     } else {
-        i = g.bases[oclass];
-        while ((prob -= objects[i].oc_prob) > 0)
-            ++i;
+        prob = rnd(total_prob);
+        i = g.bases[(int) oclass];
+        while ((prob -= objects[i].oc_prob) > 0) {
+            i++;
+        }
     }
 
     if (objects[i].oc_class != oclass || !OBJ_NAME(objects[i]))
