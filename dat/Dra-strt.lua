@@ -40,18 +40,18 @@ des.stair("down", 09,09)
 -- Portal arrival point
 des.levregion({ region = {68,02,68,02}, exclude = {0,19,0,19}, type="branch" })
 -- Guardian
-des.monster({id="Drakemother", x=10, y=07})
--- The Drakemother's hoard
+des.monster({id="Chromatic Dragon", x=10, y=07})
+-- The Chromatic Dragon's hoard away from home
 des.object("chest", 09, 06)
 des.object("chest", 09, 07)
 des.object("chest", 10, 06)
 des.object("chest", 10, 07)
--- The Drakemother's children
-des.monster("drake")
-des.monster("drake")
-des.monster("drake")
-des.monster("drake")
-des.monster("drake")
+-- The Chromatic Dragon's minions
+des.monster("bugbear caretaker")
+des.monster("bugbear caretaker")
+des.monster("bugbear caretaker")
+des.monster("bugbear caretaker")
+des.monster("bugbear caretaker")
 -- Non diggable walls
 des.non_diggable(selection.area(00,00,75,19))
 -- Not very many traps
@@ -67,19 +67,13 @@ des.monster({class=";", x=37, y=16,peaceful=0})
 -- Other monsters
 des.monster({id="wraith",peaceful=0})
 des.monster({id="wraith",peaceful=0})
-des.monster({id="chimera",peaceful=0})
-des.monster({id="chimera",peaceful=0})
-des.monster({id="chimera",peaceful=0})
-des.monster({id="chimera",peaceful=0})
-des.monster({id="chimera",peaceful=0})
-des.monster({id="chimera",peaceful=0})
-des.monster({id="chimera",peaceful=0})
-des.monster({id="chimera",peaceful=0})
-des.monster({id="chimera",peaceful=0})
+des.monster({id="caveman",peaceful=0})
+des.monster({id="cavewoman",peaceful=0})
+des.monster({id="cave dweller",peaceful=0})
+des.monster({id="cave dweller",peaceful=0})
+des.monster({id="cave dweller",peaceful=0})
+des.monster({id="cave dweller",peaceful=0})
+des.monster({id="cave dweller",peaceful=0})
+des.monster({id="cave dweller",peaceful=0})
+des.monster({id="cave dweller",peaceful=0})
 
---
---	The "locate" level for the quest.
---
---	May be impassable without levitation.
---
---

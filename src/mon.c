@@ -383,6 +383,9 @@ undead_to_corpse(int mndx)
     case PM_ETTIN_MUMMY:
         mndx = PM_ETTIN;
         break;
+    case PM_ZOMBIE_DRAGON:
+        mndx =  PM_RED_DRAGON;
+        break;
     default:
         break;
     }
@@ -563,6 +566,7 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
     case PM_HUMAN_ZOMBIE:
     case PM_GIANT_ZOMBIE:
     case PM_ETTIN_ZOMBIE:
+    case PM_ZOMBIE_DRAGON:
         num = undead_to_corpse(mndx);
         corpstatflags |= CORPSTAT_INIT;
         obj = mkcorpstat(CORPSE, mtmp, &mons[num], x, y, corpstatflags);
@@ -2633,11 +2637,24 @@ corpse_chance(
     boolean was_swallowed) /* digestion */
 {
     struct permonst *mdat = mon->data;
+    struct obj *otmp;
     int i, tmp;
 
     if (mdat == &mons[PM_VLAD_THE_IMPALER] || mdat->mlet == S_LICH) {
         if (cansee(mon->mx, mon->my) && !was_swallowed)
             pline("%s body crumbles into dust.", s_suffix(Monnam(mon)));
+        return FALSE;
+    }
+
+    /* Sharur transforms back into an artifact upon death. */
+    if (mdat == &mons[PM_SHARUR]) {
+        otmp = mksobj_at(ORNATE_MACE, mon->mx, mon->my, FALSE, FALSE);
+        otmp->oartifact = ART_SHARUR;
+        otmp = oname(otmp, "Sharur Reborn");
+        discover_artifact(ART_SHARUR);
+        otmp->age += rn1(500, 250);
+        if (cansee(mon->mx, mon->my) && ! was_swallowed)
+            pline("%s transforms back into a mace!", Monnam(mon));
         return FALSE;
     }
 

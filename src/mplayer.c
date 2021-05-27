@@ -182,6 +182,11 @@ mk_mplayer(struct permonst *ptr, xchar x, xchar y, boolean special)
             if (rn2(2))
                 weapon = rn2(2) ? HEAVY_IRON_BALL : KNIFE;
             break;
+        case PM_DRAGON_RIDER:
+            if (rn2(4))
+                weapon = BROADSWORD;
+            armor = rnd_class(PLATE_MAIL, CHAIN_MAIL);
+            break;
         case PM_HEALER:
             if (rn2(4))
                 weapon = QUARTERSTAFF;

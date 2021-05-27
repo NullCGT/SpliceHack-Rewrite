@@ -1254,15 +1254,15 @@ a difficult quest as that I propose to give you.
       },
       discourage = {
          "\"You are weak, %c.  No challenge for the Mother of all Dragons.\"",
-         "\"I grow hungry, %r.  You look like a nice appetizer!\"",
-         "\"Join me for lunch?  You're the main course, %c.\"",
-         "\"With %o, I am invincible!  You cannot succeed.\"",
+         "\"We grow hungry, %r.  You look like a nice appetizer!\"",
+         "\"Join us for lunch?  You're the main course, %c.\"",
+         "\"With %o, We are invincible!  You cannot succeed.\"",
          "\"Your mentor, %l has failed.  You are nothing to fear.\"",
-         "\"You shall die here, %c.  %rA cannot hope to defeat me.\"",
+         "\"You shall die here, %c.  %rA cannot hope to defeat us.\"",
          "\"You, a mere %r challenge the might of %n?  Hah!\"",
-         "\"I am the Mother of all Dragons!  You cannot hope to defeat me.\"",
-         "\"My claws are sharp now.  I shall rip you to shreds!\"",
-         "\"%d has deserted you, %c.  This is my domain.\"",
+         "\"We are the Mother of all Dragons!  You cannot hope to defeat us.\"",
+         "\"Our claws are sharp now.  We shall rip you to shreds!\"",
+         "\"%d has deserted you, %c.  This is our domain.\"",
       },
       encourage = {
          "\"%nC is immune to her own breath weapons. You should use magic upon her that she does not use herself.\"",
@@ -1388,14 +1388,14 @@ the sides of the tunnels.]],
 to be eaten!"]],
       },
       nemesis_next = {
-         text = [["So, again you face me, %c.  No one has ever before escaped me.
-Now I shall kill you."]],
+         text = [["So, again you face us, %c.  No one has ever before escaped us.
+Now we shall kill you."]],
       },
       nemesis_other = {
          text = "\"You are getting annoying, %c.  Prepare to die.\"",
       },
       nemesis_wantsit = {
-         text = "\"I'll have %o from you, %c.  You shall die.\"",
+         text = "\"We'll have %o from you, %c.  You shall die.\"",
       },
       nexttime = {
          text = "Once again, you arrive back at %H.",
@@ -2062,24 +2062,28 @@ and trembles.]],
       assignquest = {
          synopsis = "[\"Find %n, defeat %ni, and return %o to us.\"]",
          output = "text",
-         text = [["You have probably already guessed what has happened, %p.
-Your once companion %n appeared, leading a flock of chimeras toward us. %nh was
-mounted on his draconic companion, Voanairruth. The group attacked our nests and
-destroyed our eggs, then escaped.
+         text = [[The seven heads of your Mother glare down at you. Her gaze
+is not full of love, nor pride, but rather barely contained fury. It is all
+you can do not to cower in fear.
+            
+"You have probably already guessed what has happened, %p.
+Your once companion %n appeared, leading an army of filthy cave dwellers toward us.
+%nh was mounted on his draconic brother, Voanairruth. The group attacked our nests,
+destroyed our eggs, then fled to %i.
 The fiend also had the gall to steal the greatest treasure of our horde,
 the mighty %o.
 
-"You must go to %i.  Once there, you can slay
-%n for his atrocities. Bring us back %o as proof that you have killed %ni."
+"You must go to %i.  Once there, you can slay %n and his army of cave dwellers for
+their atrocities. Bring us back %o as proof that you have killed %ni."
 
-"Go forth, %p, and be our champion."]],
+"Go forth, %p, and do not fail us."]],
       },
       badalign = {
          synopsis = "[You have wandered from the path of the %a.  Come back when you are ready.]",
          output = "text",
          text = [["%pC!  You have not kept to the path of %a!
-If you attempt to revenge yourself upon %n in this state, you will only
-doom your own soul.  You must purify yourself.
+If you attempt to revenge yourself upon %n in this state, you will be worse
+than useless. We never would have expected one of our brood to be so spineless.
 Go forth, and return when you have thought hard on what you must do."]],
       },
       badlevel = {
@@ -2103,14 +2107,14 @@ Only %Ra with the help of %d could ever hope to take revenge on our foe."]],
       encourage = {
          "\"%nC was raised as you were, and knows as much about dragons as you.\"",
          "\"%nC will no doubt be accompanied by Voanairruth, his white dragon.\"",
-         "\"It pains me to ask you to fight your brother, but you must take revenge for the loss of our children.\"",
+         "\"It pains uss to ask you to fight your brother, but you must take revenge for the loss of our children.\"",
          "\"Be careful, %i is a sacred place, but is also very dangerous.\"",
          "\"Do not be afraid to call on %d for help in your quest.\"",
          "\"Legends say that %o can speak; perhaps it will aid you as well.\"",
          "\"Use the training we gave you to defeat %n.\"",
          "\"%d will be the wind beneath your wings.\"",
          "\"Do not lose yourself in vengance. We value you more than we do the death of %n and Voanairruth.\"",
-         "\"I am sure you will do great things one day, %p.\"",
+         "\"We are sure you will do great things one day, %p.\"",
       },
       firsttime = {  
          synopsis = "[You arrive at %H, but something is amiss.]",
@@ -2121,12 +2125,10 @@ and you are surrounded by waterfalls and a myriad of beautiful flowers.
 Dragons of all shapes and colors wheel through the stormy skies
 above, swooping and diving through the clouds.
 
-You are finally home, and look forward to seeing the dragons that raised you
-again.
+You are finally home.
 
-However, something is wrong. The air is filled with angry roars and keening.
-A few of the nests are singed, and some of them are on fire. Here and
-there are piles of scales, and pieces of broken shell are scattered all about.
+However, something is wrong. The air is filled with angry roars and keening. You
+take a step, and the fragment of a shell crunches underneath your feet.
 
 Thunder lows above, and lightning flashes. Your blood begins to boil. Someone
 must pay for these atrocities.]],
@@ -2148,24 +2150,24 @@ hiding.]],
 You feel that if you asked it to, it would fight at your side.]],
       },
       guardtalk_after = {
-         "\"ROAR!\"",
-         "\"Roar!\"",
-         "\"Roar!!!\"",
-         "\"GROAR!\"",
+         "\"Thank you, %p.\"",
+         "\"Now it is time to rebuild.\"",
+         "\"Now we can return to caring for our Mother's brood.\"",
+         "\"Thank you for all you have done.\"",
          "\"Grooooaaaarroood job, %p!\"",
       },
       guardtalk_before = {
-         "\"ROAR!\"",
-         "\"Roar!\"",
-         "\"Roar!!!\"",
-         "\"ROAR!!!\"",
-         "\"GROAR!\"",
+         "\"Good luck, %p. You will need it.\"",
+         "\"How can we possibly recover?\"",
+         "\"I've never seen the Chromatic Dragon so incensed.\"",
+         "\"The eggs! What has happened to the eggs?\"",
+         "\"%n...\"",
       },
       hasamulet = {
          synopsis = "[Take the Amulet to the Astral Plane and deliver it to %d.]",
          output = "text",
          text = [["Congratulations, %p. You posses the Amulet of Yendor! It is truly a
-great addition to your hoard. As your mother, I am proud.
+great addition to your hoard. As your adoptive mother, we could not be more proud.
 
 In truth, however, the Amulet has a greater purpose, as do you. Take the
 Amulet to the Astral Plane, and offer it upon the altar to %d.
@@ -2227,7 +2229,7 @@ I am glad that unlike you I saw the benefits to leaving them, old friend."
          text = "\"I was raised by the dragons alongside you, %p. Yet I am far stronger.\"",
       },
       nemesis_other = {
-         text = "\"Once Voanairruth I defeat you, I will allow him to feed on your corpse!\"",
+         text = "\"Once Voanairruth and I defeat you, I will allow him to feed on your corpse!\"",
       },
       nemesis_wantsit = {
          text = [["Return %o to me, you fool! It is rightfully mine, not yours!"]],
@@ -2241,8 +2243,8 @@ I am glad that unlike you I saw the benefits to leaving them, old friend."
          text = [[When %l sees %o, she nods, and roars:
 
     Well done, %p. Although your actions will not return the eggs
-    we have lost, I can be at peace knowing that %n will not
-    trouble us again. Truly, it was a mistake to raise %ni as my
+    we have lost, We can be at peace knowing that %n will not
+    trouble us again. Truly, it was a mistake to raise %ni as our
     own.
 
     Take %o and continue in your quest. Return to me when you have

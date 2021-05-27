@@ -61,6 +61,16 @@ static struct trobj Convict[] = {
 	{ STRIPED_SHIRT, 0, ARMOR_CLASS, 1, 0 },
 	{ 0, 0, 0, 0, 0 }
 };
+static struct trobj Dragon_Rider[] = {
+    { BROADSWORD, 1, WEAPON_CLASS, 1, UNDEF_BLESS },
+    { SCALE_MAIL, 1, ARMOR_CLASS, 1, UNDEF_BLESS },
+    { LEATHER_GLOVES, 1, ARMOR_CLASS, 1, UNDEF_BLESS },
+    { HIGH_BOOTS, 0, ARMOR_CLASS, 1, 0 },
+    { POT_HEALING, 0, POTION_CLASS, 2, UNDEF_BLESS },
+    { FOOD_RATION, 0, FOOD_CLASS, 2, 0 },
+    { TRIPE_RATION, 0, FOOD_CLASS, 2, 0 },
+    { 0, 0, 0, 0, 0 }
+};
 static struct trobj Healer[] = {
     { SCALPEL, 0, WEAPON_CLASS, 1, UNDEF_BLESS },
     { LEATHER_GLOVES, 1, ARMOR_CLASS, 1, UNDEF_BLESS },
@@ -324,6 +334,35 @@ static const struct def_skill Skill_Con[] = {
     { P_ESCAPE_SPELL, P_EXPERT },
     { P_TWO_WEAPON_COMBAT, P_SKILLED },
     { P_BARE_HANDED_COMBAT, P_SKILLED },
+    { P_NONE, 0 }
+};
+static const struct def_skill Skill_D[] = {
+    { P_DAGGER, P_BASIC },
+    { P_KNIFE, P_BASIC },
+    { P_AXE, P_BASIC },
+    { P_PICK_AXE, P_BASIC },
+    { P_SHORT_SWORD, P_BASIC },
+    { P_BROAD_SWORD, P_EXPERT },
+    { P_LONG_SWORD, P_BASIC },
+    { P_TWO_HANDED_SWORD, P_BASIC },
+    { P_SCIMITAR, P_BASIC },
+    { P_SABER, P_SKILLED },
+    { P_CLUB, P_BASIC },
+    { P_MACE, P_EXPERT },
+    { P_MORNING_STAR, P_EXPERT },
+    { P_FLAIL, P_BASIC },
+    { P_HAMMER, P_BASIC },
+    { P_POLEARMS, P_EXPERT },
+    { P_SPEAR, P_EXPERT },
+    { P_TRIDENT, P_BASIC },
+    { P_LANCE, P_EXPERT },
+    { P_BOW, P_BASIC },
+    { P_CROSSBOW, P_SKILLED },
+    { P_ATTACK_SPELL, P_BASIC },
+    { P_MATTER_SPELL, P_BASIC },
+    { P_RIDING, P_EXPERT },
+    { P_BARE_HANDED_COMBAT, P_EXPERT },
+    { P_TWO_WEAPON_COMBAT, P_SKILLED },
     { P_NONE, 0 }
 };
 static const struct def_skill Skill_H[] = {
@@ -755,6 +794,16 @@ u_init(void)
         g.urace.hatemask |= g.urace.lovemask;   /* Hated by the race's allies */
         g.urace.lovemask = 0; /* Convicts are pariahs of their race */
         break;
+    case PM_DRAGON_RIDER:
+        ini_inv(Dragon_Rider);
+        ini_inv(Lamp);
+        ini_inv(Leash);
+        if (!rn2(10))
+            ini_inv(Magicmarker);
+        knows_class(WEAPON_CLASS);
+        knows_class(ARMOR_CLASS);
+        skill_init(Skill_D);
+        break;
     case PM_HEALER:
         u.umoney0 = rn1(1000, 1001);
         ini_inv(Healer);
@@ -989,6 +1038,9 @@ restricted_spell_discipline(int otyp)
         break;
     case PM_CONVICT:
         skills = Skill_Con;
+        break;
+    case PM_DRAGON_RIDER:
+        skills = Skill_D;
         break;
     case PM_HEALER:
         skills = Skill_H;

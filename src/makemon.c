@@ -1259,13 +1259,13 @@ makemon(register struct permonst *ptr,
             case PM_KNIGHT:
                 mount_monster(mtmp, !rn2(2) ? PM_PONY : PM_HORSE);
                 break;
+            case PM_DRAGON_RIDER:
+                mount_monster(mtmp, PM_BABY_GRAY_DRAGON + 
+                    rn2(PM_YELLOW_DRAGON - PM_BABY_GRAY_DRAGON));
+                break;
             #if 0
             case PM_DARK_KNIGHT:
                 mount_monster(mtmp, Inhell ? PM_NIGHTMARE : PM_PONY);
-                break;
-            case PM_DRAGONMASTER:
-                mount_monster(mtmp, PM_BABY_GRAY_DRAGON + 
-                    rn2(PM_YELLOW_DRAGON - PM_BABY_GRAY_DRAGON));
                 break;
             case PM_HEADLESS_HORSEMAN:
                 mount_monster(mtmp, PM_NIGHTMARE);
@@ -1302,6 +1302,11 @@ makemon(register struct permonst *ptr,
         if (mndx == PM_STALKER || mndx == PM_BLACK_LIGHT) {
             mtmp->perminvis = TRUE;
             mtmp->minvis = TRUE;
+        }
+        break;
+    case S_HUMAN:
+        if (mndx == PM_SLIPSCALE_THE_BETRAYER) {
+            mount_monster(mtmp, PM_VOANAIRRUTH);
         }
         break;
     case S_EEL:

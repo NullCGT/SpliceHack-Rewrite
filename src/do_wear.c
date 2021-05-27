@@ -1873,6 +1873,11 @@ canwearobj(struct obj *otmp, long *mask, boolean noisy)
             if (noisy)
                 already_wearing("some armor");
             err++;
+        } else if (Role_if(PM_DRAGON_RIDER) &&
+                   (Is_dragon_scales(otmp) || Is_dragon_mail(otmp))) {
+            if (noisy)
+                You("could never wear the skin of those that raised you!");
+            err++;
         } else
             *mask = W_ARM;
     } else {

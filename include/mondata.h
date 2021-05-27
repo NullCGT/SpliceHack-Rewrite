@@ -132,7 +132,9 @@
 				 (ptr) == &mons[PM_RODENT_OF_UNUSUAL_SIZE])
 #define is_giant(ptr) (((ptr)->mflags2 & M2_GIANT) != 0L)
 #define is_golem(ptr) ((ptr)->mlet == S_GOLEM)
-#define is_domestic(ptr) (((ptr)->mflags2 & M2_DOMESTIC) != 0L)
+#define is_domestic(ptr) ((((ptr)->mflags2 & M2_DOMESTIC) != 0L) \
+     || (Role_if(PM_DRAGON_RIDER) && (((ptr) >= &mons[PM_BABY_GRAY_DRAGON] && \
+                             (ptr) <= &mons[PM_YELLOW_DRAGON]))))
 #define is_demon(ptr) (((ptr)->mflags2 & M2_DEMON) != 0L)
 #define is_mercenary(ptr) (((ptr)->mflags2 & M2_MERC) != 0L)
 #define is_male(ptr) (((ptr)->mflags2 & M2_MALE) != 0L)
@@ -159,6 +161,8 @@
 #define cantweararm(ptr) (breakarm(ptr) || sliparm(ptr))
 #define throws_rocks(ptr) (((ptr)->mflags2 & M2_ROCKTHROW) != 0L)
 #define type_is_pname(ptr) (((ptr)->mflags2 & M2_PNAME) != 0L)
+#define is_dragon(ptr) ((ptr) >= &mons[PM_BABY_GRAY_DRAGON] && \
+                        (ptr) <= &mons[PM_YELLOW_DRAGON])
 #define is_lord(ptr) (((ptr)->mflags2 & M2_LORD) != 0L)
 #define is_prince(ptr) (((ptr)->mflags2 & M2_PRINCE) != 0L)
 #define is_ndemon(ptr) \

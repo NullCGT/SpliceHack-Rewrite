@@ -42,6 +42,15 @@ static const struct innate {
                  { 20, &(HSearching), "perceptive", "unaware" },
                  { 0, 0, 0, 0 } },
 
+  dra_abil[] = { { 7, &(HFast), "quick", "slow" },
+                 { 15, &(HPoison_resistance), "as hardy as a green dragon", "" },
+                 { 16, &(HSleep_resistance), "as watchful as an orange dragon", "tired" },
+                 { 18, &(HFire_resistance), "full of the fire of a red dragon", "warmer" },
+                 { 19, &(HCold_resistance), "full of the chill of a white dragon", "cooler" },
+                 { 21, &(HShock_resistance), "as grounded as a blue dragon", "conductive" },
+                 { 23, &(HDisint_resistance), "as stable as a black dragon", "vulnerable" },
+                 { 0, 0, 0, 0 } },
+
   hea_abil[] = { { 1, &(HPoison_resistance), "", "" },
                  { 15, &(HWarning), "sensitive", "" },
                  { 0, 0, 0, 0 } },
@@ -702,6 +711,7 @@ role_abil(int r)
         { PM_BARBARIAN, bar_abil },
         { PM_CAVE_DWELLER, cav_abil },
         { PM_CONVICT, con_abil},
+        { PM_DRAGON_RIDER, dra_abil},
         { PM_HEALER, hea_abil },
         { PM_KNIGHT, kni_abil },
         { PM_MONK, mon_abil },

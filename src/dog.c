@@ -53,9 +53,23 @@ initedog(struct monst *mtmp)
 static int
 pet_type(void)
 {
-    if (g.urole.petnum != NON_PM)
+    int dragon_type; 
+    uchar prop;
+
+    if (g.urole.petnum != NON_PM) {
         return  g.urole.petnum;
-    else if (g.preferred_pet == 'c')
+    } else if (Role_if(PM_DRAGON_RIDER)) {
+        dragon_type = PM_BABY_SILVER_DRAGON 
+            + rn2(PM_BABY_YELLOW_DRAGON - PM_BABY_SILVER_DRAGON);
+        if (dragon_type == PM_BABY_BLACK_DRAGON)
+            dragon_type = PM_BABY_GRAY_DRAGON;
+        prop = objects[GRAY_DRAGON_SCALES + dragon_type - PM_BABY_GRAY_DRAGON].oc_oprop;
+        /* Dragonmasters resist the element of their pet */
+        if (prop == REFLECTING || prop == ANTIMAGIC)
+            prop = COLD_RES;
+        u.uprops[prop].intrinsic |= FROMOUTSIDE;
+        return dragon_type;
+    } else if (g.preferred_pet == 'c')
         return  PM_KITTEN;
     else if (g.preferred_pet == 'd')
         return  PM_LITTLE_DOG;
@@ -174,6 +188,8 @@ makedog(void)
             petname = "Sirius"; /* Orion's dog */
     } else if (!*petname && pettype == PM_SEWER_RAT) {
 	    if(Role_if(PM_CONVICT)) petname = "Nicodemus"; /* Rats of NIMH */
+    } else if (!*petname && pettype == PM_BABY_RED_DRAGON) {
+	    if(Role_if(PM_DRAGON_RIDER)) petname = "Flame"; /* Dungeon Magazine */
     }
 
     mtmp = makemon(&mons[pettype], u.ux, u.uy, MM_EDOG);
@@ -183,7 +199,8 @@ makedog(void)
 
     g.context.startingpet_mid = mtmp->m_id;
     /* Horses already wear a saddle */
-    if (pettype == PM_PONY && !!(otmp = mksobj(SADDLE, TRUE, FALSE))) {
+    if ((pettype == PM_PONY || is_dragon(&mons[pettype]))
+        && !!(otmp = mksobj(SADDLE, TRUE, FALSE))) {
         otmp->dknown = otmp->bknown = otmp->rknown = 1;
         put_saddle_on_mon(otmp, mtmp);
     }

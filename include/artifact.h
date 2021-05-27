@@ -64,7 +64,8 @@ enum invoke_prop_types {
     CREATE_PORTAL,
     ENLIGHTENING,
     CREATE_AMMO,
-    PHASING
+    PHASING,
+    LION
 };
 
 /* clang-format on */

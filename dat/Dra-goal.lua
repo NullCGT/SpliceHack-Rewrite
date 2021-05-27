@@ -59,8 +59,8 @@ des.monster("zombie dragon")
 des.monster("zombie dragon")
 des.monster("zombie dragon")
 des.monster("zombie dragon")
-des.monster()
-des.monster()
+des.monster({id="cave dweller",peaceful=0})
+des.monster({id="cave dweller",peaceful=0})
 des.monster()
 des.monster()
 des.monster()
@@ -70,12 +70,3 @@ des.trap()
 des.trap()
 des.trap()
 des.trap()
-
---
---	The "fill" levels for the quest.
---
---	These levels are used to fill out any levels not occupied by specific
---	levels as defined above. "filla" is the upper filler, between the
---	start and locate levels, and "fillb" the lower between the locate
---	and goal levels.
---

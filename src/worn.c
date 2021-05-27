@@ -1030,6 +1030,9 @@ racial_exception(struct monst *mon, struct obj *obj)
         return 1;
     /* Unacceptable Exceptions: */
     /* Checks for object that certain races should never use go here */
+    if (ptr == &mons[PM_DRAGON_RIDER] &&
+        (Is_dragon_mail(obj) || Is_dragon_scales(obj)))
+        return -1;
     /*  return -1; */
 
     return 0;

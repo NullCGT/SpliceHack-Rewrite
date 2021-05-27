@@ -269,6 +269,9 @@ WEAPON("bec de corbin", "beaked polearm",
 WEAPON("mace", None,
        1, 0, 0, 40,  30,   5,  6,  6, 0, B,   P_MACE, IRON, HI_METAL),
         /* +1 small */
+WEAPON("ornate mace", None,
+       1, 0, 0, 0,  30,   5,  6,  6, 0, B,   P_MACE, GOLD, HI_METAL),
+       /* +1 small */
 WEAPON("morning star", None,
        1, 0, 0, 12, 120,  10,  4,  6, 0, B,   P_MORNING_STAR, IRON, HI_METAL),
         /* +d4 small, +1 large */

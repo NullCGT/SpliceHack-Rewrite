@@ -57,7 +57,7 @@ des.monster({id="zombie dragon",peaceful=0})
 des.monster({id="zombie dragon",peaceful=0})
 des.monster({id="zombie dragon",peaceful=0})
 des.monster({class="V",peaceful=0})
-des.monster({id="chimera",peaceful=0})
+des.monster({id="caveman",peaceful=0})
 
 --
 --	The "goal" level for the quest.

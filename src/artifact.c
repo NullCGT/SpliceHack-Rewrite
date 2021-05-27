@@ -1415,6 +1415,8 @@ static int
 arti_invoke(struct obj *obj)
 {
     register const struct artifact *oart = get_artifact(obj);
+    struct monst *mtmp;
+    
     if (!obj) {
         impossible("arti_invoke without obj");
         return 0;
@@ -1615,7 +1617,7 @@ arti_invoke(struct obj *obj)
                     if (Blind) set_bc(1);	/* set up ball and chain variables */
                     newsym(u.ux,u.uy);		/* see ball&chain if can't see self */
                     }
-                    Your("%s chains itself to you!", xname(obj));
+                    Your("%s chains itself to you!", The(xname(obj)));
                 }
             }
             if (!Hallucination) {    
@@ -1625,6 +1627,16 @@ arti_invoke(struct obj *obj)
             }
             incr_itimeout(&HPasses_walls, (50 + rnd(100)));
             obj->age += HPasses_walls; /* Time begins after phasing ends */
+            break;
+        }
+        case LION: {
+            pline("%s transforms into a glorious winged lion!",
+                  The(xname(obj)));
+            mtmp = makemon(&mons[PM_SHARUR], u.ux, u.uy, MM_NOCOUNTBIRTH | MM_EDOG);
+            if (mtmp) {
+                tamedog(mtmp, (struct obj *) 0);
+            }
+            useup(obj);
             break;
         }
         }

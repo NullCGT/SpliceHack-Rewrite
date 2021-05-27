@@ -235,7 +235,7 @@ use_saddle(struct obj* otmp)
     chance += u.ulevel * (mtmp->mtame ? 20 : 5);
     if (!mtmp->mtame)
         chance -= 10 * mtmp->m_lev;
-    if (Role_if(PM_KNIGHT))
+    if (Role_if(PM_KNIGHT) || Role_if(PM_DRAGON_RIDER))
         chance += 20;
     switch (P_SKILL(P_RIDING)) {
     case P_ISRESTRICTED:
@@ -429,7 +429,8 @@ mount_steed(
         return (FALSE);
     }
 
-    if (!force && !Role_if(PM_KNIGHT) && !(--mtmp->mtame)) {
+    if (!force && !Role_if(PM_KNIGHT) && !Role_if(PM_DRAGON_RIDER)
+        && !(--mtmp->mtame)) {
         /* no longer tame */
         newsym(mtmp->mx, mtmp->my);
         pline("%s resists%s!", Monnam(mtmp),
