@@ -64,6 +64,9 @@
         time_t          time_from_yyyymmddhhmmss (char *)
         int             phase_of_the_moon (void)
         boolean         friday_13th     (void)
+        boolean         pi_day          (void)
+        boolean         mayfourth       (void)
+        boolean         junethack       (void)
         int             night           (void)
         int             midnight        (void)
         void            strbuf_init     (strbuf *, const char *)
@@ -1132,6 +1135,31 @@ friday_13th(void)
 
     /* tm_wday (day of week; 0==Sunday) == 5 => Friday */
     return (boolean) (lt->tm_wday == 5 && lt->tm_mday == 13);
+}
+
+boolean
+pi_day(void)
+{
+    register struct tm *lt = getlt();
+
+    /* tm_mon (month, 0-11) */
+    return (boolean) (lt->tm_mday == 14 && lt->tm_mon == 2);
+}
+
+boolean
+mayfourth(void)
+{
+    register struct tm *lt = getlt();
+
+    return (boolean) (lt->tm_mday == 4 && lt->tm_mon == 4);
+}
+
+boolean
+junethack(void)
+{
+    register struct tm *lt = getlt();
+
+    return (boolean) (lt->tm_mon == 5);
 }
 
 int

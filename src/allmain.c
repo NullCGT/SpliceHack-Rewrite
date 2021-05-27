@@ -61,6 +61,14 @@ moveloop(boolean resuming)
         pline("Watch out!  Bad things can happen on Friday the 13th.");
         change_luck(-1);
     }
+    /* Only show one of the flavor messages. */
+    if (pi_day()) {
+        pline("Happy pi day!");
+    } else if (mayfourth()) {
+        pline("May the fourth be with you!");
+    } else if (junethack()) {
+        pline("Happy Junethack!");
+    }
 
     if (!resuming) { /* new game */
         g.context.rndencode = rnd(9000);
