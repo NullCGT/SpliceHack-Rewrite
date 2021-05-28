@@ -45,6 +45,13 @@ monster_census(boolean spotted) /* seen|sensed vs all */
     return count;
 }
 
+/* returns a basic elemental */
+int
+rand_elemental() {
+    return PM_AIR_ELEMENTAL + rn2(PM_FUSION_ELEMENTAL - PM_AIR_ELEMENTAL);
+}
+
+
 /* mon summons a monster */
 int
 msummon(struct monst *mon)
@@ -98,7 +105,7 @@ msummon(struct monst *mon)
         if (!rn2(6)) {
             switch (atyp) { /* see summon_minion */
             case A_NEUTRAL:
-                dtype = PM_AIR_ELEMENTAL + rn2(4);
+                dtype = rand_elemental();
                 break;
             case A_CHAOTIC:
             case A_NONE:
@@ -169,7 +176,7 @@ summon_minion(aligntyp alignment, boolean talk)
         mnum = lminion();
         break;
     case A_NEUTRAL:
-        mnum = PM_AIR_ELEMENTAL + rn2(4);
+        mnum = rand_elemental();
         break;
     case A_CHAOTIC:
     case A_NONE:

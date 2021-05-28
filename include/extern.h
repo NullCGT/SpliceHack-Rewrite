@@ -1236,6 +1236,7 @@ extern int doseduce(struct monst *);
 extern void newemin(struct monst *);
 extern void free_emin(struct monst *);
 extern int monster_census(boolean);
+extern int rand_elemental(void);
 extern int msummon(struct monst *);
 extern void summon_minion(aligntyp, boolean);
 extern int demon_talk(struct monst *);

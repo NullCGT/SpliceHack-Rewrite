@@ -211,7 +211,8 @@
          : ((ptr) == &mons[PM_FIRE_ELEMENTAL]) ? 1 : 0)
 /*	[note: the light ranges above were reduced to 1 for performance...] */
 #define likes_lava(ptr) \
-    (ptr == &mons[PM_FIRE_ELEMENTAL] || ptr == &mons[PM_SALAMANDER])
+    (ptr == &mons[PM_FIRE_ELEMENTAL] || ptr == &mons[PM_SALAMANDER] \
+        || ptr == &mons[PM_MAGMA_ELEMENTAL])
 #define pm_invisible(ptr) \
     ((ptr) == &mons[PM_STALKER] || (ptr) == &mons[PM_BLACK_LIGHT])
 

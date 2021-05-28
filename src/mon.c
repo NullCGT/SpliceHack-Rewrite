@@ -2425,7 +2425,8 @@ mondead(register struct monst* mtmp)
 {
     struct permonst *mptr;
     boolean be_sad;
-    int tmp;
+    int tmp, i, j;
+    coord cc;
 
     /* potential pet message; always clear global flag */
     be_sad = iflags.sad_feeling;
@@ -2435,6 +2436,18 @@ mondead(register struct monst* mtmp)
     lifesaved_monster(mtmp);
     if (!DEADMONSTER(mtmp))
         return;
+
+    /* Fusion elementals break apart into several elementals */
+    if (mtmp->data == &mons[PM_FUSION_ELEMENTAL]) {
+        if (cansee(mtmp->mx, mtmp->my)) {
+            pline("%s tears apart into its constituent elements!", Monnam(mtmp));
+        }
+        for (i = 0; i < 4; i++) {
+            if (!enexto(&cc, mtmp->mx, mtmp->my, 0))
+                break;
+            makemon(&mons[rand_elemental()], cc.x, cc.y, MM_ANGRY);
+        }
+    }
 
     if (is_vampshifter(mtmp)) {
         int mndx = mtmp->cham;
@@ -2643,6 +2656,19 @@ corpse_chance(
     if (mdat == &mons[PM_VLAD_THE_IMPALER] || mdat->mlet == S_LICH) {
         if (cansee(mon->mx, mon->my) && !was_swallowed)
             pline("%s body crumbles into dust.", s_suffix(Monnam(mon)));
+        return FALSE;
+    }
+
+    /* magma elementals dissolve into a pile of lava */
+    if (mdat == &mons[PM_MAGMA_ELEMENTAL]) {
+        if (levl[mon->mx][mon->my].typ != STAIRS &&
+                levl[mon->mx][mon->my].typ != LADDER) {
+            levl[mon->mx][mon->my].typ = LAVAPOOL;
+            newsym(mon->mx, mon->my);
+        if (cansee(mon->mx, mon->my) && !was_swallowed)
+            pline("%s body dissolves into a pool of lava.",
+                s_suffix(Monnam(mon)));
+        }
         return FALSE;
     }
 

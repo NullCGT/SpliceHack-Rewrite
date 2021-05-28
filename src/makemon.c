@@ -33,13 +33,19 @@ is_home_elemental(struct permonst *ptr)
     if (ptr->mlet == S_ELEMENTAL)
         switch (monsndx(ptr)) {
         case PM_AIR_ELEMENTAL:
+        case PM_PLASMA_ELEMENTAL:
             return Is_airlevel(&u.uz);
         case PM_FIRE_ELEMENTAL:
+        case PM_MAGMA_ELEMENTAL:
             return Is_firelevel(&u.uz);
+        case PM_ACID_ELEMENTAL:
         case PM_EARTH_ELEMENTAL:
             return Is_earthlevel(&u.uz);
         case PM_WATER_ELEMENTAL:
+        case PM_ICE_ELEMENTAL:
             return Is_waterlevel(&u.uz);
+        case PM_FUSION_ELEMENTAL:
+            return Is_astralevel(&u.uz);
         }
     return FALSE;
 }

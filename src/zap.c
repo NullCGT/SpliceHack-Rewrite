@@ -28,6 +28,7 @@ static void boxlock_invent(struct obj *);
 static int spell_hit_bonus(int);
 static void destroy_one_item(struct obj *, int, int);
 static void wishcmdassist(int);
+static boolean elemental_shift(struct monst *, int);
 
 #define ZT_MAGIC_MISSILE (AD_MAGM - 1)
 #define ZT_FIRE (AD_FIRE - 1)
@@ -3724,6 +3725,40 @@ boomhit(struct obj *obj, int dx, int dy)
     return (struct monst *) 0;
 }
 
+static const short elem_pairings[][3] = {
+    { PM_WATER_ELEMENTAL, ZT_FIRE, PM_STEAM_VORTEX },
+    { PM_WATER_ELEMENTAL, ZT_COLD, PM_ICE_ELEMENTAL },
+    { PM_WATER_ELEMENTAL, ZT_ACID, PM_ACID_ELEMENTAL },
+    { PM_EARTH_ELEMENTAL, ZT_FIRE, PM_MAGMA_ELEMENTAL },
+    { PM_FIRE_ELEMENTAL, ZT_LIGHTNING, PM_PLASMA_ELEMENTAL },
+    /* { PM_AIR_ELEMENTAL, ZT_ELEC, PM_STORM_ELEMENTAL }, */
+    { PM_ICE_ELEMENTAL, ZT_FIRE, PM_WATER_ELEMENTAL },
+    { PM_MAGMA_ELEMENTAL, ZT_COLD, PM_EARTH_ELEMENTAL },
+    { NON_PM, 0, NON_PM }
+};
+
+static boolean
+elemental_shift(struct monst *mtmp, int zt)
+{
+    boolean shifted;
+    int i, pm = 0;
+    int orig_pm = monsndx(mtmp->data);
+    short zt_s = (short) zt;
+
+    for (i = 0; elem_pairings[i][0] >= LOW_PM; i++) {
+        if (zt_s == elem_pairings[i][1] && orig_pm == elem_pairings[i][0]) {
+            pm = elem_pairings[i][2];
+            break;
+        }
+    }
+
+    if (!pm)
+        return FALSE;
+
+    (void) newcham(mtmp, &mons[pm], FALSE, TRUE);
+    return TRUE;
+}
+
 /* used by buzz(); also used by munslime(muse.c); returns damage applied
    to mon; note: caller is responsible for killing mon if damage is fatal */
 int
@@ -3872,6 +3907,10 @@ zhitm(struct monst *mon, int type, int nd,
         if (!rn2(6))
             erode_armor(mon, ERODE_CORRODE);
         break;
+    }
+    if (elemental_shift(mon, abstype)) {
+        sho_shieldeff = TRUE;
+        tmp = 0;
     }
     if (sho_shieldeff)
         shieldeff(mon->mx, mon->my);
