@@ -155,6 +155,15 @@ tshirt_text(struct obj* tshirt, char* buf)
            from book series _A_Song_of_Ice_and_Fire_ by George R.R. Martin,
            TV show "Game of Thrones" (probably an actual T-shirt too...) */
         "/Valar morghulis/ -- /Valar dohaeris/",
+        /* Splice Shirts */
+        "SAVE THE ZRUTYS",
+        "SpliceHack Beta Tester",
+        "#NerfTheLoTF",
+        "Got ASCII?",
+        "Don't @ me!",
+        "I <3 Sokoban",
+        "No Artifacts. Valkyrie Only. Astral Plane.",
+        "Livelog THIS!"
     };
 
     Strcpy(buf, shirt_msgs[tshirt->o_id % SIZE(shirt_msgs)]);
