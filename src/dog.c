@@ -172,6 +172,10 @@ makedog(void)
         petname = g.dogname;
     else if (pettype == PM_PONY)
         petname = g.horsename;
+    else if (is_dragon(&mons[pettype]))
+        petname = g.dragonname;
+    else if (pettype == PM_SEWER_RAT)
+		petname = g.ratname;
     else
         petname = g.catname;
 

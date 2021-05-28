@@ -41,8 +41,8 @@ OPTIONS=symset:IBMGraphics_2,roguesymset:RogueEpyx
 # configuration, options like these should not be set.
 #
 #OPTIONS=name:Janet,role:Valkyrie,race:Human,gender:female,align:lawful
-#OPTIONS=dogname:Fido,catname:Morris,fruit:guava
-#OPTIONS=horsename:Silver
+#OPTIONS=dogname:Fido,catname:Morris,birdname:Topper,fruit:guava
+#OPTIONS=horsename:Silver,dragonname:Burninator
 
 # Disable autopickup
 OPTIONS=!autopickup

@@ -843,6 +843,9 @@ struct instance_globals {
     char dogname[PL_PSIZ];
     char catname[PL_PSIZ];
     char horsename[PL_PSIZ];
+    char birdname[PL_PSIZ];
+    char dragonname[PL_PSIZ];
+    char ratname[PL_PSIZ];
     char preferred_pet; /* '\0', 'c', 'd', 'n' (none) */    
     struct monst *mydogs; /* monsters that went down/up together with @ */
     struct monst *migrating_mons; /* monsters moving to another level */

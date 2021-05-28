@@ -40,6 +40,9 @@
 #OPTIONS=dragonname:Flame
 #OPTIONS=catname:Morris
 #OPTIONS=horsename:Silver
+#OPTIONS=birdname:Polly
+#OPTIONS=dragonname:Draciel
+#OPTIONS=ratname:Scourge
 #OPTIONS=fruit:guava
 
 # Turn on autopickup, and set object types which are picked up automatically

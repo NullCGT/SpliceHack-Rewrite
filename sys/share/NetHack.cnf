@@ -43,8 +43,8 @@ OPTIONS=rawio,BIOS,symset:IBMGraphics_2,roguesymset:RogueEpyx
 # configuration, options like these should not be set.
 #
 #OPTIONS=name:Janet,role:Valkyrie,race:Human,gender:female,align:lawful
-#OPTIONS=dogname:Fido,catname:Morris,fruit:guava
-#OPTIONS=horsename:Silver
+#OPTIONS=dogname:Fido,catname:Morris,birdname:Topper,fruit:guava
+#OPTIONS=horsename:Silver,dragonname:Burninator
 #OPTIONS=autopickup,pickup_types:$"=/!?+
 #OPTIONS=packorder:")[%?+/=!(*0_`
 #OPTIONS=scores:10 top/2 around/own

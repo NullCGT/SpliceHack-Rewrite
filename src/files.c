@@ -2564,6 +2564,12 @@ parse_config_line(char *origbuf)
         (void) strncpy(g.dogname, bufp, PL_PSIZ - 1);
     } else if (match_varname(buf, "catname", 3)) {
         (void) strncpy(g.catname, bufp, PL_PSIZ - 1);
+    } else if (match_varname(buf, "dragonname", 3)) {
+        (void) strncpy(g.dragonname, bufp, PL_PSIZ - 1);
+    } else if (match_varname(buf, "ratname", 3)) {
+        (void) strncpy(g.birdname, bufp, PL_PSIZ - 1);
+    } else if (match_varname(buf, "birdname", 3)) {
+        (void) strncpy(g.catname, bufp, PL_PSIZ - 1);
 
 #ifdef SYSCF
     } else if (in_sysconf && match_varname(buf, "WIZARDS", 7)) {

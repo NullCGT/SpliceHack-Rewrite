@@ -120,6 +120,8 @@ opt_##a,
     NHOPTB(BIOS, 0, opt_in, set_in_config, Off, No, No, No, NoAlias,
                 (boolean *) 0)
 #endif
+    NHOPTC(birdname, PL_PSIZ, opt_in, set_gameview, No, Yes, No, No, NoAlias,
+                "the name of your starting pet if it is a bird")
     NHOPTB(blind, 0, opt_in, set_in_config, Off, Yes, No, No, NoAlias,
                 &u.uroleplay.blind)
     NHOPTB(bones, 0, opt_out, set_in_config, On, Yes, No, No, NoAlias,
@@ -160,6 +162,8 @@ opt_##a,
                 "the kinds of information to disclose at end of game")
     NHOPTC(dogname, PL_PSIZ, opt_in, set_gameview, No, Yes, No, No, NoAlias,
                 "name of your starting pet if it is a little dog")
+    NHOPTC(dragonname, PL_PSIZ, opt_in, set_gameview, No, Yes, No, No, NoAlias,
+                "the name of your starting pet if it is a dragon")
     NHOPTC(dungeon, MAXDCHARS + 1,opt_in, set_in_config, No, Yes, No, No,
                 NoAlias, "list of symbols to use in drawing the dungeon map")
     NHOPTC(effects, MAXECHARS + 1, opt_in, set_in_config, No, Yes, No, No,
@@ -381,6 +385,8 @@ opt_##a,
                 &flags.quick_farsight)
     NHOPTC(race, PL_CSIZ, opt_in, set_gameview, No, Yes, No, No, NoAlias,
                 "your starting race (e.g., Human, Elf)")
+    NHOPTC(ratname, PL_PSIZ, opt_in, set_gameview, No, Yes, No, No, NoAlias,
+                "the name of your starting pet if it is a rat")
 #ifdef MICRO
     NHOPTB(rawio, 0, opt_in, set_in_config, Off, Yes, No, No, NoAlias,
                 &iflags.rawio)

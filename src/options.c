@@ -771,6 +771,78 @@ optfn_catname(int optidx, int req, boolean negated UNUSED, char *opts, char *op)
     return optn_ok;
 }
 
+int
+optfn_birdname(int optidx, int req, boolean negated UNUSED, char *opts, char *op)
+{
+    if (req == do_init) {
+        return optn_ok;
+    }
+    if (req == do_set) {
+        if (op != empty_optstr) {
+            nmcpy(g.birdname, op, PL_PSIZ);
+        } else {
+            return optn_err;
+        }
+        sanitize_name(g.birdname);
+        return optn_ok;
+    }
+    if (req == get_val) {
+        if (!opts)
+            return optn_err;
+        Sprintf(opts, "%s", g.birdname[0] ? g.birdname : none);
+        return optn_ok;
+    }
+    return optn_ok;
+}
+
+int
+optfn_dragonname(int optidx, int req, boolean negated UNUSED, char *opts, char *op)
+{
+    if (req == do_init) {
+        return optn_ok;
+    }
+    if (req == do_set) {
+        if (op != empty_optstr) {
+            nmcpy(g.dragonname, op, PL_PSIZ);
+        } else {
+            return optn_err;
+        }
+        sanitize_name(g.dragonname);
+        return optn_ok;
+    }
+    if (req == get_val) {
+        if (!opts)
+            return optn_err;
+        Sprintf(opts, "%s", g.dragonname[0] ? g.dragonname : none);
+        return optn_ok;
+    }
+    return optn_ok;
+}
+
+int
+optfn_ratname(int optidx, int req, boolean negated UNUSED, char *opts, char *op)
+{
+    if (req == do_init) {
+        return optn_ok;
+    }
+    if (req == do_set) {
+        if (op != empty_optstr) {
+            nmcpy(g.ratname, op, PL_PSIZ);
+        } else {
+            return optn_err;
+        }
+        sanitize_name(g.ratname);
+        return optn_ok;
+    }
+    if (req == get_val) {
+        if (!opts)
+            return optn_err;
+        Sprintf(opts, "%s", g.ratname[0] ? g.ratname : none);
+        return optn_ok;
+    }
+    return optn_ok;
+}
+
 #ifdef CURSES_GRAPHICS
 static int
 optfn_cursesgraphics(int optidx, int req, boolean negated,
