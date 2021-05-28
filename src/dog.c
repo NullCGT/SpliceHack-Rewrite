@@ -168,7 +168,7 @@ makedog(void)
         return ((struct monst *) 0);
 
     pettype = pet_type();
-    if (pettype == PM_LITTLE_DOG)
+    if (pettype == PM_LITTLE_DOG || pettype == PM_WINTER_WOLF_PUP)
         petname = g.dogname;
     else if (pettype == PM_PONY)
         petname = g.horsename;
