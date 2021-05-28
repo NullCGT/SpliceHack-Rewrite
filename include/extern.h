@@ -414,6 +414,7 @@ extern void new_oname(struct obj *, int);
 extern void free_oname(struct obj *);
 extern const char *safe_oname(struct obj *);
 extern struct monst *christen_monst(struct monst *, const char *);
+extern struct obj * weapon_oname(struct obj*);
 extern struct obj *oname(struct obj *, const char *);
 extern boolean objtyp_is_callable(int);
 extern int docallcmd(void);
@@ -2608,6 +2609,7 @@ extern int observable_depth(d_level *);
 extern void topten(int, time_t);
 extern void prscore(int, char **);
 extern struct toptenentry *get_rnd_toptenentry(void);
+extern const char *tt_name(void);
 extern struct obj *tt_oname(struct obj *);
 
 /* ### track.c ### */

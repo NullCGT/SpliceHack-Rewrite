@@ -1337,6 +1337,19 @@ get_rnd_toptenentry(void)
 }
 
 
+/* get a random high score name */
+const char *
+tt_name(void)
+{
+    struct toptenentry *tt = get_rnd_toptenentry();
+    if (!tt)
+        return NULL;
+    else
+        return tt->name;
+
+}
+
+
 /*
  * Attach random player name and class from high score list
  * to an object (for statues or morgue corpses).
