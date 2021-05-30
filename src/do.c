@@ -1267,6 +1267,7 @@ goto_level(d_level *newlevel, boolean at_stairs, boolean falling, boolean portal
             return;  /* must have the Amulet */
         if (!wizard)  /* wizard ^V can bypass Earth level */
             assign_level(newlevel, &earth_level); /* (redundant) */
+        com_pager("into_the_planes");
     }
     new_ledger = ledger_no(newlevel);
     if (new_ledger <= 0)

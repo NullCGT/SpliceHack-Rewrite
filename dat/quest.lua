@@ -147,7 +147,9 @@ Go now!  You are banished from this place.]],
       legacy = {
          synopsis = "[%dC has chosen you to recover the Amulet of Yendor for %dI.]",
          output = "menu",
-         text = [[It is written in the Book of %d:
+         text = [[As you stand above the yawning pit that marks the entrance to
+%Z, the words that have been engraved upon your heart
+since you were a child once again echo in your ears:
 
     After the Creation, the cruel god Moloch rebelled
     against the authority of Marduk the Creator.
@@ -157,42 +159,22 @@ Go now!  You are banished from this place.]],
     Under World, where he now lurks, and bides his time.
 
 Your %G %d seeks to possess the Amulet, and with it
-to gain deserved ascendance over the other gods.
+to gain deserved ascendance over the other gods. As a newly
+trained %r, the duty of retrieving it falls to you. You would
+be lying if you said that was the only reason you are on this
+fools erand, however. Strange nightmares have begun to
+torment you; strange figures astride terrible beasts haunt
+your dreams.
 
-You, a newly trained %r, have been heralded
-from birth as the instrument of %d.  You are destined
-to recover the Amulet for your deity, or die in the
-attempt.  Your hour of destiny has come.  For the sake
-of us all:  Go bravely with %d!]],
-      },
-      legacy_angel = {
-         synopsis = "[%dC has chosen you to recover the Amulet of Yendor for %dI.]",
-         output = "menu",
-         text = [[It is written in the Book of %d:
-
-    After the Creation, the cruel god Moloch rebelled
-    against the authority of Marduk the Creator.
-    Moloch stole from Marduk the most powerful of all
-    the artifacts of the gods, the Amulet of Yendor,
-    and he hid it in the dark cavities of Gehennom, the
-    Under World, where he now lurks, and bides his time.
-
-As an angel of %d, you watched it happen.
-
-Your %G %d seeks to possess the Amulet, and with it
-to gain righteous ascendance over the other gods.
-
-You, a newly trained %r, have been chosen as the 
-holy weapon of %d.  You are to descend from the outer
-realms to recover the Amulet for your deity, or die in the
-attempt.  Your hour of destiny has come.  For the sake
-of us all:  Go bravely with %d!]],
+The wind picks up, and a foul stench issues from the
+mouth of the dungeon. Your hour of destiny has come. 
+Once again, it is time to go bravely with %d.]],
       },
       legacy_convict = {
          synopsis = "[%dC has chosen you to recover the Amulet of Yendor for %dI.]",
          output = "menu",
-         text = [[
-            It is written in the Book of %d:
+         text = [[Every night, the same dream. Every
+night, the same words:
 
     After the Creation, the cruel god Moloch rebelled
     against the authority of Marduk the Creator.
@@ -201,14 +183,11 @@ of us all:  Go bravely with %d!]],
     and he hid it in the dark cavities of Gehennom, the
     Under World, where he now lurks, and bides his time.
 
-Your %G %d seeks to possess the Amulet, and with it
-to gain deserved ascendance over the other gods.
-
-You, a newly escaped %r, have chosen to redeem
-yourself by recovering the Amulet for %d.  You are
-determined to recover the Amulet for your deity, or die
-in the attempt.  Your hour of destiny has come.  For
-the sake of us all:  Go bravely with %d!
+Unable to cope with the nightmares, you escaped your
+prison, seeking to redeem yourself by recovering the
+Amulet for %d.  You are determined to recover the Amulet 
+for your deity, or die in the attempt.  Your hour of
+destiny has come. Once more, you must go bravely with %d.
          ]],
       },
       angel_edicts = {

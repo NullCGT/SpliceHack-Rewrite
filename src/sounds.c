@@ -272,14 +272,16 @@ dosounds(void)
         }
         /* and don't produce silly effects when she's clearly visible */
         if (mtmp && (hallu || !canseemon(mtmp))) {
-            static const char *const ora_msg[5] = {
+            static const char *const ora_msg[7] = {
                 "a strange wind.",     /* Jupiter at Dodona */
                 "convulsive ravings.", /* Apollo at Delphi */
                 "snoring snakes.",     /* AEsculapius at Epidaurus */
+                "quiet singing.",      /* Splice story */
+                "reflective murmuring.", /* Splice story */
                 "someone say \"No more woodchucks!\"",
                 "a loud ZOT!" /* both rec.humor.oracle */
             };
-            You_hear1(ora_msg[rn2(3) + hallu * 2]);
+            You_hear1(ora_msg[rn2(5) + hallu * 2]);
         }
         return;
     }

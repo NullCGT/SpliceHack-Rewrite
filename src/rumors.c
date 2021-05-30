@@ -604,6 +604,9 @@ doconsult(struct monst* oracl)
     } else if (!oracl->mpeaceful) {
         pline("%s is in no mood for consultations.", Monnam(oracl));
         return 0;
+    } else if (u.uhave.amulet) {
+        if (canseemon(oracl)) pline("%s smiles sadly at you.", Monnam(oracl));
+        verbalize("Get thee gone, War. Thou hast chosen thy path. As always, I pray we do not meet again.");
     } else if (!umoney) {
         You("have no gold.");
         return 0;
