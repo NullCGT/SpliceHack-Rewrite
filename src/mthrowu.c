@@ -128,12 +128,24 @@ drop_throw(
     struct trap *t;
 
     if (obj->otyp == CREAM_PIE || obj->oclass == VENOM_CLASS
+        || (is_bullet(obj))
         || (ohit && obj->otyp == EGG))
         create = 0;
     else if (ohit && (is_multigen(obj) || obj->otyp == ROCK))
         create = !rn2(3);
     else
         create = 1;
+
+    /* Detonate rockets */
+	if (is_grenade(obj)) {
+		if (!ohit) {
+			create = 1; /* Don't destroy */
+			arm_bomb(obj, FALSE);
+		} else {
+            create = 0;
+			grenade_explode(obj, g.bhitpos.x, g.bhitpos.y, FALSE);
+		}
+	}
 
     if (create && !((mtmp = m_at(x, y)) != 0 && mtmp->mtrapped
                     && (t = t_at(x, y)) != 0
@@ -198,6 +210,10 @@ monmulti(struct monst* mtmp, struct obj* otmp, struct obj* mwep)
         /* Some randomness */
         multishot = (long) rnd((int) multishot);
 
+        /* gunz */
+        if (mwep && is_firearm(mwep))
+	        multishot += firearm_rof(mwep->otyp);
+
         /* class bonus */
         multishot += multishot_class_bonus(monsndx(mtmp->data), otmp, mwep);
 
@@ -250,11 +266,12 @@ monshoot(struct monst* mtmp, struct obj* otmp, struct obj* mwep)
         if (!strcmp(trgbuf, "it"))
             Strcpy(trgbuf, humanoid(mtmp->data) ? "someone" : something);
         pline("%s %s %s%s%s!", Monnam(mtmp),
-              g.m_shot.s ? "shoots" : "throws", onm,
+              g.m_shot.s ? is_bullet(otmp) ? "fires" : "shoots" : "throws", onm,
               mtarg ? " at " : "", trgbuf);
         g.m_shot.o = otmp->otyp;
     } else {
         g.m_shot.o = STRANGE_OBJECT; /* don't give multishot feedback */
+        if (is_bullet(otmp) && !Deaf) You("hear gunfire.");
     }
     g.m_shot.n = multishot;
     for (g.m_shot.i = 1; g.m_shot.i <= g.m_shot.n; g.m_shot.i++) {
@@ -707,6 +724,7 @@ thrwmm(struct monst* mtmp, struct monst* mtarg)
     struct obj *otmp, *mwep;
     register xchar x, y;
     boolean ispole;
+    int gun_range;
 
     /* Polearms won't be applied by monsters against other monsters */
     if (mtmp->weapon_check == NEED_WEAPON || !MON_WEP(mtmp)) {
@@ -724,6 +742,14 @@ thrwmm(struct monst* mtmp, struct monst* mtarg)
 
     x = mtmp->mx;
     y = mtmp->my;
+
+    mwep = MON_WEP(mtmp); /* wielded weapon */
+    if (mwep) gun_range = firearm_range(mwep->otyp);
+
+    if (mwep && is_firearm(mwep) && ammo_and_launcher(otmp, mwep) && gun_range &&
+		dist2(mtmp->mx, mtmp->my, mtarg->mx, mtarg->my) >
+		gun_range * gun_range)
+	    return 0; /* Out of range */
 
     mwep = MON_WEP(mtmp); /* wielded weapon */
 
@@ -1142,6 +1168,7 @@ hits_bars(
 
             hits = (oskill != -P_BOW && oskill != -P_CROSSBOW
                     && oskill != -P_DART && oskill != -P_SHURIKEN
+                    && oskill != -P_FIREARM
                     && oskill != P_SPEAR
                     && oskill != P_KNIFE); /* but not dagger */
             break;

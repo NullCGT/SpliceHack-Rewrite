@@ -62,6 +62,7 @@ struct obj {
     char oclass;    /* object class */
     char invlet;    /* designation in inventory */
     char oartifact; /* artifact array index */
+    schar 	altmode; 	/* alternate modes - eg. SMG, double Lightsaber */
 
     xchar where;        /* where the object thinks it is */
 #define OBJ_FREE 0      /* object not attached to anything */
@@ -74,6 +75,10 @@ struct obj {
 #define OBJ_ONBILL 7    /* object on shk bill */
 #define OBJ_LUAFREE 8   /* object has been dealloc'd, but is ref'd by lua */
 #define NOBJ_STATES 9
+
+#define WP_MODE_AUTO	0	/* Max firing speed */
+#define WP_MODE_BURST	1	/* 1/3 of max rate */
+#define WP_MODE_SINGLE 	2	/* Single shot */
     xchar timed; /* # of fuses (timers) attached to this obj */
 
     Bitfield(cursed, 1);
@@ -96,6 +101,7 @@ struct obj {
 #define norevive oeroded2 /* frozen corpse */
     Bitfield(oerodeproof, 1); /* erodeproof weapon/armor */
     Bitfield(olocked, 1);     /* object is locked */
+#define oarmed olocked      /* armed explosive */
     Bitfield(obroken, 1);     /* lock has been broken */
 #define degraded_horn obroken /* unicorn horn will poly to non-magic */
     Bitfield(otrapped, 1);    /* container is trapped */
@@ -115,7 +121,8 @@ struct obj {
     Bitfield(cknown, 1); /* for containers (including statues): the contents
                           * are known; also applicable to tins */
     Bitfield(lknown, 1); /* locked/unlocked status is known */
-    /* 4 free bits */
+    Bitfield(yours, 1);	/* obj is yours (eg. thrown by you) */
+    /* 6 free bits */
 
     int corpsenm;         /* type of corpse is mons[corpsenm] */
 #define leashmon corpsenm /* gets m_id of attached pet */
@@ -188,6 +195,8 @@ struct obj {
     ((otmp->oclass == WEAPON_CLASS || otmp->oclass == GEM_CLASS) \
      && objects[otmp->otyp].oc_skill >= -P_CROSSBOW              \
      && objects[otmp->otyp].oc_skill <= -P_BOW)
+#define is_grenade(otmp)	(otmp->otyp == FRAG_GRENADE || \
+                  otmp->otyp == GAS_GRENADE)
 #define matching_launcher(a, l) \
     ((l) && objects[(a)->otyp].oc_skill == -objects[(l)->otyp].oc_skill)
 #define ammo_and_launcher(a, l) (is_ammo(a) && matching_launcher(a, l))
@@ -207,13 +216,24 @@ struct obj {
     (otmp->oclass == WEAPON_CLASS                   \
      && objects[otmp->otyp].oc_skill >= -P_SHURIKEN \
      && objects[otmp->otyp].oc_skill <= -P_BOW)
-#define is_poisonable(otmp)                         \
-    (otmp->oclass == WEAPON_CLASS                   \
-     && objects[otmp->otyp].oc_skill >= -P_SHURIKEN \
-     && objects[otmp->otyp].oc_skill <= -P_BOW)
+#define is_poisonable(otmp)	((otmp->oclass == WEAPON_CLASS || is_weptool(otmp)) && \
+			!is_launcher(otmp) &&\
+			!is_unpoisonable_firearm_ammo(otmp) &&\
+            otmp->otyp != UNICORN_HORN &&\
+			objects[otmp->otyp].oc_dir &&\
+			objects[otmp->otyp].oc_dir != WHACK)
 #define uslinging() (uwep && objects[uwep->otyp].oc_skill == P_SLING)
 /* 'is_quest_artifact()' only applies to the current role's artifact */
 #define any_quest_artifact(o) ((o)->oartifact >= ART_ORB_OF_DETECTION)
+
+/* firearms */
+#define is_firearm(otmp) \
+			((otmp)->oclass == WEAPON_CLASS && \
+			 objects[(otmp)->otyp].oc_skill == P_FIREARM)
+#define is_bullet(otmp)	((otmp)->oclass == WEAPON_CLASS && \
+			 objects[(otmp)->otyp].oc_skill == -P_FIREARM)
+#define is_unpoisonable_firearm_ammo(otmp)	\
+			 (is_bullet(otmp) || is_grenade(otmp))
 
 /* Armor */
 #define is_shield(otmp)          \

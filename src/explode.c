@@ -930,4 +930,21 @@ mon_explodes(struct monst *mon, struct attack *mattk)
     g.killer.name[0] = '\0';
 }
 
+void arm_bomb(struct obj *obj, boolean yours)
+{
+    /* Three shall be the number of the counting and the 
+       number of the counting shall be three. */
+    if (obj->oarmed)
+        return;
+	if (obj->oartifact == ART_HAND_GRENADE_OF_ANTIOCH) {
+        attach_bomb_blow_timeout(obj, 3, yours);
+    } else if (is_grenade(obj)) {
+		attach_bomb_blow_timeout(obj, 
+			    (obj->cursed ? rn2(5) + 2 : obj->blessed ? 4 : 
+			    	rn2(2) + 3)
+			     , yours);			
+	}
+	/* Otherwise, do nothing */
+}
+
 /*explode.c*/

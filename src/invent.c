@@ -3607,6 +3607,10 @@ mergable(register struct obj *otmp, register struct obj *obj)
             return FALSE;
     }
 
+    /* armed grenades do not merge */
+	if ((obj->timed || otmp->timed) && is_grenade(obj))
+	    return FALSE;
+
     /* hatching eggs don't merge; ditto for revivable corpses */
     if ((obj->otyp == EGG && (obj->timed || otmp->timed))
         || (obj->otyp == CORPSE && otmp->corpsenm >= LOW_PM

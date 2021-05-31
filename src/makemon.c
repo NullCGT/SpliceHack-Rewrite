@@ -202,6 +202,8 @@ m_initweap(register struct monst *mtmp)
                 w1 = rn2(2) ? LONG_SWORD : SILVER_SABER;
                 break;
             case PM_CAPTAIN:
+                (void) mongets(mtmp, rn2(2) ? FRAG_GRENADE : GAS_GRENADE);
+                /* FALLTHRU */
             case PM_WATCH_CAPTAIN:
                 w1 = rn2(2) ? LONG_SWORD : SILVER_SABER;
                 break;
@@ -805,6 +807,10 @@ m_initinv(register struct monst *mtmp)
         break;
     default:
         break;
+    }
+
+    if (is_mercenary(ptr) && !rn2(6)) {
+        (void) mongets(mtmp, rn2(2) ? FRAG_GRENADE : GAS_GRENADE);
     }
 
     /* ordinary soldiers rarely have access to magic (or gold :-) */

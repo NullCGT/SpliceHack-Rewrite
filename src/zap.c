@@ -5526,4 +5526,30 @@ makewish(void)
     }
 }
 
+/*
+ * Note: obj is not valid after return
+ */
+void
+grenade_explode(struct obj *obj, int x, int y, boolean isyou)
+{
+    int ztype;
+    int otyp = obj->otyp;
+    int yours = isyou ? 1 : -1
+
+    if (obj->oartifact == ART_HAND_GRENADE_OF_ANTIOCH) {
+        ztype = isyou * ZT_SPELL(ZT_MAGIC_MISSILE);
+        explode(x, y, ztype, d(50,6), WEAPON_CLASS,
+            isyou * -1 * EXPL_FIERY);
+    } else if (otyp == FRAG_GRENADE) {
+        ztype = isyou * ZT_SPELL(ZT_FIRE);
+        explode(x, y, ztype, d(3,6), WEAPON_CLASS,
+            isyou * -1 * EXPL_FIERY);
+    } else if (otyp == GAS_GRENADE) {
+        ztype = isyou * ZT_SPELL(ZT_POISON_GAS);
+        explode(x, y, ztype, d(3,6), WEAPON_CLASS,
+            isyou * -1 * EXPL_NOXIOUS);
+    }
+    wake_nearto(x, y, 400);
+}
+
 /*zap.c*/

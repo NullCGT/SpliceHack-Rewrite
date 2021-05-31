@@ -111,6 +111,12 @@ static NEARDATA struct artifact artilist[] = {
     A("Fire Brand", LONG_SWORD, (SPFX_RESTR | SPFX_ATTK | SPFX_DEFN), 0, 0,
       FIRE(5, 0), FIRE(0, 0), NO_CARY, 0, A_NONE, NON_PM, NON_PM, 3000L,
       NO_COLOR),
+    
+    /* 
+    *       I cannot believe this hasn't been done yet.
+    */
+    A("Hand Grenade of Antioch", FRAG_GRENADE, (SPFX_RESTR), 0, 0, PHYS(1, 1),
+      NO_DFNS, NO_CARY, 0, A_LAWFUL, NON_PM, NON_PM, 300L, NO_COLOR),
 
     A("Dragonbane", BROADSWORD,
       (SPFX_RESTR | SPFX_DCLAS | SPFX_REFLECT), 0, S_DRAGON,

@@ -558,6 +558,8 @@ extern boolean walk_path(coord *, coord *, boolean(*)(void *, int, int),
                          genericptr_t);
 extern boolean hurtle_jump(genericptr_t, int, int);
 extern boolean hurtle_step(genericptr_t, int, int);
+extern int firearm_range(int);
+extern int firearm_rof(int);
 
 /* ### drawing.c ### */
 
@@ -741,6 +743,7 @@ extern void splatter_burning_oil(int, int, boolean);
 extern void explode_oil(struct obj *, int, int);
 extern int adtyp_to_expltype(int);
 extern void mon_explodes(struct monst *, struct attack *);
+extern void arm_bomb(struct obj *, boolean);
 
 /* ### extralev.c ### */
 
@@ -2572,6 +2575,7 @@ extern void substitute_tiles(d_level *);
 extern void burn_away_slime(void);
 extern void nh_timeout(void);
 extern void fall_asleep(int, boolean);
+extern void attach_bomb_blow_timeout(struct obj *, int, boolean);
 extern void attach_egg_hatch_timeout(struct obj *, long);
 extern void attach_fig_transform_timeout(struct obj *);
 extern void kill_egg(struct obj *);
@@ -3224,6 +3228,7 @@ extern void destroy_item(int, int);
 extern int destroy_mitem(struct monst *, int, int);
 extern int resist(struct monst *, char, int, int);
 extern void makewish(void);
+extern void grenade_explode(struct obj *, int, int, boolean);
 
 #endif /* !MAKEDEFS_C && !MDLIB_C */
 

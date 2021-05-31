@@ -25,19 +25,21 @@ static void skill_advance(int);
 #define PN_POLEARMS (-4)
 #define PN_SABER (-5)
 #define PN_HAMMER (-6)
-#define PN_WHIP (-7)
-#define PN_ATTACK_SPELL (-8)
-#define PN_HEALING_SPELL (-9)
-#define PN_DIVINATION_SPELL (-10)
-#define PN_ENCHANTMENT_SPELL (-11)
-#define PN_CLERIC_SPELL (-12)
-#define PN_ESCAPE_SPELL (-13)
-#define PN_MATTER_SPELL (-14)
+#define PN_FIREARMS (-7)
+#define PN_WHIP (-8)
+#define PN_ATTACK_SPELL (-9)
+#define PN_HEALING_SPELL (-10)
+#define PN_DIVINATION_SPELL (-11)
+#define PN_ENCHANTMENT_SPELL (-12)
+#define PN_CLERIC_SPELL (-13)
+#define PN_ESCAPE_SPELL (-14)
+#define PN_MATTER_SPELL (-15)
 
 static NEARDATA const short skill_names_indices[P_NUM_SKILLS] = {
     0, DAGGER, KNIFE, AXE, PICK_AXE, SHORT_SWORD, BROADSWORD, LONG_SWORD,
     TWO_HANDED_SWORD, SCIMITAR, PN_SABER, CLUB, MACE, MORNING_STAR, FLAIL,
     PN_HAMMER, QUARTERSTAFF, PN_POLEARMS, SPEAR, TRIDENT, LANCE, BOW, SLING,
+    PN_FIREARMS,
     CROSSBOW, DART, SHURIKEN, BOOMERANG, PN_WHIP, UNICORN_HORN,
     PN_ATTACK_SPELL, PN_HEALING_SPELL, PN_DIVINATION_SPELL,
     PN_ENCHANTMENT_SPELL, PN_CLERIC_SPELL, PN_ESCAPE_SPELL, PN_MATTER_SPELL,
@@ -47,8 +49,8 @@ static NEARDATA const short skill_names_indices[P_NUM_SKILLS] = {
 /* note: entry [0] isn't used */
 static NEARDATA const char *const odd_skill_names[] = {
     "no skill", "bare hands", /* use barehands_or_martial[] instead */
-    "two weapon combat", "riding", "polearms", "saber", "hammer", "whip",
-    "attack spells", "healing spells", "divination spells",
+    "two weapon combat", "riding", "polearms", "saber", "hammer", "firearms",
+    "whip", "attack spells", "healing spells", "divination spells",
     "enchantment spells", "clerical spells", "escape spells", "matter spells",
 };
 /* indexed via is_martial() */
@@ -123,6 +125,10 @@ weapon_descr(struct obj *obj)
     case P_CROSSBOW:
         if (is_ammo(obj))
             descr = "bolt";
+        break;
+    case P_FIREARM:
+        if (is_ammo(obj))
+            descr = "bullet";
         break;
     case P_FLAIL:
         if (obj->otyp == GRAPPLING_HOOK)
@@ -487,6 +493,7 @@ oselect(struct monst *mtmp, int x)
 
 /* TODO: have monsters use aklys' throw-and-return */
 static NEARDATA const int rwep[] = {
+    FRAG_GRENADE, GAS_GRENADE, BULLET, SHOTGUN_SHELL,
     DWARVISH_SPEAR, SILVER_SPEAR, ELVEN_SPEAR, SPEAR, ORCISH_SPEAR, JAVELIN,
     SHURIKEN, YA, SILVER_ARROW, ELVEN_ARROW, ARROW, ORCISH_ARROW,
     CROSSBOW_BOLT, SILVER_DAGGER, ELVEN_DAGGER, DAGGER, ORCISH_DAGGER, KNIFE,
@@ -589,6 +596,19 @@ select_rwep(struct monst *mtmp)
                 break;
             case P_CROSSBOW:
                 g.propellor = oselect(mtmp, CROSSBOW);
+                break;
+            case P_FIREARM:
+                if ((objects[rwep[i]].w_ammotyp) == WP_BULLET) {
+                    g.propellor = (oselect(mtmp, HEAVY_MACHINE_GUN));
+                    if (!g.propellor) g.propellor = (oselect(mtmp, SUBMACHINE_GUN));
+                    if (!g.propellor) g.propellor = (oselect(mtmp, SNIPER_RIFLE));
+                    if (!g.propellor) g.propellor = (oselect(mtmp, RIFLE));
+                    if (!g.propellor) g.propellor = (oselect(mtmp, PISTOL));
+                } else if ((objects[rwep[i]].w_ammotyp) == WP_SHELL) {
+                    g.propellor = (oselect(mtmp, AUTO_SHOTGUN));
+                    if (!g.propellor) g.propellor = (oselect(mtmp, SHOTGUN));
+                }
+                break;
             }
             if ((otmp = MON_WEP(mtmp)) && mwelded(otmp) && otmp != g.propellor
                 && mtmp->weapon_check == NO_WEAPON_WANTED)
@@ -642,7 +662,7 @@ static const NEARDATA short hwep[] = {
     DWARVISH_SPEAR, SILVER_SPEAR, ELVEN_SPEAR, SPEAR, ORCISH_SPEAR, FLAIL,
     BULLWHIP, QUARTERSTAFF, JAVELIN, AKLYS, CLUB, PICK_AXE, RUBBER_HOSE,
     WAR_HAMMER, SILVER_DAGGER, ELVEN_DAGGER, DAGGER, ORCISH_DAGGER, ATHAME,
-    SCALPEL, KNIFE, WORM_TOOTH
+    SCALPEL, KNIFE, WORM_TOOTH, RIFLE, PISTOL, AUTO_SHOTGUN, SHOTGUN
 };
 
 /* select a hand to hand weapon for the monster */

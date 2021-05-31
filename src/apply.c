@@ -3666,7 +3666,11 @@ apply_ok(struct obj *obj)
     /* certain weapons */
     if (obj->oclass == WEAPON_CLASS
         && (is_pick(obj) || is_axe(obj) || is_pole(obj)
-            || obj->otyp == BULLWHIP))
+            || obj->otyp == BULLWHIP
+            || obj->otyp == SUBMACHINE_GUN
+            || obj->otyp == AUTO_SHOTGUN
+            || obj->otyp == FRAG_GRENADE
+            || obj->otyp == GAS_GRENADE))
         return GETOBJ_SUGGEST;
 
     if (obj->oclass == POTION_CLASS) {
@@ -3887,6 +3891,22 @@ doapply(void)
     case TOUCHSTONE:
         use_stone(obj);
         break;
+    case AUTO_SHOTGUN:
+	case SUBMACHINE_GUN:		
+		if (obj->altmode == WP_MODE_AUTO) obj-> altmode = WP_MODE_SINGLE;
+		else obj->altmode = WP_MODE_AUTO;
+		You("switch %s to %s mode.", yname(obj), 
+			(obj->altmode ? "semi-automatic" : "full automatic"));
+		break;
+    case FRAG_GRENADE:
+	case GAS_GRENADE:
+		if (!obj->oarmed) {
+            if (obj->oartifact == ART_HAND_GRENADE_OF_ANTIOCH) You("pull the holy pin.");
+			else You("arm %s.", yname(obj));
+			arm_bomb(obj, TRUE);
+            update_inventory();
+		} else pline("It's already armed!");
+		break;
     default:
         /* Pole-weapons can strike at a distance */
         if (is_pole(obj)) {
