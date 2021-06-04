@@ -162,7 +162,7 @@ m_initweap(register struct monst *mtmp)
     register struct permonst *ptr = mtmp->data;
     register int mm = monsndx(ptr);
     struct obj *otmp;
-    int bias, w1, w2;
+    int bias, w1, w2, spe2;
 
     if (Is_rogue_level(&u.uz))
         return;
@@ -320,7 +320,29 @@ m_initweap(register struct monst *mtmp)
                 (void) mongets(mtmp, CLUB);
                 (void) mongets(mtmp, LEATHER_ARMOR);
                 break;
+            case PM_PIRATE_CREWMATE:
+                (void) mongets(mtmp, SCIMITAR);
+     		    (void) mongets(mtmp, LEATHER_ARMOR);
+     			(void) mongets(mtmp, HIGH_BOOTS);
+                break;
             }
+        }
+        break;
+    case S_GHOST:
+     	if (mm == PM_BLACKBEARD_S_GHOST) {
+     		    otmp = mksobj(SCIMITAR, FALSE, FALSE);
+     		    curse(otmp);
+     		    otmp->oerodeproof = TRUE;
+     			  otmp->oeroded = 1;
+     		    spe2 = d(2,3);
+     		    otmp->spe = max(otmp->spe, spe2);
+     		    (void) mpickobj(mtmp, otmp);
+
+            otmp = mksobj(CHEST, FALSE, FALSE);
+            otmp = oname(otmp, artiname(ART_TREASURY_OF_PROTEUS));
+            curse(otmp);
+            otmp->oerodeproof = TRUE;
+            mpickobj(mtmp, otmp);
         }
         break;
 
@@ -475,10 +497,26 @@ m_initweap(register struct monst *mtmp)
         (void) mongets(mtmp, LONG_SWORD);
         break;
     case S_ZOMBIE:
-        if (!rn2(4))
+        switch (mm) {
+        case PM_SKELETON:
+            if (!rn2(4))
             (void) mongets(mtmp, LEATHER_ARMOR);
         if (!rn2(4))
             (void) mongets(mtmp, (rn2(3) ? KNIFE : SHORT_SWORD));
+            break;
+        case PM_SKELETAL_PIRATE:
+            otmp = rn2(2) ? mksobj(SCIMITAR, FALSE, FALSE) :
+                    mksobj(KNIFE, FALSE, FALSE);
+            	  curse(otmp);
+             		otmp->oeroded = 1;
+             		(void) mpickobj(mtmp, otmp);
+             		otmp = rn2(2) ? mksobj(HIGH_BOOTS, FALSE, FALSE) :
+                    mksobj(LEATHER_JACKET, FALSE, FALSE);
+             		curse(otmp);
+             		otmp->oeroded2 = 1;
+             		(void) mpickobj(mtmp, otmp);
+            break;
+        }
         break;
     case S_LIZARD:
         if (mm == PM_SALAMANDER)
@@ -487,6 +525,15 @@ m_initweap(register struct monst *mtmp)
         break;
     case S_DEMON:
         switch (mm) {
+        case PM_DAMNED_PIRATE:
+            otmp = mksobj(SCIMITAR, FALSE, FALSE);
+            curse(otmp);
+            (void) mpickobj(mtmp, otmp);
+            otmp = mksobj(LEATHER_ARMOR, FALSE, FALSE);
+            curse(otmp);
+            otmp->oeroded = 1;
+            (void) mpickobj(mtmp, otmp);
+            break;
         case PM_BALROG:
             (void) mongets(mtmp, BULLWHIP);
             (void) mongets(mtmp, BROADSWORD);
@@ -507,7 +554,7 @@ m_initweap(register struct monst *mtmp)
         /* prevent djinn and mail daemons from leaving objects when
          * they vanish
          */
-        if (!is_demon(ptr))
+        if (!is_demon(ptr) && mm != PM_DAMNED_PIRATE)
             break;
         /*FALLTHRU*/
     default:
@@ -717,6 +764,11 @@ m_initinv(register struct monst *mtmp)
 		    otmp = mksobj(BRASS_LANTERN, TRUE, FALSE);
 			(void) mpickobj(mtmp, otmp);
             begin_burn(otmp, FALSE);
+        } else if(ptr == &mons[PM_PLANAR_PIRATE]){
+            (void) mongets(mtmp, TWO_HANDED_SWORD);
+            (void) mongets(mtmp, CRYSTAL_PLATE_MAIL);
+            (void) mongets(mtmp, LEATHER_GLOVES);
+            (void) mongets(mtmp, HIGH_BOOTS);
         }
         break;
     case S_NYMPH:
@@ -809,7 +861,9 @@ m_initinv(register struct monst *mtmp)
         break;
     }
 
-    if (is_mercenary(ptr) && !rn2(6)) {
+    if (is_pirate(ptr) && !rn2(2)) {
+        (void) mongets(mtmp, FRAG_GRENADE);
+    } else if (is_mercenary(ptr) && !rn2(6)) {
         (void) mongets(mtmp, rn2(2) ? FRAG_GRENADE : GAS_GRENADE);
     }
 
@@ -1605,6 +1659,14 @@ rndmonst(void)
     register int mndx;
     int weight, totalweight, selected_mndx, zlevel, minmlev, maxmlev;
     boolean elemlevel, upper;
+
+    if (u.ukinghill) { /* You have pirate quest artifact in open inventory */
+   		  if(rnd(100) > 80){
+   			    if (In_endgame(&u.uz)) return &mons[PM_PLANAR_PIRATE];
+   			    else if (Inhell) return &mons[PM_DAMNED_PIRATE];
+   			    else return &mons[PM_SKELETAL_PIRATE];
+   		  }
+   	}
 
     if (u.uz.dnum == quest_dnum && rn2(7) && (ptr = qt_montype()) != 0)
         return ptr;

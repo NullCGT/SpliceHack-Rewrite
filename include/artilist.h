@@ -173,6 +173,16 @@ static NEARDATA struct artifact artilist[] = {
       PHYS(5,6),	NO_DFNS,	NO_CARY,	0, A_CHAOTIC, PM_CONVICT, NON_PM, 3000L,
       NO_COLOR),
 
+    /* PIRATE ARTIFACTS */
+
+    A("Reaver",	SCIMITAR, (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL), 0, 0,
+     	PHYS(5, 8), NO_DFNS,	NO_CARY, 0, A_CHAOTIC, PM_PIRATE, NON_PM, 6000L,
+      NO_COLOR),
+
+    A("The Marauder's Map", SCR_MAGIC_MAPPING, SPFX_RESTR, 0, 0, NO_ATTK,
+      NO_DFNS,	NO_CARY, OBJECT_DET,	A_CHAOTIC, PM_PIRATE, NON_PM, 2000L,
+      NO_COLOR),
+
     /*
      *      The artifacts for the quest dungeon, all self-willed.
      */
@@ -221,6 +231,10 @@ A("The Palantir of Westernesse",        CRYSTAL_BALL,
       (SPFX_NOGEN | SPFX_RESTR | SPFX_DFLAG2 | SPFX_INTEL | SPFX_PROTECT), 0,
       M2_UNDEAD, NO_ATTK, NO_DFNS, CARY(AD_FIRE), ENERGY_BOOST, A_LAWFUL,
       PM_CLERIC, NON_PM, 2000L, NO_COLOR),
+
+    A("The Treasury of Proteus",	CHEST,
+     	(SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL), SPFX_LUCK, 0, NO_ATTK,NO_DFNS,
+      CARY(AD_MAGM), 0,	A_CHAOTIC, PM_PIRATE, NON_PM, 2500L, NO_COLOR),
 
     A("The Longbow of Diana", BOW,
       (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL | SPFX_REFLECT), SPFX_ESP, 0,

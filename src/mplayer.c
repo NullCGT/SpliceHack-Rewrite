@@ -210,6 +210,13 @@ mk_mplayer(struct permonst *ptr, xchar x, xchar y, boolean special)
             if (rn2(2))
                 shield = STRANGE_OBJECT;
             break;
+        case PM_PIRATE:
+            if (rn2(4))
+                weapon = SCIMITAR;
+            if (rn2(3))
+                armor = LEATHER_JACKET;
+            (void) mongets(mtmp, POT_BOOZE);
+            break;
         case PM_CLERIC:
             if (rn2(2))
                 weapon = MACE;

@@ -1988,6 +1988,10 @@ mm_2way_aggression(struct monst *magr, struct monst *mdef)
     /* zombies vs things that can be zombified */
     if (zombie_maker(magr) && zombie_form(mdef->data) != NON_PM)
         return (ALLOW_M | ALLOW_TM);
+    if (is_pirate(magr->data) && is_mercenary(mdef->data))
+        return (ALLOW_M | ALLOW_TM);
+    if (is_pirate(magr->data) && !magr->mpeaceful && u.ukinghill)
+        return (ALLOW_M | ALLOW_TM);
 
     return 0;
 }

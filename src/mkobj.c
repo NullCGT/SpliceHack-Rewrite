@@ -788,7 +788,7 @@ mksobj(int otyp, boolean init, boolean artif)
             if (is_poisonable(otmp) && !rn2(100))
                 otmp->opoisoned = 1;
 
-            if (artif && !rn2(20))
+            if (artif && !rn2(Role_if(PM_PIRATE) ? 5 : 20))
                 otmp = mk_artifact(otmp, (aligntyp) A_NONE);
             if (!otmp->oartifact && !otmp->cursed
                 && (otmp->spe + otmp->oerodeproof > rnd(5)))
@@ -986,7 +986,7 @@ mksobj(int otyp, boolean init, boolean artif)
                 otmp->spe = rne(3);
             } else
                 blessorcurse(otmp, 10);
-            if (artif && !rn2(40))
+            if (artif && !rn2(Role_if(PM_PIRATE) ? 10 : 40))
                 otmp = mk_artifact(otmp, (aligntyp) A_NONE);
             /* simulate lacquered armor for samurai */
             if (Role_if(PM_SAMURAI) && otmp->otyp == SPLINT_MAIL
@@ -1415,6 +1415,10 @@ int
 weight(struct obj* obj)
 {
     int wt = (int) objects[obj->otyp].oc_weight;
+
+    if (obj->oartifact == ART_TREASURY_OF_PROTEUS) {
+     	wt =  150; /* Same as a crystal ball (ie, the Orb of Weight) */
+    }
 
     /* glob absorpsion means that merging globs accumulates weight while
        quantity stays 1, so update 'wt' to reflect that, unless owt is 0,

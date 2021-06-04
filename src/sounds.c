@@ -334,6 +334,9 @@ growl_sound(register struct monst* mtmp)
     case MS_SILENT:
         ret = "commotion";
         break;
+    case MS_PIRATE:
+        ret = "curse";
+        break;
     default:
         ret = "scream";
     }
@@ -754,6 +757,16 @@ domonnoise(register struct monst* mtmp)
         break;
     case MS_BUZZ:
         pline_msg = mtmp->mpeaceful ? "drones." : "buzzes angrily.";
+        break;
+    case MS_PIRATE:
+        if (!mtmp->mpeaceful) {
+              pline("says, \"Ye be off the edge of the map, matey.\"");
+              break;
+        } else if (is_undead(mtmp->data)) {
+            pline_msg = "tells you to be careful of cursed gold.";
+        } else {
+            pline_msg = "talks to you about the pirate code.";
+        }
         break;
     case MS_GRUNT:
         pline_msg = "grunts.";

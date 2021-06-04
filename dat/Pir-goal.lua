@@ -233,13 +233,3 @@ des.monster("damned pirate")
 des.monster("skeletal pirate")
 des.monster("skeletal pirate")
 des.monster("skeletal pirate")
-
---
---	The "fill" levels for the quest.
---
---	These levels are used to fill out any levels not occupied by specific
---	levels as defined above. "filla" is the upper filler, between the
---	start and locate levels, and "fillb" the lower between the locate
---	and goal levels.
---
---

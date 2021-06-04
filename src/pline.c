@@ -19,6 +19,65 @@ extern void maybe_play_sound(const char *);
 #endif
 #if defined(DUMPLOG) || defined(DUMPHTML)
 
+/*Ben Collver's fixes*/
+const char *
+replace(const char *st, const char *orig, const char *repl)
+{
+  	static char retval[TBUFSZ];
+  	char buffer[TBUFSZ];
+  	const char *ch, *pos;
+  	size_t len;
+  	memset(buffer, 0, TBUFSZ);
+  	pos = st;
+  	while ((ch = strstr(pos, orig))){
+    		len = (ch - pos);
+    		strncat(buffer, pos, len);
+    		strncat(buffer, repl, strlen(repl));
+    		pos = (ch + strlen(orig));
+  	}
+  	if (pos == st) {
+  		  return st;
+  	}
+  	if (pos < (st + strlen(st))) {
+  		  strncat(buffer, pos, (st - pos));
+  	}
+  	strcpy(retval, buffer);
+  	return retval;
+}
+
+
+/*Ben Collver's fixes*/
+const char *
+piratesay(const char *orig)
+{
+		orig = replace(orig,"You","Ye");
+		orig = replace(orig,"you","ye");
+		orig = replace(orig,"His","'is");
+		orig = replace(orig," his"," 'is");
+		orig = replace(orig,"Her","'er");
+		orig = replace(orig," her"," 'er");
+		orig = replace(orig,"Are","Be");
+		orig = replace(orig," are"," be");
+		orig = replace(orig,"Is","Be");
+		orig = replace(orig," is "," be ");
+        orig = replace(orig," is."," be.");
+		orig = replace(orig,"Of","O'");
+		orig = replace(orig," eye"," deadlight");
+		orig = replace(orig,"zorkmid","doubloon");
+		orig = replace(orig,"Zorkmid","Doubloon");
+		orig = replace(orig,"gold coins","pieces of eight");
+		orig = replace(orig,"Gold coins","Pieces of eight");
+		orig = replace(orig,"gold coin","piece of eight");
+		orig = replace(orig,"Gold coin","Piece of eight");
+		orig = replace(orig,"gold pieces","pieces of eight");
+		orig = replace(orig,"Gold pieces","Pieces of eight");
+		orig = replace(orig,"gold piece","piece of eight");
+		orig = replace(orig,"Gold piece","Piece of eight");
+        orig = replace(orig,"Ouch!","Arrr!");
+        orig = replace(orig,"Wow!","Avast!");
+		return orig;
+}
+
 /* keep the most recent DUMPLOG_MSG_COUNT messages */
 void
 dumplogmsg(const char *line)
@@ -150,6 +209,11 @@ vpline(const char *line, va_list the_args)
     if ((g.pline_flags & SUPPRESS_HISTORY) == 0)
         dumplogmsg(line);
 #endif
+
+    if(Role_if(PM_PIRATE)){
+     		line = piratesay(line);
+   	}
+
     /* use raw_print() if we're called too early (or perhaps too late
        during shutdown) or if we're being called recursively (probably
        via debugpline() in the interface code) */

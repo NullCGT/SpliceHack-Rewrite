@@ -71,6 +71,15 @@ struct Jitem {
              && typ != SAPPHIRE && typ != BLACK_OPAL && typ != EMERALD \
              && typ != OPAL)))
 
+static struct Jitem Pirate_items[] = { { POT_BOOZE, "rum" },
+                                        	 { CRAM_RATION, "sea biscuit" },
+                                        	 { SCIMITAR, "cutlass" },
+                                        	 { SMALL_SHIELD, "buckler" },
+                                        	 { SACK, "ditty bag" },
+                                        	 { LARGE_BOX, "foot locker" },
+                                        	 { CLUB, "belaying pin" },
+                                           { QUARTERSTAFF, "oar"},
+                                        	 {0, "" } };
 static struct Jitem Japanese_items[] = { { SHORT_SWORD, "wakizashi" },
                                              { BROADSWORD, "ninja-to" },
                                              { FLAIL, "nunchaku" },
@@ -85,7 +94,7 @@ static struct Jitem Japanese_items[] = { { SHORT_SWORD, "wakizashi" },
                                              { POT_BOOZE, "sake" },
                                              { 0, "" } };
 
-static const char *Japanese_item_name(int i);
+static const char *Alternate_item_name(int i, struct Jitem *);
 
 static char *
 strprepend(char *s,const char * pref)
@@ -136,8 +145,11 @@ obj_typename(int otyp)
     const char *un = ocl->oc_uname;
     int nn = ocl->oc_name_known;
 
-    if (Role_if(PM_SAMURAI) && Japanese_item_name(otyp))
-        actualn = Japanese_item_name(otyp);
+    if (Role_if(PM_SAMURAI) && Alternate_item_name(otyp,Japanese_items))
+        actualn = Alternate_item_name(otyp,Japanese_items);
+    else if (Role_if(PM_PIRATE) && Alternate_item_name(otyp,Pirate_items))
+     	actualn = Alternate_item_name(otyp,Pirate_items);
+
     switch (ocl->oc_class) {
     case COIN_CLASS:
         Strcpy(buf, "coin");
@@ -442,8 +454,10 @@ xname_flags(
     boolean known, dknown, bknown;
 
     buf = nextobuf() + PREFIX; /* leave room for "17 -3 " */
-    if (Role_if(PM_SAMURAI) && Japanese_item_name(typ))
-        actualn = Japanese_item_name(typ);
+    if (Role_if(PM_SAMURAI) && Alternate_item_name(typ, Japanese_items))
+        actualn = Alternate_item_name(typ, Japanese_items);
+    else if (Role_if(PM_PIRATE) && Alternate_item_name(typ,Pirate_items))
+     	actualn = Alternate_item_name(typ,Pirate_items);
     /* As of 3.6.2: this used to be part of 'dn's initialization, but it
        needs to come after possibly overriding 'actualn' */
     if (!dn)
@@ -2057,6 +2071,12 @@ vtense(const char* subj, const char* verb)
      * Special case: allow null sobj to get the singular 3rd person
      * present tense form so we don't duplicate this code elsewhere.
      */
+
+    if(Role_if(PM_PIRATE) && !strcmp(verb,"are")) {
+    		Strcpy(buf,"be");
+    		return buf;
+    }
+
     if (subj) {
         if (!strncmpi(subj, "a ", 2) || !strncmpi(subj, "an ", 3))
             goto sing;
@@ -3988,15 +4008,17 @@ readobjnam_postparse3(struct _readobjnam_data* d)
     d->typ = 0;
 
     if (d->actualn) {
-        struct Jitem *j = Japanese_items;
-
-        while (j->item) {
-            if (d->actualn && !strcmpi(d->actualn, j->name)) {
-                d->typ = j->item;
-                return 2; /*goto typfnd;*/
-            }
-            j++;
-        }
+        struct Jitem *j[] = {Japanese_items,Pirate_items};
+    		for(i = 0; (unsigned long) i < sizeof(j) / sizeof(j[0]); i++)
+    		{
+         		while(j[i]->item) {
+           			if (d->actualn && !strcmpi(d->actualn, j[i]->name)) {
+           				  d->typ = j[i]->item;
+            				return 2; /* goto typfnd;*/
+            		}
+           			j[i]++;
+         		}
+  		  }
     }
     /* if we've stripped off "armor" and failed to match anything
        in objects[], append "mail" and try again to catch misnamed
@@ -4520,6 +4542,7 @@ readobjnam(char* bp, struct obj* no_wish)
     /* more wishing abuse: don't allow wishing for certain artifacts */
     /* and make them pay; charge them for the wish anyway! */
     if ((is_quest_artifact(d.otmp)
+         || (Role_if(PM_PIRATE) && d.otmp->oartifact == ART_REAVER)
          || (d.otmp->oartifact && rn2(nartifact_exist()) > 1)) && !wizard) {
         artifact_exists(d.otmp, safe_oname(d.otmp), FALSE);
         obfree(d.otmp, (struct obj *) 0);
@@ -4572,16 +4595,14 @@ rnd_class(int first, int last)
 }
 
 static const char *
-Japanese_item_name(int i)
+Alternate_item_name(int i, struct Jitem *alternate_items)
 {
-    struct Jitem *j = Japanese_items;
-
-    while (j->item) {
-        if (i == j->item)
-            return j->name;
-        j++;
+    while(alternate_items->item) {
+   		  if (i == alternate_items->item)
+   			    return alternate_items->name;
+   		  alternate_items++;
     }
-    return (const char *) 0;
+    return (const char *)0;
 }
 
 const char *

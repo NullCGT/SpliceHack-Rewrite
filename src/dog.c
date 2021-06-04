@@ -58,6 +58,13 @@ pet_type(void)
 
     if (g.urole.petnum != NON_PM) {
         return  g.urole.petnum;
+    } else if (Role_if(PM_PIRATE)) {
+     		if (g.preferred_pet == 'B')
+     			  return (PM_PARROT);
+     		else if(g.preferred_pet == 'Y')
+     			  return PM_MONKEY;
+     		else
+     			  return (rn2(2) ? PM_PARROT : PM_MONKEY);
     } else if (Role_if(PM_DRAGON_RIDER)) {
         dragon_type = PM_BABY_SILVER_DRAGON 
             + rn2(PM_BABY_YELLOW_DRAGON - PM_BABY_SILVER_DRAGON);

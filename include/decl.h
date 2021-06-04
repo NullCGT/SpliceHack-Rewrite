@@ -619,7 +619,7 @@ struct repo { /* repossession context */
 #define BP_ROLE 3
 #define NUM_BP 4
 
-#define NUM_ROLES (15)
+#define NUM_ROLES (16)
 struct role_filter {
     boolean roles[NUM_ROLES+1];
     short mask;

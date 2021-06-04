@@ -889,7 +889,8 @@ menu_drop(int retry)
         bypass_objlist(g.invent, FALSE);
     } else {
         /* should coordinate with perm invent, maybe not show worn items */
-        n = query_objlist("What would you like to drop?", &g.invent,
+        n = query_objlist(Role_if(PM_PIRATE) ? "What would ye like to drop?" : 
+                            "What would you like to drop?", &g.invent,
                           (USE_INVLET | INVORDER_SORT | INCLUDE_VENOM),
                           &pick_list, PICK_ANY,
                           all_categories ? allow_all : allow_category);
@@ -1044,7 +1045,11 @@ dodown(void)
     }
     if (on_level(&valley_level, &u.uz) && !u.uevent.gehennom_entered) {
         You("are standing at the gate to Gehennom.");
-        pline("Unspeakable cruelty and harm lurk down there.");
+        if (Role_if(PM_PIRATE)) {
+            pline("There, there be monsters.");
+        } else {
+            pline("Unspeakable cruelty and harm lurk down there.");
+        }
         if (yn("Are you sure you want to enter?") != 'y')
             return 0;
         pline("So be it.");

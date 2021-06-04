@@ -384,6 +384,9 @@ struct you {
 
     int uhunger;  /* refd only in eat.c and shk.c (also insight.c) */
     unsigned uhs; /* hunger state - see eat.c */
+    boolean ukinghill; /* records if you are carying the pirate treasure
+    (and are therefor king of the hill) */
+    int protean; /* counter for the auto-polypiling power of the chest*/
 
     struct prop uprops[LAST_PROP + 1];
 

@@ -3933,7 +3933,7 @@ mhitm_ad_sedu(struct monst *magr, struct attack *mattk, struct monst *mdef,
             return;
         }
         buf[0] = '\0';
-        switch (steal(magr, buf)) {
+        switch (steal(magr, buf, FALSE)) {
         case -1:
             mhm->hitflags = MM_AGR_DIED; /* return 2??? */
             mhm->done = TRUE;

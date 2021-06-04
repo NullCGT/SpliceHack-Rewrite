@@ -70,6 +70,11 @@ static const struct innate {
                  { 17, &(HTeleport_control), "controlled", "uncontrolled" },
                  { 0, 0, 0, 0 } },
 
+  pir_abil[] = {  {1, &(HSwimming), "", ""  },
+                  {	7, &(HStealth), "stealthy", ""  },	/* with cat-like tread ... */
+                  {  11, &(HFast), "quick", "slow" },
+                  {	 0, 0, 0, 0 } },
+
   pri_abil[] = { { 15, &(HWarning), "sensitive", "" },
                  { 20, &(HFire_resistance), "cool", "warmer" },
                  { 0, 0, 0, 0 } },
@@ -716,6 +721,7 @@ role_abil(int r)
         { PM_KNIGHT, kni_abil },
         { PM_MONK, mon_abil },
         { PM_CLERIC, pri_abil },
+        { PM_PIRATE, pir_abil },
         { PM_RANGER, ran_abil },
         { PM_ROGUE, rog_abil },
         { PM_SAMURAI, sam_abil },
