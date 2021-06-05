@@ -410,7 +410,8 @@ polyself(int psflags)
             iswere = (u.ulycn >= LOW_PM),
             isvamp = (is_vampire(g.youmonst.data)
                       || is_vampshifter(&g.youmonst)),
-            controllable_poly = Polymorph_control && !(Stunned || Unaware);
+            controllable_poly = Polymorph_control && !(Stunned || Unaware),
+            iscirce = (psflags == 5);
 
     if (Unchanging) {
         pline("You fail to transform!");
@@ -557,6 +558,8 @@ polyself(int psflags)
                 mntmp = PM_HUMAN; /* Illegal; force newman() */
             else
                 mntmp = u.ulycn;
+        } else if (iscirce) {
+            mntmp = PM_PIG;
         } else if (isvamp) {
  do_vampyr:
             if (mntmp < LOW_PM || (mons[mntmp].geno & G_UNIQ)) {

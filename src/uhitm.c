@@ -230,7 +230,8 @@ attack_checks(struct monst *mtmp,
     if (flags.confirm && mtmp->mpeaceful
         && !Confusion && !Hallucination && !Stunned) {
         /* Intelligent chaotic weapons (Stormbringer) want blood */
-        if (wep && wep->oartifact == ART_STORMBRINGER) {
+        if (wep && (wep->oartifact == ART_STORMBRINGER
+                    || wep->oartifact == ART_WAR_S_SWORD)) {
             g.override_confirmation = TRUE;
             return FALSE;
         }
@@ -367,7 +368,8 @@ do_attack(struct monst *mtmp)
      */
     /* Intelligent chaotic weapons (Stormbringer) want blood */
     if (is_safemon(mtmp) && !g.context.forcefight) {
-        if (!uwep || uwep->oartifact != ART_STORMBRINGER) {
+        if (!uwep || (uwep->oartifact != ART_STORMBRINGER
+            && uwep->oartifact != ART_WAR_S_SWORD)) {
             /* There are some additional considerations: this won't work
              * if in a shop or Punished or you miss a random roll or
              * if you can walk thru walls and your pet cannot (KAA) or
@@ -761,7 +763,7 @@ hmon_hitmon(struct monst *mon,
                 /* or strike with a missile in your hand... */
                 || (!thrown && (is_missile(obj) || is_ammo(obj)))
                 /* or use a pole at short range and not mounted... */
-                || (!thrown && !u.usteed && is_pole(obj))
+                || (!thrown && !u.usteed && is_pole(obj) && obj->otyp != SPIKED_CHAIN)
                 /* or throw a missile without the proper bow... */
                 || (is_ammo(obj) && (thrown != HMON_THROWN
                                      || !ammo_and_launcher(obj, uwep)))) {
@@ -859,6 +861,15 @@ hmon_hitmon(struct monst *mon,
                         return TRUE;
                     hittxt = TRUE;
                 }
+
+                /* handle the damages of special artifacts */
+                if (obj->oartifact && obj->oartifact == ART_LUCKLESS_FOLLY) {
+                    tmp -= 2 * Luck;
+                } else if (obj && obj->oartifact &&
+                    obj->oartifact == ART_WAR_S_SWORD) {
+                    tmp += (min(num_genocides(), 20) + num_extinct());
+                }
+
                 if (objects[obj->otyp].oc_material == SILVER
                     && mon_hates_silver(mon)) {
                     silvermsg = TRUE;
@@ -885,11 +896,26 @@ hmon_hitmon(struct monst *mon,
                         else if (Race_if(PM_ELF) && obj->otyp == ELVEN_ARROW
                                  && uwep->otyp == ELVEN_BOW)
                             tmp++;
+                        else if (Race_if(PM_DROW) && obj->otyp == DARK_ELVEN_ARROW
+                                 && uwep->otyp == DARK_ELVEN_BOW)
+                            tmp ++;
                         train_weapon_skill = (tmp > 0);
                     }
                     if (obj->opoisoned && is_poisonable(obj))
                         ispoisoned = TRUE;
                 }
+            }
+
+            if (thrown == HMON_THROWN
+                && obj->oartifact == ART_GAE_BULG && !noncorporeal(mdat) &&
+                !amorphous(mdat)) {
+                    tmp += mon->mhp;
+                    pline("%s impales %s!", yname(obj), mon_nam(mon));
+                    livelog_printf(LL_UMONST, "cast forth Gae Bulg %s %s ",
+                        nonliving(mon->data) ? "to destroy" : "to kill",
+                        noit_mon_nam(mon));
+                    pline("The deadly spear vanishes...");
+                    obfree(obj, (struct obj *) 0);
             }
 
         /* attacking with non-weapons */
@@ -1200,6 +1226,11 @@ hmon_hitmon(struct monst *mon,
         /* don't let penalty, if bonus is negative, turn a hit into a miss */
         if (tmp < 1)
             tmp = 1;
+    }
+
+    /* Lenses of death perception */
+    if (DeathVision) {
+        tmp *= 2;
     }
 
     if (ispoisoned) {

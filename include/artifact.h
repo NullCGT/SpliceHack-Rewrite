@@ -37,6 +37,10 @@
 #define SPFX_XRAY   0x02000000L /* gives X-RAY vision to player */
 #define SPFX_REFLECT 0x04000000L /* Reflection */
 #define SPFX_PROTECT 0x08000000L /* Protection */
+#define SPFX_BREATHE 0x10000000L /* Magical breathing */
+#define SPFX_CANC 0x20000000L /* Pure cancellation */
+#define SPFX_CONFLICT 0x40000000L /* Weapon causes slotless conflict */
+#define SPFX_BLIND 0x80000000L /* Weapon blinds on hit */
 
 struct artifact {
     short otyp;
@@ -66,7 +70,12 @@ enum invoke_prop_types {
     CREATE_AMMO,
     PHASING,
     LION,
-    OBJECT_DET
+    OBJECT_DET,
+    LIGHTNING_BOLT,
+    SEFFECT,
+    HPHEAL,
+    HOLY_LANCE,
+    SUMMONING
 };
 
 /* clang-format on */

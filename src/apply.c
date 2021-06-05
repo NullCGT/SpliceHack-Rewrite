@@ -3080,6 +3080,9 @@ use_pole(struct obj *obj)
         max_range = 5;
     else
         max_range = 8; /* (P_SKILL(typ) >= P_EXPERT) */
+    
+    if (obj->oartifact == ART_GLEIPNIR)
+        max_range = max_range * 3;
 
     g.polearm_range_min = min_range;
     g.polearm_range_max = max_range;
@@ -3370,7 +3373,8 @@ use_grapple(struct obj *obj)
             break;
         g.notonhead = (g.bhitpos.x != mtmp->mx || g.bhitpos.y != mtmp->my);
         save_confirm = flags.confirm;
-        if (verysmall(mtmp->data) && !rn2(4)
+        if (((verysmall(mtmp->data) && !rn2(4)) ||
+            (obj->oartifact == ART_GLEIPNIR))
             && enexto(&cc, u.ux, u.uy, (struct permonst *) 0)) {
             flags.confirm = FALSE;
             (void) attack_checks(mtmp, uwep);

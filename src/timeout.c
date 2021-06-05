@@ -98,6 +98,7 @@ const struct propname {
     { REFLECTING, "reflecting" },
     { FREE_ACTION, "free action" },
     { FIXED_ABIL, "fixed abilities" },
+    { STABLE,    "extraodinarily stable" },
     { LIFESAVED, "life will be saved" },
     {  0, 0 },
 };
@@ -614,6 +615,15 @@ nh_timeout(void)
                 }
                 done_timeout(POISONING, SICK);
                 u.usick_type = 0;
+                break;
+            case STABLE:
+                You("are a little less sure of your footing.");
+                break;
+            case REGENERATION:
+                You_feel("your metabolism returning to normal.");
+                break;
+            case WWALKING:
+                You("feel heavier.");
                 break;
             case FAST:
                 if (!Very_fast)

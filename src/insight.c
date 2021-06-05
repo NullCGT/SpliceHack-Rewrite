@@ -32,7 +32,6 @@ static void attributes_enlightenment(int, int);
 static void show_achievements(int);
 static int QSORTCALLBACK vanqsort_cmp(const genericptr, const genericptr);
 static int set_vanq_order(void);
-static int num_extinct(void);
 
 extern const char *hu_stat[];  /* hunger status from eat.c */
 extern const char *enc_stat[]; /* encumbrance status from botl.c */
@@ -743,6 +742,8 @@ one_characteristic(int mode, int final, int attrindx)
             hide_innate_value = TRUE;
         break;
     case A_CHA:
+        if (uwep && uwep->oartifact == ART_CHAINS_OF_MALCANTHET && uwep->cursed)
+            hide_innate_value = TRUE;
         break;
     default:
         return; /* impossible */
@@ -915,6 +916,8 @@ status_enlightenment(int mode, int final)
         you_are("confused", "");
     if (Hallucination)
         you_are("hallucinating", "");
+    if (DeathVision)
+        you_are("dealing double damage due to comprehending death", "");
     if (Blind) {
         /* from_what() (currently wizard-mode only) checks !haseyes()
            before u.uroleplay.blind, so we should too */
@@ -2587,7 +2590,7 @@ num_genocides(void)
     return n;
 }
 
-static int
+int
 num_extinct(void)
 {
     int i, n = 0;

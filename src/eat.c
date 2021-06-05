@@ -2935,7 +2935,8 @@ gethungry(void)
         if (Hunger)
             u.uhunger--;
         /* Conflict uses up food too */
-        if (HConflict || (EConflict & (~W_ARTI)))
+        if (HConflict || ((EConflict & (~W_ARTI)) 
+                          || (uwep && uwep->oartifact == ART_WAR_S_SWORD)))
             u.uhunger--;
         /*
          * +0 charged rings don't do anything, so don't affect hunger.

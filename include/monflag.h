@@ -8,53 +8,59 @@
 /* *INDENT-OFF* */
 
 enum ms_sounds {
-    MS_SILENT   =  0,   /* makes no sound */
-    MS_BARK     =  1,   /* if full moon, may howl */
-    MS_MEW      =  2,   /* mews or hisses */
-    MS_ROAR     =  3,   /* roars */
-    MS_GROWL    =  4,   /* growls */
-    MS_SQEEK    =  5,   /* squeaks, as a rodent */
-    MS_SQAWK    =  6,   /* squawks, as a bird */
-    MS_HISS     =  7,   /* hisses */
-    MS_BUZZ     =  8,   /* buzzes (killer bee) */
-    MS_GRUNT    =  9,   /* grunts (or speaks own language) */
-    MS_NEIGH    = 10,   /* neighs, as an equine */
-    MS_MOO      = 11,   /* minotaurs, rothes */
-    MS_WAIL     = 12,   /* wails, as a tortured soul */
-    MS_GURGLE   = 13,   /* gurgles, as liquid or through saliva */
-    MS_BURBLE   = 14,   /* burbles (jabberwock) */
-    MS_TRUMPET  = 15,   /* trumpets (elephant) */
-    MS_ANIMAL   = 15,   /* up to here are animal noises */
-                        /* FIXME? the grunt "speaks own language" case
-                           shouldn't be classified as animal */
-    MS_SHRIEK   = 16,   /* wakes up others */
-    MS_BONES    = 17,   /* rattles bones (skeleton) */
-    MS_LAUGH    = 18,   /* grins, smiles, giggles, and laughs */
-    MS_MUMBLE   = 19,   /* says something or other */
-    MS_IMITATE  = 20,   /* imitates others (leocrotta) */
-    MS_WERE     = 21,   /* lycanthrope in human form */
-    MS_ORC      = 22,   /* intelligent brutes */
-                        /* from here onward, can speach can be comprehended */
-    MS_HUMANOID = 23,   /* generic traveling companion */
-    MS_ARREST   = 24,   /* "Stop in the name of the law!" (Kops) */
-    MS_SOLDIER  = 25,   /* army and watchmen expressions */
-    MS_GUARD    = 26,   /* "Please drop that gold and follow me." */
-    MS_DJINNI   = 27,   /* "Thank you for freeing me!" */
-    MS_NURSE    = 28,   /* "Take off your shirt, please." */
-    MS_SEDUCE   = 29,   /* "Hello, sailor." (Nymphs) */
-    MS_VAMPIRE  = 30,   /* vampiric seduction, Vlad's exclamations */
-    MS_BRIBE    = 31,   /* asks for money, or berates you */
-    MS_CUSS     = 32,   /* berates (demons) or intimidates (Wiz) */
-    MS_RIDER    = 33,   /* astral level special monsters */
-    MS_LEADER   = 34,   /* your class leader */
-    MS_NEMESIS  = 35,   /* your nemesis */
-    MS_GUARDIAN = 36,   /* your leader's guards */
-    MS_SELL     = 37,   /* demand payment, complain about shoplifters */
-    MS_ORACLE   = 38,   /* do a consultation */
-    MS_PRIEST   = 39,   /* ask for contribution; do cleansing */
-    MS_SPELL    = 40,   /* spellcaster not matching any of the above */
-    MS_BOAST    = 41,   /* giants */
-    MS_PIRATE   = 42,   /* pirates */
+    MS_SILENT = 0,     /* makes no sound */
+    MS_BARK = 1,       /* if full moon, may howl */
+    MS_MEW = 2,        /* mews or hisses */
+    MS_ROAR = 3,       /* roars */
+    MS_GROWL = 4,      /* growls */
+    MS_SQEEK = 5,      /* squeaks, as a rodent */
+    MS_SQAWK = 6,      /* squawks, as a bird */
+    MS_HISS = 7,       /* hisses */
+    MS_BUZZ = 8,       /* buzzes (killer bee) */
+    MS_GRUNT = 9,      /* grunts (or speaks own language) */
+    MS_NEIGH = 10,     /* neighs, as an equine */
+    MS_MOO = 11,       /* cow */
+    MS_WAIL = 12,      /* wails, as a tortured soul */
+    MS_GURGLE = 13,    /* gurgles, as liquid or through saliva */
+    MS_BURBLE = 14,    /* burbles (jabberwock) */
+    MS_CHIMERA = 15,   /* chimera */
+    MS_ANT = 16,       /* ants */
+    MS_PIG = 17,          /* boars */
+    MS_TRUMPET = 18,   /* trumpets (elephant) */
+    MS_CHICKEN = 19,	   /* chicken */
+    MS_ANIMAL = 19,    /* up to here are animal noises */
+    MS_SHRIEK = 20,    /* wakes up others */
+    MS_BONES = 21,     /* rattles bones (skeleton) */
+    MS_LAUGH = 22,     /* grins, smiles, giggles, and laughs */
+    MS_MUMBLE = 23,    /* says something or other */
+    MS_IMITATE = 24,   /* imitates others (leocrotta) */
+    MS_ORC = 25, /* intelligent brutes */
+    MS_HUMANOID = 26,  /* generic traveling companion */
+    MS_ARREST = 27,    /* "Stop in the name of the law!" (Kops) */
+    MS_SOLDIER = 28,   /* army and watchmen expressions */
+    MS_GUARD = 29,     /* "Please drop that gold and follow me." */
+    MS_DJINNI = 30,    /* "Thank you for freeing me!" */
+    MS_NURSE = 31,     /* "Take off your shirt, please." */
+    MS_SEDUCE = 32,    /* "Hello, sailor." (Nymphs) */
+    MS_VAMPIRE = 33,   /* vampiric seduction, Vlad's exclamations */
+    MS_BRIBE = 34,     /* asks for money, or berates you */
+    MS_CUSS = 35,      /* berates (demons) or intimidates (Wiz) */
+    MS_RIDER = 36,     /* astral level special monsters */
+    MS_LEADER = 37,    /* your class leader */
+    MS_NEMESIS = 38,   /* your nemesis */
+    MS_GUARDIAN = 39,  /* your leader's guards */
+    MS_SELL = 40,      /* demand payment, complain about shoplifters */
+    MS_ORACLE = 41,    /* do a consultation */
+    MS_PRIEST = 42,    /* ask for contribution; do cleansing */
+    MS_SPELL = 43,     /* spellcaster not matching any of the above */
+    MS_WERE = 44,      /* lycanthrope in human form */
+    MS_BOAST = 45,     /* giants */
+    MS_GROAN = 46,    /* zombies */
+    MS_PIRATE = 47,    /* pirates */
+    MS_ONEEYEDSAM = 48, /* One-Eyed Sam */
+    MS_MAD = 49,       /* cheshire cats */
+    MS_GNOLL = 50,     /* gnolls */
+    MS_YAWN = 51,      /* hippos yawn when angry */
 };
 
 #define MR_FIRE 0x00000001L      /* resists fire */

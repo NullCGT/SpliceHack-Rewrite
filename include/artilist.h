@@ -26,9 +26,15 @@ static const char *artifact_names[] = {
 #define     PHYS(a,b)   {0,AD_PHYS,a,b}         /* physical */
 #define     DRLI(a,b)   {0,AD_DRLI,a,b}         /* life drain */
 #define     COLD(a,b)   {0,AD_COLD,a,b}
+#define     LOUD(a,b)   {0,AD_LOUD,a,b}
+#define     ACID(a,b)   {0,AD_ACID,a,b}
 #define     FIRE(a,b)   {0,AD_FIRE,a,b}
 #define     ELEC(a,b)   {0,AD_ELEC,a,b}         /* electrical shock */
 #define     STUN(a,b)   {0,AD_STUN,a,b}         /* magical attack */
+#define     WIND(a,b)   {0,AD_WIND,a,b}         /* wind blast */
+#define     VOID(a,b)   {0,AD_VOID,a,b}
+#define     PLYS(a,b)   {0,AD_PLYS,a,b}         /* whip binding */
+#define     PSYC(a,b)   {0,AD_PSYC,a,b}         /* psiblast */
 /* clang-format on */
 
 static NEARDATA struct artifact artilist[] = {
@@ -44,9 +50,249 @@ static NEARDATA struct artifact artilist[] = {
     A("", STRANGE_OBJECT, 0, 0, 0, NO_ATTK, NO_DFNS, NO_CARY, 0, A_NONE,
       NON_PM, NON_PM, 0L, NO_COLOR),
 
+    /* SPLICE ARTIFACTS */
+
+    /*
+    *       Similar to the brands. Does not destroy items, but also resisted
+    *       by quite a few monsters.
+    */
+    A("Acidfall", LONG_SWORD, (SPFX_RESTR | SPFX_ATTK | SPFX_DEFN), 0, 0,
+      ACID(5, 0), ACID(0, 0), NO_CARY, 0, A_NONE, NON_PM, NON_PM, 3000L,
+      NO_COLOR),
+
+    /*
+    *       Avalon grants regeneration while carried, just like the Arthurian
+    *       legends describe.
+    */
+
+    A("Avalon", SCABBARD, (SPFX_RESTR), 0, 0,
+      PHYS(1, 1), NO_DFNS, CARY(AD_WTHR), HPHEAL, A_LAWFUL, PM_KNIGHT, NON_PM,
+      4500L, NO_COLOR),
+
+    /*
+    *        Balmung shreds the armor of opponents.
+    *
+    */
+   A("Balmung", BROADSWORD, (SPFX_RESTR), 0, 0, PHYS(4, 9), FIRE(0, 0), NO_CARY,
+      0, A_LAWFUL, NON_PM, NON_PM, 1000L, CLR_BROWN),
+
+    /*
+    *       This lance does a lot of damage, and also automatically unseats any
+    *       mounted person it hits.
+    */
+    A("Bradamante\'s Fury", LANCE, (SPFX_RESTR), 0, 0,
+      PHYS(5, 10), NO_DFNS, NO_CARY, 0, A_NEUTRAL, NON_PM, NON_PM, 800L,
+      NO_COLOR),
+
+    /*
+    *       Some "worse" sacrifice gifts are needed to avoid making #offer
+    *       overpowered. Used to be PM_KNIGHT.
+    */
+    A("Carnwennan", KNIFE, (SPFX_RESTR | SPFX_SEARCH | SPFX_STLTH), 0, 0,
+      PHYS(3, 8), NO_DFNS, NO_CARY, INVIS, A_LAWFUL,
+      NON_PM, NON_PM, 400L, NO_COLOR),
+
+    
+    A("Chains of Malcanthet", SPIKED_CHAIN, 
+      (SPFX_RESTR | SPFX_WARN | SPFX_DFLAG2), 0, M2_MINION,
+      PLYS(6, 10), NO_DFNS, NO_CARY, 0, A_NONE,
+      NON_PM, NON_PM, 800L, CLR_RED),
+
+    /*
+    *     Staff of Circe. 1/20 chance of turning target into an animal.
+    */
+    A("Circe's Witchstaff", QUARTERSTAFF,
+      (SPFX_RESTR | SPFX_BEHEAD), 0, 0,
+      PHYS(4, 4), NO_DFNS, NO_CARY, TAMING, A_NEUTRAL, NON_PM, NON_PM, 3500,
+      CLR_GREEN),
+
+    /*
+    *       If not granted through sacrifice, the Grim Reaper is generated
+    *       with this.
+    */
+    A("The End", SCYTHE, (SPFX_RESTR | SPFX_DEFN), 0, 0, COLD(3, 20),
+      DRLI(0, 0), NO_CARY, 0, A_NEUTRAL, NON_PM, NON_PM, 6000L, NO_COLOR),
+
+    /*
+    *      Attacks deal double damage, but at the cost of hallucination.
+    *      This effect is only active while the user can see.
+    */
+    A("Lenses of Death Perception", LENSES, (SPFX_RESTR | SPFX_SEARCH), 0, 0, NO_ATTK,
+      NO_DFNS, NO_CARY, 0, A_NONE, NON_PM, NON_PM, 2000L, NO_COLOR),
+
+    /*
+    *      Gae Bulg can be thrown as a last resort. If it hits, the attack
+    *      is automatically fatal, and there is a 2/3 chance the javelin
+    *      vanishes from the game. If it misses, however, the player risks
+    *      monsters attacking them with Gae Bulg.
+    */
+    A("Gae Bulg", JAVELIN, (SPFX_RESTR | SPFX_ATTK | SPFX_DRLI), 0, 0,
+      DRLI(5, 5), NO_DFNS, NO_CARY, 0, A_CHAOTIC, NON_PM, NON_PM,
+      9000L, NO_COLOR),
+
+    /*
+    *      Gae Dearg cancels those it strikes. Possibly in the future it
+    *      should cancel their armor? This occurs 1/3 of the time.
+    */
+    A("Gae Dearg", ELVEN_SPEAR, (SPFX_RESTR | SPFX_ATTK | SPFX_CANC), 0, 0,
+      DRLI(3, 7), NO_DFNS, NO_CARY, 0, A_NONE, NON_PM, NON_PM,
+      7000L, NO_COLOR),
+
+    /*
+    *      Gae Buidhe inflicts cursed wounds (drains levels).
+    */
+    A("Gae Buidhe", ELVEN_SPEAR, (SPFX_RESTR | SPFX_ATTK | SPFX_DRLI), 0, 0,
+      DRLI(3, 7), NO_DFNS, NO_CARY, 0, A_NONE, NON_PM, NON_PM,
+      7000L, NO_COLOR),
+
+    /*
+    *       Based on the bindings used to trap Fenrir. This hook can grapple
+    *       things regardless of size, and has a massive range.
+    */
+    A("Gleipnir", GRAPPLING_HOOK, (SPFX_RESTR), 0, 0, PHYS(5, 8),
+      NO_DFNS, NO_CARY, 0, A_NONE, NON_PM, NON_PM, 1700L, NO_COLOR),
+
+    /*
+    *      Gugnir also returns to the hand of the wielder when thrown if
+    *      the wielder is a Valkyrie, but there is no strength requirement.
+    */
+    A("Gungnir", DWARVISH_SPEAR, (SPFX_RESTR), 0, 0, PHYS(100, 4),
+      NO_DFNS, NO_CARY, LIGHTNING_BOLT, A_NEUTRAL, PM_VALKYRIE, NON_PM, 4000L, NO_COLOR),
+
+    /* 
+    *       I cannot believe this hasn't been done yet.
+    */
+    A("Hand Grenade of Antioch", FRAG_GRENADE, (SPFX_RESTR), 0, 0, PHYS(1, 1),
+      NO_DFNS, NO_CARY, 0, A_LAWFUL, NON_PM, NON_PM, 300L, NO_COLOR),
+
+    A("Idspike", ATHAME, (SPFX_RESTR | SPFX_ATTK | SPFX_DEFN), 0, 0,
+      PSYC(5, 0), PSYC(0, 0), NO_CARY, 0, A_NONE, NON_PM, NON_PM, 4000L,
+      NO_COLOR),
+
+    /*
+    *       Mesopatamian in origin.
+    */
+    A("Imhullu", GLAIVE, (SPFX_RESTR), 0, 0, WIND(4, 5), DFNS(AD_CLOB), 
+      NO_CARY, SEFFECT, A_NEUTRAL, NON_PM, NON_PM, 2000L, NO_COLOR),
+
+    /*
+    *       This bizarre weapon acts as a cursed luckstone regardless of its
+    *       BCU status. It gets bonuses to hit and damage based on the opposite
+    *       of your luck value. Allows for a very unconventional playstyle,
+    *       since getting luck of -13 will give this weapon an automatic +13
+    *       to damage and hit, but playing with -13 luck would be really hard.
+    */
+    A("Luckless Folly", SHORT_SWORD, (SPFX_RESTR | SPFX_NOGEN | SPFX_LUCK), 0,
+      0, PHYS(5, 5), NO_DFNS, NO_CARY, 0, A_CHAOTIC, NON_PM, NON_PM, 3000L,
+      NO_COLOR),
+
+    /*
+    *      Quarterstaff that grants teleport control, and also greatly increases
+    *      spellcasting ability (as a robe).
+    */
+    A("Origin", QUARTERSTAFF,
+      (SPFX_RESTR | SPFX_TCTRL), 0, 0,
+      PHYS(2, 6), NO_DFNS, NO_CARY, 0, A_NONE, NON_PM, NON_PM, 500L,
+      CLR_MAGENTA),
+
+    /*
+    *      Shield of King Arthur.
+    */
+    A("Pridwen", LARGE_SHIELD,
+      (SPFX_RESTR | SPFX_HPHDAM), 0, 0,
+      NO_ATTK, NO_DFNS, NO_CARY, 0, A_LAWFUL, NON_PM, NON_PM, 1500L,
+      CLR_MAGENTA),
+
+    /*
+    *       Seafoam grants waterbreathing, and is generated rustproof.
+    */
+    A("Poseidon\'s Trident", TRIDENT, (SPFX_RESTR | SPFX_BREATHE), 0, 0, PHYS(3, 7),
+      NO_DFNS, NO_CARY, WWALKING, A_CHAOTIC, NON_PM, NON_PM, 1500L, NO_COLOR),
+
+    /*
+    *       Resisted by very few monsters, but is a morning star and also
+    *       happens to destroy tons of items.
+    */
+    A("Sonicboom", MORNING_STAR, (SPFX_RESTR | SPFX_ATTK | SPFX_DEFN), 0, 0,
+      LOUD(5, 0), LOUD(0, 0), NO_CARY, 0, A_NONE, NON_PM, NON_PM, 3000L,
+      NO_COLOR),
+
+    /*
+    *      Blinding mace.
+    */
+    A("Sunspot", MACE, (SPFX_RESTR | SPFX_BLIND), 0, 0,
+      PHYS(5, 5), DFNS(AD_BLND), NO_CARY, 0, A_NONE, NON_PM, NON_PM, 2000L,
+      NO_COLOR),
+
+    /*
+    *        Just for fun.
+    */
+    A("Vladsbane", FOOD_RATION,
+      (SPFX_NOGEN | SPFX_RESTR | SPFX_WARN | SPFX_DFLAG2), 0, M2_UNDEAD,
+      PHYS(-5, -5), NO_DFNS, NO_CARY, 0, A_NONE, NON_PM, NON_PM, 200L,
+      CLR_MAGENTA),
+
+    /*
+    *       Definitely no canonical problems here.
+    */
+    A("War\'s Sword", TWO_HANDED_SWORD,
+      (SPFX_RESTR | SPFX_CONFLICT), 0, 0, PHYS(5, 5), NO_DFNS, NO_CARY, 0,
+      A_NONE, NON_PM, NON_PM, 7000L, NO_COLOR),
+
+    /* PIRATE ARTIFACTS */
+
+    A("Reaver",	SCIMITAR, (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL), 0, 0,
+     	PHYS(5, 8), NO_DFNS,	NO_CARY, 0, A_CHAOTIC, PM_PIRATE, NON_PM, 6000L,
+      NO_COLOR),
+
+    A("The Marauder's Map", SCR_MAGIC_MAPPING, SPFX_RESTR, 0, 0, NO_ATTK,
+      NO_DFNS,	NO_CARY, OBJECT_DET,	A_CHAOTIC, PM_PIRATE, NON_PM, 2000L,
+      NO_COLOR),
+
+    /* UNNETHACK ARTIFACTS */
+
+    A("Thiefbane", TWO_HANDED_SWORD,
+  	(SPFX_NOGEN|SPFX_RESTR|SPFX_BEHEAD|SPFX_DCLAS|SPFX_DRLI), 0, S_HUMAN,
+  	DRLI(5,1), NO_DFNS,	NO_CARY, 0, A_CHAOTIC, NON_PM, NON_PM, 1500L,
+    NO_COLOR ),
+
+    /* SLASHEM ARTIFACTS */
+
+    /* Unlike in SLASH'EM, the bat from hell is not rogue-specific. It can be
+     * considered one of the rarest artifacts, since baseball bats are only
+     * generated in junk shops. */
+    A("Bat from Hell", BASEBALL_BAT, SPFX_RESTR, 0, 0, PHYS(3,20), NO_DFNS,
+      NO_CARY, 0, A_CHAOTIC, NON_PM, NON_PM, 5000L, NO_COLOR),
+
+    A("Doomblade", ORCISH_SHORT_SWORD, SPFX_RESTR, 0, 0, PHYS(0, 10), NO_DFNS,
+      NO_CARY, 0, A_CHAOTIC, NON_PM, NON_PM, 1000L, NO_COLOR),
+
+    A("Luck Blade", BROADSWORD, (SPFX_RESTR | SPFX_LUCK | SPFX_INTEL), 0, 0,
+      PHYS(5,6),	NO_DFNS,	NO_CARY,	0, A_CHAOTIC, PM_CONVICT, NON_PM, 3000L,
+      NO_COLOR),
+
+    A("Sword of Balance", SHORT_SWORD, (SPFX_RESTR | SPFX_DALIGN), 0, 0,
+    	PHYS(2, 5), NO_DFNS, NO_CARY, 0, A_NEUTRAL, NON_PM, NON_PM, 5000L,
+      NO_COLOR),
+
+    /* Changed to broadsword */
+    A("Sword of Justice", BROADSWORD, (SPFX_RESTR | SPFX_DALIGN), 0, 0,
+    	PHYS(5,12), NO_DFNS, NO_CARY, 0, A_LAWFUL, NON_PM, NON_PM, 1500L,
+      NO_COLOR),
+
+    A("Plague", DARK_ELVEN_BOW,	/* KMH */
+    	(SPFX_RESTR | SPFX_DEFN), 0, 0, PHYS(5,7), DFNS(AD_DRST), NO_CARY, 0,
+      A_CHAOTIC, PM_DROW, NON_PM, 6000L, CLR_BRIGHT_GREEN),
+
+    /* If necromancers are ever added, they will use this. */
+    A("Serpent's Tongue", DAGGER, SPFX_RESTR, 0, 0, PHYS(2,0), NO_DFNS, NO_CARY,
+      0, A_CHAOTIC, NON_PM, NON_PM, 400L, NO_COLOR),
+
+    /* VANILLA ARTIFACTS */
+
     A("Excalibur", LONG_SWORD, (SPFX_NOGEN | SPFX_RESTR | SPFX_SEEK
                                 | SPFX_DEFN | SPFX_INTEL | SPFX_SEARCH),
-      0, 0, PHYS(5, 10), DRLI(0, 0), NO_CARY, 0, A_LAWFUL, PM_KNIGHT, NON_PM,
+      0, 0, PHYS(5, 10), DRLI(0, 0), NO_CARY, HOLY_LANCE, A_LAWFUL, PM_KNIGHT, NON_PM,
       4000L, NO_COLOR),
     /*
      *      Stormbringer only has a 2 because it can drain a level,
@@ -54,8 +300,9 @@ static NEARDATA struct artifact artilist[] = {
      */
     A("Stormbringer", RUNESWORD,
       (SPFX_RESTR | SPFX_ATTK | SPFX_DEFN | SPFX_INTEL | SPFX_DRLI), 0, 0,
-      DRLI(5, 2), DRLI(0, 0), NO_CARY, 0, A_CHAOTIC, NON_PM, NON_PM, 8000L,
+      DRLI(5, 2), DRLI(0, 0), NO_CARY, SEFFECT, A_CHAOTIC, NON_PM, NON_PM, 8000L,
       NO_COLOR),
+
     /*
      *      Mjollnir can be thrown when wielded if hero has 25 Strength
      *      (usually via gauntlets of power but possible with rings of
@@ -69,7 +316,7 @@ static NEARDATA struct artifact artilist[] = {
      *      fake-player valkyries).
      */
     A("Mjollnir", WAR_HAMMER, /* Mjo:llnir */
-      (SPFX_RESTR | SPFX_ATTK), 0, 0, ELEC(5, 24), NO_DFNS, NO_CARY, 0,
+      (SPFX_RESTR | SPFX_ATTK), 0, 0, ELEC(5, 24), NO_DFNS, NO_CARY, LIGHTNING_BOLT,
       A_NEUTRAL, PM_VALKYRIE, NON_PM, 4000L, NO_COLOR),
 
     A("Cleaver", BATTLE_AXE, SPFX_RESTR, 0, 0, PHYS(3, 6), NO_DFNS, NO_CARY,
@@ -86,7 +333,7 @@ static NEARDATA struct artifact artilist[] = {
     /*
      *      Orcrist and Sting have same alignment as elves.
      *
-     *      The combination of SPFX_WARN+SPFX_DFLAG2+M2_value will trigger
+     *      The combination of SPFX_WARN+SPFX_DFLAG2+2_value will trigger
      *      EWarn_of_mon for all monsters that have the M2_value flag.
      *      Sting and Orcrist will warn of M2_ORC monsters.
      */
@@ -111,23 +358,17 @@ static NEARDATA struct artifact artilist[] = {
     A("Fire Brand", LONG_SWORD, (SPFX_RESTR | SPFX_ATTK | SPFX_DEFN), 0, 0,
       FIRE(5, 0), FIRE(0, 0), NO_CARY, 0, A_NONE, NON_PM, NON_PM, 3000L,
       NO_COLOR),
-    
-    /* 
-    *       I cannot believe this hasn't been done yet.
-    */
-    A("Hand Grenade of Antioch", FRAG_GRENADE, (SPFX_RESTR), 0, 0, PHYS(1, 1),
-      NO_DFNS, NO_CARY, 0, A_LAWFUL, NON_PM, NON_PM, 300L, NO_COLOR),
 
     A("Dragonbane", BROADSWORD,
       (SPFX_RESTR | SPFX_DCLAS | SPFX_REFLECT), 0, S_DRAGON,
       PHYS(5, 0), NO_DFNS, NO_CARY, 0, A_NONE, NON_PM, NON_PM, 500L,
       NO_COLOR),
 
-    A("Demonbane", LONG_SWORD, (SPFX_RESTR | SPFX_DFLAG2), 0, M2_DEMON,
-      PHYS(5, 0), NO_DFNS, NO_CARY, 0, A_LAWFUL, NON_PM, NON_PM, 2500L,
+    A("Demonbane", LONG_SWORD, (SPFX_RESTR | SPFX_WARN | SPFX_DFLAG2), 0, M2_DEMON,
+      PHYS(5, 0), NO_DFNS, NO_CARY, FLYING, A_LAWFUL, NON_PM, NON_PM, 2500L,
       NO_COLOR),
 
-    A("Werebane", SILVER_SABER, (SPFX_RESTR | SPFX_DFLAG2), 0, M2_WERE,
+    A("Werebane", SILVER_SABER, (SPFX_RESTR | SPFX_WARN | SPFX_DFLAG2), 0, M2_WERE,
       PHYS(5, 0), DFNS(AD_WERE), NO_CARY, 0, A_NONE, NON_PM, NON_PM, 1500L,
       NO_COLOR),
 
@@ -135,16 +376,16 @@ static NEARDATA struct artifact artilist[] = {
       PHYS(5, 0), NO_DFNS, NO_CARY, 0, A_LAWFUL, NON_PM, NON_PM, 8000L,
       NO_COLOR),
 
-    A("Giantslayer", LONG_SWORD, (SPFX_RESTR | SPFX_DFLAG2), 0, M2_GIANT,
-      PHYS(5, 0), NO_DFNS, NO_CARY, 0, A_NEUTRAL, NON_PM, NON_PM, 200L,
-      NO_COLOR),
+    A("Giantslayer", LONG_SWORD, (SPFX_RESTR | SPFX_WARN | SPFX_DFLAG2), 
+      0, M2_GIANT, PHYS(5, 0), DFNS(AD_CLOB), NO_CARY, 0, A_NEUTRAL, 
+      NON_PM, NON_PM, 200L, CLR_ORANGE),
 
     A("Ogresmasher", WAR_HAMMER, (SPFX_RESTR | SPFX_DCLAS), 0, S_OGRE,
       PHYS(5, 0), NO_DFNS, NO_CARY, 0, A_NONE, NON_PM, NON_PM, 200L,
       NO_COLOR),
 
-    A("Trollsbane", MORNING_STAR, (SPFX_RESTR | SPFX_DCLAS), 0, S_TROLL,
-      PHYS(5, 0), NO_DFNS, NO_CARY, 0, A_NONE, NON_PM, NON_PM, 200L,
+    A("Trollsbane", MORNING_STAR, (SPFX_RESTR | SPFX_REGEN | SPFX_WARN | SPFX_DCLAS), 
+      0, S_TROLL, PHYS(5, 0), NO_DFNS, NO_CARY, 0, A_NONE, NON_PM, NON_PM, 200L,
       NO_COLOR),
     /*
      *      Two problems:  1) doesn't let trolls regenerate heads,
@@ -165,22 +406,8 @@ static NEARDATA struct artifact artilist[] = {
     A("Snickersnee", KATANA, SPFX_RESTR, 0, 0, PHYS(0, 8), NO_DFNS, NO_CARY,
       0, A_LAWFUL, PM_SAMURAI, NON_PM, 1200L, NO_COLOR),
 
-    A("Sunsword", LONG_SWORD, (SPFX_RESTR | SPFX_DFLAG2), 0, M2_UNDEAD,
+    A("Sunsword", LONG_SWORD, (SPFX_RESTR | SPFX_WARN | SPFX_DFLAG2), 0, M2_UNDEAD,
       PHYS(5, 0), DFNS(AD_BLND), NO_CARY, 0, A_LAWFUL, NON_PM, NON_PM, 1500L,
-      NO_COLOR),
-
-    A("Luck Blade", BROADSWORD, (SPFX_RESTR | SPFX_LUCK | SPFX_INTEL), 0, 0,
-      PHYS(5,6),	NO_DFNS,	NO_CARY,	0, A_CHAOTIC, PM_CONVICT, NON_PM, 3000L,
-      NO_COLOR),
-
-    /* PIRATE ARTIFACTS */
-
-    A("Reaver",	SCIMITAR, (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL), 0, 0,
-     	PHYS(5, 8), NO_DFNS,	NO_CARY, 0, A_CHAOTIC, PM_PIRATE, NON_PM, 6000L,
-      NO_COLOR),
-
-    A("The Marauder's Map", SCR_MAGIC_MAPPING, SPFX_RESTR, 0, 0, NO_ATTK,
-      NO_DFNS,	NO_CARY, OBJECT_DET,	A_CHAOTIC, PM_PIRATE, NON_PM, 2000L,
       NO_COLOR),
 
     /*
@@ -193,7 +420,7 @@ static NEARDATA struct artifact artilist[] = {
       NON_PM, 2500L, NO_COLOR),
 
     A("The Heart of Ahriman", LUCKSTONE,
-      (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL), SPFX_STLTH, 0,
+      (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL), (SPFX_STLTH|SPFX_TCTRL), 0,
       /* this stone does double damage if used as a projectile weapon */
       PHYS(5, 0), NO_DFNS, NO_CARY, LEVITATION, A_NEUTRAL, PM_BARBARIAN,
       NON_PM, 2500L, NO_COLOR),
@@ -202,6 +429,17 @@ static NEARDATA struct artifact artilist[] = {
       (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL | SPFX_DALIGN), 0, 0, PHYS(5, 0),
       DFNS(AD_MAGM), NO_CARY, CONFLICT, A_LAWFUL, PM_CAVE_DWELLER, NON_PM, 2500L,
       NO_COLOR),
+
+    A("Sharur", ORNATE_MACE,
+      (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL | SPFX_SPEAK | SPFX_WARN),
+      0, 0, PHYS(5, 5), DFNS(AD_MAGM), NO_CARY, LION, A_LAWFUL, PM_DRAGON_RIDER,
+      NON_PM, 4000L, NO_COLOR),
+    
+    A("The Iron Ball of Liberation", HEAVY_IRON_BALL,
+      (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL),
+      (SPFX_STLTH | SPFX_SEARCH | SPFX_WARN), 0,
+      NO_ATTK,	NO_DFNS,	CARY(AD_MAGM),
+      PHASING,	A_NEUTRAL, PM_PRISONER, NON_PM, 5000L, NO_COLOR),
 
 #if 0 /* OBSOLETE */
 A("The Palantir of Westernesse",        CRYSTAL_BALL,
@@ -270,17 +508,6 @@ A("The Palantir of Westernesse",        CRYSTAL_BALL,
       NO_ATTK, DFNS(AD_MAGM), NO_CARY, CREATE_PORTAL, A_NEUTRAL, PM_WIZARD,
       NON_PM, 4000L, NO_COLOR),
 
-    A("Sharur", ORNATE_MACE,
-      (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL | SPFX_SPEAK | SPFX_WARN),
-      0, 0, PHYS(5, 5), DFNS(AD_MAGM), NO_CARY, LION, A_LAWFUL, PM_DRAGON_RIDER,
-      NON_PM, 4000L, NO_COLOR),
-
-    A("The Iron Ball of Liberation", HEAVY_IRON_BALL,
-      (SPFX_NOGEN | SPFX_RESTR | SPFX_INTEL),
-      (SPFX_STLTH | SPFX_SEARCH | SPFX_WARN), 0,
-      NO_ATTK,	NO_DFNS,	CARY(AD_MAGM),
-      PHASING,	A_NEUTRAL, PM_PRISONER, NON_PM, 5000L, NO_COLOR),
-
     /*
      *  terminator; otyp must be zero
      */
@@ -298,9 +525,14 @@ A("The Palantir of Westernesse",        CRYSTAL_BALL,
 #undef PHYS
 #undef DRLI
 #undef COLD
+#undef LOUD
+#undef ACID
 #undef FIRE
 #undef ELEC
 #undef STUN
+#undef WIND
+#undef VOID
+#undef PLYS
 #endif
 
 /*artilist.h*/

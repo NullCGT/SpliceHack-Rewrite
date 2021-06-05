@@ -256,10 +256,16 @@ static struct inv_sub {
     { PM_DWARF, SHORT_SWORD, DWARVISH_SHORT_SWORD },
     { PM_DWARF, HELMET, DWARVISH_IRON_HELM },
     /* { PM_DWARF, SMALL_SHIELD, DWARVISH_ROUNDSHIELD }, */
-    /* { PM_DWARF, PICK_AXE, DWARVISH_MATTOCK }, */
+    { PM_DWARF, PICK_AXE, DWARVISH_MATTOCK },
     { PM_DWARF, LEMBAS_WAFER, CRAM_RATION },
+    { PM_DWARF, POT_FRUIT_JUICE, POT_BOOZE },
     { PM_GNOME, BOW, CROSSBOW },
     { PM_GNOME, ARROW, CROSSBOW_BOLT },
+    { PM_DROW, DAGGER, DARK_ELVEN_DAGGER },
+    { PM_DROW, SHORT_SWORD, DARK_ELVEN_SHORT_SWORD },
+    { PM_DROW, BOW, DARK_ELVEN_BOW },
+    { PM_DROW, ARROW, DARK_ELVEN_ARROW },
+    { PM_DROW, POT_SICKNESS, POT_SLEEPING },
     { NON_PM, STRANGE_OBJECT, STRANGE_OBJECT }
 };
 
@@ -1007,6 +1013,15 @@ u_init(void)
         knows_object(ELVEN_BOOTS);
         knows_object(ELVEN_CLOAK);
         break;
+
+    case PM_DROW:
+  	    /* Drows can recognize all droven objects */
+  	    knows_object(DARK_ELVEN_SHORT_SWORD);
+  	    knows_object(DARK_ELVEN_ARROW);
+  	    knows_object(DARK_ELVEN_BOW);
+  	    knows_object(DARK_ELVEN_DAGGER);
+  	    knows_object(DARK_ELVEN_RING_MAIL);
+  	    break;
 
     case PM_DWARF:
         /* Dwarves can recognize all dwarvish objects */

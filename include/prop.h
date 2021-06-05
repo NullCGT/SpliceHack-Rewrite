@@ -86,7 +86,8 @@ enum prop_types {
     REFLECTING        = 66,
     FREE_ACTION       = 67,
     FIXED_ABIL        = 68,
-    LIFESAVED         = 69
+    STABLE            = 69,
+    LIFESAVED         = 70
 };
 #define LAST_PROP (LIFESAVED)
 

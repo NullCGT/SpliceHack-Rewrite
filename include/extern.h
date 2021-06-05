@@ -976,6 +976,7 @@ extern void nh_snprintf(const char *func, int line, char *str, size_t size,
 
 /* ### insight.c ### */
 
+extern int num_extinct(void);
 extern int doattributes(void);
 extern void enlightenment(int, int);
 extern void youhiding(boolean, int);
@@ -1652,6 +1653,7 @@ extern boolean munslime(struct monst *, boolean);
 /* ### music.c ### */
 
 extern void awaken_soldiers(struct monst *);
+extern void do_earthquake(int, int, int);
 extern int do_play_instrument(struct obj *);
 
 /* ### nhlan.c ### */

@@ -221,41 +221,48 @@ m_initweap(register struct monst *mtmp)
             if (w2)
                 (void) mongets(mtmp, w2);
         } else if (is_elf(ptr)) {
-            if (rn2(2))
-                (void) mongets(mtmp,
-                               rn2(2) ? ELVEN_MITHRIL_COAT : ELVEN_CLOAK);
-            if (rn2(2))
-                (void) mongets(mtmp, ELVEN_LEATHER_HELM);
-            else if (!rn2(4))
-                (void) mongets(mtmp, ELVEN_BOOTS);
-            if (rn2(2))
-                (void) mongets(mtmp, ELVEN_DAGGER);
-            switch (rn2(3)) {
-            case 0:
-                if (!rn2(4))
-                    (void) mongets(mtmp, ELVEN_SHIELD);
-                if (rn2(3))
-                    (void) mongets(mtmp, ELVEN_SHORT_SWORD);
-                (void) mongets(mtmp, ELVEN_BOW);
-                m_initthrow(mtmp, ELVEN_ARROW, 12);
-                break;
-            case 1:
-                (void) mongets(mtmp, ELVEN_BROADSWORD);
+            if (mm == PM_DROW) {
+                (void) mongets(mtmp, DARK_ELVEN_RING_MAIL);
+                (void) mongets(mtmp, DARK_ELVEN_SHORT_SWORD);
+                (void) mongets(mtmp, DARK_ELVEN_BOW);
+                m_initthrow(mtmp, DARK_ELVEN_ARROW, 12);
+            } else {
                 if (rn2(2))
-                    (void) mongets(mtmp, ELVEN_SHIELD);
-                break;
-            case 2:
-                if (rn2(2)) {
-                    (void) mongets(mtmp, ELVEN_SPEAR);
-                    (void) mongets(mtmp, ELVEN_SHIELD);
+                    (void) mongets(mtmp,
+                                rn2(2) ? ELVEN_MITHRIL_COAT : ELVEN_CLOAK);
+                if (rn2(2))
+                    (void) mongets(mtmp, ELVEN_LEATHER_HELM);
+                else if (!rn2(4))
+                    (void) mongets(mtmp, ELVEN_BOOTS);
+                if (rn2(2))
+                    (void) mongets(mtmp, ELVEN_DAGGER);
+                switch (rn2(3)) {
+                case 0:
+                    if (!rn2(4))
+                        (void) mongets(mtmp, ELVEN_SHIELD);
+                    if (rn2(3))
+                        (void) mongets(mtmp, ELVEN_SHORT_SWORD);
+                    (void) mongets(mtmp, ELVEN_BOW);
+                    m_initthrow(mtmp, ELVEN_ARROW, 12);
+                    break;
+                case 1:
+                    (void) mongets(mtmp, ELVEN_BROADSWORD);
+                    if (rn2(2))
+                        (void) mongets(mtmp, ELVEN_SHIELD);
+                    break;
+                case 2:
+                    if (rn2(2)) {
+                        (void) mongets(mtmp, ELVEN_SPEAR);
+                        (void) mongets(mtmp, ELVEN_SHIELD);
+                    }
+                    break;
                 }
-                break;
-            }
-            if (mm == PM_ELVEN_MONARCH) {
-                if (rn2(3) || (g.in_mklev && Is_earthlevel(&u.uz)))
-                    (void) mongets(mtmp, PICK_AXE);
-                if (!rn2(50))
-                    (void) mongets(mtmp, CRYSTAL_BALL);
+                if (mm == PM_ELVEN_MONARCH) {
+                    if (rn2(3) || (g.in_mklev && Is_earthlevel(&u.uz)))
+                        (void) mongets(mtmp, PICK_AXE);
+                    if (!rn2(50))
+                        (void) mongets(mtmp, CRYSTAL_BALL);
+                }
             }
         } else if (ptr->msound == MS_PRIEST
                    || quest_mon_represents_role(ptr, PM_CLERIC)) {
@@ -1021,6 +1028,9 @@ propagate(int mndx, boolean tally, boolean ghostly)
             debugpline1("Automatically extinguished %s.",
                         makeplural(mons[mndx].pmnames[NEUTRAL]));
         }
+        if (uwep && uwep->oartifact == ART_WAR_S_SWORD) {
+            pline("The sinister blade in your %s grows warmer.", body_part(HAND));
+        }
         g.mvitals[mndx].mvflags |= G_EXTINCT;
     }
     return result;
@@ -1433,6 +1443,11 @@ makemon(register struct permonst *ptr,
         mitem = BELL_OF_OPENING;
     } else if (mndx == PM_PESTILENCE) {
         mitem = POT_SICKNESS;
+        (void) mongets(mtmp, BOW);
+    } else if (mndx == PM_DEATH) {
+        mitem = SCYTHE;
+    } else if (mndx == PM_FAMINE) {
+        mitem = YELLOW_DRAGON_SCALES;
     }
     if (mitem && allow_minvent)
         (void) mongets(mtmp, mitem);

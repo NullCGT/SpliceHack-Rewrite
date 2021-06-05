@@ -712,6 +712,12 @@ NEARDATA struct permonst mons_init[] = {
     /*
      * quadrupeds
      */
+    MON3("pig", "sow", "pig", S_QUADRUPED, LVL(1, 12, 7, 0, 0), (G_GENO | 2),
+        A(ATTK(AT_BITE, AD_PHYS, 1, 4), NO_ATTK,
+          NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(200, 100, MS_PIG, MZ_MEDIUM), 0, 0,
+        M1_ANIMAL | M1_NOHANDS | M1_OMNIVORE,
+        M2_DOMESTIC, M3_INFRAVISIBLE, 2, HI_DOMESTIC),
     MON("rothe", S_QUADRUPED, LVL(2, 9, 7, 0, 0), (G_GENO | G_SGROUP | 4),
         A(ATTK(AT_CLAW, AD_PHYS, 1, 3), ATTK(AT_BITE, AD_PHYS, 1, 3),
           ATTK(AT_BITE, AD_PHYS, 1, 8), NO_ATTK, NO_ATTK, NO_ATTK),
@@ -2326,6 +2332,14 @@ struct permonst _mons2[] = {
         M1_HUMANOID | M1_OMNIVORE | M1_SEE_INVIS,
         M2_ELF | M2_STRONG | M2_LORD | M2_COLLECT,
         M3_INFRAVISIBLE | M3_INFRAVISION, 11, CLR_BRIGHT_BLUE),
+    MON3("hedrow", "drow", "drow", 
+        S_HUMAN, LVL(6, 12, 10, 60, -9), (G_GENO | G_SGROUP | 1),
+      	A(ATTK(AT_WEAP, AD_SLEE, 2, 4), ATTK(AT_WEAP, AD_PHYS, 2, 4),
+      	  NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+      	SIZ(WT_ELF, 350, MS_HUMANOID, MZ_HUMAN), MR_SLEEP, MR_SLEEP,
+      	M1_HUMANOID | M1_OMNIVORE,
+      	M2_NOPOLY | M2_STRONG | M2_LORD | M2_COLLECT | M2_HOSTILE | M2_ELF,
+      	0, 11, CLR_BLACK),
     MON3("Elvenking", "Elvenqueen", "elven monarch",
         S_HUMAN, LVL(9, 12, 10, 25, -10), (G_GENO | 1),
         A(ATTK(AT_WEAP, AD_PHYS, 2, 4), ATTK(AT_WEAP, AD_PHYS, 2, 4),
@@ -2350,6 +2364,15 @@ struct permonst _mons2[] = {
         M2_NOPOLY | M2_HUMAN | M2_PEACEFUL
             | M2_STRONG | M2_COLLECT | M2_MAGIC,
         M3_INFRAVISIBLE, 15, HI_DOMESTIC),
+    MON("Arms Dealer", S_HUMAN, LVL(25, 24, -8, 50, -2), (G_NOGEN | G_UNIQ),
+        A(ATTK(AT_WEAP, AD_PHYS, 4, 10), NO_ATTK, NO_ATTK,
+          NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(WT_HUMAN, 400, MS_ONEEYEDSAM, MZ_HUMAN),
+        MR_FIRE | MR_COLD | MR_POISON | MR_SLEEP | MR_ELEC | MR_STONE,
+      	MR_SLEEP, M1_HUMANOID | M1_OMNIVORE | M1_FLY,
+      	M2_NOPOLY | M2_PEACEFUL | M2_STRONG | M2_COLLECT | M2_MAGIC |
+      	M2_PNAME | M2_FEMALE | M2_HUMAN,
+      	M3_INFRAVISIBLE, 28, HI_LORD),
     MON("guard", S_HUMAN, LVL(12, 12, 10, 40, 10), G_NOGEN,
         A(ATTK(AT_WEAP, AD_PHYS, 4, 10),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),

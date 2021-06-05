@@ -3694,8 +3694,11 @@ readobjnam_postparse1(struct _readobjnam_data* d)
     if (strncmpi(d->bp, "samurai sword", 13)  /* not the "samurai" monster! */
         && strncmpi(d->bp, "wizard lock", 11) /* not the "wizard" monster! */
         && strncmpi(d->bp, "death wand", 10)  /* 'of inversion', not Rider */
+        && strncmpi(d->bp, "Thiefbane", 9)    /* not the "thief" rank */
         && strncmpi(d->bp, "master key", 10)  /* not the "master" rank */
+        && strncmpi(d->bp, "Bat from Hell", 13) /* not the "bat" monster */
         && strncmpi(d->bp, "ninja-to", 8)     /* not the "ninja" rank */
+        && strncmpi(d->bp, "vampire blood", 13) /* not the "vampire" monster */
         && strncmpi(d->bp, "magenta", 7)) {   /* not the "mage" rank */
         const char *rest = 0;
 

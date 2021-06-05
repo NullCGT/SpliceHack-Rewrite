@@ -112,8 +112,10 @@ setuwep(struct obj *obj)
             pline("%s shining.", Tobjnam(olduwep, "stop"));
     }
     if (uwep == obj
-        && ((uwep && uwep->oartifact == ART_OGRESMASHER)
-            || (olduwep && olduwep->oartifact == ART_OGRESMASHER)))
+        && (((uwep && uwep->oartifact == ART_OGRESMASHER)
+            || (olduwep && olduwep->oartifact == ART_OGRESMASHER)) ||
+            ((uwep && uwep->oartifact == ART_CHAINS_OF_MALCANTHET)
+            || (olduwep && olduwep->oartifact == ART_CHAINS_OF_MALCANTHET))))
         g.context.botl = 1;
     /* Note: Explicitly wielding a pick-axe will not give a "bashing"
      * message.  Wielding one via 'a'pplying it will.
@@ -122,7 +124,7 @@ setuwep(struct obj *obj)
     if (obj) {
         g.unweapon = (obj->oclass == WEAPON_CLASS)
                        ? is_launcher(obj) || is_ammo(obj) || is_missile(obj)
-                             || (is_pole(obj) && !u.usteed)
+                             || (is_pole(obj) && !u.usteed && obj->otyp != SPIKED_CHAIN)
                        : !is_weptool(obj) && !is_wet_towel(obj);
     } else
         g.unweapon = TRUE; /* for "bare hands" message */
@@ -733,7 +735,14 @@ can_twoweapon(void)
         pline("%s isn't one-handed.", Yname2(otmp));
     } else if (uarms) {
         You_cant("use two weapons while wearing a shield.");
-    } else if (uswapwep->oartifact) {
+    /* Gae Dearg and Gae Buidhe may be dual-wielded. */
+    } else if (uswapwep->oartifact &&
+      !((uwep->oartifact == ART_GAE_DEARG
+          && uswapwep->oartifact == ART_GAE_BUIDHE) ||
+        (uwep->oartifact == ART_GAE_BUIDHE
+            && uswapwep->oartifact == ART_GAE_DEARG) ||
+        (uwep->oartifact == ART_WEREBANE
+            || uswapwep->oartifact == ART_WEREBANE))) {
         pline("%s being held second to another weapon!",
               Yobjnam2(uswapwep, "resist"));
     } else if (uswapwep->otyp == CORPSE && cant_wield_corpse(uswapwep)) {

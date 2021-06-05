@@ -33,7 +33,6 @@ static void put_monsters_to_sleep(int);
 static void charm_snakes(int);
 static void calm_nymphs(int);
 static void charm_monsters(int);
-static void do_earthquake(int);
 static const char *generic_lvl_desc(void);
 static int do_improvisation(struct obj *);
 
@@ -215,8 +214,8 @@ charm_monsters(int distance)
 /* Generate earthquake :-) of desired force.
  * That is:  create random chasms (pits).
  */
-static void
-do_earthquake(int force)
+void
+do_earthquake(int force, int ox, int oy)
 {
     static const char into_a_chasm[] = " into a chasm";
     register int x, y;
@@ -227,15 +226,16 @@ do_earthquake(int force)
     aligntyp algn;
     schar filltype;
     unsigned tu_pit = 0;
+    boolean by_u = (ox == u.ux && oy == u.uy);
 
     if (trap_at_u)
         tu_pit = is_pit(trap_at_u->ttyp);
     if (force > 13) /* sanity precaution; maximum used is actually 10 */
         force = 13;
-    start_x = u.ux - (force * 2);
-    start_y = u.uy - (force * 2);
-    end_x = u.ux + (force * 2);
-    end_y = u.uy + (force * 2);
+    start_x = ox - (force * 2);
+    start_y = oy - (force * 2);
+    end_x = ox + (force * 2);
+    end_y = oy + (force * 2);
     start_x = max(start_x, 1);
     start_y = max(start_y, 0);
     end_x = min(end_x, COLNO - 1);
@@ -243,7 +243,8 @@ do_earthquake(int force)
     for (x = start_x; x <= end_x; x++)
         for (y = start_y; y <= end_y; y++) {
             if ((mtmp = m_at(x, y)) != 0) {
-                wakeup(mtmp, TRUE); /* peaceful monster will become hostile */
+                if (by_u)
+                    wakeup(mtmp, TRUE); /* peaceful monster will become hostile */
                 if (mtmp->mundetected) {
                     mtmp->mundetected = 0;
                     newsym(x, y);
@@ -650,7 +651,7 @@ do_improvisation(struct obj* instr)
 
         You("produce a heavy, thunderous rolling!");
         pline_The("entire %s is shaking around you!", generic_lvl_desc());
-        do_earthquake((u.ulevel - 1) / 3 + 1);
+        do_earthquake((u.ulevel - 1) / 3 + 1, u.ux, u.uy);
         /* shake up monsters in a much larger radius... */
         awaken_monsters(ROWNO * COLNO);
         makeknown(DRUM_OF_EARTHQUAKE);

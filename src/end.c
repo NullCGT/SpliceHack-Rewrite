@@ -478,7 +478,7 @@ done_in_by(struct monst *mtmp, int how)
         Strcat(buf, m_monnam(mtmp));
         if (has_mgivenname(mtmp))
             Sprintf(eos(buf), " of %s", MGIVENNAME(mtmp));
-    } else if (mtmp->isshk) {
+    } else if (mtmp->isshk && mptr != &mons[PM_ARMS_DEALER]) {
         const char *shknm = shkname(mtmp),
                    *honorific = shkname_is_pname(mtmp) ? ""
                                    : mtmp->female ? "Ms. " : "Mr. ";

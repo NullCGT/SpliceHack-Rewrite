@@ -1,5 +1,41 @@
                         SpliceHack -- Changelog
 
+                            Version 1.0.0 - Rewrite
+
+Removed Content
+Since this release is a rewrite, a number of pieces of existing content have been heavily altered
+or outright removed. Rationale will be provided for all removed content.
+- The intelligent pet patch from GruntHack has been removed. This patch introduced an incredible
+  number of bugs in monster AI, and additionally made the monster AI code nigh unreadable.
+  Additionally, many of the changes made by it were supersceded by later vanilla changes.
+- The Dancer role has been removed. Many of its features were poorly implemented, leading to
+  confusion for players. If there is interest in the dancer role being added again, I am open
+  to discussion.
+- Now, for what may be the most controversial change: Techniques have been entirely removed.
+  I have a few reasons for making this change:
+  - The technique code is extremely difficult to maintain, and only grows worse the more techniques
+    that are added.
+  - Most players are able to complete the game without so much as touching the techniques menu.
+  - Timed cooldowns for abilities do not mesh with the pace of NetHack. NetHack is a game that
+    often lacks time pressure (the food clock all but disappears past the early game) and so
+    techniques incentivize slow, passive play while waiting for used techniques to recharge.
+
+
+Monster Changes
+- Many monsters have gender-variant names. For example, female pigs are sows.
+
+Race Changes
+- Drow
+  - Male drow are referred to as "hedrow."
+  - Potions of sickness in the starting inventories of drow are replaced by potions of sleeping.
+  - The unarmed attacks of drow no longer inflict sleep.
+
+Bug Fixes
+- While porting the previous SpliceHack code, numerous bugs were discovered and fixed. The full
+  scope of these bugs exceeds the capacity of this changelog, but suffice to say a number of
+  crashes and instances of odd behavior that previously went unnoticed have been fixed.
+- Graphical tiles builds work once more! Rejoice!
+
                             Version 0.8.3
 
 Chatting

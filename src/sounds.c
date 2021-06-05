@@ -325,6 +325,9 @@ growl_sound(register struct monst* mtmp)
     case MS_NEIGH:
         ret = "neigh";
         break;
+    case MS_PIG:
+        ret = "squeal";
+        break;
     case MS_WAIL:
         ret = "wail";
         break;
@@ -779,6 +782,9 @@ domonnoise(register struct monst* mtmp)
         else
             pline_msg = "whickers.";
         break;
+    case MS_PIG:
+        pline_msg = mtmp->mpeaceful ? "oinks." : "squeals angrily.";
+        break;
     case MS_MOO:
         pline_msg = mtmp->mpeaceful ? "moos." : "bellows!";
         break;
@@ -1065,6 +1071,9 @@ domonnoise(register struct monst* mtmp)
 
         } else if (ms_Death && !rn2(10)) {
             pline_msg = "is busy reading a copy of Sandman #8.";
+        } else if (uwep && uwep->oartifact &&
+                   uwep->oartifact == ART_WAR_S_SWORD) {
+            verbl_msg = "Quite a sword you have there...";
         } else
             verbl_msg = "Who do you think you are, War?";
         break;

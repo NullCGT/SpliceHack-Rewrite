@@ -42,6 +42,7 @@ cost(struct obj *otmp)
     case SCR_REMOVE_CURSE:
     case SCR_ENCHANT_WEAPON:
     case SCR_CHARGING:
+    case SCR_AIR:
         return 16;
     case SCR_SCARE_MONSTER:
     case SCR_STINKING_CLOUD:

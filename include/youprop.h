@@ -104,6 +104,8 @@
      && !u.uroleplay.blind && !Blinded && haseyes(g.youmonst.data))
 /* ...blind because of a blindfold, and *only* that */
 
+#define DeathVision (ublindf && ublindf->oartifact == ART_LENSES_OF_DEATH_PERCEPTION && !Blind)
+
 #define Sick u.uprops[SICK].intrinsic
 #define Stoned u.uprops[STONED].intrinsic
 #define Strangled u.uprops[STRANGLED].intrinsic
@@ -116,7 +118,7 @@
 #define HHalluc_resistance u.uprops[HALLUC_RES].intrinsic
 #define EHalluc_resistance u.uprops[HALLUC_RES].extrinsic
 #define Halluc_resistance (HHalluc_resistance || EHalluc_resistance)
-#define Hallucination (HHallucination && !Halluc_resistance)
+#define Hallucination ((HHallucination && !Halluc_resistance) || DeathVision)
 
 /* Timeout, plus a worn mask */
 #define HDeaf u.uprops[DEAF].intrinsic
@@ -366,6 +368,10 @@
 #define HReflecting u.uprops[REFLECTING].intrinsic
 #define EReflecting u.uprops[REFLECTING].extrinsic
 #define Reflecting (HReflecting || EReflecting)
+
+#define HStable u.uprops[STABLE].intrinsic
+#define EStable u.uprops[STABLE].extrinsic
+#define Stable (EStable || HStable)
 
 #define Free_action u.uprops[FREE_ACTION].extrinsic /* [Tom] */
 

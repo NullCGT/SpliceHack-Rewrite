@@ -1201,6 +1201,10 @@ Blindf_on(struct obj *otmp)
     if (changed) {
         toggle_blindness(); /* potion.c */
     }
+
+    if (ublindf->oartifact == ART_LENSES_OF_DEATH_PERCEPTION) {
+        pline("With madness comes clarity.");
+    }
 }
 
 void

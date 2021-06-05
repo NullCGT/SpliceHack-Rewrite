@@ -82,7 +82,9 @@ thitu(
             You("are almost hit by %s.", onm);
         return 0;
     } else {
-        if (Blind || !flags.verbose)
+        if (obj->oartifact == ART_GAE_BULG) {
+            You("are impaled by Gae Bulg!");
+        } else if (Blind || !flags.verbose)
             You("are hit%s", exclam(dam));
         else
             You("are hit by %s%s", onm, exclam(dam));
@@ -198,6 +200,9 @@ monmulti(struct monst* mtmp, struct obj* otmp, struct obj* mwep)
         /* Elven Craftsmanship makes for light, quick bows */
         if (otmp->otyp == ELVEN_ARROW && !otmp->cursed)
             multishot++;
+        /* Longbow of Diana always gets a bonus */
+        if (otmp->oartifact && otmp->oartifact == ART_LONGBOW_OF_DIANA)
+            multishot++;
         /* for arrow, we checked bow&arrow when entering block, but for
            bow, so far we've only validated that otmp is a weapon stack;
            need to verify that it's a stack of arrows rather than darts */
@@ -223,7 +228,9 @@ monmulti(struct monst* mtmp, struct obj* otmp, struct obj* mwep)
             || (is_orc(mtmp->data) && otmp->otyp == ORCISH_ARROW
                 && mwep->otyp == ORCISH_BOW)
             || (is_gnome(mtmp->data) && otmp->otyp == CROSSBOW_BOLT
-                && mwep->otyp == CROSSBOW))
+                && mwep->otyp == CROSSBOW)
+            || (mtmp->data == &mons[PM_DROW] && otmp->otyp == DARK_ELVEN_ARROW
+                && mwep->otyp == DARK_ELVEN_BOW))
             multishot++;
     }
 
@@ -413,6 +420,12 @@ ohitmon(
                 damage = 0;
         }
 
+        if (otmp->oartifact == ART_GAE_BULG && cansee(mtmp->mx, mtmp->my)) {
+            pline_The("barbed spear flies through the air and impales %s!",
+                      mon_nam(mtmp));
+            damage += mtmp->mhp;
+        }
+
         if (!DEADMONSTER(mtmp)) { /* might already be dead (if petrified) */
             mtmp->mhp -= damage;
             if (DEADMONSTER(mtmp)) {
@@ -490,7 +503,7 @@ m_throw(
     struct obj *obj)        /* missile (or stack providing it) */
 {
     struct monst *mtmp;
-    struct obj *singleobj;
+    struct obj *singleobj, *mwep;
     char sym = obj->oclass;
     int hitu = 0, oldumort, blindinc = 0;
 
@@ -524,6 +537,14 @@ m_throw(
     singleobj->owornmask = 0; /* threw one of multiple weapons in hand? */
     if (!canseemon(mon))
         clear_dknown(singleobj); /* singleobj->dknown = 0; */
+
+    /* D: Special launcher effects */
+    if (mon) mwep = MON_WEP(mon);
+  	else mwep = (struct obj *) 0;
+  	if (mwep && is_ammo(singleobj) && ammo_and_launcher(singleobj, mwep)) {
+  	    if (mwep->oartifact == ART_PLAGUE && is_poisonable(singleobj))
+  			singleobj->opoisoned = TRUE;
+  	}
 
     if ((singleobj->cursed || singleobj->greased) && (dx || dy) && !rn2(7)) {
         if (canseemon(mon) && flags.verbose) {
@@ -614,6 +635,9 @@ m_throw(
                 break;
             default:
                 dam = dmgval(singleobj, &g.youmonst);
+                if (singleobj->oartifact == ART_GAE_BULG) {
+                    dam += u.uhp;
+                }
                 hitv = 3 - distmin(u.ux, u.uy, mon->mx, mon->my);
                 if (hitv < -4)
                     hitv = -4;
@@ -940,7 +964,8 @@ thrwmu(struct monst* mtmp)
 
         if (canseemon(mtmp)) {
             onm = xname(otmp);
-            pline("%s thrusts %s.", Monnam(mtmp),
+            pline("%s %s %s.", Monnam(mtmp),
+                  otmp->otyp == SPIKED_CHAIN ? "flicks" : "thrusts",
                   obj_is_pname(otmp) ? the(onm) : an(onm));
         }
 

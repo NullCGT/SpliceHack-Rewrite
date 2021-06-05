@@ -371,7 +371,8 @@ stone_luck(boolean parameter) /* So I can't think up of a good name.  So sue me.
 
     for (otmp = g.invent; otmp; otmp = otmp->nobj)
         if (confers_luck(otmp)) {
-            if (otmp->cursed)
+            if (otmp->cursed ||
+               (otmp->oartifact && otmp->oartifact == ART_LUCKLESS_FOLLY))
                 bonchance -= otmp->quan;
             else if (otmp->blessed)
                 bonchance += otmp->quan;
@@ -749,6 +750,7 @@ check_innate_abil(long *ability, long frommask)
         case PM_DWARF:
             abil = dwa_abil;
             break;
+        case PM_DROW:
         case PM_ELF:
             abil = elf_abil;
             break;
@@ -926,6 +928,7 @@ adjabil(int oldlevel, int newlevel)
     abil = role_abil(Role_switch);
 
     switch (Race_switch) {
+    case PM_DROW:
     case PM_ELF:
         rabil = elf_abil;
         break;
@@ -1058,6 +1061,8 @@ acurr(int x)
             return (schar) ((tmp <= 3) ? 3 : tmp);
 #endif
     } else if (x == A_CHA) {
+        if (uwep && uwep->oartifact == ART_CHAINS_OF_MALCANTHET)
+            return (schar) 25;
         if (tmp < 18
             && (g.youmonst.data->mlet == S_NYMPH
                 || u.umonnum == PM_AMOROUS_DEMON))
@@ -1111,6 +1116,9 @@ extremeattr(int attrindx) /* does attrindx's value match its max or min? */
             lolimit = hilimit;
     } else if (attrindx == A_CON) {
         if (uwep && uwep->oartifact == ART_OGRESMASHER)
+            lolimit = hilimit;
+    } else if (attrindx == A_CHA) {
+        if (uwep && uwep->oartifact == ART_CHAINS_OF_MALCANTHET)
             lolimit = hilimit;
     }
     /* this exception is hypothetical; the only other worn item affecting

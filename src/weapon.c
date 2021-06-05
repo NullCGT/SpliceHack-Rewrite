@@ -244,6 +244,7 @@ dmgval(struct obj *otmp, struct monst *mon)
         case FLAIL:
         case RANSEUR:
         case VOULGE:
+        case SCYTHE:
             tmp += rnd(4);
             break;
 
@@ -256,6 +257,7 @@ dmgval(struct obj *otmp, struct monst *mon)
         case BATTLE_AXE:
         case BARDICHE:
         case TRIDENT:
+        case SPIKED_CHAIN:
             tmp += d(2, 4);
             break;
 
@@ -276,6 +278,7 @@ dmgval(struct obj *otmp, struct monst *mon)
         case FLAIL:
         case SPETUM:
         case TRIDENT:
+        case SPIKED_CHAIN:
             tmp++;
             break;
 
@@ -290,6 +293,7 @@ dmgval(struct obj *otmp, struct monst *mon)
         case ELVEN_BROADSWORD:
         case RUNESWORD:
         case VOULGE:
+        case SCYTHE:
             tmp += rnd(4);
             break;
 
@@ -495,13 +499,14 @@ oselect(struct monst *mtmp, int x)
 static NEARDATA const int rwep[] = {
     FRAG_GRENADE, GAS_GRENADE, BULLET, SHOTGUN_SHELL,
     DWARVISH_SPEAR, SILVER_SPEAR, ELVEN_SPEAR, SPEAR, ORCISH_SPEAR, JAVELIN,
-    SHURIKEN, YA, SILVER_ARROW, ELVEN_ARROW, ARROW, ORCISH_ARROW,
-    CROSSBOW_BOLT, SILVER_DAGGER, ELVEN_DAGGER, DAGGER, ORCISH_DAGGER, KNIFE,
+    SHURIKEN, YA, SILVER_ARROW, ELVEN_ARROW, DARK_ELVEN_ARROW, ARROW, ORCISH_ARROW,
+    CROSSBOW_BOLT, SILVER_DAGGER, ELVEN_DAGGER, DARK_ELVEN_DAGGER, DAGGER, ORCISH_DAGGER, KNIFE,
     FLINT, ROCK, LOADSTONE, LUCKSTONE, DART,
     /* BOOMERANG, */ CREAM_PIE
 };
 
-static NEARDATA const int pwep[] = { HALBERD,       BARDICHE, SPETUM,
+static NEARDATA const int pwep[] = { SPIKED_CHAIN,
+                                     HALBERD,       BARDICHE, SPETUM,
                                      BILL_GUISARME, VOULGE,   RANSEUR,
                                      GUISARME,      GLAIVE,   LUCERN_HAMMER,
                                      BEC_DE_CORBIN, FAUCHARD, PARTISAN,
@@ -587,6 +592,8 @@ select_rwep(struct monst *mtmp)
                 if (!g.propellor)
                     g.propellor = oselect(mtmp, ELVEN_BOW);
                 if (!g.propellor)
+                    g.propellor = (oselect(mtmp, DARK_ELVEN_BOW));
+                if (!g.propellor)
                     g.propellor = oselect(mtmp, BOW);
                 if (!g.propellor)
                     g.propellor = oselect(mtmp, ORCISH_BOW);
@@ -655,12 +662,14 @@ monmightthrowwep(struct obj *obj)
 /* Weapons in order of preference */
 static const NEARDATA short hwep[] = {
     CORPSE, /* cockatrice corpse */
+    SPIKED_CHAIN,
     TSURUGI, RUNESWORD, DWARVISH_MATTOCK, TWO_HANDED_SWORD, BATTLE_AXE,
     KATANA, UNICORN_HORN, CRYSKNIFE, TRIDENT, LONG_SWORD, ELVEN_BROADSWORD,
     BROADSWORD, SCIMITAR, SILVER_SABER, MORNING_STAR, ELVEN_SHORT_SWORD,
+    DARK_ELVEN_SHORT_SWORD,
     DWARVISH_SHORT_SWORD, SHORT_SWORD, ORCISH_SHORT_SWORD, MACE, AXE,
     DWARVISH_SPEAR, SILVER_SPEAR, ELVEN_SPEAR, SPEAR, ORCISH_SPEAR, FLAIL,
-    BULLWHIP, QUARTERSTAFF, JAVELIN, AKLYS, CLUB, PICK_AXE, RUBBER_HOSE,
+    BULLWHIP, BASEBALL_BAT, QUARTERSTAFF, JAVELIN, AKLYS, CLUB, PICK_AXE, RUBBER_HOSE,
     WAR_HAMMER, SILVER_DAGGER, ELVEN_DAGGER, DAGGER, ORCISH_DAGGER, ATHAME,
     SCALPEL, KNIFE, WORM_TOOTH, RIFLE, PISTOL, AUTO_SHOTGUN, SHOTGUN
 };
@@ -1527,6 +1536,12 @@ weapon_hit_bonus(struct obj *weapon)
         }
         if (u.twoweap)
             bonus -= 2;
+    }
+
+    /* handle the to-hits of Luckless Folly */
+    if (weapon && weapon->oartifact &&
+        weapon->oartifact == ART_LUCKLESS_FOLLY) {
+        bonus += 2 * Luck;
     }
 
     return bonus;

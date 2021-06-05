@@ -199,6 +199,9 @@ throw_obj(struct obj *obj, int shotlimit)
             case PM_HUMAN:
             case PM_DWARF:
             default:
+                if (skill == -P_BOW && 
+                    uwep->oartifact && uwep->oartifact == ART_LONGBOW_OF_DIANA)
+                    multishot++;
                 break; /* No bonus */
             }
 
@@ -898,6 +901,10 @@ hurtle(int dx, int dy, int range, boolean verbose)
         You_feel("a tug from the iron ball.");
         nomul(0);
         return;
+    } else if (Stable) {
+        pline("Your fortitude prevents you from moving.");
+        nomul(0);
+        return;
     } else if (u.utrap) {
         You("are anchored by the %s.",
             u.utraptype == TT_WEB
@@ -1262,6 +1269,11 @@ throwit(struct obj *obj,
         u.dx = u.dy = 0;
         u.dz = 1;
     }
+
+    /* KMH -- Handle Plague here */
+  	if (uwep && uwep->oartifact == ART_PLAGUE &&
+  			ammo_and_launcher(obj, uwep) && is_poisonable(obj))
+  		  obj->opoisoned = TRUE;
 
     g.thrownobj = obj;
     g.thrownobj->was_thrown = 1;
@@ -1788,15 +1800,19 @@ thitmonst(register struct monst *mon,
                  * especially their own special types of bow.
                  * Polymorphing won't make you a bow expert.
                  */
-                if ((Race_if(PM_ELF) || Role_if(PM_SAMURAI))
+                if ((Race_if(PM_ELF) || Race_if(PM_DROW) || Role_if(PM_SAMURAI))
                     && (!Upolyd || your_race(g.youmonst.data))
                     && objects[uwep->otyp].oc_skill == P_BOW) {
                     tmp++;
                     if (Race_if(PM_ELF) && uwep->otyp == ELVEN_BOW)
                         tmp++;
+                    else if (Race_if(PM_DROW) && uwep->otyp == DARK_ELVEN_BOW)
+              			tmp++;
                     else if (Role_if(PM_SAMURAI) && uwep->otyp == YUMI)
                         tmp++;
                 }
+                if (uwep->oartifact && uwep->oartifact == ART_LONGBOW_OF_DIANA)
+                    tmp++;
             }
         } else { /* thrown non-ammo or applied polearm/grapnel */
             if (otyp == BOOMERANG) /* arbitrary */

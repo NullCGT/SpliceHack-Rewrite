@@ -4763,6 +4763,8 @@ help_monster_out(
     if (!try_lift(mtmp, ttmp, wt, TRUE))
         return 1;
 
+    if (mtmp->data == &mons[PM_PIG])
+        You("save %s's bacon.", mon_nam(mtmp));
     You("pull %s out of the pit.", mon_nam(mtmp));
     mtmp->mtrapped = 0;
     reward_untrap(ttmp, mtmp);
