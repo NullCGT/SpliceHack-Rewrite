@@ -38,6 +38,8 @@ static boolean elemental_shift(struct monst *, int);
 #define ZT_LIGHTNING (AD_ELEC - 1)
 #define ZT_POISON_GAS (AD_DRST - 1)
 #define ZT_ACID (AD_ACID - 1)
+#define ZT_SONIC (AD_LOUD - 1)
+#define ZT_PSYCHIC (AD_PSYC - 1)
 /* 8 and 9 are currently unassigned */
 
 #define ZT_WAND(x) (x)
@@ -5066,6 +5068,35 @@ destroy_one_item(struct obj *obj, int osym, int dmgtyp)
             break;
         }
         break;
+    case AD_LOUD:
+        if (objects[obj->otyp].oc_material == GLASS ||
+            objects[obj->otyp].oc_material == GEMSTONE) {
+            quan = obj->quan;
+            switch (osym) {
+            case POTION_CLASS:
+                dmg = rnd(4);
+                dindx = 7;
+                break;
+            case RING_CLASS:
+            case TOOL_CLASS:
+                dmg = 1;
+                dindx = 8;
+                break;
+            case ARMOR_CLASS:
+                dmg = rnd(10);
+                dindx = 8;
+                break;
+            case WAND_CLASS:
+                dmg = rnd(6);
+                dindx = 9;
+                break;
+            default:
+                skip++;
+                break;
+            }
+        } else
+            skip++;
+        break;
     default:
         skip++;
         break;
@@ -5235,6 +5266,31 @@ destroy_mitem(struct monst *mtmp, int osym, int dmgtyp)
                 quan = obj->quan;
                 dindx = 0;
                 tmp++;
+            } else
+                skip++;
+            break;
+        case AD_LOUD:
+            if (objects[obj->otyp].oc_material == GLASS ||
+                objects[obj->otyp].oc_material == GEMSTONE) {
+                quan = obj->quan;
+                switch (osym) {
+                case POTION_CLASS:
+                    dindx = 7;
+                    break;
+                case RING_CLASS:
+                case TOOL_CLASS:
+                    dindx = 8;
+                    break;
+                case ARMOR_CLASS:
+                    dindx = 8;
+                    break;
+                case WAND_CLASS:
+                    dindx = 9;
+                    break;
+                default:
+                    skip++;
+                    break;
+                }
             } else
                 skip++;
             break;

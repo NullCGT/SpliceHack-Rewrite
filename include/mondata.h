@@ -26,6 +26,10 @@
     ((mon_resistancebits(mon) & MR_POISON) != 0)
 #define resists_acid(mon) \
     ((mon_resistancebits(mon) & MR_ACID) != 0)
+#define resists_sonic(mon) \
+    ((mon_resistancebits(mon) & MR_SONIC) != 0)
+#define resists_psychic(mon) \
+    (((mon_resistancebits(mon) & MR_PSYCHIC) != 0) || mindless(mon->data))
 #define resists_ston(mon) \
     ((mon_resistancebits(mon) & MR_STONE) != 0)
 

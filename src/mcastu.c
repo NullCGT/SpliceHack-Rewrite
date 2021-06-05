@@ -857,7 +857,7 @@ buzzmu(register struct monst *mtmp, register struct attack *mattk)
 {
     /* don't print constant stream of curse messages for 'normal'
        spellcasting monsters at range */
-    if (mattk->adtyp > AD_SPC2)
+    if (mattk->adtyp > AD_PSYC)
         return 0;
 
     if (mtmp->mcan) {

@@ -309,7 +309,8 @@ getmattk(struct monst *magr, struct monst *mdef,
         *alt_attk_buf = *attk;
         attk = alt_attk_buf;
         if (attk->adtyp == AD_ACID || attk->adtyp == AD_ELEC
-            || attk->adtyp == AD_COLD || attk->adtyp == AD_FIRE) {
+            || attk->adtyp == AD_COLD || attk->adtyp == AD_FIRE
+            || attk->adtyp == AD_LOUD || attk->adtyp == AD_PSYC) {
             attk->aatyp = AT_TUCH;
         } else {
             attk->aatyp = AT_CLAW; /* attack message will be "<foo> hits" */

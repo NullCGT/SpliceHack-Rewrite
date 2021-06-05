@@ -164,6 +164,13 @@ explode(
             adstr = "splash of acid";
             adtyp = AD_ACID;
             break;
+        case 8:
+            adstr = "sonicboom";
+            adtyp = AD_LOUD;
+            break;
+        case 9:
+            adstr = "psiblast";
+            adtyp = AD_PSYC;
         default:
             impossible("explosion base type %d?", type);
             return;
@@ -211,6 +218,13 @@ explode(
                     explmask[i][j] = !!Acid_resistance;
                     physical_dmg = TRUE;
                     break;
+                case AD_LOUD:
+                    explmask[i][j] = !!Sonic_resistance;
+                    physical_dmg = TRUE;
+                    break;
+                case AD_PSYC:
+                    explmask[i][j] = !!Psychic_resistance;
+                    break;
                 default:
                     impossible("explosion type %d?", adtyp);
                     break;
@@ -251,6 +265,12 @@ explode(
                         break;
                     case AD_ACID:
                         explmask[i][j] |= resists_acid(mtmp);
+                        break;
+                    case AD_LOUD:
+                        explmask[i][j] |= resists_acid(mtmp);
+                        break;
+                    case AD_PSYC:
+                        explmask[i][j] |= resists_psychic(mtmp);
                         break;
                     default:
                         impossible("explosion type %d?", adtyp);
@@ -388,6 +408,12 @@ explode(
                         case AD_ACID:
                             adj = "an upset stomach";
                             break;
+                        case AD_LOUD:
+                            adj = "a case of the hiccups";
+                            break;
+                        case AD_PSYC:
+                            adj = "mentally blasted";
+                            break;
                         default:
                             adj = "fried";
                             break;
@@ -415,6 +441,13 @@ explode(
                             break;
                         case AD_ACID:
                             adj = "burned";
+                            break;
+                        case AD_LOUD:
+                            adj = "blasted";
+                            break;
+                        case AD_PSYC:
+                            /* not a great adjective, or even a real one */
+                            adj = "mindblasted";
                             break;
                         default:
                             adj = "fried";
@@ -900,7 +933,7 @@ mon_explodes(struct monst *mon, struct attack *mattk)
     if (mattk->adtyp == AD_PHYS) {
         type = PHYS_EXPL_TYPE;
     }
-    else if (mattk->adtyp >= AD_MAGM && mattk->adtyp <= AD_SPC2) {
+    else if (mattk->adtyp >= AD_MAGM && mattk->adtyp <= AD_PSYC) {
         /* The -1, +20, *-1 math is to set it up as a 'monster breath' type for
          * the explosions (it isn't, but this is the closest analogue). */
         type = -((mattk->adtyp - 1) + 20);
