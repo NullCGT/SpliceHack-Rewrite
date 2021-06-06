@@ -379,6 +379,78 @@ m_initweap(register struct monst *mtmp)
         }
         break;
 
+    case S_GNOLL:
+        switch (mm) {
+            case PM_GNOLL:
+                if(!rn2(3)) (void) mongets(mtmp, ORCISH_HELM);
+                if(!rn2(3)) (void) mongets(mtmp, STUDDED_LEATHER_ARMOR);
+                if(!rn2(3)) (void) mongets(mtmp, ORCISH_SHIELD);
+                if(!rn2(4)) (void) mongets(mtmp, SPEAR);
+                break;
+            case PM_GNOLL_WARRIOR:
+                if(!rn2(2)) (void) mongets(mtmp, ORCISH_HELM);
+
+                if (!rn2(20))
+                    (void) mongets(mtmp, ORANGE_DRAGON_SCALE_MAIL);
+                else if (rn2(3))
+                    (void) mongets(mtmp, SCALE_MAIL);
+                else
+                    (void) mongets(mtmp, SPLINT_MAIL);
+
+                if(!rn2(2)) (void) mongets(mtmp, ORCISH_SHIELD);
+                if(!rn2(3)) (void) mongets(mtmp, KATANA);
+                break;
+            case PM_GNOLL_CHIEFTAIN:
+                (void) mongets(mtmp, ORCISH_HELM);
+                if (!rn2(10))
+                    (void) mongets(mtmp, BLUE_DRAGON_SCALE_MAIL);
+                else
+                    (void) mongets(mtmp, CRYSTAL_PLATE_MAIL);
+                (void) mongets(mtmp, ORCISH_SHIELD);
+                (void) mongets(mtmp, KATANA);
+                (void) mongets(mtmp, rnd_offensive_item(mtmp));
+                break;
+            case PM_GNOLL_SHAMAN:
+                if (!rn2(10))
+                    (void) mongets(mtmp, SILVER_DRAGON_SCALE_MAIL);
+                else if (rn2(5))
+                    (void) mongets(mtmp, CRYSTAL_PLATE_MAIL);
+                else
+                    (void) mongets(mtmp, RED_DRAGON_SCALE_MAIL);
+
+                (void) mongets(mtmp, ATHAME);
+                m_initthrow(mtmp, SHURIKEN, 12);
+                (void) mongets(mtmp, rnd_offensive_item(mtmp));
+                (void) mongets(mtmp, rnd_offensive_item(mtmp));
+                break;
+            case PM_MARRASHI:
+                /* Many varieties of arrows */
+                m_initthrow(mtmp, ARROW, 15);
+                m_initthrow(mtmp, ARROW, 15);
+                m_initthrow(mtmp, ARROW, 15);
+                m_initthrow(mtmp, ARROW, 15);
+                /* Marrashi have one special arrow that causes sickness. */
+                otmp = mksobj(ARROW, TRUE, FALSE);
+                otmp->blessed = TRUE;
+                otmp->oerodeproof = TRUE;
+                otmp->opoisoned = POT_FILTH;
+                otmp->spe = 5;
+                otmp->quan = (long) 1;
+                otmp->owt = weight(otmp);
+			    (void) mpickobj(mtmp, otmp);
+                /* powerful bow */
+                otmp = mksobj(FOOTBOW, TRUE, FALSE);
+                otmp->spe = 3;
+                (void) mpickobj(mtmp, otmp);
+                /* defenses */
+                (void) mongets(mtmp, rnd_defensive_item(mtmp));
+                (void) mongets(mtmp, GREEN_DRAGON_SCALE_MAIL);
+                break;
+            default:
+                break;
+        }
+        break;
+
     case S_HUMANOID:
         if (mm == PM_HOBBIT) {
             switch (rn2(3)) {

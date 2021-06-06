@@ -1019,15 +1019,6 @@ NEARDATA struct permonst mons_init[] = {
             | M1_NOHEAD | M1_MINDLESS | M1_UNSOLID | M1_SEE_INVIS | M1_NOTAKE,
         M2_HOSTILE | M2_NEUTER, 0, 7, CLR_BLACK),
     /*
-     * zruty
-     */
-    MON("zruty", S_ZRUTY, LVL(9, 8, 3, 0, 0), (G_GENO | 2),
-        A(ATTK(AT_CLAW, AD_PHYS, 3, 4), ATTK(AT_CLAW, AD_PHYS, 3, 4),
-          ATTK(AT_BITE, AD_PHYS, 3, 6), NO_ATTK, NO_ATTK, NO_ATTK),
-        SIZ(1200, 600, MS_SILENT, MZ_LARGE), 0, 0,
-        M1_ANIMAL | M1_HUMANOID | M1_CARNIVORE, M2_HOSTILE | M2_STRONG,
-        M3_INFRAVISIBLE, 11, CLR_BROWN),
-    /*
      * Angels and other lawful minions
      */
     MON("couatl", S_ANGEL, LVL(8, 10, 5, 30, 7),
@@ -1469,6 +1460,47 @@ NEARDATA struct permonst mons_init[] = {
         SIZ(750, 150, MS_ORC, MZ_SMALL), 0, 0, M1_HUMANOID | M1_OMNIVORE,
         M2_GNOME | M2_PRINCE | M2_COLLECT,
         M3_INFRAVISIBLE | M3_INFRAVISION, 6, HI_LORD),
+    /* Gnolls */
+    MON("gnoll", S_GNOLL,
+      	LVL(18, 12, 5, 10, -5), (G_GENO | G_HELL | 1),
+      	A(ATTK(AT_WEAP, AD_PHYS, 3, 6),  ATTK(AT_WEAP, AD_PHYS, 3, 6),
+      	  NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+      	SIZ(1800, 100, MS_GNOLL, MZ_LARGE), 0, 0,
+      	M1_HIDE | M1_HUMANOID | M1_POIS | M1_SEE_INVIS | M1_OMNIVORE,
+      	M2_NOPOLY | M2_HOSTILE | M2_COLLECT | M2_MAGIC | M2_GREEDY | M2_JEWELS,
+      	M3_INFRAVISION, 20, CLR_GRAY),
+    MON("gnoll warrior", S_GNOLL,
+      	LVL(24, 15, 0, 20, -6), (G_GENO | G_HELL | 1),
+      	A(ATTK(AT_WEAP, AD_PHYS, 3, 6),  ATTK(AT_WEAP, AD_PHYS, 3, 6),
+      	  NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+      	SIZ(1800, 100, MS_GNOLL, MZ_LARGE), 0, 0,
+      	M1_HIDE|M1_HUMANOID | M1_POIS | M1_SEE_INVIS | M1_OMNIVORE,
+      	M2_NOPOLY | M2_HOSTILE | M2_COLLECT | M2_MAGIC | M2_GREEDY | M2_JEWELS,
+      	M3_INFRAVISION, 26, CLR_WHITE),
+    MON3("gnoll chieftain", "gnoll chieftainess", "gnoll chieftain", S_GNOLL,
+      	LVL(30, 18, -5, 40, -8), (G_GENO | G_HELL | 1),
+      	A(ATTK(AT_WEAP, AD_PHYS, 3, 6),  ATTK(AT_WEAP, AD_PHYS, 3, 6),
+      	  NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+      	SIZ(1800, 100, MS_GNOLL, MZ_LARGE), 0, 0,
+      	M1_HIDE | M1_HUMANOID | M1_POIS | M1_SEE_INVIS | M1_OMNIVORE,
+      	M2_NOPOLY | M2_HOSTILE | M2_COLLECT | M2_MAGIC | M2_GREEDY | M2_JEWELS,
+      	M3_INFRAVISION, 33, CLR_MAGENTA),
+    MON("gnoll shaman", S_GNOLL,
+      	LVL(18, 15, 0, 60, -10), (G_GENO | G_HELL | 1),
+      	A(ATTK(AT_MAGC, AD_SPEL, 0, 0), ATTK(AT_MAGC, AD_CLRC, 0, 0),
+      	  NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+      	SIZ(1800, 100, MS_GNOLL, MZ_LARGE), 0, 0,
+      	M1_HIDE | M1_HUMANOID | M1_POIS | M1_SEE_INVIS | M1_OMNIVORE,
+      	M2_NOPOLY | M2_HOSTILE | M2_COLLECT | M2_MAGIC | M2_GREEDY | M2_JEWELS,
+      	M3_INFRAVISION, 22, CLR_YELLOW),
+    MON("marrashi", S_GNOLL,
+      	LVL(20, 15, 0, 60, 5), (G_GENO | 1),
+      	A(ATTK(AT_WEAP, AD_PHYS, 3, 6), ATTK(AT_WEAP, AD_PHYS, 3, 6),
+      	  ATTK(AT_BITE, AD_DISE, 1, 4), NO_ATTK, NO_ATTK, NO_ATTK),
+      	SIZ(2200, 100, MS_GNOLL, MZ_LARGE), 0, 0,
+      	M1_FLY | M1_HUMANOID | M1_POIS | M1_SEE_INVIS | M1_OMNIVORE,
+      	M2_NOPOLY | M2_HOSTILE | M2_COLLECT | M2_MAGIC | M2_GREEDY | M2_JEWELS,
+      	M3_INFRAVISION, 26, CLR_YELLOW),
 #ifdef SPLITMON_1
 };
 #endif
@@ -2082,6 +2114,12 @@ struct permonst _mons2[] = {
         SIZ(1550, 750, MS_GROWL, MZ_LARGE), 0, 0,
         M1_ANIMAL | M1_HUMANOID | M1_SEE_INVIS | M1_OMNIVORE, M2_STRONG,
         M3_INFRAVISIBLE, 9, CLR_GRAY),
+    MON("zruty", S_YETI, LVL(9, 8, 3, 0, 0), (G_GENO | 2),
+        A(ATTK(AT_CLAW, AD_PHYS, 3, 4), ATTK(AT_CLAW, AD_PHYS, 3, 4),
+          ATTK(AT_BITE, AD_PHYS, 3, 6), NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(1200, 600, MS_SILENT, MZ_LARGE), 0, 0,
+        M1_ANIMAL | M1_HUMANOID | M1_CARNIVORE, M2_HOSTILE | M2_STRONG,
+        M3_INFRAVISIBLE, 11, CLR_BROWN),
     /*
      * Zombies
      */

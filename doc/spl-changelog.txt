@@ -5,6 +5,8 @@
 Removed Content
 Since this release is a rewrite, a number of pieces of existing content have been heavily altered
 or outright removed. Rationale will be provided for all removed content.
+- Removed the following monsters:
+  - Anubites. Anubites were not interesting to fight, and did not fit the theme of SpliceHack.
 - The intelligent pet patch from GruntHack has been removed. This patch introduced an incredible
   number of bugs in monster AI, and additionally made the monster AI code nigh unreadable.
   Additionally, many of the changes made by it were supersceded by later vanilla changes.
@@ -23,6 +25,7 @@ or outright removed. Rationale will be provided for all removed content.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
+- Altered the tiles for gnolls again to bring them closer in line with other humanoid tiles.
 
 Race Changes
 - Drow

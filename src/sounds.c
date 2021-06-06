@@ -507,6 +507,7 @@ maybe_gasp(struct monst* mon)
     case MS_PRIEST: /* temple priest, roaming aligned priest (not mplayer) */
     case MS_BOAST: /* giants */
     case MS_IMITATE: /* doppelganger, leocrotta, Aleax */
+    case MS_GNOLL:
         dogasp = TRUE;
         break;
     /* issue comprehensible word(s) if hero is similar type of creature */
@@ -974,6 +975,15 @@ domonnoise(register struct monst* mtmp)
                 "You're under arrest!", "Stop in the name of the Law!",
             };
             verbl_msg = arrest_msg[rn2(3)];
+        }
+        break;
+    case MS_GNOLL:
+        if (mtmp->mpeaceful) {
+            pline("%s cackles conspiratorially.", Monnam(mtmp));
+        /* } else if (mtmp->data == &mons[PM_MOLYDEUS]) {
+            pline("%s cackles at you, then hisses.", Monnam(mtmp)); */
+        } else {
+            pline("%s cackles at you.", Monnam(mtmp));
         }
         break;
     case MS_BRIBE:

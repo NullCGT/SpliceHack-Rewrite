@@ -511,7 +511,7 @@ xname_flags(
             else if (obj->opoisoned == POT_SLEEPING) Strcpy(buf, "drugged ");
             else if (obj->opoisoned == POT_PARALYSIS) Strcpy(buf, "envenomed ");
             else if (obj->opoisoned == POT_OIL) Strcpy(buf, "oiled ");
-            /* else if (obj->opoisoned == POT_FILTH) Strcpy(buf, "filth-crusted "); */
+            else if (obj->opoisoned == POT_FILTH) Strcpy(buf, "filth-crusted ");
             else Strcpy(buf, "potion-coated ");
         }
         /*FALLTHRU*/
@@ -1009,9 +1009,9 @@ doname_base(struct obj* obj, unsigned int doname_flags)
     } else if (!strncmp(bp, "oiled ", 6) && obj->opoisoned) {
         bp += 6;
         ispoisoned = POT_OIL;
-    /* } else if (!strncmp(bp, "filth-crusted ", 14) && obj->opoisoned) {
+    } else if (!strncmp(bp, "filth-crusted ", 14) && obj->opoisoned) {
         bp += 14;
-        ispoisoned = POT_FILTH; */
+        ispoisoned = POT_FILTH;
     } else if (!strncmp(bp, "potion-coated ", 14) && obj->opoisoned) {
         bp += 14;
         ispoisoned = obj->opoisoned;
@@ -1139,8 +1139,8 @@ doname_base(struct obj* obj, unsigned int doname_flags)
                 Strcat(prefix, "envenomed ");
             else if (ispoisoned == POT_OIL)
                 Strcat(prefix, "oiled ");
-            /* else if (ispoisoned == POT_FILTH)
-                Strcat(prefix, "filth-crusted "); */
+            else if (ispoisoned == POT_FILTH)
+                Strcat(prefix, "filth-crusted ");
             else
                 Strcat(prefix, "potion-coated ");
         }

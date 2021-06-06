@@ -230,7 +230,9 @@ monmulti(struct monst* mtmp, struct obj* otmp, struct obj* mwep)
             || (is_gnome(mtmp->data) && otmp->otyp == CROSSBOW_BOLT
                 && mwep->otyp == CROSSBOW)
             || (mtmp->data == &mons[PM_DROW] && otmp->otyp == DARK_ELVEN_ARROW
-                && mwep->otyp == DARK_ELVEN_BOW))
+                && mwep->otyp == DARK_ELVEN_BOW)
+            || (mtmp->data == &mons[PM_MARRASHI] && otmp->otyp == ARROW
+                && mwep->otyp == FOOTBOW))
             multishot++;
     }
 
@@ -653,6 +655,9 @@ m_throw(
                         hitv++;
                     if (singleobj->otyp == ELVEN_ARROW)
                         dam++;
+                } else if (mon->data == &mons[PM_MARRASHI]
+                           && MON_WEP(mon) && MON_WEP(mon)->otyp == FOOTBOW) {
+                    hitv += 5;
                 }
                 if (bigmonst(g.youmonst.data))
                     hitv++;

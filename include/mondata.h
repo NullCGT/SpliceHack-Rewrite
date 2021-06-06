@@ -35,6 +35,11 @@
 
 #define immune_poisongas(ptr) ((ptr) == &mons[PM_HEZROU])
 
+#define resists_sickness(ptr) \
+    (is_undead(ptr) || amorphous(ptr) || is_rider(ptr) \
+    || is_demon(ptr) \
+    || ptr == &mons[PM_MARRASHI])
+
 #define is_lminion(mon) \
     (is_minion((mon)->data) && mon_aligntyp(mon) == A_LAWFUL)
 #define is_flyer(ptr) (((ptr)->mflags1 & M1_FLY) != 0L)

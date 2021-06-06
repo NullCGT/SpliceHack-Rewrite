@@ -892,6 +892,22 @@ peffects(struct obj *otmp)
             (void) make_hallucinated(0L, FALSE, 0L);
         }
         break;
+    case POT_FILTH:
+        pline("Ulch - that was tainted with filth!");
+        if (Sick_resistance) {
+            pline("It doesn't seem at all sickening, though...");
+        } else {
+            char buf[BUFSZ];
+            long sick_time;
+
+            sick_time = (long) rn1(10, 10);
+            /* make sure new ill doesn't result in improvement */
+            if (Sick && (sick_time > Sick))
+                sick_time = (Sick > 1L) ? Sick - 1L : 1L;
+            Sprintf(buf, "filthy %s", xname(otmp));
+            make_sick(sick_time, buf, TRUE, SICK_VOMITABLE);
+        }
+        break;
     case POT_CONFUSION:
         if (!Confusion) {
             if (Hallucination) {
@@ -1431,6 +1447,19 @@ potionhit(struct monst *mon, struct obj *obj, int how)
             } else
                 You("have an uneasy feeling.");
             break;
+        case POT_FILTH:
+            if (Sick_resistance) {
+                pline_The("tainted filth doesn't seem to affect you.");
+                return;
+            } else {
+                long sick_time;
+                sick_time = (long) rn1(20, 20);
+                /* make sure new ill doesn't result in improvement */
+                if (Sick && (sick_time > Sick))
+                    sick_time = (Sick > 2L) ? Sick/2L : 1L;
+                make_sick(sick_time, "filth", TRUE, SICK_NONVOMITABLE);
+            }
+            break;
         }
     } else if (hit_saddle && saddle) {
         char *mnam, buf[BUFSZ], saddle_glows[BUFSZ];
@@ -1641,6 +1670,25 @@ potionhit(struct monst *mon, struct obj *obj, int how)
             if (canseemon(mon))
                 pline("%s seems more experienced.", Monnam(mon));
             grow_up(mon, (struct monst *) 0);
+            break;
+        case POT_FILTH:
+            if (resists_sickness(mon->data)) {
+                if (canseemon(mon)) pline_The("filth doesn't seem to affect %s.",
+                        mon_nam(mon));
+            } else {
+                if (rn2(30)) {
+                    mon->mhp = rnd(12);
+                } else {
+                    if (canseemon(mon)) pline_The("tainted filth was deadly...");
+                    mon->mhp -= mon->mhp;
+                }
+            }
+            if (DEADMONSTER(mon)) {
+                if (your_fault)
+                    killed(mon);
+                else
+                    monkilled(mon, "", AD_DISE);
+            }
             break;
         /*
         case POT_LEVITATION:
@@ -1904,6 +1952,7 @@ mixtype(struct obj *o1, struct obj *o2)
         case POT_HALLUCINATION:
         case POT_BLINDNESS:
         case POT_CONFUSION:
+        case POT_FILTH:
             return POT_WATER;
         }
         break;
