@@ -26,6 +26,8 @@ or outright removed. Rationale will be provided for all removed content.
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
 - Altered the tiles for gnolls again to bring them closer in line with other humanoid tiles.
+- New Yendorian Army Member: The General
+  - Upgraded form of the captain. Highly dangerous, and very rare to encounter.
 
 Race Changes
 - Drow

@@ -207,6 +207,9 @@ m_initweap(register struct monst *mtmp)
             case PM_PRISON_GUARD:
                 w1 = rn2(2) ? LONG_SWORD : SILVER_SABER;
                 break;
+            case PM_GENERAL:
+                (void) mongets(mtmp, rnd_offensive_item(mtmp));
+                /* FALLTHRU */
             case PM_CAPTAIN:
                 (void) mongets(mtmp, rn2(2) ? FRAG_GRENADE : GAS_GRENADE);
                 /* FALLTHRU */
@@ -738,6 +741,9 @@ m_initinv(register struct monst *mtmp)
                 break;
             case PM_CAPTAIN:
                 mac = -3;
+                break;
+            case PM_GENERAL:
+                mac = -5;
                 break;
             case PM_WATCHMAN:
                 mac = 3;

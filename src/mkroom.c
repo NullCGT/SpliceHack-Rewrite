@@ -777,7 +777,8 @@ static const struct {
 } squadprob[] = { { PM_SOLDIER, 80 },
                   { PM_SERGEANT, 15 },
                   { PM_LIEUTENANT, 4 },
-                  { PM_CAPTAIN, 1 } };
+                  { PM_CAPTAIN, 1 },
+                  { PM_GENERAL, 1} };
 
 /* return soldier types. */
 static struct permonst *
