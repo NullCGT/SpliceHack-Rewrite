@@ -2289,7 +2289,12 @@ trapeffect_magic_portal(
     struct trap* trap,
     unsigned int trflags)
 {
-    if (mtmp == &g.youmonst) {
+    if (u.usteed &&
+          (Is_blackmarket(&trap->dst) || Is_blackmarket(&u.uz))) {
+        pline("%s seems to shimmer for a moment.",
+        Monnam(u.usteed));
+        feeltrap(trap);
+    } else if (mtmp == &g.youmonst) {
         feeltrap(trap);
         domagicportal(trap);
     } else {

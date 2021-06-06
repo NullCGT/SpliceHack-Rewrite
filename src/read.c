@@ -911,7 +911,7 @@ maybe_tame(struct monst* mtmp, struct obj* sobj)
     int was_tame = mtmp->mtame;
     unsigned was_peaceful = mtmp->mpeaceful;
 
-    if (sobj->cursed) {
+    if (sobj->cursed || Is_blackmarket(&u.uz)) {
         setmangry(mtmp, FALSE);
         if (was_peaceful && !mtmp->mpeaceful)
             return -1;

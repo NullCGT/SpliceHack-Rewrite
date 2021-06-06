@@ -2374,6 +2374,8 @@ extern long get_cost_of_shop_item(struct obj *, int *);
 extern int oid_price_adjustment(struct obj *, unsigned);
 extern boolean block_door(xchar, xchar);
 extern boolean block_entry(xchar, xchar);
+extern void blkmar_guards(struct monst *);
+extern void bars_around_portal(boolean);
 extern char *shk_your(char *, struct obj *);
 extern char *Shk_Your(char *, struct obj *);
 extern void globby_bill_fixup(struct obj *, struct obj *);

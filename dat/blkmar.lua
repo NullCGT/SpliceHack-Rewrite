@@ -47,6 +47,6 @@ des.monster({id= "wood nymph",  x=03, y=09, name="Sam's assistant Daphne", aslee
 -- otherwise they will not behave like assistants.
 des.monster({id="balrog", x=03, y=04, name="Sam's assistant Njalnohaar", asleep=1, peaceful=1})
 des.monster({id="pit fiend", x=03, y=02, name="Sam's assistant Hilvuuloth", asleep=1, peaceful=1})
-des.monster({id="nightmare", x=03, y=13, name="Sam's assistant Dream", asleep=1, peaceful=1})
-des.monster({id="manticore", x=03, y=08, name="Sam's assistant Spiky", asleep=1, peaceful=1})
+des.monster({id="captain", x=03, y=13, name="Sam's assistant Kidd", asleep=1, peaceful=1})
+des.monster({id="marrashi", x=03, y=08, name="Sam's assistant Kite", asleep=1, peaceful=1})
 des.monster({id="salamander", x=03, y=11, name="Sam's assistant Izzy", asleep=1, peaceful=1})

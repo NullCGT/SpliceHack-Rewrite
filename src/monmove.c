@@ -1110,9 +1110,10 @@ m_move(register struct monst* mtmp, register int after)
         if (!mtmp->mpeaceful && is_mercenary(ptr))
             minr = 1;
 
-        if ((likegold || likegems || likeobjs || likemagic || likerock
+        if (((likegold || likegems || likeobjs || likemagic || likerock
              || conceals) && (!*in_rooms(omx, omy, SHOPBASE)
-                              || (!rn2(25) && !mtmp->isshk))) {
+                              || (!rn2(25) && !mtmp->isshk))) &&
+                              !Is_blackmarket(&u.uz)) {
  look_for_obj:
             oomx = min(COLNO - 1, omx + minr);
             oomy = min(ROWNO - 1, omy + minr);

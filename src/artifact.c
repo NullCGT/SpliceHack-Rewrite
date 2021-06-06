@@ -1934,6 +1934,10 @@ arti_invoke(struct obj *obj)
             winid tmpwin = create_nhwindow(NHW_MENU);
             anything any;
 
+            if (Is_blackmarket(&u.uz) && *u.ushops) {
+      		      You("feel very disoriented for a moment.");
+      		      break;
+      	    }
             any = cg.zeroany; /* set all bits to zero */
             start_menu(tmpwin, MENU_BEHAVE_STANDARD);
             /* use index+1 (cant use 0) as identifier */

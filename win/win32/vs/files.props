@@ -28,6 +28,7 @@
     <Luafiles Include = "bigrm-8.lua"/>
     <Luafiles Include = "bigrm-9.lua"/>
     <Luafiles Include = "bigrm-10.lua"/>
+    <Luafiles Include = "blkmar.lua"/>
     <Luafiles Include = "castle.lua"/>
     <Luafiles Include = "air.lua"/>
     <Luafiles Include = "astral.lua"/>
@@ -114,6 +115,11 @@
     <Luafiles Include = "mon-goal.lua"/>
     <Luafiles Include = "mon-loca.lua"/>
     <Luafiles Include = "mon-strt.lua"/>
+    <Luafiles Include = "pir-fila.lua"/>
+    <Luafiles Include = "pir-filb.lua"/>
+    <Luafiles Include = "pir-goal.lua"/>
+    <Luafiles Include = "pir-loca.lua"/>
+    <Luafiles Include = "pir-strt.lua"/>
     <Luafiles Include = "pri-fila.lua"/>
     <Luafiles Include = "pri-filb.lua"/>
     <Luafiles Include = "pri-goal.lua"/>

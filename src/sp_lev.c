@@ -3615,6 +3615,7 @@ static const struct {
     { "delphi", DELPHI },
     { "temple", TEMPLE },
     { "anthole", ANTHOLE },
+    { "blackfoyer", BLACKFOYER },
     { "cocknest", COCKNEST },
     { "leprehall", LEPREHALL },
     { "shop", SHOPBASE },
@@ -3629,6 +3630,7 @@ static const struct {
     { "book shop", BOOKSHOP },
     { "health food shop", FODDERSHOP },
     { "candle shop", CANDLESHOP },
+    { "black market", BLACKSHOP },
     { 0, 0 }
 };
 

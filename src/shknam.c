@@ -14,6 +14,8 @@ static void mkveggy_at(int, int);
 static void mkshobj_at(const struct shclass *, int, int, boolean);
 static void nameshk(struct monst *, const char *const *);
 static int shkinit(const struct shclass *, struct mkroom *);
+static void stock_blkmar(struct mkroom *, int);
+static void init_shk_services(struct monst *);
 
 #define VEGETARIAN_CLASS (MAXOCLASSES + 1)
 
@@ -186,6 +188,10 @@ static const char *const shkhealthfoods[] = {
     "=Zennia",  "=Zoe",      "=Zora",    0
 };
 
+static const char *const shkblackmarket[] = {
+    "One-Eyed Sam", 0
+};
+
 /*
  * To add new shop types, all that is necessary is to edit the shtypes[]
  * array.  See mkroom.h for the structure definition.  Typically, you'll
@@ -336,6 +342,12 @@ const struct shclass shtypes[] = {
         { 3, -MAGIC_LAMP },
         { 5, -POT_OIL } },
       shklight },
+    {"black market",
+      RANDOM_CLASS,
+      0,
+      D_SHOP,
+      {{100, RANDOM_CLASS}, {0, 0}, {0, 0}},
+    shkblackmarket},
     /* sentinel */
     { (char *) 0,
       0,
@@ -460,7 +472,7 @@ mkshobj_at(const struct shclass* shp, int sx, int sy, boolean mkspecl)
         return;
     }
 
-    if (rn2(100) < depth(&u.uz) && !MON_AT(sx, sy)
+    if (!Is_blackmarket(&u.uz) && rn2(100) < depth(&u.uz) && !MON_AT(sx, sy)
         && (ptr = mkclass(S_MIMIC, 0)) != 0
         && (mtmp = makemon(ptr, sx, sy, NO_MM_FLAGS)) != 0) {
         /* note: makemon will set the mimic symbol to a shop item */
@@ -472,6 +484,13 @@ mkshobj_at(const struct shclass* shp, int sx, int sy, boolean mkspecl)
         atype = get_shop_item((int) (shp - shtypes));
         if (atype == VEGETARIAN_CLASS)
             mkveggy_at(sx, sy);
+        else if (Is_blackmarket(&u.uz)) {
+  	         if (!rn2(20)) return; /* leave an empty square */
+             if (!rn2(10)) {
+                (void) mkobj_at(rn2(5) ? GEM_CLASS : TOOL_CLASS, sx, sy, TRUE);
+  		          return;
+            }
+        }
         else if (atype < 0)
             (void) mksobj_at(-atype, sx, sy, TRUE, TRUE);
         else
@@ -636,7 +655,11 @@ shkinit(const struct shclass* shp, struct mkroom* sroom)
         (void) rloc(m_at(sx, sy), FALSE); /* insurance */
 
     /* now initialize the shopkeeper monster structure */
-    if (!(shk = makemon(&mons[PM_SHOPKEEPER], sx, sy, MM_ESHK)))
+    if (Is_blackmarket(&u.uz)) {
+        if (sroom->rtype == BLACKSHOP) {
+            shk = makemon(&mons[PM_ARMS_DEALER], sx, sy, MM_ESHK);
+          }
+    } else if (!(shk = makemon(&mons[PM_SHOPKEEPER], sx, sy, MM_ESHK)))
         return -1;
     eshkp = ESHK(shk); /* makemon(...,MM_ESHK) allocates this */
     shk->isshk = shk->mpeaceful = 1;
@@ -655,10 +678,19 @@ shkinit(const struct shclass* shp, struct mkroom* sroom)
     eshkp->billct = eshkp->visitct = 0;
     eshkp->bill_p = (struct bill_x *) 0;
     eshkp->customer[0] = '\0';
-    mkmonmoney(shk, 1000L + 30L * (long) rnd(100)); /* initial capital */
+    /* WAC init services */
+	init_shk_services(shk);
+    if (!Is_blackmarket(&u.uz))
+        mkmonmoney(shk, 1000L + 30L * (long) rnd(100)); /* initial capital */
+    else
+        mkmonmoney(shk, (7 + rn2(3)) *
+            (1000L + 30L * (long) rnd(100))); /* initial capital */
     if (shp->shknms == shkrings)
         (void) mongets(shk, TOUCHSTONE);
-    nameshk(shk, shp->shknms);
+    if (!Is_blackmarket(&u.uz))
+        nameshk(shk, shp->shknms);
+    else
+        (void) strncpy(ESHK(shk)->shknam, "One-Eyed Sam", PL_NSIZ);
 
     return sh;
 }
@@ -733,6 +765,11 @@ stock_room(int shp_indx, register struct mkroom* sroom)
         Sprintf(buf, "Closed for inventory");
         make_engr_at(m, n, buf, 0L, DUST);
     }
+    if (sroom->rtype == BLACKSHOP) {
+        stock_blkmar(sroom, sh);
+        g.level.flags.has_shop = TRUE;
+        return;
+    }
 
     if (g.context.tribute.enabled && !g.context.tribute.bookstock) {
         /*
@@ -767,6 +804,153 @@ stock_room(int shp_indx, register struct mkroom* sroom)
     }
 
     g.level.flags.has_shop = TRUE;
+}
+
+/* stock a newly-created black market with objects */
+static void
+stock_blkmar(struct mkroom *sroom, int sh)
+{
+    /*
+     * Someday soon we'll dispatch on the shdist field of shclass to do
+     * different placements in this routine. Currently it only supports
+     * shop-style placement (all squares except a row nearest the first
+     * door get objects).
+     */
+    /* [max] removed register int cl,  char buf[bufsz] */
+    int i, sx, sy, first = 0, next = 0, total, partial, typ;
+    struct obj *otmp;
+    /* int blkmar_gen[NUM_OBJECTS+2]; */
+    int *clp, *lastclp;
+    int goodcl[12];
+
+    goodcl[ 0] = WEAPON_CLASS;
+    goodcl[ 1] = ARMOR_CLASS;
+    goodcl[ 2] = RING_CLASS;
+    goodcl[ 3] = AMULET_CLASS;
+    goodcl[ 4] = TOOL_CLASS;
+    goodcl[ 5] = FOOD_CLASS;
+    goodcl[ 6] = POTION_CLASS;
+    goodcl[ 7] = SCROLL_CLASS;
+    goodcl[ 8] = SPBOOK_CLASS;
+    goodcl[ 9] = WAND_CLASS;
+    goodcl[10] = GEM_CLASS;
+    goodcl[11] = 0;
+
+    /* for (i=0; i < NUM_OBJECTS; i++) {
+      blkmar_gen[i] = 0;
+    } */
+
+    total = 0;
+    clp = goodcl;
+    lastclp = clp;
+    for (clp=goodcl; *clp!=0; clp++)  {
+        lastclp = clp;
+        first = g.bases[*clp];
+        /* this assumes that luckstone & loadstone comes just after the gems */
+        next = (*clp==GEM_CLASS) ? (LOADSTONE+1) : g.bases[(*clp)+1];
+        total += next-first;
+    }
+    if (total==0)  return;
+
+    if (sroom->hx-sroom->lx<2)  return;
+    clp = goodcl-1;
+    partial = 0;
+    for(sx = sroom->lx+1; sx <= sroom->hx; sx++) {
+        if (sx==sroom->lx+1 ||
+  	      ((sx-sroom->lx-2)*total)/(sroom->hx-sroom->lx-1)>partial) {
+	          clp++;
+	          if (clp>lastclp)  clp = lastclp;
+          	first = g.bases[*clp];
+          	next = (*clp==GEM_CLASS) ? (LOADSTONE+1) : g.bases[(*clp)+1];
+          	partial += next-first;
+        }
+
+        for(sy = sroom->ly; sy <= sroom->hy; sy++) {
+          	if((sx == sroom->lx && g.doors[sh].x == sx-1) ||
+          	   (sx == sroom->hx && g.doors[sh].x == sx+1) ||
+          	   (sy == sroom->ly && g.doors[sh].y == sy-1) ||
+          	   (sy == sroom->hy && g.doors[sh].y == sy+1) || (rn2(3)))
+          	  continue;
+
+          	for (i=0; i<50; i++) {
+                typ = rn2(next-first) + first;
+
+                /* forbidden objects  */
+            	if (typ==AMULET_OF_YENDOR || typ==CANDELABRUM_OF_INVOCATION ||
+            	      typ==BELL_OF_OPENING  || typ==SPE_BOOK_OF_THE_DEAD ||
+            	      objects[typ].oc_nowish || typ==0) {
+            	    continue;
+                }
+  	            otmp = mkobj_at(RANDOM_CLASS,sx,sy,TRUE);
+                /* generate multiple copies with decreasing probabilities */
+                /*        if (rn2(blkmar_gen[typ]+1) && i<49)  continue; */
+
+                /*        otmp = mksobj_at(typ, sx, sy, TRUE, TRUE);
+                	  blkmar_gen[typ]++;*/
+
+                /* prevent wishing abuse */
+            	  if (typ==WAN_WISHING) {
+            	    otmp->spe = 0;
+            	    otmp->recharged = 1;
+            	  }
+            	  if (typ==MAGIC_LAMP) {
+            	    otmp->spe = 0;
+            	  }
+                break;
+            }
+
+        }
+    }
+
+    /*
+     * Special monster placements (if any) should go here: that way,
+     * monsters will sit on top of objects and not the other way around.
+     */
+}
+
+
+static void
+init_shk_services(struct monst *shk)
+{
+	ESHK(shk)->services = 0L;
+
+	/* KMH, balance patch 2 -- Increase probability of shopkeeper services.
+	 * Requested by Dave <mitch45678@aol.com>
+	 */
+	if (Is_blackmarket(&u.uz)) {
+		ESHK(shk)->services = 
+		    SHK_ID_BASIC|SHK_ID_PREMIUM|SHK_UNCURSE|SHK_APPRAISE|
+		    SHK_SPECIAL_A|SHK_SPECIAL_B|SHK_SPECIAL_C;
+		return;
+	}
+
+	/* Guarantee some form of identification
+	 * 1/3 		both Basic and Premium ID
+	 * 2/15 	Premium ID only
+	 * 8/15 	Basic ID only
+	 */
+	if (!rn2(2)) ESHK(shk)->services |= (SHK_ID_BASIC|SHK_ID_PREMIUM);
+	else if (!rn2(4)) ESHK(shk)->services |= SHK_ID_PREMIUM;
+	else ESHK(shk)->services |= SHK_ID_BASIC;
+
+	if (!rn2(3)) ESHK(shk)->services |= SHK_UNCURSE;
+
+	if (!rn2(3) && shk_class_match(WEAPON_CLASS, shk))
+		ESHK(shk)->services |= SHK_APPRAISE;
+
+	if ((shk_class_match(WEAPON_CLASS, shk) == SHK_MATCH) ||
+	(shk_class_match(ARMOR_CLASS, shk) == SHK_MATCH) ||
+	(shk_class_match(WAND_CLASS, shk) == SHK_MATCH) ||
+	(shk_class_match(TOOL_CLASS, shk) == SHK_MATCH) ||
+	(shk_class_match(SPBOOK_CLASS, shk) == SHK_MATCH) ||
+	(shk_class_match(RING_CLASS, shk) == SHK_MATCH)) {
+		if (!rn2(4/*5*/)) ESHK(shk)->services |= SHK_SPECIAL_A;
+		if (!rn2(4/*5*/)) ESHK(shk)->services |= SHK_SPECIAL_B;
+	}
+	if (!rn2(4/*5*/) && (shk_class_match(WEAPON_CLASS, shk) == SHK_MATCH))
+	 ESHK(shk)->services |= SHK_SPECIAL_C;
+
+	return;
 }
 
 /* does shkp's shop stock this item type? */

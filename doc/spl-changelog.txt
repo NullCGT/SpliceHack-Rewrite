@@ -46,6 +46,7 @@ Bug Fixes
   scope of these bugs exceeds the capacity of this changelog, but suffice to say a number of
   crashes and instances of odd behavior that previously went unnoticed have been fixed.
 - Graphical tiles builds work once more! Rejoice!
+- Fixed lighting shops randomly generating throughout the dungeon.
 
                             Version 0.8.3
 

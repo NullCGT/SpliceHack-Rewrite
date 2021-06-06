@@ -135,6 +135,7 @@ struct eshk {
     int visitct;            /* nr of visits by most recent customer */
     char customer[PL_NSIZ]; /* most recent customer */
     char shknam[PL_NSIZ];
+    long services;          /* Services offered */
 };
 
 /***

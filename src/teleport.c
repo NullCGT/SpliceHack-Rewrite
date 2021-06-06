@@ -1413,6 +1413,17 @@ mlevel_tele_trap(
                     seetrap(trap);
                 }
                 return 0;
+            } else if (mtmp->mtame &&
+          			  (Is_blackmarket(&trap->dst) || Is_blackmarket(&u.uz))) {
+                if (in_sight) {
+                    pline("%s seems to shimmer for a moment.",
+                        Monnam(mtmp));
+                    seetrap(trap);
+                }
+                return 0;
+            } else if (Is_blackmarket(&u.uz) &&
+                mtmp->data == &mons[PM_ARMS_DEALER]) {
+                return 0;
             } else {
                 assign_level(&tolevel, &trap->dst);
                 migrate_typ = MIGR_PORTAL;

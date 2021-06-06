@@ -1378,7 +1378,8 @@ goto_level(d_level *newlevel, boolean at_stairs, boolean falling, boolean portal
     u.uswallow = u.uswldtim = 0;
     set_uinwater(0); /* u.uinwater = 0 */
     u.uundetected = 0; /* not hidden, even if means are available */
-    keepdogs(FALSE);
+    if (!Is_blackmarket(newlevel))
+        keepdogs(FALSE);
     recalc_mapseen(); /* recalculate map overview before we leave the level */
     /*
      *  We no longer see anything on the level.  Make sure that this

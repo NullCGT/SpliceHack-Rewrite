@@ -183,7 +183,11 @@ m_initweap(register struct monst *mtmp)
             (void) mongets(mtmp, (mm != PM_ETTIN) ? BOULDER : CLUB);
         break;
     case S_HUMAN:
-        if (is_mercenary(ptr)) {
+        if (mm == PM_SHOPKEEPER) {
+            (void) mongets(mtmp,SHOTGUN);
+            m_initthrow(mtmp, SHOTGUN_SHELL, 20);
+            m_initthrow(mtmp, SHOTGUN_SHELL, 20);
+        } else if (is_mercenary(ptr)) {
             w1 = w2 = 0;
             switch (mm) {
             case PM_WATCHMAN:
@@ -831,6 +835,24 @@ m_initinv(register struct monst *mtmp)
             case 3:
                 (void) mongets(mtmp, WAN_STRIKING);
             }
+        } else if (ptr == &mons[PM_ARMS_DEALER]) {
+              otmp = mksobj(TWO_HANDED_SWORD, FALSE, FALSE);
+              otmp = oname(otmp, artiname(ART_THIEFBANE));
+              mpickobj(mtmp, otmp);
+              /* if (otmp->spe < 5) otmp->spe += rnd(5);
+              otmp = mksobj(CLOAK_OF_REFLECTION, FALSE, FALSE);
+              mpickobj(mtmp, otmp);
+              if (otmp->spe < 5) otmp->spe += rnd(5);
+              otmp = mksobj(HEX_DRAGON_SCALE_MAIL, FALSE, FALSE);
+              mpickobj(mtmp, otmp); */
+              if (otmp->spe < 5) otmp->spe += rnd(5);
+              otmp = mksobj(SPEED_BOOTS, FALSE, FALSE);
+              mpickobj(mtmp, otmp);
+              if (otmp->spe < 5) otmp->spe += rnd(5);
+              otmp = mksobj(AMULET_OF_LIFE_SAVING, FALSE, FALSE);
+              mpickobj(mtmp, otmp);
+              (void) mongets(mtmp,SKELETON_KEY);
+              m_initthrow(mtmp, GAS_GRENADE, 3);
         } else if (ptr->msound == MS_PRIEST
                    || quest_mon_represents_role(ptr, PM_CLERIC)) {
             (void) mongets(mtmp, rn2(7) ? ROBE
@@ -1746,7 +1768,7 @@ rndmonst(void)
 {
     register struct permonst *ptr;
     register int mndx;
-    int weight, totalweight, selected_mndx, zlevel, minmlev, maxmlev;
+    int weight, totalweight, selected_mndx, zlevel, minmlev, maxmlev, blkmarlev;
     boolean elemlevel, upper;
 
     if (u.ukinghill) { /* You have pirate quest artifact in open inventory */
@@ -1765,6 +1787,7 @@ rndmonst(void)
     maxmlev = monmax_difficulty(zlevel);
     upper = Is_rogue_level(&u.uz); /* prefer uppercase only on rogue level */
     elemlevel = In_endgame(&u.uz) && !Is_astralevel(&u.uz); /* elmntl plane */
+    blkmarlev = Is_blackmarket(&u.uz); /* black market */
 
     /* amount processed so far */
     totalweight = 0;
@@ -1782,6 +1805,8 @@ rndmonst(void)
         if (uncommon(mndx))
             continue;
         if (Inhell && (ptr->geno & G_NOHELL))
+            continue;
+        if (is_domestic(ptr) && blkmarlev)
             continue;
 
         /*

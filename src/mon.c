@@ -2583,6 +2583,9 @@ mondead(register struct monst* mtmp)
             break;
         }
     }
+    if (Is_blackmarket(&u.uz) && tmp == PM_ARMS_DEALER) {
+        bars_around_portal(TRUE);
+    }
 #if 0   /* moved to m_detach() to kick in if mongone() happens */
     if (mtmp->iswiz)
         wizdead();
@@ -3585,6 +3588,16 @@ setmangry(struct monst* mtmp, boolean via_attack)
             pline("%s gets angry!", Monnam(mtmp));
         else if (flags.verbose && !Deaf)
             growl(mtmp);
+    }
+
+    /* Don't misbehave in the Black Market or else... */
+    if (Is_blackmarket(&u.uz)) {
+          if (is_blkmktstaff(mtmp->data) ||
+          /* non-tame named monsters are presumably
+           * black marketeer's assistants */
+            has_mgivenname(mtmp)) {
+                blkmar_guards(mtmp);
+            }
     }
 
     /* attacking your own quest leader will anger his or her guardians */
