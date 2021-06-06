@@ -785,8 +785,11 @@ mksobj(int otyp, boolean init, boolean artif)
                 otmp->spe = -rne(3);
             } else
                 blessorcurse(otmp, 10);
-            if (is_poisonable(otmp) && !rn2(100))
-                otmp->opoisoned = 1;
+            if (is_poisonable(otmp) && !rn2(100)) {
+                /* small chance for a completely random type of poison. */
+                if (!rn2(8)) otmp->opoisoned = POT_GAIN_ABILITY + rn2(POT_OIL - POT_GAIN_ABILITY);
+                else otmp->opoisoned = POT_SICKNESS;
+            }
 
             if (artif && !rn2(Role_if(PM_PIRATE) ? 5 : 20))
                 otmp = mk_artifact(otmp, (aligntyp) A_NONE);

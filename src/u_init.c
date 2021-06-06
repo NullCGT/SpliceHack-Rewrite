@@ -1282,6 +1282,9 @@ ini_inv(struct trobj *trop)
                 obj->otrapped = 0;
             }
             obj->cursed = 0;
+            if (Race_if(PM_DROW) && is_poisonable(obj)) {
+                obj->opoisoned = POT_SLEEPING;
+            }
             if (obj->opoisoned && u.ualign.type != A_CHAOTIC)
                 obj->opoisoned = 0;
             if (obj->oclass == WEAPON_CLASS || obj->oclass == TOOL_CLASS) {

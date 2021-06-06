@@ -2334,7 +2334,7 @@ struct permonst _mons2[] = {
         M3_INFRAVISIBLE | M3_INFRAVISION, 11, CLR_BRIGHT_BLUE),
     MON3("hedrow", "drow", "drow", 
         S_HUMAN, LVL(6, 12, 10, 60, -9), (G_GENO | G_SGROUP | 1),
-      	A(ATTK(AT_WEAP, AD_SLEE, 2, 4), ATTK(AT_WEAP, AD_PHYS, 2, 4),
+      	A(ATTK(AT_WEAP, AD_PHYS, 2, 4), ATTK(AT_WEAP, AD_PHYS, 2, 4),
       	  NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
       	SIZ(WT_ELF, 350, MS_HUMANOID, MZ_HUMAN), MR_SLEEP, MR_SLEEP,
       	M1_HUMANOID | M1_OMNIVORE,

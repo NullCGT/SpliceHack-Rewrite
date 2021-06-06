@@ -286,10 +286,22 @@ poisoned(const char *reason,    /* controls what messages we display */
          int typ,
          const char *pkiller,   /* for score+log file if fatal */
          int fatal,             /* if fatal is 0, limit damage to adjattrib */
-         boolean thrown_weapon) /* thrown weapons are less deadly */
+         boolean thrown_weapon, /* thrown weapons are less deadly */
+         int pot_type)          /* type of potion used in poison */
 {
     int i, loss, kprefix = KILLED_BY_AN;
     boolean blast = !strcmp(reason, "blast");
+    struct obj *pseudo;
+
+    /* Handle odd types of potios coating weapons. */
+    if (pot_type != POT_SICKNESS) {
+        pseudo = mksobj(pot_type, FALSE, FALSE);
+        pseudo->blessed = 0;
+        pseudo->cursed = 1;
+        /* potionhit frees pseudo */
+        potionhit(&g.youmonst, pseudo, POTHIT_MONST_WEP);
+        return;
+    }
 
     /* inform player about being poisoned unless that's already been done;
        "blast" has given a "blast of poison gas" message; "poison arrow",

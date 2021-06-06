@@ -29,6 +29,14 @@ Race Changes
   - Male drow are referred to as "hedrow."
   - Potions of sickness in the starting inventories of drow are replaced by potions of sleeping.
   - The unarmed attacks of drow no longer inflict sleep.
+  - All weapons in the starting inventory of drow are automatically drugged.
+
+Balancing
+- Potions of paralysis injected via dipped weapons no longer paralyze monsters for rnd(25) turns.
+  While no one has abused this yet, the potential for stunlock was pretty crazy. Even now, this
+  remains a very strong option.
+- Increased generation of items that have been dipped in random potions from one in 10000 to one
+  in 800 poisonable objects.
 
 Bug Fixes
 - While porting the previous SpliceHack code, numerous bugs were discovered and fixed. The full

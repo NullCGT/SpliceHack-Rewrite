@@ -1314,8 +1314,9 @@ potionhit(struct monst *mon, struct obj *obj, int how)
     int distance, tx, ty;
     struct obj *saddle = (struct obj *) 0;
     boolean hit_saddle = FALSE, your_fault = (how <= POTHIT_HERO_THROW);
+    boolean injection = (how == POTHIT_HERO_WEP || how == POTHIT_MONST_WEP);
 
-    if (isyou) {
+    if (isyou && !injection) {
         tx = u.ux, ty = u.uy;
         distance = 0;
         pline_The("%s crashes on your %s and breaks into shards.", botlnam,
@@ -1324,7 +1325,7 @@ potionhit(struct monst *mon, struct obj *obj, int how)
                (how == POTHIT_OTHER_THROW) ? "propelled potion" /* scatter */
                                            : "thrown potion",
                KILLED_BY_AN);
-    } else {
+    } else if (!injection) {
         tx = mon->mx, ty = mon->my;
         /* sometimes it hits the saddle */
         if (((mon->misc_worn_check & W_SADDLE)
@@ -1357,10 +1358,16 @@ potionhit(struct monst *mon, struct obj *obj, int how)
         }
         if (rn2(5) && mon->mhp > 1 && !hit_saddle)
             mon->mhp--;
+    } else if (isyou) {
+        tx = u.ux, ty = u.uy;
+        distance = distu(tx, ty);
+    } else {
+        tx = mon->mx, ty =mon->my;
+        distance = distu(tx, ty);
     }
 
     /* oil doesn't instantly evaporate; Neither does a saddle hit */
-    if (obj->otyp != POT_OIL && !hit_saddle && cansee(tx, ty))
+    if (!injection && obj->otyp != POT_OIL && !hit_saddle && cansee(tx, ty))
         pline("%s.", Tobjnam(obj, "evaporate"));
 
     if (isyou) {
@@ -1368,6 +1375,17 @@ potionhit(struct monst *mon, struct obj *obj, int how)
         case POT_OIL:
             if (obj->lamplit)
                 explode_oil(obj, u.ux, u.uy);
+            else if (injection) {
+                You("catch on fire!");
+                if (completelyburns(g.youmonst.data)) {
+                    rehumanize();
+                    break;
+                } else if (Fire_resistance) {
+                    pline_The("fire doesn't feel hot!");
+                } else {
+                    losehp(d(2, 4), "flaming weapon", KILLED_BY_AN);
+                }
+            }
             break;
         case POT_POLYMORPH:
             You_feel("a little %s.", Hallucination ? "normal" : "strange");
@@ -1384,6 +1402,34 @@ potionhit(struct monst *mon, struct obj *obj, int how)
                 dmg = d(obj->cursed ? 2 : 1, obj->blessed ? 4 : 8);
                 losehp(Maybe_Half_Phys(dmg), "potion of acid", KILLED_BY_AN);
             }
+            break;
+        case POT_GAIN_LEVEL:
+            if (!obj->cursed) {
+                pluslvl(FALSE);
+                /* blessed potions place you at a random spot in the
+                middle of the new level instead of the low point */
+                if (obj->blessed)
+                    u.uexp = rndexp(TRUE);
+                break;
+            }
+            if ((ledger_no(&u.uz) == 1 && u.uhave.amulet)
+                || Can_rise_up(u.ux, u.uy, &u.uz)) {
+                const char *riseup = "rise up, through the %s!";
+                if (ledger_no(&u.uz) == 1) {
+                    You(riseup, ceiling(u.ux, u.uy));
+                    schedule_goto(&earth_level, UTOTYPE_NONE, (char *) 0, (char *) 0);
+                } else {
+                    register int newlev = depth(&u.uz) - 1;
+                    d_level newlevel;
+                    get_level(&newlevel, newlev);
+                    if (on_level(&newlevel, &u.uz)) {
+                        break;
+                    } else
+                        You(riseup, ceiling(u.ux, u.uy));
+                    schedule_goto(&newlevel, UTOTYPE_NONE, (char *) 0, (char *) 0);
+                }
+            } else
+                You("have an uneasy feeling.");
             break;
         }
     } else if (hit_saddle && saddle) {
@@ -1484,7 +1530,7 @@ potionhit(struct monst *mon, struct obj *obj, int how)
                 /* really should be rnd(5) for consistency with players
                  * breathing potions, but...
                  */
-                paralyze_monst(mon, rnd(25));
+                paralyze_monst(mon, rnd(5));
             }
             break;
         case POT_SPEED:
@@ -1541,6 +1587,18 @@ potionhit(struct monst *mon, struct obj *obj, int how)
         case POT_OIL:
             if (obj->lamplit)
                 explode_oil(obj, tx, ty);
+            else if (injection) {
+                if (!resists_fire(mon)) {
+                    mon->mhp -= d(2, 4);
+                    if (!Blind) pline("%s catches on fire!", Monnam(mon));
+                    if (DEADMONSTER(mon)) {
+                        if (your_fault)
+                            killed(mon);
+                        else
+                            monkilled(mon, "", AD_FIRE);
+                    }
+                }
+            }
             break;
         case POT_ACID:
             if (!resists_acid(mon) && !resist(mon, POTION_CLASS, 0, NOTELL)) {
@@ -1560,8 +1618,31 @@ potionhit(struct monst *mon, struct obj *obj, int how)
         case POT_POLYMORPH:
             (void) bhitm(mon, obj);
             break;
-        /*
         case POT_GAIN_LEVEL:
+            if (obj->cursed) {
+                if (Can_rise_up(mon->mx, mon->my, &u.uz)) {
+                    register int tolev = depth(&u.uz) - 1;
+                    d_level tolevel;
+                    get_level(&tolevel, tolev);
+                    if (on_level(&tolevel, &u.uz))
+                        break;
+                    if (canseemon(mon)) {
+                        pline("%s rises up, through the %s!", Monnam(mon),
+                            ceiling(mon->mx, mon->my));
+                    }
+                    migrate_to_level(mon, ledger_no(&tolevel), MIGR_RANDOM,
+                                    (coord *) 0);
+                    break;
+                } else if (canseemon(mon)) {
+                    pline("%s looks uneasy.", Monnam(mon));
+                    break;
+                }
+            }
+            if (canseemon(mon))
+                pline("%s seems more experienced.", Monnam(mon));
+            grow_up(mon, (struct monst *) 0);
+            break;
+        /*
         case POT_LEVITATION:
         case POT_FRUIT_JUICE:
         case POT_MONSTER_DETECTION:
@@ -1580,6 +1661,7 @@ potionhit(struct monst *mon, struct obj *obj, int how)
 
     /* Note: potionbreathe() does its own docall() */
     if ((distance == 0 || (distance < 3 && rn2(5)))
+        && !injection
         && (!breathless(g.youmonst.data) || haseyes(g.youmonst.data)))
         potionbreathe(obj);
     else if (obj->dknown && !objects[obj->otyp].oc_name_known
@@ -2144,7 +2226,9 @@ dodip(void)
     }
 
     if (is_poisonable(obj)) {
-        if (potion->otyp == POT_SICKNESS && !obj->opoisoned) {
+        if (potion->otyp != POT_HEALING && potion->otyp != POT_EXTRA_HEALING
+            && potion->otyp != POT_FULL_HEALING && potion->otyp != POT_ACID 
+            && !obj->opoisoned) {
             char buf[BUFSZ];
 
             if (potion->quan > 1L)
@@ -2152,7 +2236,7 @@ dodip(void)
             else
                 Strcpy(buf, The(xname(potion)));
             pline("%s forms a coating on %s.", buf, the(xname(obj)));
-            obj->opoisoned = TRUE;
+            obj->opoisoned = potion->otyp;
             goto poof;
         } else if (obj->opoisoned && (potion->otyp == POT_HEALING
                                       || potion->otyp == POT_EXTRA_HEALING

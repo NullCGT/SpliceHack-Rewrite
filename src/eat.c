@@ -2655,13 +2655,19 @@ doeat(void)
         } else if (objects[otmp->otyp].oc_material == PAPER)
             nodelicious = TRUE;
 
-        if (otmp->oclass == WEAPON_CLASS && otmp->opoisoned) {
+        if (otmp->opoisoned == POT_SICKNESS) {
             pline("Ecch - that must have been poisonous!");
             if (!Poison_resistance) {
                 losestr(rnd(4));
                 losehp(rnd(15), xname(otmp), KILLED_BY_AN);
             } else
                 You("seem unaffected by the poison.");
+        } else if (otmp->opoisoned) {
+            struct obj *pseudo = mksobj(otmp->opoisoned, FALSE, FALSE);
+            otmp->blessed = 0;
+            otmp->cursed = 1;
+            pline("Acck - that tasted funny!");
+            peffects(pseudo);
         } else if (!nodelicious) {
             pline("%s%s is delicious!",
                   (obj_is_pname(otmp)

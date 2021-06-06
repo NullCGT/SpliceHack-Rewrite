@@ -106,7 +106,6 @@ struct obj {
 #define degraded_horn obroken /* unicorn horn will poly to non-magic */
     Bitfield(otrapped, 1);    /* container is trapped */
 /* or accidental tripped rolling boulder trap */
-#define opoisoned otrapped /* object (weapon) is coated with poison */
 
     Bitfield(recharged, 3); /* number of times it's been recharged */
 #define on_ice recharged    /* corpse on ice */
@@ -125,6 +124,7 @@ struct obj {
     /* 6 free bits */
 
     int corpsenm;         /* type of corpse is mons[corpsenm] */
+    int opoisoned;        /* type of poison (corresponds to potion otyp) */
 #define leashmon corpsenm /* gets m_id of attached pet */
 #define fromsink corpsenm /* a potion from a sink */
 #define novelidx corpsenm /* 3.6 tribute - the index of the novel title */
@@ -420,8 +420,10 @@ struct obj {
 /* propeller method for potionhit() */
 #define POTHIT_HERO_BASH   0 /* wielded by hero */
 #define POTHIT_HERO_THROW  1 /* thrown by hero */
-#define POTHIT_MONST_THROW 2 /* thrown by a monster */
-#define POTHIT_OTHER_THROW 3 /* propelled by some other means [scatter()] */
+#define POTHIT_HERO_WEP    2 /* delivered to monster via weapon poison */
+#define POTHIT_MONST_THROW 3 /* thrown by a monster */
+#define POTHIT_MONST_WEP   4 /* delivered to hero via weapon poison */
+#define POTHIT_OTHER_THROW 5 /* propelled by some other means [scatter()] */
 
 /*
  *  Notes for adding new oextra structures:

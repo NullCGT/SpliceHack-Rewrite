@@ -106,7 +106,7 @@ extern boolean adjattrib(int, int, int);
 extern void gainstr(struct obj *, int, boolean);
 extern void losestr(int);
 extern void poisontell(int, boolean);
-extern void poisoned(const char *, int, const char *, int, boolean);
+extern void poisoned(const char *, int, const char *, int, boolean, int);
 extern void change_luck(schar);
 extern int stone_luck(boolean);
 extern void set_moreluck(void);

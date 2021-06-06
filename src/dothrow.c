@@ -1273,7 +1273,7 @@ throwit(struct obj *obj,
     /* KMH -- Handle Plague here */
   	if (uwep && uwep->oartifact == ART_PLAGUE &&
   			ammo_and_launcher(obj, uwep) && is_poisonable(obj))
-  		  obj->opoisoned = TRUE;
+  		  obj->opoisoned = POT_SICKNESS;
 
     g.thrownobj = obj;
     g.thrownobj->was_thrown = 1;

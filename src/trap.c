@@ -1001,7 +1001,7 @@ trapeffect_dart_trap(
         pline("A little dart shoots out at you!");
         otmp = t_missile(DART, trap);
         if (!rn2(6))
-            otmp->opoisoned = 1;
+            otmp->opoisoned = POT_SICKNESS;
         if (u.usteed && !rn2(2) && steedintrap(trap, otmp)) {
             ; /* nothing */
         } else if (thitu(7, dmgval(otmp, &g.youmonst), &otmp, "little dart")) {
@@ -1010,7 +1010,7 @@ trapeffect_dart_trap(
                     poisoned("dart", A_CON, "little dart",
                              /* if damage triggered life-saving,
                                 poison is limited to attrib loss */
-                             (u.umortality > oldumort) ? 0 : 10, TRUE);
+                             (u.umortality > oldumort) ? 0 : 10, TRUE, otmp->opoisoned);
                 obfree(otmp, (struct obj *) 0);
             }
         } else {
@@ -1036,7 +1036,7 @@ trapeffect_dart_trap(
         trap->once = 1;
         otmp = t_missile(DART, trap);
         if (!rn2(6))
-            otmp->opoisoned = 1;
+            otmp->opoisoned = POT_SICKNESS;
         if (in_sight)
             seetrap(trap);
         if (thitm(7, mtmp, otmp, 0, FALSE))
@@ -1590,7 +1590,7 @@ trapeffect_pit(
                              : "fall onto poison spikes",
                              /* if damage triggered life-saving,
                                 poison is limited to attrib loss */
-                             (u.umortality > oldumort) ? 0 : 8, FALSE);
+                             (u.umortality > oldumort) ? 0 : 8, FALSE, 0);
             } else {
                 /* plunging flyers take spike damage but not pit damage */
                 if (!conj_pit
@@ -5309,7 +5309,7 @@ chest_trap(
         case 17:
             pline("A cloud of noxious gas billows from %s.", the(xname(obj)));
             if (rn2(3))
-                poisoned("gas cloud", A_STR, "cloud of poison gas", 15, FALSE);
+                poisoned("gas cloud", A_STR, "cloud of poison gas", 15, FALSE, 0);
             else
                 create_gas_cloud(obj->ox, obj->oy, 1, 8);
             exercise(A_CON, FALSE);
@@ -5319,7 +5319,7 @@ chest_trap(
         case 14:
         case 13:
             You_feel("a needle prick your %s.", body_part(bodypart));
-            poisoned("needle", A_CON, "poisoned needle", 10, FALSE);
+            poisoned("needle", A_CON, "poisoned needle", 10, FALSE, 0);
             exercise(A_CON, FALSE);
             break;
         case 12:
