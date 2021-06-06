@@ -1256,6 +1256,7 @@ really_done(int how)
 {
     boolean taken;
     char pbuf[BUFSZ];
+    char ebuf[200];
     winid endwin = WIN_ERR;
     boolean bones_ok, have_windows = iflags.window_inited;
     struct obj *corpse = (struct obj *) 0;
@@ -1430,6 +1431,11 @@ really_done(int how)
         corpse = mk_named_object(CORPSE, &mons[mnum], u.ux, u.uy, g.plname);
         Sprintf(pbuf, "%s, ", g.plname);
         formatkiller(eos(pbuf), sizeof pbuf - strlen(pbuf), how, TRUE);
+        /* ask player if he wants a custom epitaph */
+        if ('y' == yn("Do you want to write your own epitaph?")) {
+        	  getlin("What do you want your epitaph to be?",ebuf);
+         	  Sprintf(pbuf, "Here lies %s. %s", g.plname, ebuf);
+        }
         make_grave(u.ux, u.uy, pbuf);
     }
     pbuf[0] = '\0'; /* clear grave text; also lint suppression */
