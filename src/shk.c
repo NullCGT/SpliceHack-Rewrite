@@ -351,7 +351,7 @@ call_kops(register struct monst* shkp, register boolean nearshop)
             (g.mvitals[PM_SERGEANT].mvflags & G_GONE) &&
             (g.mvitals[PM_LIEUTENANT].mvflags & G_GONE) &&
             (g.mvitals[PM_CAPTAIN].mvflags & G_GONE) &&
-            (g.mvitals[PM_GENERal].mvflags & G_GONE));
+            (g.mvitals[PM_GENERAL].mvflags & G_GONE));
     }
 
     if (!angry_guards(!!Deaf) && nokops) {
@@ -4999,7 +4999,7 @@ coord *mm;
     static const short k_mndx[4] = { PM_KEYSTONE_KOP, PM_KOP_SERGEANT,
                                      PM_KOP_LIEUTENANT, PM_KOP_KAPTAIN };
     static const short s_mndx[4] = { PM_SOLDIER, PM_SERGEANT,
-                                     PM_LIEUTENANT, PM_CAPTAIN, PM_GENERAL };
+                                     PM_LIEUTENANT, PM_CAPTAIN };
     int k_cnt[4], cnt, mndx, k;
 
     if (!Is_blackmarket(&u.uz))
