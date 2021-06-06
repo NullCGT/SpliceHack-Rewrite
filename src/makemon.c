@@ -1413,13 +1413,6 @@ makemon(register struct permonst *ptr,
                 mount_monster(mtmp, PM_BABY_GRAY_DRAGON + 
                     rn2(PM_YELLOW_DRAGON - PM_BABY_GRAY_DRAGON));
                 break;
-            #if 0
-            case PM_DARK_KNIGHT:
-                mount_monster(mtmp, Inhell ? PM_NIGHTMARE : PM_PONY);
-                break;
-            case PM_HEADLESS_HORSEMAN:
-                mount_monster(mtmp, PM_NIGHTMARE);
-                break;
             case PM_DEATH:
                 mount_monster(mtmp, PM_PALE_HORSE);
                 break;
@@ -1428,6 +1421,13 @@ makemon(register struct permonst *ptr,
                 break;
             case PM_PESTILENCE:
                 mount_monster(mtmp, PM_WHITE_HORSE);
+                break;
+            #if 0
+            case PM_DARK_KNIGHT:
+                mount_monster(mtmp, Inhell ? PM_NIGHTMARE : PM_PONY);
+                break;
+            case PM_HEADLESS_HORSEMAN:
+                mount_monster(mtmp, PM_NIGHTMARE);
                 break;
             case PM_NAZGUL:
                 mount_monster(mtmp, PM_FELL_BEAST);
