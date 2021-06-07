@@ -171,6 +171,30 @@ unsigned mgflags;
                    && (g.showsyms[idx] == g.showsyms[S_upstair + SYM_OFF_P]
                        || g.showsyms[idx] == g.showsyms[S_dnstair + SYM_OFF_P])) {
             color = CLR_YELLOW;
+        } else if (iflags.use_color && offset >= S_vwall && offset <= S_trwall) {
+            if (*in_rooms(x,y,BEEHIVE) && !On_W_tower_level(&u.uz))
+        		    color = CLR_YELLOW;
+            else if (In_sokoban(&u.uz))
+                color = CLR_BLUE;
+            else if (Is_blackmarket(&u.uz))
+                color = CLR_ORANGE;
+        		else if (In_W_tower(x, y, &u.uz))
+        		    color = CLR_MAGENTA;
+        		else if (In_mines(&u.uz))
+        		    color = CLR_BROWN;
+        		else if (In_hell(&u.uz) && !Is_valley(&u.uz))
+        		    color =  CLR_RED;
+                else if (Is_firelevel(&u.uz))
+                    color = CLR_YELLOW;
+        		else if (Is_astralevel(&u.uz))
+        		    color = CLR_WHITE;
+      	} else if (iflags.use_color && offset == S_room) {
+        		if (*in_rooms(x,y,BEEHIVE))
+        		    color = CLR_YELLOW;
+                else if (In_mines(&u.uz))
+        		    color = CLR_BROWN;
+        		else if (Is_juiblex_level(&u.uz))
+                color = CLR_GREEN;
 #endif
         /* try to provide a visible difference between water and lava
            if they use the same symbol and color is disabled */

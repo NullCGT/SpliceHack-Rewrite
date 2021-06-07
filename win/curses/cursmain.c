@@ -761,7 +761,7 @@ curses_print_glyph(winid wid, xchar x, xchar y,
             else /* if (iflags.use_inverse) */
                 attr = A_REVERSE;
         } else if ((special & MG_RIDDEN))
-            color = 16 + (color * 2) + 1;
+            color = CLR_BRIGHT_MAGENTA;
         /* water and lava look the same except for color; when color is off,
            render lava in inverse video so that they look different */
         if ((special & (MG_BW_LAVA | MG_BW_ICE)) != 0 && iflags.use_inverse) {

@@ -3421,6 +3421,17 @@ tty_print_glyph(winid window, xchar x, xchar y,
         term_start_attr(ATR_INVERSE);
         inverse_on = TRUE;
     }
+/* Ridden monsters are highlighted in bright magenta */
+#ifdef TEXTCOLOR
+    else if ((special & MG_RIDDEN) && iflags.use_inverse) {
+        if (ttyDisplay->color != NO_COLOR)
+            term_end_color();
+        term_start_attr(ATR_INVERSE);
+        inverse_on = TRUE;
+        ttyDisplay->color = CLR_BRIGHT_MAGENTA;
+        term_start_color(ttyDisplay->color);
+    }
+#endif
 
 #if defined(USE_TILES) && defined(MSDOS)
     if (iflags.grmode && iflags.tile_view)

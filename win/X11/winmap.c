@@ -126,6 +126,7 @@ X11_print_glyph(winid window, xchar x, xchar y, const glyph_info *glyphinfo,
         co_ptr = &map_info->text_map.colors[y][x];
         colordif = (((special & MG_PET) != 0 && iflags.hilite_pet)
                     || ((special & MG_OBJPILE) != 0 && iflags.hilite_pile)
+                    || ((special & MG_RIDDEN) != 0)
                     || ((special & (MG_DETECT | MG_BW_LAVA | MG_BW_ICE)) != 0
                         && iflags.use_inverse))
                       ? CLR_MAX : 0;

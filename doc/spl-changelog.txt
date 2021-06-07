@@ -36,6 +36,10 @@ Race Changes
   - The unarmed attacks of drow no longer inflict sleep.
   - All weapons in the starting inventory of drow are automatically drugged.
 
+Display Changes
+- Ridden monsters are highlighted in bright magenta.
+- The floor of the gnomish mines is rendered in the same color as the walls.
+
 Balancing
 - Potions of paralysis injected via dipped weapons no longer paralyze monsters for rnd(25) turns.
   While no one has abused this yet, the potential for stunlock was pretty crazy. Even now, this

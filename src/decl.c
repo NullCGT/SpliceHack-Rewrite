@@ -51,6 +51,8 @@ const int zapcolors[NUM_ZAP] = {
        which conflicted with the corresponding dragon colors */
     CLR_GREEN,  /* 6 - poison gas */
     CLR_YELLOW, /* 7 - acid */
+    CLR_GRAY,   /* 8 - sonic */
+    CLR_BRIGHT_MAGENTA /* 9- psychic */
 };
 #endif /* text color */
 
