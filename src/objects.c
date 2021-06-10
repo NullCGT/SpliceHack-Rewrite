@@ -132,6 +132,8 @@ PROJECTILE("silver arrow", None,
            1, 12, 1, 5, 6, 6, 0,        SILVER, -P_BOW, HI_SILVER),
 PROJECTILE("ya", "bamboo arrow",
            0, 15, 1, 4, 7, 7, 1,        METAL, -P_BOW, HI_METAL),
+PROJECTILE("light arrow", None,
+           0,  0, 0, 20, 12, 12, 2,     GLASS, -P_BOW, CLR_YELLOW),
 PROJECTILE("crossbow bolt", None,
            1, 55, 1, 2, 4, 6, 0,        IRON, -P_CROSSBOW, HI_METAL),
 
@@ -142,6 +144,8 @@ WEAPON("shuriken", "throwing star",
        0, 1, 0, 35,   1,   5,  8,  6, 2, P,   -P_SHURIKEN, IRON, HI_METAL),
 WEAPON("boomerang", None,
        1, 1, 0, 15,   5,  20,  9,  9, 0, 0,   -P_BOOMERANG, WOOD, HI_WOOD),
+WEAPON("chakram", "circular blade",
+       1, 1, 0, 15,   5,  20,  9,  9, 0, S,   -P_BOOMERANG, SILVER, HI_SILVER),
 
 /* spears [note: javelin used to have a separate skill from spears,
    because the latter are primarily stabbing weapons rather than
@@ -172,6 +176,8 @@ WEAPON("elven dagger", "runed dagger",
        0, 1, 0, 10,  10,   4,  5,  3, 2, P,   P_DAGGER, WOOD, HI_WOOD),
 WEAPON("dark elven dagger", "black runed dagger",
 	     0, 1, 0,  0, 10,    4,  5,  3, 2, P,   P_DAGGER, WOOD, CLR_BLACK),
+WEAPON("sacrificial knife", None,
+       1, 1, 0, 3,   5,   4,  3,  2, 0, P|S, P_KNIFE, BONE, CLR_WHITE),
 WEAPON("orcish dagger", "crude dagger",
        0, 1, 0, 12,  10,   4,  3,  3, 2, P,   P_DAGGER, IRON, CLR_BLACK),
 WEAPON("silver dagger", None,
@@ -196,6 +202,8 @@ WEAPON("crysknife", None,
 /* axes */
 WEAPON("axe", None,
        1, 0, 0, 40,  60,   8,  6,  4, 0, S,   P_AXE, IRON, HI_METAL),
+WEAPON("throwing axe", None,
+       1, 1, 0, 10,  60,  10,  5,  3, 0, S,   P_AXE, IRON, HI_METAL),
 WEAPON("battle-axe", "double-headed axe",       /* "double-bitted"? */
        0, 0, 1, 10, 120,  40,  8,  6, 0, S,   P_AXE, IRON, HI_METAL),
 
@@ -310,6 +318,9 @@ WEAPON("aklys", "thonged club",
 WEAPON("flail", None,
        1, 0, 0, 40,  15,   4,  6,  4, 0, B,   P_FLAIL, IRON, HI_METAL),
         /* +1 small, +1d4 large */
+/* three-piece */
+WEAPON("triple flail", None,
+       1, 0, 0, 0,   15,   4, 18, 12, 0, B,   P_FLAIL, BONE, HI_METAL),
 /* many-piece */
 WEAPON("spiked chain", None,
        1, 0, 1, 3,  50,   80,  6,  4, 0, P|S,   P_FLAIL, IRON, HI_METAL),

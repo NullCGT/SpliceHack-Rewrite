@@ -1196,7 +1196,8 @@ throwing_weapon(struct obj *obj)
                       || (is_blade(obj) && !is_sword(obj)
                           && (objects[obj->otyp].oc_dir & PIERCE))
                       /* special cases [might want to add AXE] */
-                      || obj->otyp == WAR_HAMMER || obj->otyp == AKLYS);
+                      || obj->otyp == WAR_HAMMER || obj->otyp == AKLYS
+                      || obj->otyp == THROWING_AXE);
 }
 
 /* the currently thrown object is returning to you (not for boomerangs) */
@@ -1321,7 +1322,7 @@ throwit(struct obj *obj,
         clear_thrownobj = TRUE;
         goto throwit_return;
 
-    } else if (obj->otyp == BOOMERANG && !Underwater) {
+    } else if ((obj->otyp == BOOMERANG || obj->otyp == CHAKRAM) && !Underwater) {
         if (Is_airlevel(&u.uz) || Levitation)
             hurtle(-u.dx, -u.dy, 1, TRUE);
         iflags.returning_missile = 0; /* doesn't return if it hits monster */
@@ -1815,7 +1816,7 @@ thitmonst(register struct monst *mon,
                     tmp++;
             }
         } else { /* thrown non-ammo or applied polearm/grapnel */
-            if (otyp == BOOMERANG) /* arbitrary */
+            if (otyp == BOOMERANG || otyp == CHAKRAM) /* arbitrary */
                 tmp += 4;
             else if (throwing_weapon(obj)) /* meant to be thrown */
                 tmp += 2;

@@ -1407,6 +1407,10 @@ dosacrifice(void)
             value = mons[otmp->corpsenm].difficulty + 1;
             if (otmp->oeaten)
                 value = eaten_stat(value, otmp);
+            if (uwep && uwep->otyp == SACRIFICIAL_KNIFE) {
+                You("dress the sacrifice with your knife.");
+                value += 2;
+            }
         }
 
         /* same race or former pet results apply even if the corpse is
@@ -1415,7 +1419,7 @@ dosacrifice(void)
             if (is_demon(g.youmonst.data)) {
                 You("find the idea very satisfying.");
                 exercise(A_WIS, TRUE);
-            } else if (u.ualign.type != A_CHAOTIC) {
+            } else if (your_race(ptr) || (uwep && uwep->otyp == SACRIFICIAL_KNIFE && uwep->cursed)) {
                 pline("You'll regret this infamous offense!");
                 exercise(A_WIS, FALSE);
             }

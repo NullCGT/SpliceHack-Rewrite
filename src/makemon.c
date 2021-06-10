@@ -678,7 +678,8 @@ m_initweap(register struct monst *mtmp)
             (void) mongets(mtmp, WAN_STRIKING);
             break;
         case PM_YEENOGHU:
-            (void) mongets(mtmp, FLAIL);
+            otmp = mksobj(TRIPLE_FLAIL, FALSE, FALSE);
+            mpickobj(mtmp, otmp);
             break;
         }
         /* prevent djinn and mail daemons from leaving objects when

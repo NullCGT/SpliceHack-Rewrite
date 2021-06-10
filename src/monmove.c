@@ -1796,7 +1796,7 @@ stuff_prevents_passage(struct monst* mtmp)
 
         if (typ == COIN_CLASS && obj->quan > 100L)
             return TRUE;
-        if (obj->oclass != GEM_CLASS && !(typ >= ARROW && typ <= BOOMERANG)
+        if (obj->oclass != GEM_CLASS && !(typ >= ARROW && typ <= CHAKRAM)
             && !(typ >= DAGGER && typ <= CRYSKNIFE) && typ != SLING
             && !is_cloak(obj) && typ != FEDORA && !is_gloves(obj)
             && typ != LEATHER_JACKET && typ != CREDIT_CARD && !is_shirt(obj)
