@@ -508,10 +508,12 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
     case PM_SHIMMERING_DRAGON:
     case PM_RED_DRAGON:
     case PM_ORANGE_DRAGON:
+    case PM_VIOLET_DRAGON:
     case PM_WHITE_DRAGON:
     case PM_BLACK_DRAGON:
     case PM_BLUE_DRAGON:
     case PM_GREEN_DRAGON:
+    case PM_GOLD_DRAGON:
     case PM_YELLOW_DRAGON:
         /* Make dragon scales.  This assumes that the order of the
            dragons is the same as the order of the scales. */
@@ -2428,6 +2430,7 @@ mondead(register struct monst* mtmp)
     boolean be_sad;
     int tmp, i, j;
     coord cc;
+    struct obj *otmp;
 
     /* potential pet message; always clear global flag */
     be_sad = iflags.sad_feeling;
@@ -2526,6 +2529,10 @@ mondead(register struct monst* mtmp)
     /* Player is thrown from his steed when it dies */
     if (mtmp == u.usteed)
         dismount_steed(DISMOUNT_GENERIC);
+    /* extinguish monster's armor */
+	if ((otmp = which_armor(mtmp, W_ARM)) && 
+		(otmp->otyp==GOLD_DRAGON_SCALE_MAIL || otmp->otyp == GOLD_DRAGON_SCALES) )
+		end_burn(otmp,FALSE);
 
     mptr = mtmp->data; /* save this for m_detach() */
     /* restore chameleon, lycanthropes to true form at death */

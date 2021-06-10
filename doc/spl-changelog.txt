@@ -35,6 +35,7 @@ Monster Changes
 - New Yendorian Army Member: The General
   - Upgraded form of the captain. Highly dangerous, and very rare to encounter.
 - Ported UnnetHack Aleaxes: Aleaxes are generated with copies of the player's items.
+- Purple dragons have been renamed to violet dragons.
 
 Race Changes
 - Drow

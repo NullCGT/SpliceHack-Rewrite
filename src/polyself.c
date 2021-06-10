@@ -1896,6 +1896,9 @@ armor_to_dragon(int atyp)
     case ORANGE_DRAGON_SCALE_MAIL:
     case ORANGE_DRAGON_SCALES:
         return PM_ORANGE_DRAGON;
+    case VIOLET_DRAGON_SCALE_MAIL:
+    case VIOLET_DRAGON_SCALES:
+        return PM_VIOLET_DRAGON;
     case WHITE_DRAGON_SCALE_MAIL:
     case WHITE_DRAGON_SCALES:
         return PM_WHITE_DRAGON;
@@ -1908,6 +1911,9 @@ armor_to_dragon(int atyp)
     case GREEN_DRAGON_SCALE_MAIL:
     case GREEN_DRAGON_SCALES:
         return PM_GREEN_DRAGON;
+    case GOLD_DRAGON_SCALE_MAIL:
+	    case GOLD_DRAGON_SCALES:
+		return PM_GOLD_DRAGON;
     case YELLOW_DRAGON_SCALE_MAIL:
     case YELLOW_DRAGON_SCALES:
         return PM_YELLOW_DRAGON;

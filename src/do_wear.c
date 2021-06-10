@@ -696,6 +696,12 @@ Shirt_off(void)
 static int
 Armor_on(void)
 {
+
+    if (uarm && (uarm->otyp == GOLD_DRAGON_SCALE_MAIL || uarm->otyp == GOLD_DRAGON_SCALES)) {
+		begin_burn(uarm,FALSE);
+		if(!Blind)
+			pline("%s to glow.",Tobjnam(uarm,"begin"));
+	}
     /*
      * No suits require special handling.  Special properties conferred by
      * suits are set up as intrinsics (actually 'extrinsics') by setworn()
@@ -709,6 +715,11 @@ Armor_on(void)
 int
 Armor_off(void)
 {
+    if (uarm && (uarm->otyp == GOLD_DRAGON_SCALE_MAIL || uarm->otyp == GOLD_DRAGON_SCALES)) {
+		end_burn(uarm,FALSE);
+		if(!Blind)
+			pline("%s glowing.",Tobjnam(uarm,"stop"));
+	}
     g.context.takeoff.mask &= ~W_ARM;
     setworn((struct obj *) 0, W_ARM);
     g.context.takeoff.cancelled_don = FALSE;
@@ -724,6 +735,8 @@ Armor_off(void)
 int
 Armor_gone(void)
 {
+    if (uarm && (uarm->otyp == GOLD_DRAGON_SCALE_MAIL || uarm->otyp == GOLD_DRAGON_SCALES))
+		end_burn(uarm,FALSE);
     g.context.takeoff.mask &= ~W_ARM;
     setnotworn(uarm);
     g.context.takeoff.cancelled_don = FALSE;

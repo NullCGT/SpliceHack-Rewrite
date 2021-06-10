@@ -5689,6 +5689,44 @@ Z = (195, 195, 195)
   .....LCAA..CCAA.
   ...........CAA..
 }
+# tile 265 (baby violet dragon,male)
+{
+  ................
+  ................
+  ................
+  .....DDDA.......
+  ....NINIIA......
+  ...DIIIIIA......
+  ..CHHIADIA.AAA..
+  CCHCDA.DIAAAAAA.
+  ..D..DIIAAAAAAA.
+  ....DDIIIIIAAAA.
+  ...DOOIIIIIIAAA.
+  ..DIODIIIIIIIAA.
+  ..DIIDIIODIAIIA.
+  ..DIADI.ADIAIIA.
+  .....DIAA..IIAA.
+  ...........IAA..
+}
+# tile 265 (baby violet dragon,female)
+{
+  ................
+  ................
+  ................
+  .....DDDA.......
+  ....NINIIA......
+  ...DIIIIIA......
+  ..CHHIADIA.AAA..
+  CCHCDA.DIAAAAAA.
+  ..D..DIIAAAAAAA.
+  ....DDIIIIIAAAA.
+  ...DOOIIIIIIAAA.
+  ..DIODIIIIIIIAA.
+  ..DIIDIIODIAIIA.
+  ..DIADI.ADIAIIA.
+  .....DIAA..IIAA.
+  ...........IAA..
+}
 # tile 282 (baby black dragon,male)
 {
   ................
@@ -5802,6 +5840,44 @@ Z = (195, 195, 195)
   ..GFAGF.AGFAFFA.
   .....GFAA..FFAA.
   ...........FAA..
+}
+# tile 269 (baby gold dragon,male)
+{
+  ................
+  ................
+  ................
+  .....NNNA.......
+  ....DHDHHA......
+  ...NHHHHHA......
+  ..CHHHANHA.AAA..
+  .CHCDA.NHAAAAAA.
+  ..D..NHHAAAAAAA.
+  ....NNHHHNHAAAA.
+  ...NOOHHNHHHAAA.
+  ..CHOCNHHHHHHAA.
+  ..CHHCHHOCHAHHA.
+  ..CHACH.ACHAHHA.
+  .....CHAA..HHAA.
+  ...........HAA..
+}
+# tile 269 (baby gold dragon,female)
+{
+  ................
+  ................
+  ................
+  .....NNNA.......
+  ....DHDHHA......
+  ...NHHHHHA......
+  ..CHHHANHA.AAA..
+  .CHCDA.NHAAAAAA.
+  ..D..NHHAAAAAAA.
+  ....NNHHHNHAAAA.
+  ...NOOHHNHHHAAA.
+  ..CHOCNHHHHHHAA.
+  ..CHHCHHOCHAHHA.
+  ..CHACH.ACHAHHA.
+  .....CHAA..HHAA.
+  ...........HAA..
 }
 # tile 288 (baby yellow dragon,male)
 {
@@ -6069,6 +6145,44 @@ Z = (195, 195, 195)
   ....LCAA.KKCCJA.
   ........CCCCJA..
 }
+# tile 277 (purple dragon,male)
+{
+  ......DDDIA.....
+  .....NINIIIA....
+  ....DIIIIIIA....
+  ..DCHHI..IIA....
+  CHCHCD..DIIA....
+  HD.D...DIIA.....
+  ......ODIAAAAAA.
+  ....DODIAAAAAAAA
+  ..DOODIA.II.AAA.
+  .DOOODIIIIIIJAA.
+  .DOOODIIIIIIIAA.
+  IIOODDIIIIIIIIA.
+  DI.ODIIOOII.IJA.
+  DIAADI.AAIIAIIA.
+  ....DIAA...IIJA.
+  ...P....IIIIJA..
+}
+# tile 277 (purple dragon,female)
+{
+  ......DDDIA.....
+  .....NINIIIA....
+  ....DIIIIIIA....
+  ..DCHHI..IIA....
+  CHCHCD..DIIA....
+  HD.D...DIIA.....
+  ......ODIAAAAAA.
+  ....DODIAAAAAAAA
+  ..DOODIA.II.AAA.
+  .DOOODIIIIIIJAA.
+  .DOOODIIIIIIIAA.
+  IIOODDIIIIIIIIA.
+  DI.ODIIOOII.IJA.
+  DIAADI.AAIIAIIA.
+  ....DIAA...IIJA.
+  ...P....IIIIJA..
+}
 # tile 302 (black dragon,male)
 {
   ......AAAA......
@@ -6182,6 +6296,44 @@ Z = (195, 195, 195)
   GFAAGF.AAFFAFFA.
   ....GFAA...FFJA.
   ........FFFFJA..
+}
+# tile 281 (gold dragon,male)
+{
+  ......NNNHA.....
+  .....DHDHHHA....
+  ....NHHHHHHA....
+  ..DCHHH..HHA....
+  CHCHCD..NHHA....
+  HD.D...NHHA.....
+  ......ONHAAAAAA.
+  ....NONHAAAAAAAA
+  ..NOONHACHNCAAA.
+  .NOOONHHHNHHCAA.
+  .NOOONHNHHHHHAA.
+  HHOOCNHHHHHHHHA.
+  CH.OCHHOOHHCHCA.
+  CHAACH.AAHHAHHA.
+  ....CHAACCCHHCA.
+  ........HHHHCA..
+}
+# tile 281 (gold dragon,female)
+{
+  ......NNNHA.....
+  .....DHDHHHA....
+  ....NHHHHHHA....
+  ..DCHHH..HHA....
+  CHCHCD..NHHA....
+  HD.D...NHHA.....
+  ......ONHAAAAAA.
+  ....NONHAAAAAAAA
+  ..NOONHACHNCAAA.
+  .NOOONHHHNHHCAA.
+  .NOOONHNHHHHHAA.
+  HHOOCNHHHHHHHHA.
+  CH.OCHHOOHHCHCA.
+  CHAACH.AAHHAHHA.
+  ....CHAACCCHHCA.
+  ........HHHHCA..
 }
 # tile 308 (yellow dragon,male)
 {

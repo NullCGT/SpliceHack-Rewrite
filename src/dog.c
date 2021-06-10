@@ -213,6 +213,7 @@ makedog(void)
         else if (pettype == PM_BABY_GREEN_DRAGON) petname = rn2(20) ? "Rhaegal" : "Trogdor"; /* ASOIAF / Homestar */
         else if (pettype == PM_BABY_GRAY_DRAGON) petname = "Errol"; /* Discworld */
         else if (pettype == PM_BABY_WHITE_DRAGON) petname = "Seath"; /* Dark Souls */
+        else if (pettype == PM_BABY_GOLD_DRAGON) petname = "Glorund"; /* Silmarillion */
         
     }
 

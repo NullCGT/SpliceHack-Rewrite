@@ -18,8 +18,8 @@ static int m_lined_up(struct monst *, struct monst *);
  */
 static NEARDATA const char *breathwep[] = {
     "fragments", "fire", "frost", "sleep gas", "a disintegration blast",
-    "lightning", "poison gas", "acid", "strange breath #8",
-    "strange breath #9"
+    "lightning", "poison gas", "acid", "sonic beam",
+    "a psionic beam"
 };
 
 boolean
@@ -891,7 +891,7 @@ breamm(struct monst* mtmp, struct attack* mattk, struct monst* mtarg)
 	    return MM_HIT;
 
         if (!mtmp->mspec_used && rn2(3)) {
-            if ((typ >= AD_MAGM) && (typ <= AD_ACID)) {
+            if ((typ >= AD_MAGM) && (typ <= AD_PSYC)) {
                 boolean utarget = (mtarg == &g.youmonst);
                 if (canseemon(mtmp))
                     pline("%s breathes %s!", Monnam(mtmp), breathwep[typ - 1]);
