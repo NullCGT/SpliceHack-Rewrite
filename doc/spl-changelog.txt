@@ -7,6 +7,8 @@ Since this release is a rewrite, a number of pieces of existing content have bee
 or outright removed. Rationale will be provided for all removed content.
 - Removed the following monsters:
   - Anubites. Anubites were not interesting to fight, and did not fit the theme of SpliceHack.
+- Removed the following objects:
+  - Razor whips. Razor whips have been made irrelevant by the object materials ptach.
 - The intelligent pet patch from GruntHack has been removed. This patch introduced an incredible
   number of bugs in monster AI, and additionally made the monster AI code nigh unreadable.
   Additionally, many of the changes made by it were supersceded by later vanilla changes.

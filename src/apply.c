@@ -3763,6 +3763,7 @@ doapply(void)
         res = use_royal_jelly(obj);
         break;
     case BULLWHIP:
+    case FLAMING_LASH:
         res = use_whip(obj);
         break;
     case GRAPPLING_HOOK:

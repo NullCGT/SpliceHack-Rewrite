@@ -2221,6 +2221,7 @@ breaktest(struct obj *obj)
     case BLINDING_VENOM:
     case BULLET:
     case SHOTGUN_SHELL:
+    case FLAMING_LASH:
         return 1;
     default:
         return 0;
@@ -2251,6 +2252,10 @@ breakmsg(struct obj *obj, boolean in_view)
         else
             pline("%s shatter%s%s!", Doname2(obj),
                   (obj->quan == 1L) ? "s" : "", to_pieces);
+        break;
+    case FLAMING_LASH:
+        if (in_view)
+            pline("%s crumbles.", Doname2(obj));
         break;
     case BULLET:
     case SHOTGUN_SHELL:

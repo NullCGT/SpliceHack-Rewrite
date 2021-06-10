@@ -2880,6 +2880,7 @@ static const struct alt_spellings {
 } spellings[] = {
     { "pickax", PICK_AXE },
     { "whip", BULLWHIP },
+    { "lash", FLAMING_LASH },
     { "saber", SILVER_SABER },
     { "silver sabre", SILVER_SABER },
     { "smooth shield", SHIELD_OF_REFLECTION },
