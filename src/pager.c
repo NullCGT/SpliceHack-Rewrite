@@ -333,6 +333,8 @@ look_at_monster(char *buf,
             Strcat(buf, (Upolyd && sticks(g.youmonst.data))
                           ? ", being held" : ", holding you");
     }
+    if (mtmp->msleeping)
+        Strcat(buf, ", asleep");
     if (mtmp->mleashed)
         Strcat(buf, ", leashed to you");
 

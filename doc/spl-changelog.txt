@@ -23,6 +23,7 @@ or outright removed. Rationale will be provided for all removed content.
   - Timed cooldowns for abilities do not mesh with the pace of NetHack. NetHack is a game that
     often lacks time pressure (the food clock all but disappears past the early game) and so
     techniques incentivize slow, passive play while waiting for used techniques to recharge.
+- Removed the monster conversation feature. It was exceedingly poorly implemented.
 
 Options
 - Added the monkeyname configuration option for those who want a default name for their pet
@@ -39,6 +40,8 @@ QOL
   - "Scroll of recharging" is a valid alternate spelling for scrolls of charging.
   - Wishing for "anything" or "surprise me" results in a totally random object.
   - A number of small easter eggs when wishing for things like "world peace," or "truth."
+- In most situations, there is now a message for when a sleeping monster wakes up. Additionally,
+  looking at a monster will tell you whether it is sleeping.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.

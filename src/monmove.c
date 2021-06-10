@@ -212,6 +212,7 @@ mon_regen(struct monst* mon, boolean digest_meal)
 static int
 disturb(register struct monst* mtmp)
 {
+    int dist = distu(mtmp->mx, mtmp->my);
     /*
      * + Ettins are hard to surprise.
      * + Nymphs, jabberwocks, and leprechauns do not easily wake up.
@@ -224,7 +225,7 @@ disturb(register struct monst* mtmp)
      *  Aggravate or mon is (dog or human) or
      *      (1/7 and mon is not mimicing furniture or object)
      */
-    if (couldsee(mtmp->mx, mtmp->my) && distu(mtmp->mx, mtmp->my) <= 100
+    if (couldsee(mtmp->mx, mtmp->my) && dist <= 100
         && (!Stealth || (mtmp->data == &mons[PM_ETTIN] && rn2(10)))
         && (!(mtmp->data->mlet == S_NYMPH
               || mtmp->data == &mons[PM_JABBERWOCK]
@@ -235,8 +236,13 @@ disturb(register struct monst* mtmp)
             || (!rn2(7) && M_AP_TYPE(mtmp) != M_AP_FURNITURE
                 && M_AP_TYPE(mtmp) != M_AP_OBJECT))) {
         mtmp->msleeping = 0;
+        if (canseemon(mtmp))
+            pline("%s wakes up.", Monnam(mtmp));
         return 1;
-    }
+    } else if (couldsee(mtmp->mx, mtmp->my) && dist <= 100
+               && !Stealth && !rn2(dist + 3))
+        if (canseemon(mtmp))
+            pline("%s stirs in %s sleep.", Monnam(mtmp), mhis(mtmp));
     return 0;
 }
 
