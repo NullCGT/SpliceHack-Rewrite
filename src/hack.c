@@ -1661,7 +1661,10 @@ domove_core(void)
                 && !is_safemon(mtmp))) {
 
             /* target monster might decide to switch places with you... */
-            if (mtmp->data == &mons[PM_DISPLACER_BEAST] && !rn2(2)
+            if ((mtmp->data == &mons[PM_DISPLACER_BEAST] ||
+                 mtmp->data == &mons[PM_BABY_SHIMMERING_DRAGON] ||
+                 mtmp->data == &mons[PM_SHIMMERING_DRAGON])
+                && !rn2(2)
                 && mtmp->mux == u.ux0 && mtmp->muy == u.uy0
                 && mtmp->mcanmove && !mtmp->msleeping && !mtmp->meating
                 && !mtmp->mtrapped && !u.utrap && !u.ustuck && !u.usteed

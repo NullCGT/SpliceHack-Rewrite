@@ -368,9 +368,7 @@ undead_to_corpse(int mndx)
         break;
     case PM_VAMPIRE:
     case PM_VAMPIRE_LEADER:
-#if 0 /* DEFERRED */
     case PM_VAMPIRE_MAGE:
-#endif
     case PM_HUMAN_ZOMBIE:
     case PM_HUMAN_MUMMY:
         mndx = PM_HUMAN;
@@ -507,9 +505,7 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
     switch (mndx) {
     case PM_GRAY_DRAGON:
     case PM_SILVER_DRAGON:
-#if 0 /* DEFERRED */
     case PM_SHIMMERING_DRAGON:
-#endif
     case PM_RED_DRAGON:
     case PM_ORANGE_DRAGON:
     case PM_WHITE_DRAGON:
@@ -544,6 +540,7 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
         goto default_1;
     case PM_VAMPIRE:
     case PM_VAMPIRE_LEADER:
+    case PM_VAMPIRE_MAGE:
         /* include mtmp in the mkcorpstat() call */
         num = undead_to_corpse(mndx);
         corpstatflags |= CORPSTAT_INIT;
@@ -4077,6 +4074,7 @@ pickvampshape(struct monst* mon)
             break; /* leave mndx as is */
         wolfchance = 3;
     /*FALLTHRU*/
+    case PM_VAMPIRE_MAGE:
     case PM_VAMPIRE_LEADER: /* vampire lord or Vlad can become wolf */
         if (!rn2(wolfchance) && !uppercase_only) {
             mndx = PM_WOLF;
@@ -4209,18 +4207,17 @@ select_newcham_form(struct monst* mon)
             tryct = 5;
             do {
                 mndx = rn1(SPECIAL_PM - LOW_PM, LOW_PM);
-                if (humanoid(&mons[mndx]) && polyok(&mons[mndx]))
                     break;
             } while (--tryct > 0);
             if (!tryct)
                 mndx = NON_PM;
         }
-        break;
     case PM_CHAMELEON:
         if (!rn2(3))
             mndx = pick_animal();
         break;
     case PM_VLAD_THE_IMPALER:
+    case PM_VAMPIRE_MAGE:
     case PM_VAMPIRE_LEADER:
     case PM_VAMPIRE:
         mndx = pickvampshape(mon);

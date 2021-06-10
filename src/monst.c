@@ -1173,7 +1173,6 @@ NEARDATA struct permonst mons_init[] = {
         SIZ(1500, 500, MS_ROAR, MZ_HUGE), 0, 0,
         M1_FLY | M1_THICK_HIDE | M1_NOHANDS | M1_CARNIVORE,
         M2_HOSTILE | M2_STRONG | M2_GREEDY | M2_JEWELS, 0, 13, DRAGON_SILVER),
-#if 0 /* DEFERRED */
     MON("baby shimmering dragon", S_DRAGON,
         LVL(12, 9, 2, 10, 0), G_GENO,
         A(ATTK(AT_BITE, AD_PHYS, 2, 6),
@@ -1181,7 +1180,6 @@ NEARDATA struct permonst mons_init[] = {
         SIZ(1500, 500, MS_ROAR, MZ_HUGE), 0, 0,
         M1_FLY | M1_THICK_HIDE | M1_NOHANDS | M1_CARNIVORE,
         M2_HOSTILE | M2_STRONG | M2_GREEDY | M2_JEWELS, 0, 13, CLR_CYAN),
-#endif
     MON("baby red dragon", S_DRAGON, LVL(12, 9, 2, 10, 0), G_GENO,
         A(ATTK(AT_BITE, AD_PHYS, 2, 6), NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
           NO_ATTK),
@@ -1243,7 +1241,6 @@ NEARDATA struct permonst mons_init[] = {
             | M1_CARNIVORE,
         M2_HOSTILE | M2_STRONG | M2_NASTY | M2_GREEDY | M2_JEWELS | M2_MAGIC,
         0, 20, DRAGON_SILVER),
-#if 0 /* DEFERRED */
     MON("shimmering dragon", S_DRAGON,
         LVL(15, 9, -1, 20, 4), (G_GENO | 1),
         A(ATTK(AT_BREA, AD_MAGM, 4, 6), ATTK(AT_BITE, AD_PHYS, 3, 8),
@@ -1254,7 +1251,6 @@ NEARDATA struct permonst mons_init[] = {
           | M1_CARNIVORE,
         M2_HOSTILE | M2_STRONG | M2_NASTY | M2_GREEDY | M2_JEWELS | M2_MAGIC,
         0, 20, CLR_CYAN),
-#endif
     MON("red dragon", S_DRAGON, LVL(15, 9, -1, 20, -4), (G_GENO | 1),
         A(ATTK(AT_BREA, AD_FIRE, 6, 6), ATTK(AT_BITE, AD_PHYS, 3, 8),
           ATTK(AT_CLAW, AD_PHYS, 1, 4), ATTK(AT_CLAW, AD_PHYS, 1, 4), NO_ATTK,
@@ -1635,17 +1631,15 @@ struct permonst _mons2[] = {
         M1_ANIMAL | M1_FLY | M1_CARNIVORE,
         M2_HOSTILE | M2_STRONG | M2_NASTY | M2_COLLECT, M3_INFRAVISIBLE,
         18, CLR_ORANGE),
-#if 0 /* DEFERRED */
     MON("vorpal jabberwock", S_JABBERWOCK,
         LVL(20, 12, -2, 50, 0), (G_GENO | 1),
         A(ATTK(AT_BITE, AD_PHYS, 3, 10), ATTK(AT_BITE, AD_PHYS, 3, 10),
-          ATTK(AT_CLAW, AD_PHYS, 3, 10), ATTK(AT_CLAW, AD_PHYS, 3, 10),
+          ATTK(AT_CLAW, AD_VORP, 3, 10), ATTK(AT_CLAW, AD_VORP, 3, 10),
           NO_ATTK, NO_ATTK),
         SIZ(1300, 600, MS_BURBLE, MZ_LARGE), 0, 0,
         M1_ANIMAL | M1_FLY | M1_CARNIVORE,
         M2_HOSTILE | M2_STRONG | M2_NASTY | M2_COLLECT, M3_INFRAVISIBLE,
         25, HI_LORD),
-#endif
     /*
      * Kops
      */
@@ -2037,7 +2031,6 @@ struct permonst _mons2[] = {
         M2_UNDEAD | M2_STALK | M2_HOSTILE | M2_STRONG | M2_NASTY | M2_LORD
             | M2_SHAPESHIFTER,
         M3_INFRAVISIBLE, 14, CLR_BLUE),
-#if 0 /* DEFERRED */
     MON("vampire mage", S_VAMPIRE,
         LVL(20, 14, -4, 50, -9), (G_GENO | G_NOCORPSE | 1),
         A(ATTK(AT_CLAW, AD_DRLI, 2, 8), ATTK(AT_BITE, AD_DRLI, 1, 8),
@@ -2047,7 +2040,6 @@ struct permonst _mons2[] = {
         M2_UNDEAD | M2_STALK | M2_HOSTILE | M2_STRONG | M2_NASTY | M2_LORD
           | M2_MALE | M2_MAGIC | M2_SHAPESHIFTER,
         M3_INFRAVISIBLE, 26, HI_ZAP),
-#endif
     MON("Vlad the Impaler", S_VAMPIRE, LVL(28, 26, -6, 80, -10),
         (G_NOGEN | G_NOCORPSE | G_UNIQ),
         A(ATTK(AT_WEAP, AD_PHYS, 2, 10), ATTK(AT_BITE, AD_DRLI, 1, 12),

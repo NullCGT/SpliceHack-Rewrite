@@ -3329,6 +3329,52 @@ mhitm_ad_halu(struct monst *magr, struct attack *mattk UNUSED,
     }
 }
 
+void
+mhitm_ad_vorp(struct monst *magr, struct attack *mattk, 
+              struct monst *mdef, struct mhitm_data *mhm)
+{
+    if (magr == &g.youmonst) {
+        /* uhitm */
+        if (!rn2(50)) {
+            if (noncorporeal(mdef->data) || amorphous(mdef->data)) {
+                You("slice through %s %s.",
+                        s_suffix(mon_nam(mdef)), mbodypart(mdef, NECK));
+            } else if (has_head(mdef->data) && !g.notonhead) {
+                You("behead %s!", mon_nam(mdef));
+                mhm->damage = 2 * mdef->mhp + 200;
+            }
+        }
+        return;
+    } else if (mdef == &g.youmonst) {
+        /* mhitu */
+        if (!rn2(50)) {
+            if (noncorporeal(g.youmonst.data)
+                        || amorphous(g.youmonst.data)) {
+                        pline("%s slices through your %s.", Monnam(magr),
+                            body_part(NECK));
+            } else if (has_head(g.youmonst.data)) {
+                pline("%s beheads you!", Monnam(magr));
+                mhm->damage = 2 * (Upolyd ? u.mh : u.uhp) + 200;
+            }
+        } else {
+            hitmsg(magr, mattk);
+        }
+        return;
+    } else {
+        /* mhitm */
+        if (!rn2(50)) {
+            if (noncorporeal(mdef->data) || amorphous(mdef->data)) {
+                pline("%s slices through %s %s.", Monnam(magr),
+                        s_suffix(mon_nam(mdef)), mbodypart(mdef, NECK));
+            } else if (has_head(mdef->data) && !g.notonhead) {
+                pline("%s beheads %s!", Monnam(magr), mon_nam(mdef));
+                mhm->damage = 2 * mdef->mhp + 200;
+            }
+        }
+        return;
+    }
+}
+
 boolean
 do_stone_u(struct monst *mtmp)
 {
@@ -4140,6 +4186,8 @@ mhitm_adtyping(struct monst *magr, struct attack *mattk, struct monst *mdef,
     case AD_FAMN: mhitm_ad_famn(magr, mattk, mdef, mhm); break;
     case AD_DGST: mhitm_ad_dgst(magr, mattk, mdef, mhm); break;
     case AD_HALU: mhitm_ad_halu(magr, mattk, mdef, mhm); break;
+    /* Todo */
+    case AD_VORP: mhitm_ad_vorp(magr, mattk, mdef, mhm); break;
     default:
         mhm->damage = 0;
     }

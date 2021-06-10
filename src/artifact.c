@@ -1359,7 +1359,7 @@ artifact_hit(struct monst *magr, struct monst *mdef, struct obj *otmp,
                 return TRUE;
             }
         } else if ((otmp->oartifact == ART_VORPAL_BLADE
-                   && (dieroll == 1 || mdef->data == &mons[PM_JABBERWOCK])) ||
+                   && (dieroll == 1 || mdef->data == &mons[PM_JABBERWOCK] || mdef->data == &mons[PM_VORPAL_JABBERWOCK])) ||
                           (otmp->oartifact == ART_THIEFBANE && dieroll < 3)) {
             static const char *const behead_msg[2] = { "%s beheads %s!",
                                                        "%s decapitates %s!" };

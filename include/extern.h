@@ -2777,6 +2777,8 @@ extern void mhitm_ad_sedu(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhitm_ad_ssex(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
+extern void mhitm_ad_vorp(struct monst *, struct attack *, struct monst *, 
+                          struct mhitm_data *);
 extern void mhitm_adtyping(struct monst *, struct attack *, struct monst *,
                            struct mhitm_data *);
 extern boolean do_stone_u(struct monst *);
