@@ -30,6 +30,16 @@ Options
 - Added a number of small easter egg pet names for players who have not set a default pet
   name.
 
+QOL
+- Added a number of QOL fixes to the wish parser. Many of these were pulled from the NetHack YANI
+  archive.
+  - Wishing for a common community abbreviation, such as comr, boh, or gdsm will result in the
+    appropriate item.
+  - "Blessed greased fixed" can be abbreviated as simply "bgf."
+  - "Scroll of recharging" is a valid alternate spelling for scrolls of charging.
+  - Wishing for "anything" or "surprise me" results in a totally random object.
+  - A number of small easter eggs when wishing for things like "world peace," or "truth."
+
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
 - Altered the tiles for gnolls again to bring them closer in line with other humanoid tiles.

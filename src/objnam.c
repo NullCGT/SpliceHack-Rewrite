@@ -2843,6 +2843,8 @@ struct o_range {
 
 /* wishable subranges of objects */
 static NEARDATA const struct o_range o_ranges[] = {
+    { "anything", RANDOM_CLASS, ARROW, IRON_CHAIN },
+    { "surprise me", RANDOM_CLASS, ARROW, IRON_CHAIN },
     { "bag", TOOL_CLASS, SACK, BAG_OF_TRICKS },
     { "lamp", TOOL_CLASS, OIL_LAMP, MAGIC_LAMP },
     { "candle", TOOL_CLASS, TALLOW_CANDLE, WAX_CANDLE },
@@ -2859,6 +2861,8 @@ static NEARDATA const struct o_range o_ranges[] = {
     { "dragon scales", ARMOR_CLASS, GRAY_DRAGON_SCALES,
       YELLOW_DRAGON_SCALES },
     { "dragon scale mail", ARMOR_CLASS, GRAY_DRAGON_SCALE_MAIL,
+      YELLOW_DRAGON_SCALE_MAIL },
+    { "dsm", ARMOR_CLASS, GRAY_DRAGON_SCALE_MAIL,
       YELLOW_DRAGON_SCALE_MAIL },
     { "sword", WEAPON_CLASS, SHORT_SWORD, KATANA },
     { "firearm", 	WEAPON_CLASS, PISTOL, AUTO_SHOTGUN },
@@ -2913,6 +2917,7 @@ static const struct alt_spellings {
     { "grapnel", GRAPPLING_HOOK },
     { "grapple", GRAPPLING_HOOK },
     { "protection from shape shifters", RIN_PROTECTION_FROM_SHAPE_CHAN },
+    { "scroll of recharging", SCR_CHARGING },
     /* if we ever add other sizes, move this to o_ranges[] with "bag" */
     { "box", LARGE_BOX },
     /* normally we wouldn't have to worry about unnecessary <space>, but
@@ -2928,6 +2933,25 @@ static const struct alt_spellings {
 	{ "revolver", PISTOL },
     { "hand grenade", FRAG_GRENADE },
     { "shell", SHOTGUN_SHELL },
+    /* Community abbreviations */
+    { "BoH", BAG_OF_HOLDING },
+    { "CoMR", CLOAK_OF_MAGIC_RESISTANCE },
+    { "gdsm", GRAY_DRAGON_SCALE_MAIL },
+    { "sdsm", SILVER_DRAGON_SCALE_MAIL },
+    { "AoR", AMULET_OF_REFLECTION },
+    /* Just for fun */
+    { "love", SCR_TAMING },
+    { "world peace", SCR_TAMING },
+    { "beauty", MIRROR },
+    { "truth", SPE_NOVEL },
+    { "ultimate power", WAN_DEATH },
+    { "winning", FAKE_AMULET_OF_YENDOR },
+    { "immortality", AMULET_OF_LIFE_SAVING },
+    { "family", EGG },
+    { "map", SCR_MAGIC_MAPPING },
+#ifdef MAIL
+    { "junk", SCR_MAIL },
+#endif
     { (const char *) 0, 0 },
 };
 
@@ -3374,6 +3398,11 @@ readobjnam_preparse(struct _readobjnam_data* d)
             while (*d->bp == ' ')
                 d->bp++;
             l = 0;
+        } else if (!strncmpi(d->bp, "bgf ", l = 4)) {
+            /* common wish abbreviation */
+            d->blessed = 1;
+            d->erodeproof = 1;
+            d->isgreased = 1;
         } else if (!strncmpi(d->bp, "blessed ", l = 8)
                    || !strncmpi(d->bp, "holy ", l = 5)) {
             d->blessed = 1;
