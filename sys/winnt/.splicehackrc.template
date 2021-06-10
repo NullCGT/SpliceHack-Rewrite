@@ -42,7 +42,7 @@ OPTIONS=symset:IBMGraphics_2,roguesymset:RogueEpyx
 #
 #OPTIONS=name:Janet,role:Valkyrie,race:Human,gender:female,align:lawful
 #OPTIONS=dogname:Fido,catname:Morris,birdname:Topper,fruit:guava
-#OPTIONS=horsename:Silver,dragonname:Burninator
+#OPTIONS=horsename:Silver,dragonname:Burninator,monkeyname:MONKE
 
 # Disable autopickup
 OPTIONS=!autopickup

@@ -312,6 +312,8 @@ opt_##a,
                 NoAlias, "user interface for object selection")
     NHOPTO("message types", o_message_types, BUFSZ, opt_in, set_in_game,
            No, Yes, No, NoAlias, "edit message types")
+    NHOPTC(monkeyname, PL_PSIZ, opt_in, set_gameview, No, Yes, No, No, NoAlias,
+                "the name of your starting pet if it is a monkey")
     NHOPTB(monpolycontrol, 0, opt_in, set_wizonly, Off, Yes, No, No, NoAlias,
                 &iflags.mon_polycontrol)
     NHOPTC(monsters, MAXMCLASSES, opt_in, set_in_config, No, Yes, No, No,

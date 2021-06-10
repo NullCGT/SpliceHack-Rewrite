@@ -381,6 +381,7 @@ const struct instance_globals g_init = {
     DUMMY, /* birdname */
     DUMMY, /* dragonname */
     DUMMY, /* ratname */
+    DUMMY, /* monkeyname */
     UNDEFINED_VALUE, /* preferred_pet */
     NULL, /* mydogs */
     NULL, /* migrating_mons */

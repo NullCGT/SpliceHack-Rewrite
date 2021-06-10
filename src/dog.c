@@ -68,8 +68,6 @@ pet_type(void)
     } else if (Role_if(PM_DRAGON_RIDER)) {
         dragon_type = PM_BABY_SILVER_DRAGON 
             + rn2(PM_BABY_YELLOW_DRAGON - PM_BABY_SILVER_DRAGON);
-        if (dragon_type == PM_BABY_BLACK_DRAGON)
-            dragon_type = PM_BABY_GRAY_DRAGON;
         prop = objects[GRAY_DRAGON_SCALES + dragon_type - PM_BABY_GRAY_DRAGON].oc_oprop;
         /* Dragonmasters resist the element of their pet */
         if (prop == REFLECTING || prop == ANTIMAGIC)
@@ -175,7 +173,7 @@ makedog(void)
         return ((struct monst *) 0);
 
     pettype = pet_type();
-    if (pettype == PM_LITTLE_DOG || pettype == PM_WINTER_WOLF_PUP)
+    if (mons[pettype].mlet == S_DOG)
         petname = g.dogname;
     else if (pettype == PM_PONY)
         petname = g.horsename;
@@ -183,6 +181,10 @@ makedog(void)
         petname = g.dragonname;
     else if (pettype == PM_SEWER_RAT)
 		petname = g.ratname;
+    else if (is_bird(&mons[pettype]))
+        petname = g.birdname;
+    else if (pettype == PM_MONKEY)
+        petname = g.monkeyname;
     else
         petname = g.catname;
 
@@ -196,11 +198,22 @@ makedog(void)
         if (Role_if(PM_BARBARIAN))
             petname = "Idefix"; /* Obelix */
         if (Role_if(PM_RANGER))
-            petname = "Sirius"; /* Orion's dog */
+            if (Race_if(PM_ELF))
+                petname = "Huan"; /* Silmarillion */
+            else
+                petname = "Sirius"; /* Orion's dog */
     } else if (!*petname && pettype == PM_SEWER_RAT) {
-	    if(Role_if(PM_CONVICT)) petname = "Nicodemus"; /* Rats of NIMH */
-    } else if (!*petname && pettype == PM_BABY_RED_DRAGON) {
-	    if(Role_if(PM_DRAGON_RIDER)) petname = "Flame"; /* Dungeon Magazine */
+	    if (Role_if(PM_CONVICT)) petname = "Nicodemus"; /* Rats of NIMH */
+    } else if (!*petname && pettype == PM_PARROT) {
+        if (Role_if(PM_PIRATE)) petname = "Polly";
+    } else if (!*petname && pettype && Role_if(PM_DRAGON_RIDER)) {
+	    if (pettype == PM_BABY_RED_DRAGON) petname = "Flame"; /* Dungeon Magazine */
+        else if (pettype == PM_BABY_BLACK_DRAGON) petname = "Ancalagon"; /* Silmarillion */
+        else if (pettype == PM_BABY_BLUE_DRAGON) petname = "Saphira"; /* Eragon */
+        else if (pettype == PM_BABY_GREEN_DRAGON) petname = rn2(20) ? "Rhaegal" : "Trogdor"; /* ASOIAF / Homestar */
+        else if (pettype == PM_BABY_GRAY_DRAGON) petname = "Errol"; /* Discworld */
+        else if (pettype == PM_BABY_WHITE_DRAGON) petname = "Seath"; /* Dark Souls */
+        
     }
 
     mtmp = makemon(&mons[pettype], u.ux, u.uy, MM_EDOG);

@@ -34,10 +34,10 @@
 # Set your character's role, race, gender, and alignment
 #OPTIONS=role:Valkyrie, race:Human, gender:female, align:lawful
 
-# Set the default dog, cat, bird, dragon, and horse names, and your fruit
+# Set the default dog, cat, bird, dragon, monkey, and horse names, and your fruit
 #OPTIONS=birdname:Polly
 #OPTIONS=dogname:Fido
-#OPTIONS=dragonname:Flame
+#OPTIONS=monkeyname:MONKE
 #OPTIONS=catname:Morris
 #OPTIONS=horsename:Silver
 #OPTIONS=birdname:Polly

@@ -2570,6 +2570,8 @@ parse_config_line(char *origbuf)
         (void) strncpy(g.birdname, bufp, PL_PSIZ - 1);
     } else if (match_varname(buf, "birdname", 3)) {
         (void) strncpy(g.catname, bufp, PL_PSIZ - 1);
+    } else if (match_varname(buf, "monkeyname", 3)) {
+        (void) strncpy(g.monkeyname, bufp, PL_PSIZ - 1);
 
 #ifdef SYSCF
     } else if (in_sysconf && match_varname(buf, "WIZARDS", 7)) {

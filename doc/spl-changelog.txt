@@ -22,6 +22,11 @@ or outright removed. Rationale will be provided for all removed content.
     often lacks time pressure (the food clock all but disappears past the early game) and so
     techniques incentivize slow, passive play while waiting for used techniques to recharge.
 
+Options
+- Added the monkeyname configuration option for those who want a default name for their pet
+  monkey.
+- Added a number of small easter egg pet names for players who have not set a default pet
+  name.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
@@ -35,6 +40,12 @@ Race Changes
   - Potions of sickness in the starting inventories of drow are replaced by potions of sleeping.
   - The unarmed attacks of drow no longer inflict sleep.
   - All weapons in the starting inventory of drow are automatically drugged.
+
+Role Changes
+- Dragon Rider
+  - Rename dragonmasters to dragon riders. This name change puts greater emphasis on the bond the
+    character has with dragons.
+  - Allow baby black dragons as starting pets.
 
 Display Changes
 - Ridden monsters are highlighted in bright magenta.
@@ -53,6 +64,7 @@ Bug Fixes
   crashes and instances of odd behavior that previously went unnoticed have been fixed.
 - Graphical tiles builds work once more! Rejoice!
 - Fixed lighting shops randomly generating throughout the dungeon.
+- Fixed parrots not using the birdname option from a config file.
 
                             Version 0.8.3
 

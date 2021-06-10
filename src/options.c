@@ -843,6 +843,30 @@ optfn_ratname(int optidx, int req, boolean negated UNUSED, char *opts, char *op)
     return optn_ok;
 }
 
+int
+optfn_monkeyname(int optidx, int req, boolean negated UNUSED, char *opts, char *op)
+{
+    if (req == do_init) {
+        return optn_ok;
+    }
+    if (req == do_set) {
+        if (op != empty_optstr) {
+            nmcpy(g.monkeyname, op, PL_PSIZ);
+        } else {
+            return optn_err;
+        }
+        sanitize_name(g.monkeyname);
+        return optn_ok;
+    }
+    if (req == get_val) {
+        if (!opts)
+            return optn_err;
+        Sprintf(opts, "%s", g.monkeyname[0] ? g.monkeyname : none);
+        return optn_ok;
+    }
+    return optn_ok;
+}
+
 #ifdef CURSES_GRAPHICS
 static int
 optfn_cursesgraphics(int optidx, int req, boolean negated,
