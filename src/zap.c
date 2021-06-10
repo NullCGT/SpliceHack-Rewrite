@@ -3910,6 +3910,33 @@ zhitm(struct monst *mon, int type, int nd,
         if (!rn2(6))
             erode_armor(mon, ERODE_CORRODE);
         break;
+    case ZT_SONIC:
+        if (resists_sonic(mon)) {
+            sho_shieldeff = TRUE;
+            break;
+        }
+        tmp = d(nd, 6);
+        if (spellcaster)
+            tmp = spell_damage_bonus(tmp);
+        if (!rn2(3)) {
+            destroy_mitem(mon, ARMOR_CLASS, AD_LOUD);
+            destroy_mitem(mon, RING_CLASS, AD_LOUD);
+            destroy_mitem(mon, TOOL_CLASS, AD_LOUD);
+            destroy_mitem(mon, WAND_CLASS, AD_LOUD);
+            destroy_mitem(mon, POTION_CLASS, AD_LOUD);
+        }
+        break;
+    case ZT_PSYCHIC:
+        if (resists_psychic(mon)) {
+            sho_shieldeff = TRUE;
+            break;
+        }
+        tmp = d(nd, 6);
+        if (spellcaster)
+            tmp = spell_damage_bonus(tmp);
+        mon->mconf = 1;
+        mon->mstrategy &= ~STRAT_WAITFORU;
+        break;
     }
     if (elemental_shift(mon, abstype)) {
         sho_shieldeff = TRUE;
@@ -4063,6 +4090,32 @@ zhitu(int type, int nd, const char *fltxt, xchar sx, xchar sy)
             acid_damage(uswapwep);
         if (!rn2(6))
             erode_armor(&g.youmonst, ERODE_CORRODE);
+        break;
+    case ZT_SONIC:
+        if (Sonic_resistance) {
+            shieldeff(sx, sy);
+            pline("That was rather loud.");
+        } else {
+            dam = d(nd, 6);
+        }
+        if (!rn2(3))
+            destroy_item(POTION_CLASS, AD_LOUD);
+        if (!rn2(3))
+            destroy_item(TOOL_CLASS, AD_LOUD);
+        if (!rn2(3))
+            destroy_item(RING_CLASS, AD_LOUD);
+        if (!rn2(3))
+            destroy_item(ARMOR_CLASS, AD_LOUD);
+        if (!rn2(3))
+            destroy_item(WAND_CLASS, AD_LOUD);
+        break;
+    case ZT_PSYCHIC:
+        if (Psychic_resistance) {
+            shieldeff(sx, sy);
+            pline("With a struggle, you resist the mental assault!");
+        } else {
+            dam = d(nd, 6);
+        }
         break;
     }
 
@@ -4806,6 +4859,11 @@ zap_over_floor(xchar x, xchar y, int type, boolean *shopdamage,
             new_doormask = D_NODOOR;
             see_txt = "The door freezes and shatters!";
             hear_txt = "a deep cracking sound.";
+            break;
+        case ZT_SONIC:
+            new_doormask = D_NODOOR;
+            see_txt = "The door is blown off its hinges!";
+            hear_txt =  "a loud bang.";
             break;
         case ZT_DEATH:
             /* death spells/wands don't disintegrate */

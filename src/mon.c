@@ -3540,6 +3540,18 @@ m_respond(struct monst* mtmp)
                 break;
             }
     }
+    /* Dragons roar. */
+    if (mtmp->data->msound == MS_ROAR && !mtmp->mpeaceful
+        && is_dragon(mtmp->data)) {
+        if (!Deaf && canseemon(mtmp)) {
+            pline("%s lets out a loud roar!", Monnam(mtmp));
+            stop_occupation();
+            /* Should this frighten the player if they fail a charisma save? */
+        } else if (!Deaf) {
+            You_hear("a loud roar!");
+        }
+        wake_nearto(mtmp->mx, mtmp->my, 5 * 5);
+    }
 }
 
 /* Called whenever the player attacks mtmp; also called in other situations

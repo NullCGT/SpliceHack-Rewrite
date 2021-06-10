@@ -1702,6 +1702,13 @@ rndghostname(void)
     return rn2(7) ? ghostnames[rn2(SIZE(ghostnames))] : (const char *) g.plname;
 }
 
+static const char *const dragonages[] = {
+    "young ", "very young", "juvenile ",
+    "adult ", "mature ", "old ", "very old ", 
+    "venerable ", "eternal", "antediluvian ",
+    "primeval "
+};
+
 /*
  * Monster naming functions:
  * x_monnam is the generic monster-naming function.
@@ -1746,6 +1753,7 @@ x_monnam(register struct monst *mtmp, int article,
     char *buf = nextmbuf();
     struct permonst *mdat = mtmp->data;
     const char *pm_name = pmname(mdat, Mgender(mtmp));
+    const char *age_category;
     boolean do_hallu, do_invis, do_it, do_saddle, do_name;
     boolean name_at_start, has_adjectives;
     char *bp;
@@ -1831,6 +1839,11 @@ x_monnam(register struct monst *mtmp, int article,
     if (do_saddle && (mtmp->misc_worn_check & W_SADDLE) && !Blind
         && !Hallucination)
         Strcat(buf, "saddled ");
+    if (monsndx(mdat) <= PM_YELLOW_DRAGON && monsndx(mdat) >= PM_GRAY_DRAGON
+        && do_name) {
+        age_category = dragonages[max(0, min((int) mtmp->m_lev - (int) mdat->mlevel + 3, SIZE(dragonages) -1))];
+        Sprintf(buf, "%s", age_category);
+    }
     has_adjectives = (buf[0] != '\0');
 
     /* Put the actual monster name or type into the buffer now.

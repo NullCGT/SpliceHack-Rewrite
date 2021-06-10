@@ -870,7 +870,11 @@ int
 breamm(struct monst* mtmp, struct attack* mattk, struct monst* mtarg)
 {
     /* if new breath types are added, change AD_ACID to max type */
-    int typ = (mattk->adtyp == AD_RBRE) ? rnd(AD_ACID) : mattk->adtyp ;
+    int typ = (mattk->adtyp == AD_RBRE) ? rnd(AD_PSYC) : mattk->adtyp ;
+    int num_dice;
+
+    /* The age of a dragon determines the power of its breath weapon. */
+    num_dice = max(1, (int) mattk->damn + (int) mtmp->m_lev - (int) mtmp->data->mlevel);
 
     if (m_lined_up(mtarg, mtmp)) {
         if (mtmp->mcan) {
@@ -895,7 +899,7 @@ breamm(struct monst* mtmp, struct attack* mattk, struct monst* mtarg)
                 boolean utarget = (mtarg == &g.youmonst);
                 if (canseemon(mtmp))
                     pline("%s breathes %s!", Monnam(mtmp), breathwep[typ - 1]);
-                dobuzz((int) (-20 - (typ - 1)), (int) mattk->damn,
+                dobuzz((int) (-20 - (typ - 1)), num_dice,
                        mtmp->mx, mtmp->my, sgn(g.tbx), sgn(g.tby), utarget);
                 nomul(0);
                 /* breath runs out sometimes. Also, give monster some

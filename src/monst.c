@@ -1313,7 +1313,7 @@ NEARDATA struct permonst mons_init[] = {
         0, 20, CLR_BLACK),
     MON("blue dragon", S_DRAGON, LVL(15, 9, -1, 20, -7), (G_GENO | 1),
         A(ATTK(AT_BREA, AD_ELEC, 4, 6), ATTK(AT_BITE, AD_PHYS, 3, 8),
-          ATTK(AT_CLAW, AD_PHYS, 1, 4), ATTK(AT_CLAW, AD_PHYS, 1, 4), NO_ATTK,
+          ATTK(AT_BUTT, AD_PHYS, 2, 4), NO_ATTK, NO_ATTK,
           NO_ATTK),
         SIZ(WT_DRAGON, 1500, MS_ROAR, MZ_GIGANTIC), MR_ELEC, MR_ELEC,
         M1_FLY | M1_THICK_HIDE | M1_NOHANDS | M1_SEE_INVIS | M1_OVIPAROUS

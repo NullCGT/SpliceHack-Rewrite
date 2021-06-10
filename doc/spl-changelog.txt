@@ -51,6 +51,12 @@ Monster Changes
   - Upgraded form of the captain. Highly dangerous, and very rare to encounter.
 - Ported UnnetHack Aleaxes: Aleaxes are generated with copies of the player's items.
 - Purple dragons have been renamed to violet dragons.
+- Dragons have been significantly altered.
+  - Dragons have adjectives attached to their names that describe their age categories. 
+    The level of a dragon determines its age category.
+  - The higher level a dragon is, the more damage its breath weapon will deal.
+  - Blue dragons butt with a horn rather than using claws.
+  - Black dragons are treated as having a pair of horns.
 
 Race Changes
 - Drow
