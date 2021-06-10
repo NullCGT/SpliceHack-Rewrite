@@ -106,6 +106,7 @@
 #UnNetHack
 - Black Market Code
 - Shambling Horror
+- Aleax item duplication
 
 #FIQHack
 - XP Curve Code

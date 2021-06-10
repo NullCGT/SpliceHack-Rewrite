@@ -19,6 +19,7 @@ static int align_shift(struct permonst *);
 static boolean mk_gen_ok(int, unsigned, unsigned);
 static boolean wrong_elem_type(struct permonst *);
 static void m_initgrp(struct monst *, int, int, int, int);
+static void m_inityour(struct monst *, struct obj *);
 static void m_initthrow(struct monst *, int, int);
 static void m_initweap(struct monst *);
 static void m_initinv(struct monst *);
@@ -140,6 +141,23 @@ m_initgrp(struct monst *mtmp, int x, int y, int n, int mmflags)
             }
         }
     }
+}
+
+static
+void
+m_inityour(struct monst *mtmp, struct obj *obj)
+{
+    register struct obj *otmp;
+
+    otmp = mksobj(obj->otyp, FALSE, FALSE);
+    if (obj->blessed) bless(obj);
+    else if (obj->cursed) curse(obj);
+    otmp->quan = obj->quan;
+    otmp->owt = weight(obj);
+    otmp->opoisoned = obj->opoisoned;
+    otmp->oerodeproof = TRUE;
+    /* otmp->spe = obj->spe; */
+    (void) mpickobj(mtmp, otmp);
 }
 
 static
@@ -364,25 +382,49 @@ m_initweap(register struct monst *mtmp)
 
     case S_ANGEL:
         if (humanoid(ptr)) {
-            /* create minion stuff; can't use mongets */
-            otmp = mksobj(LONG_SWORD, FALSE, FALSE);
+            if (mm == PM_ALEAX) {
+                /* mimic your weapon */
+                if (uwep && (uwep->oclass == WEAPON_CLASS || is_weptool(uwep)))
+                    m_inityour(mtmp, uwep);
+                else (void) mongets(mtmp, LONG_SWORD);
+                if (uswapwep && (uswapwep->oclass == WEAPON_CLASS ||
+                            is_weptool(uswapwep)))
+                    m_inityour(mtmp, uswapwep);
+                if (uquiver && (is_ammo(uquiver) || is_missile(uquiver)))
+                    m_inityour(mtmp, uquiver);
 
-            /* maybe make it special */
-            if (!rn2(20) || is_lord(ptr))
-                otmp = oname(otmp,
-                             artiname(rn2(2) ? ART_DEMONBANE : ART_SUNSWORD));
-            bless(otmp);
-            otmp->oerodeproof = TRUE;
-            otmp->spe = rn2(4);
-            (void) mpickobj(mtmp, otmp);
+                /* mimic your armor */
+                if (uarm) m_inityour(mtmp, uarm);
+                if (uarmc) m_inityour(mtmp, uarmc);
+                if (uarmh) m_inityour(mtmp, uarmh);
+                if (uarms) m_inityour(mtmp, uarms);
+                if (uarmg) m_inityour(mtmp, uarmg);
+                if (uarmf) m_inityour(mtmp, uarmf);
+                if (uarmu) m_inityour(mtmp, uarmu);
+                /* same chance for an amulet of reflection as other
+                   angelic beings have for a shield of reflection */
+                if (!rn2(4)) (void)mongets(mtmp, AMULET_OF_REFLECTION);
+            } else {
+                /* create minion stuff; can't use mongets */
+                otmp = mksobj(LONG_SWORD, FALSE, FALSE);
 
-            otmp = mksobj(!rn2(4) || is_lord(ptr) ? SHIELD_OF_REFLECTION
-                                                  : LARGE_SHIELD,
-                          FALSE, FALSE);
-            /* uncurse(otmp); -- mksobj(,FALSE,) item is always uncursed */
-            otmp->oerodeproof = TRUE;
-            otmp->spe = 0;
-            (void) mpickobj(mtmp, otmp);
+                /* maybe make it special */
+                if (!rn2(20) || is_lord(ptr))
+                    otmp = oname(otmp,
+                                artiname(rn2(2) ? ART_DEMONBANE : ART_SUNSWORD));
+                bless(otmp);
+                otmp->oerodeproof = TRUE;
+                otmp->spe = rn2(4);
+                (void) mpickobj(mtmp, otmp);
+
+                otmp = mksobj(!rn2(4) || is_lord(ptr) ? SHIELD_OF_REFLECTION
+                                                    : LARGE_SHIELD,
+                            FALSE, FALSE);
+                /* uncurse(otmp); -- mksobj(,FALSE,) item is always uncursed */
+                otmp->oerodeproof = TRUE;
+                otmp->spe = 0;
+                (void) mpickobj(mtmp, otmp);
+            }
         }
         break;
 
