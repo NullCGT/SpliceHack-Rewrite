@@ -1705,7 +1705,7 @@ rndghostname(void)
 static const char *const dragonages[] = {
     "young ", "very young", "juvenile ",
     "adult ", "mature ", "old ", "very old ", 
-    "venerable ", "eternal", "antediluvian ",
+    "venerable ", "eternal ", "antediluvian ",
     "primeval "
 };
 
@@ -1840,7 +1840,7 @@ x_monnam(register struct monst *mtmp, int article,
         && !Hallucination)
         Strcat(buf, "saddled ");
     if (monsndx(mdat) <= PM_YELLOW_DRAGON && monsndx(mdat) >= PM_GRAY_DRAGON
-        && do_name) {
+        && do_name && (!has_mgivenname(mtmp) || article == ARTICLE_NONE)) {
         age_category = dragonages[max(0, min((int) mtmp->m_lev - (int) mdat->mlevel + 3, SIZE(dragonages) -1))];
         Sprintf(buf, "%s", age_category);
     }
@@ -2337,6 +2337,37 @@ coyotename(struct monst *mtmp, char *buf)
                            : coynames[mtmp->m_id % (SIZE(coynames) - 1)]);
     }
     return buf;
+}
+
+char *
+rnddragonname(char *s)
+{
+    static const char *b[] = { "shr", "gr", "h", "b", "z", "rh", "r", "s" };
+    static const char *m[] = { "y", "ae", "i", "au", "al", "itha", "u", "a" };
+    static const char *e[] = { "gar", "zar", "ken", "seth", "lax", "thon", 
+                               "thos", "taur", "thrax", "mon", "n" };
+
+    int i;
+    int j = 1 + rn2(3);
+
+    if (s) {
+        *s = '\0';
+        for (i = 0; i < j; i++) {
+            Sprintf(eos(s), "%s%s", b[rn2(SIZE(b))], m[rn2(SIZE(m))]);
+        }
+        Sprintf(eos(s), "%s", e[rn2(SIZE(e))]);
+    }
+    return s;
+}
+
+struct monst *
+christen_dragon(struct monst *mtmp)
+{
+    char buf[BUFSZ], *dragonname;
+
+    dragonname = rnddragonname(buf);
+    christen_monst(mtmp, upstart(dragonname));
+    return mtmp;
 }
 
 char *

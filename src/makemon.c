@@ -1344,7 +1344,7 @@ makemon(register struct permonst *ptr,
     register struct monst *mtmp;
     struct monst fakemon;
     coord cc;
-    int mndx, mcham, ct, mitem;
+    int mndx, mcham, ct, mitem, i;
     boolean anymon = !ptr,
             byyou = (x == u.ux && y == u.uy),
             allow_minvent = ((mmflags & NO_MINVENT) == 0),
@@ -1508,6 +1508,12 @@ makemon(register struct permonst *ptr,
     }
 
     switch (ptr->mlet) {
+    case S_DRAGON:
+        i = (int) mtmp->m_lev - (int) mtmp->data->mlevel;
+        if (mndx >= PM_GRAY_DRAGON && mndx <= PM_YELLOW_DRAGON &&
+            i >= 1 && rn2(max(2, i)))
+            christen_dragon(mtmp);
+        break;
     case S_MIMIC:
         set_mimic_sym(mtmp);
         break;
@@ -2198,6 +2204,13 @@ grow_up(struct monst *mtmp, struct monst *victim)
         lev_limit = (int) mtmp->m_lev; /* never undo increment */
 
         mtmp->female = fem; /* gender might be changing */
+
+        /* Dragons take on names as they age */
+        if (is_dragon(mtmp->data) && !has_mgivenname(mtmp)) {
+            if (canseemon(mtmp))
+                pline("%s invokes the right to choose %s name.", Monnam(mtmp), mhis(mtmp));
+            christen_dragon(mtmp);
+        }
     }
 
     /* sanity checks */

@@ -61,6 +61,8 @@ Monster Changes
     making the player flee from the dragon.
   - In order to offset many of their more powerful abilities, dragons periodically fall
     asleep and wake up. Running from a dragon and hoping it falls asleep is a valid strategy.
+  - When dragons age up, they may invoke the right to name themselves. Dragons encountered in the
+    dungeon have an age-category-based chance to be named.
 
 Race Changes
 - Drow
