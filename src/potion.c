@@ -728,6 +728,8 @@ peffects(struct obj *otmp)
             g.multi = -rnd(15);
             g.nomovemsg = "You awake with a headache.";
         }
+        /* liquid courage */
+        make_afraid(0L, FALSE);
         break;
     case POT_ENLIGHTENMENT:
         if (otmp->cursed) {
