@@ -664,9 +664,16 @@ m_initweap(register struct monst *mtmp)
             otmp->oeroded = 1;
             (void) mpickobj(mtmp, otmp);
             break;
+        case PM_HEADLESS_RIDER:
+            (void) mongets(mtmp, LANCE);
+            (void) mongets(mtmp, SCALE_MAIL);
+            break;
         case PM_BALROG:
             (void) mongets(mtmp, FLAMING_LASH);
             (void) mongets(mtmp, BROADSWORD);
+            break;
+        case PM_MOLYDEUS:
+            (void) mongets(mtmp, BATTLE_AXE);
             break;
         case PM_ORCUS:
             (void) mongets(mtmp, WAN_DEATH); /* the Wand of Orcus */
@@ -680,6 +687,11 @@ m_initweap(register struct monst *mtmp)
         case PM_YEENOGHU:
             otmp = mksobj(TRIPLE_FLAIL, FALSE, FALSE);
             mpickobj(mtmp, otmp);
+            break;
+        case PM_ARMANITE:
+            (void) mongets(mtmp, CROSSBOW);
+            (void) mongets(mtmp, rn2(2) ? RANSEUR : LANCE);
+            m_initthrow(mtmp, CROSSBOW_BOLT, 20);
             break;
         }
         /* prevent djinn and mail daemons from leaving objects when
@@ -1493,12 +1505,12 @@ makemon(register struct permonst *ptr,
             case PM_PESTILENCE:
                 mount_monster(mtmp, PM_WHITE_HORSE);
                 break;
+            case PM_HEADLESS_RIDER:
+                mount_monster(mtmp, PM_WARHORSE);
+                break;
             #if 0
             case PM_DARK_KNIGHT:
                 mount_monster(mtmp, Inhell ? PM_NIGHTMARE : PM_PONY);
-                break;
-            case PM_HEADLESS_HORSEMAN:
-                mount_monster(mtmp, PM_NIGHTMARE);
                 break;
             case PM_NAZGUL:
                 mount_monster(mtmp, PM_FELL_BEAST);
@@ -1729,7 +1741,15 @@ mbirth_limit(int mndx)
      */
 
     /* assert(MAXMONNO < 255); */
-    return (mndx == PM_NAZGUL ? 9 : mndx == PM_ERINYS ? 3 : MAXMONNO);
+    switch (mndx) {
+    case PM_NAZGUL:
+        return 9;
+    case PM_ERINYS:
+        return 3;
+    case PM_HEADLESS_RIDER:
+        return 4;
+    }
+    return MAXMONNO;
 }
 
 /* used for wand/scroll/spell of create monster */

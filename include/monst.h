@@ -246,6 +246,9 @@ struct monst {
 #define montoostrong(monindx, lev) (mons[monindx].difficulty > lev)
 #define montooweak(monindx, lev) (mons[monindx].difficulty < lev)
 
+/* Unknown demons */
+#define unknown_demon(monnum) ((g.mvitals[monnum].mvflags & G_KNOWN) == 0 && is_unkdemon(&mons[monnum]))
+
 #ifdef PMNAME_MACROS
 #define Mgender(mon) ((mon)->female ? FEMALE : MALE)
 #endif

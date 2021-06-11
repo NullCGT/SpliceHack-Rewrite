@@ -7,6 +7,7 @@ Since this release is a rewrite, a number of pieces of existing content have bee
 or outright removed. Rationale will be provided for all removed content.
 - Removed the following monsters:
   - Anubites. Anubites were not interesting to fight, and did not fit the theme of SpliceHack.
+  - Nuckelavees. Uninteresting to fight.
 - Removed the following objects:
   - Razor whips. Razor whips have been made irrelevant by the object materials ptach.
 - The intelligent pet patch from GruntHack has been removed. This patch introduced an incredible
@@ -63,6 +64,11 @@ Monster Changes
     asleep and wake up. Running from a dragon and hoping it falls asleep is a valid strategy.
   - When dragons age up, they may invoke the right to name themselves. Dragons encountered in the
     dungeon have an age-category-based chance to be named.
+- Demons that the player has not yet learned about are simply referred to as "demons" and have
+  a generic appearance. As soon as the player learns the identity of a demon, the demon will be
+  identified and will have the correct tile.
+  - The rationale for this feature is that it helps ensure that the late game still has some sort
+    of identification and undertainty mechanics. Gehennom doesn't have to be the end of discovery!
 
 Race Changes
 - Drow

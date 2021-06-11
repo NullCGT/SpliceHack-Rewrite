@@ -1433,6 +1433,7 @@ extern int mcalcmove(struct monst *, boolean);
 extern void mcalcdistress(void);
 extern void replmon(struct monst *, struct monst *);
 extern void relmon(struct monst *, struct monst **);
+extern void learn_monster(int);
 extern struct obj *mlifesaver(struct monst *);
 extern boolean corpse_chance(struct monst *, struct monst *, boolean);
 extern void mondead(struct monst *);

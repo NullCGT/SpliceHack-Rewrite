@@ -193,7 +193,7 @@ enum explosion_types {
  * given. Use the given rng to handle hallucination.
  */
 #define what_obj(obj, rng) (Hallucination ? random_object(rng) : obj)
-#define what_mon(mon, rng) (Hallucination ? random_monster(rng) : mon)
+#define what_mon(mon, rng) (Hallucination ? random_monster(rng) : unknown_demon(mon) ? PM_PIT_FIEND : mon)
 
 /*
  * newsym_rn2

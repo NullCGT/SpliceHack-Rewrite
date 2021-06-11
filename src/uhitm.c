@@ -1635,6 +1635,8 @@ demonpet(void)
     pline("Some hell-p has arrived!");
     i = !rn2(6) ? ndemon(u.ualign.type) : NON_PM;
     pm = i != NON_PM ? &mons[i] : g.youmonst.data;
+    if (g.youmonst.data == &mons[PM_MOLYDEUS] || unique_corpstat(pm))
+        pm = &mons[PM_MANES];
     if ((dtmp = makemon(pm, u.ux, u.uy, NO_MM_FLAGS)) != 0)
         (void) tamedog(dtmp, (struct obj *) 0);
     exercise(A_WIS, TRUE);
@@ -2392,8 +2394,11 @@ mhitm_ad_tlpt(struct monst *magr, struct attack *mattk, struct monst *mdef,
             /* record the name before losing sight of monster */
             Strcpy(nambuf, Monnam(mdef));
             if (u_teleport_mon(mdef, FALSE) && u_saw_mon
-                && !(canseemon(mdef) || (u.uswallow && u.ustuck == mdef)))
+                && !(canseemon(mdef) || (u.uswallow && u.ustuck == mdef))) {
                 pline("%s suddenly disappears!", nambuf);
+                if (mattk->adtyp == AD_KDNP)
+                    teleds(mdef->mx, mdef->my, FALSE);
+            }
             if (mhm->damage >= mdef->mhp) { /* see hitmu(mhitu.c) */
                 if (mdef->mhp == 1)
                     ++mdef->mhp;
@@ -2413,6 +2418,8 @@ mhitm_ad_tlpt(struct monst *magr, struct attack *mattk, struct monst *mdef,
                      (Teleport_control && !Stunned && !Afraid && !unconscious()) ? ""
                      : "very ");
             tele();
+            if (mattk->adtyp == AD_KDNP)
+                mnexto(magr);
             /* As of 3.6.2:  make sure damage isn't fatal; previously, it
                was possible to be teleported and then drop dead at
                the destination when QM's 1d4 damage gets applied below;
@@ -2461,6 +2468,10 @@ mhitm_ad_tlpt(struct monst *magr, struct attack *mattk, struct monst *mdef,
             (void) rloc(mdef, TRUE);
             if (g.vis && wasseen && !canspotmon(mdef) && mdef != u.usteed)
                 pline("%s suddenly disappears!", mdef_Monnam);
+            if (mattk->adtyp == AD_KDNP) {
+                if (!mnearto(magr, mdef->mx, mdef->my, FALSE))
+                    (void) rloc(magr, TRUE);
+            }
             if (mhm->damage >= mdef->mhp) { /* see hitmu(mhitu.c) */
                 if (mdef->mhp == 1)
                     ++mdef->mhp;
@@ -3194,25 +3205,43 @@ mhitm_ad_poly(struct monst *magr, struct attack *mattk,
     if (magr == &g.youmonst) {
         /* uhitm */
         int armpro = magic_negation(mdef);
-        /* require weaponless attack in order to honor AD_POLY;
-           since hero can't be cancelled, only defender's armor applies */
-        boolean negated = uwep || !(rn2(10) >= 3 * armpro);
+        /* since hero can't be cancelled, only defender's armor applies */
+        boolean negated = !(rn2(10) >= 3 * armpro);
 
-        if (!negated && mhm->damage < mdef->mhp)
-            mhm->damage = mon_poly(&g.youmonst, mdef, mhm->damage);
+        if (g.youmonst.data == &mons[PM_MOLYDEUS]) {
+            pline("You inject horrific venom into %s!", mon_nam(mdef));
+            if (!rn2(3)) {
+                newcham(mdef, &mons[PM_MANES], FALSE, TRUE);
+                mhm->damage = 0;
+            }
+        } else if (!negated && mhm->damage < mdef->mhp)
+            mhm->damage = mon_poly(magr, mdef, mhm->damage);
     } else if (mdef == &g.youmonst) {
         /* mhitu */
-        int armpro = magic_negation(&g.youmonst);
+        int armpro = magic_negation(mdef);
         boolean uncancelled = !magr->mcan && (rn2(10) >= 3 * armpro);
 
-        hitmsg(magr, mattk);
-        if (uncancelled
+        if (magr->data == &mons[PM_MOLYDEUS] && uncancelled && !Unchanging) {
+            hitmsg(magr, mattk);
+            if (!rn2(Poison_resistance ? 3 : 2)) {
+                pline("%s injects horrific venom into you!", Monnam(magr));
+                if (Poison_resistance)
+                    You("are unable to resist the demonic poison!");
+                polyself(4);
+            } else
+                pline("You barely manage to fight off the venom of %s!", mon_nam(magr));
+        } else if (uncancelled
             && Maybe_Half_Phys(mhm->damage) < (Upolyd ? u.mh : u.uhp))
-            mhm->damage = mon_poly(magr, &g.youmonst, mhm->damage);
+            mhm->damage = mon_poly(magr, mdef, mhm->damage);
     } else {
         /* mhitm */
-        if (!magr->mcan && mhm->damage < mdef->mhp)
-            mhm->damage = mon_poly(magr, mdef, mhm->damage);
+        if (magr->data == &mons[PM_MOLYDEUS] && !magr->mcan) {
+            if (!rn2(3)) {
+                pline("%s injects horrific venom into %s!", Monnam(magr), mon_nam(mdef));
+                newcham(mdef, &mons[PM_MANES], FALSE, TRUE);
+            }
+        } else if (!magr->mcan && mhm->damage < mdef->mhp)
+        mhm->damage = mon_poly(magr, mdef, mhm->damage);
     }
 }
 
@@ -4158,6 +4187,7 @@ mhitm_adtyping(struct monst *magr, struct attack *mattk, struct monst *mdef,
     case AD_SITM:
     case AD_SEDU: mhitm_ad_sedu(magr, mattk, mdef, mhm); break;
     case AD_SGLD: mhitm_ad_sgld(magr, mattk, mdef, mhm); break;
+    case AD_KDNP:
     case AD_TLPT: mhitm_ad_tlpt(magr, mattk, mdef, mhm); break;
     case AD_BLND: mhitm_ad_blnd(magr, mattk, mdef, mhm); break;
     case AD_CURS: mhitm_ad_curs(magr, mattk, mdef, mhm); break;

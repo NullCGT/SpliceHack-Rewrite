@@ -1450,6 +1450,8 @@ deepest one
 # takes "major demon" when specifying '&'
 demon
 major demon
+lesser demon
+greater demon
 	It is often very hard to discover what any given Demon looks
 	like, apart from a general impression of large size, huge
 	fangs, staring eyes, many limbs, and an odd color; but all

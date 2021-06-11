@@ -1715,6 +1715,9 @@ doseduce(struct monst *mon)
     int attr_tot, tried_gloves = 0;
     char qbuf[QBUFSZ], Who[QBUFSZ];
 
+    /* An attempt at seduction reveals monster stats. */
+    learn_monster(monsndx(mon->data));
+
     if (mon->mcan || mon->mspec_used) {
         pline("%s acts as though %s has got a %sheadache.", Monnam(mon),
               mhe(mon), mon->mcan ? "severe " : "");

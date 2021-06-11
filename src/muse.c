@@ -2264,6 +2264,7 @@ RESTORE_WARNINGS
 static void
 you_aggravate(struct monst* mtmp)
 {
+    learn_monster(monsndx(mtmp->data));
     pline("For some reason, %s presence is known to you.",
           s_suffix(noit_mon_nam(mtmp)));
     cls();

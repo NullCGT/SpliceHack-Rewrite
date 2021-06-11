@@ -2364,6 +2364,15 @@ set_mon_min_mhpmax(
         mon->mhpmax = minimum_mhpmax;
 }
 
+void
+learn_monster(int mndx)
+{
+    g.mvitals[mndx].mvflags |= G_KNOWN;
+    if (is_unkdemon(&mons[mndx])) {
+        see_monsters();
+    }
+}
+
 /* find the worn amulet of life saving which will save a monster */
 struct obj *
 mlifesaver(struct monst* mon)
@@ -3054,6 +3063,9 @@ xkilled(
 
     mdat = mtmp->data; /* note: mondead can change mtmp->data */
     mndx = monsndx(mdat);
+
+    /* Flag the monster as "known" since the player killed it. */
+    learn_monster(mndx);
 
     if (g.stoned) {
         g.stoned = FALSE;

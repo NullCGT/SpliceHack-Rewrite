@@ -522,6 +522,7 @@ probe_monster(struct monst *mtmp)
     struct obj *otmp;
 
     mstatusline(mtmp);
+    learn_monster(monsndx(mtmp->data));
     if (g.notonhead)
         return; /* don't show minvent for long worm tail */
 

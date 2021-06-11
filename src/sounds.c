@@ -1001,8 +1001,8 @@ domonnoise(register struct monst* mtmp)
     case MS_GNOLL:
         if (mtmp->mpeaceful) {
             pline("%s cackles conspiratorially.", Monnam(mtmp));
-        /* } else if (mtmp->data == &mons[PM_MOLYDEUS]) {
-            pline("%s cackles at you, then hisses.", Monnam(mtmp)); */
+        } else if (mtmp->data == &mons[PM_MOLYDEUS]) {
+            pline("%s cackles at you, then hisses.", Monnam(mtmp));
         } else {
             pline("%s cackles at you.", Monnam(mtmp));
         }
@@ -1306,6 +1306,11 @@ dochat(void)
         return 0;
     }
 
+    /* Flag the monster as "known" since the player talked with it. */
+    if (mtmp->mpeaceful) {
+        learn_monster(monsndx(mtmp->data));
+    }
+
     return domonnoise(mtmp);
 }
 
@@ -1404,7 +1409,9 @@ tiphat(void)
         /* if this monster is waiting for something, prod it into action */
         mtmp->mstrategy &= ~STRAT_WAITMASK;
 
-        if (vismon && humanoid(mtmp->data) && mtmp->mpeaceful && !Conflict) {
+        if (mtmp->data == &mons[PM_HEADLESS_RIDER]) {
+            setmangry(mtmp, TRUE);
+        } else if (vismon && humanoid(mtmp->data) && mtmp->mpeaceful && !Conflict) {
             if ((otmp = which_armor(mtmp, W_ARMH)) == 0) {
                 pline("%s waves.", Monnam(mtmp));
             } else if (otmp->cursed) {
