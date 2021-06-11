@@ -4351,7 +4351,7 @@ untrap_prob(struct trap* ttmp)
         chance++;
     if (Blind)
         chance++;
-    if (Stunned)
+    if (Stunned || Afraid)
         chance += 2;
     if (Fumbling)
         chance *= 2;

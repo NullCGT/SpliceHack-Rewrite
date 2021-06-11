@@ -735,7 +735,7 @@ doopen_indir(int x, int y)
 
     /* when choosing a direction is impaired, use a turn
        regardless of whether a door is successfully targetted */
-    if (Confusion || Stunned)
+    if (Confusion || Stunned || Afraid)
         res = 1;
 
     door = &levl[cc.x][cc.y];
@@ -885,7 +885,7 @@ doclose(void)
 
     /* when choosing a direction is impaired, use a turn
        regardless of whether a door is successfully targetted */
-    if (Confusion || Stunned)
+    if (Confusion || Stunned || Afraid)
         res = 1;
 
     door = &levl[x][y];

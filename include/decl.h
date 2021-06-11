@@ -1124,6 +1124,7 @@ struct instance_globals {
     boolean havestate;
     unsigned ustuck_id; /* need to preserve during save */
     unsigned usteed_id; /* need to preserve during save */
+    unsigned fearedmon_id; /* need to preserve during save */
     struct obj *looseball;  /* track uball during save and... */
     struct obj *loosechain; /* track uchain since saving might free it */
 

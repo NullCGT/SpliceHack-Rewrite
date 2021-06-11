@@ -2127,6 +2127,8 @@ replmon(struct monst* mtmp, struct monst* mtmp2)
         set_ustuck(mtmp2);
     if (u.usteed == mtmp)
         u.usteed = mtmp2;
+    if (u.fearedmon == mtmp)
+        u.fearedmon = mtmp2;
     if (mtmp2->isshk)
         replshk(mtmp, mtmp2);
 
@@ -2529,6 +2531,9 @@ mondead(register struct monst* mtmp)
     /* Player is thrown from his steed when it dies */
     if (mtmp == u.usteed)
         dismount_steed(DISMOUNT_GENERIC);
+    /* Clear feared monster */
+    if (mtmp == u.fearedmon)
+        u.fearedmon = 0;
     /* extinguish monster's armor */
 	if ((otmp = which_armor(mtmp, W_ARM)) && 
 		(otmp->otyp==GOLD_DRAGON_SCALE_MAIL || otmp->otyp == GOLD_DRAGON_SCALES) )
@@ -2769,6 +2774,9 @@ mongone(struct monst* mdef)
     /* hero is thrown from his steed when it disappears */
     if (mdef == u.usteed)
         dismount_steed(DISMOUNT_GENERIC);
+    /* feared monster cleared */
+    if (mdef == u.fearedmon)
+        u.fearedmon = 0;
     /* stuck to you? release */
     unstuck(mdef);
     /* drop special items like the Amulet so that a dismissed Kop or nurse
@@ -3514,6 +3522,8 @@ mnearto(
 void
 m_respond(struct monst* mtmp)
 {
+    int i;
+
     if (mtmp->data->msound == MS_SHRIEK) {
         if (!Deaf) {
             pline("%s shrieks.", Monnam(mtmp));
@@ -3540,17 +3550,27 @@ m_respond(struct monst* mtmp)
                 break;
             }
     }
-    /* Dragons roar. */
+    /* Frightful presence! */
     if (mtmp->data->msound == MS_ROAR && !mtmp->mpeaceful
-        && is_dragon(mtmp->data)) {
+        && is_dragon(mtmp->data) && monsndx(mtmp->data) >= PM_GRAY_DRAGON) {
         if (!Deaf && canseemon(mtmp)) {
-            pline("%s lets out a loud roar!", Monnam(mtmp));
+            pline("%s lets out a thunderous roar!", Monnam(mtmp));
             stop_occupation();
-            /* Should this frighten the player if they fail a charisma save? */
         } else if (!Deaf) {
             You_hear("a loud roar!");
+        } else if (canseemon(mtmp)) {
+            pline("%s bellows soundlessly!", Monnam(mtmp));
         }
         wake_nearto(mtmp->mx, mtmp->my, 5 * 5);
+        if (canseemon(mtmp) || !Deaf) {
+            i = 1 + max(0, (int) mtmp->m_lev - (int) mtmp->data->mlevel);
+            if (ACURR(A_CHA) + (Deaf ? 5 : 0) < rn2(25 + i)) {
+                u.fearedmon = mtmp;
+                make_afraid((HAfraid & TIMEOUT) + (long) rn1(10, 5 * i), TRUE);
+            } else {
+                You("hold firm.");
+            }
+        }
     }
 }
 

@@ -974,6 +974,8 @@ genl_status_update(int idx, genericptr_t ptr, int chg UNUSED,
                 Strcpy(nb = eos(nb), " Stun");
             if (cond & BL_MASK_CONF)
                 Strcpy(nb = eos(nb), " Conf");
+            if (cond & BL_MASK_AFRAID)
+                Strcpy(nb = eos(nb), " Afraid");
             if (cond & BL_MASK_HALLU)
                 Strcpy(nb = eos(nb), " Hallu");
             if (cond & BL_MASK_LEV)
@@ -1639,10 +1641,11 @@ dump_render_status()
         { BL_MASK_DEAF,      "Deaf"     },
         { BL_MASK_STUN,      "Stun"     },
         { BL_MASK_CONF,      "Conf"     },
+        { BL_MASK_AFRAID,    "Afraid"   },
         { BL_MASK_HALLU,     "Hallu"    },
         { BL_MASK_LEV,       "Lev"      },
         { BL_MASK_FLY,       "Fly"      },
-        { BL_MASK_RIDE,      "Ride"     }
+        { BL_MASK_RIDE,      "Ride"     },
     };
 
     num_rows = (iflags.wc2_statuslines < 3) ? 2 : 3;

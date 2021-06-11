@@ -2410,7 +2410,7 @@ mhitm_ad_tlpt(struct monst *magr, struct attack *mattk, struct monst *mdef,
         if (uncancelled) {
             if (flags.verbose)
                 Your("position suddenly seems %suncertain!",
-                     (Teleport_control && !Stunned && !unconscious()) ? ""
+                     (Teleport_control && !Stunned && !Afraid && !unconscious()) ? ""
                      : "very ");
             tele();
             /* As of 3.6.2:  make sure damage isn't fatal; previously, it

@@ -1231,7 +1231,7 @@ throwit(struct obj *obj,
     int range, urange;
     boolean crossbowing, gunning, clear_thrownobj = FALSE,
             impaired = (Confusion || Stunned || Blind
-                        || Hallucination || Fumbling),
+                        || Hallucination || Fumbling || Afraid),
             tethered_weapon = (obj->otyp == AKLYS && (wep_mask & W_WEP) != 0);
 
     g.notonhead = FALSE; /* reset potentially stale value */

@@ -503,7 +503,7 @@ scrolltele(struct obj* scroll)
         if (!wizard || yn("Override?") != 'y')
             return;
     }
-    if (((Teleport_control || (scroll && scroll->blessed)) && !Stunned)
+    if (((Teleport_control || (scroll && scroll->blessed)) && !Afraid && !Stunned)
         || wizard) {
         if (unconscious()) {
             pline("Being unconscious, you cannot control your teleport.");

@@ -486,7 +486,7 @@ const char *beats[] = {
 static int
 do_improvisation(struct obj* instr)
 {
-    int damage, mode, do_spec = !(Stunned || Confusion);
+    int damage, mode, do_spec = !(Stunned || Confusion || Afraid);
     struct obj itmp;
     boolean mundane = FALSE;
 
@@ -507,6 +507,7 @@ do_improvisation(struct obj* instr)
 #define PLAY_STUNNED  0x01
 #define PLAY_CONFUSED 0x02
 #define PLAY_HALLU    0x04
+#define PLAY_AFRAID   0x08
     mode = PLAY_NORMAL;
     if (Stunned)
         mode |= PLAY_STUNNED;
@@ -514,6 +515,8 @@ do_improvisation(struct obj* instr)
         mode |= PLAY_CONFUSED;
     if (Hallucination)
         mode |= PLAY_HALLU;
+    if (Afraid)
+        mode |= PLAY_AFRAID;
 
     if (!rn2(2)) {
         /*
@@ -526,6 +529,8 @@ do_improvisation(struct obj* instr)
         /* likewise for stunned and/or confused combined with hallucination */
         if (mode & PLAY_HALLU)
             mode = PLAY_HALLU;
+        if (mode & PLAY_AFRAID)
+            mode = PLAY_AFRAID;
     }
 
     /* 3.6.3: most of these gave "You produce <blah>" and then many of
@@ -551,6 +556,9 @@ do_improvisation(struct obj* instr)
     case PLAY_HALLU:
         You("disseminate a kaleidoscopic display of floating butterflies.");
         break;
+    case PLAY_AFRAID:
+        You("play your %s, but the tempo is all over the place.", yname(instr));
+        break;
     /* TODO? give some or all of these combinations their own feedback;
        hallucination ones should reference senses other than hearing... */
     case PLAY_STUNNED | PLAY_CONFUSED:
@@ -565,6 +573,7 @@ do_improvisation(struct obj* instr)
 #undef PLAY_STUNNED
 #undef PLAY_CONFUSED
 #undef PLAY_HALLU
+#undef PLAY_AFRAID
 
     switch (itmp.otyp) { /* note: itmp.otyp might differ from instr->otyp */
     case MAGIC_FLUTE: /* Make monster fall asleep */
@@ -701,7 +710,7 @@ do_play_instrument(struct obj* instr)
         return 0;
     }
     if (instr->otyp != LEATHER_DRUM && instr->otyp != DRUM_OF_EARTHQUAKE
-        && !(Stunned || Confusion || Hallucination)) {
+        && !(Stunned || Confusion || Afraid || Hallucination)) {
         c = ynq("Improvise?");
         if (c == 'q')
             goto nevermind;

@@ -132,6 +132,7 @@ NetHackQtStatusWindow::NetHackQtStatusWindow() :
     sick_il(this,"TermIll"),
     stunned(this,"Stun"),     // minor conditions
     confused(this,"Conf"),
+    afraid(this,"Fear"),
     hallu(this,"Hallu"),
     blind(this,"Blind"),
     deaf(this,"Deaf"),
@@ -184,6 +185,7 @@ NetHackQtStatusWindow::NetHackQtStatusWindow() :
     p_sick_fp = QPixmap(sick_fp_xpm);
     p_sick_il = QPixmap(sick_il_xpm);
     p_stunned = QPixmap(stunned_xpm);
+    p_afraid = QPixmap(afraid_xpm);
     p_confused = QPixmap(confused_xpm);
     p_hallu = QPixmap(hallu_xpm);
     p_blind = QPixmap(blind_xpm);
@@ -211,6 +213,7 @@ NetHackQtStatusWindow::NetHackQtStatusWindow() :
     sick_il.setIcon(p_sick_il);
     stunned.setIcon(p_stunned);
     confused.setIcon(p_confused);
+    afraid.setIcon(p_afraid);
     hallu.setIcon(p_hallu);
     blind.setIcon(p_blind);
     deaf.setIcon(p_deaf);
@@ -316,6 +319,7 @@ NetHackQtStatusWindow::NetHackQtStatusWindow() :
         condbox->addWidget(&sick_fp);
         condbox->addWidget(&sick_il);
         condbox->addWidget(&stunned);
+        condbox->addWidget(&afraid);
         condbox->addWidget(&confused);
         condbox->addWidget(&hallu);
         condbox->addWidget(&blind);
@@ -370,6 +374,7 @@ void NetHackQtStatusWindow::doUpdate()
     sick_fp.setFont(normal);
     sick_il.setFont(normal);
     stunned.setFont(normal);
+    afraid.setFont(normal);
     confused.setFont(normal);
     hallu.setFont(normal);
     blind.setFont(normal);
@@ -471,6 +476,7 @@ void NetHackQtStatusWindow::resizeEvent(QResizeEvent*)
     sick_il.setGeometry(x,y,iw,lh); x+=iw;
     stunned.setGeometry(x,y,iw,lh); x+=iw;
     confused.setGeometry(x,y,iw,lh); x+=iw;
+    afraid.setGeometry(x,y,iw,lh); x+=iw;
     hallu.setGeometry(x,y,iw,lh); x+=iw;
     blind.setGeometry(x,y,iw,lh); x+=iw;
     deaf.setGeometry(x,y,iw,lh); x+=iw;
@@ -531,6 +537,7 @@ void NetHackQtStatusWindow::fadeHighlighting()
     sick_il.dissipateHighlight();
     stunned.dissipateHighlight();
     confused.dissipateHighlight();
+    afraid.dissipateHighlight();
     hallu.dissipateHighlight();
     blind.dissipateHighlight();
     deaf.dissipateHighlight();
@@ -782,6 +789,7 @@ void NetHackQtStatusWindow::updateStats()
     }
     if (Stunned) ++k, stunned.show(); else stunned.hide();
     if (Confusion) ++k, confused.show(); else confused.hide();
+    if (Afraid) ++k, afraid.show(); else afraid.hide();
     if (Hallucination) ++k, hallu.show(); else hallu.hide();
     if (Blind) ++k, blind.show(); else blind.hide();
     if (Deaf) ++k, deaf.show(); else deaf.hide();
@@ -984,6 +992,7 @@ void NetHackQtStatusWindow::updateStats()
 	sick_il.highlightWhenChanging();
 	stunned.highlightWhenChanging();
 	confused.highlightWhenChanging();
+    afraid.highlightWhenChanging();
 	hallu.highlightWhenChanging();
 	blind.highlightWhenChanging();
 	deaf.highlightWhenChanging();

@@ -1476,7 +1476,7 @@ domove_core(void)
 
         x = u.ux + u.dx;
         y = u.uy + u.dy;
-        if (Stunned || (Confusion && !rn2(5))) {
+        if (Stunned || Afraid || (Confusion && !rn2(5))) {
             register int tries = 0;
 
             do {
@@ -1484,10 +1484,11 @@ domove_core(void)
                     nomul(0);
                     return;
                 }
-                confdir();
+                Afraid && tries <= 1 ? feardir() : confdir();
                 x = u.ux + u.dx;
                 y = u.uy + u.dy;
-            } while (!isok(x, y) || bad_rock(g.youmonst.data, x, y));
+            } while (!isok(x, y) || bad_rock(g.youmonst.data, x, y)
+                || (Afraid && x == u.fearedmon->mx && y == u.fearedmon->my));
         }
         /* turbulence might alter your actual destination */
         if (u.uinwater) {

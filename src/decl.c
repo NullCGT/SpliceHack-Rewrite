@@ -624,6 +624,7 @@ const struct instance_globals g_init = {
     TRUE, /* havestate*/
     0, /* ustuck_id */
     0, /* usteed_id */
+    0, /* fearedmon_id */
     (struct obj *) 0, /* looseball */
     (struct obj *) 0, /* loosechain */
 

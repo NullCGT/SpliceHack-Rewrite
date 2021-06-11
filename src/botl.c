@@ -192,6 +192,8 @@ do_statusline2(void)
         Strcpy(nb = eos(nb), " Deaf");
     if (Stunned)
         Strcpy(nb = eos(nb), " Stun");
+    if (Afraid)
+        Strcpy(nb = eos(nb), " Afraid");
     if (Confusion)
         Strcpy(nb = eos(nb), " Conf");
     if (Hallucination)
@@ -557,13 +559,13 @@ const struct condmap condition_aliases[] = {
                         | BL_MASK_STRNGL | BL_MASK_STUN | BL_MASK_SUBMERGED
                         | BL_MASK_TERMILL | BL_MASK_TETHERED
                         | BL_MASK_TRAPPED | BL_MASK_UNCONSC
-                        | BL_MASK_WOUNDEDL | BL_MASK_HOLDING },
+                        | BL_MASK_WOUNDEDL | BL_MASK_HOLDING | BL_MASK_AFRAID },
     { "major_troubles", BL_MASK_FOODPOIS | BL_MASK_GRAB | BL_MASK_INLAVA
                         | BL_MASK_SLIME | BL_MASK_STONE | BL_MASK_STRNGL
                         | BL_MASK_TERMILL },
     { "minor_troubles", BL_MASK_BLIND | BL_MASK_CONF | BL_MASK_DEAF
                         | BL_MASK_HALLU | BL_MASK_PARLYZ | BL_MASK_SUBMERGED
-                        | BL_MASK_STUN },
+                        | BL_MASK_STUN | BL_MASK_AFRAID },
     { "movement",       BL_MASK_LEV | BL_MASK_FLY | BL_MASK_RIDE },
     { "opt_in",         BL_MASK_BAREH | BL_MASK_BUSY | BL_MASK_GLOWHANDS
                         | BL_MASK_HELD | BL_MASK_ICY | BL_MASK_PARLYZ
@@ -607,6 +609,7 @@ const struct conditions_t conditions[] = {
     { 20, BL_MASK_UNCONSC,   bl_unconsc,   { "Out",      "Out",   "KO"  } },
     { 20, BL_MASK_WOUNDEDL,  bl_woundedl,  { "Legs",     "Leg",   "Lg"  } },
     { 20, BL_MASK_HOLDING,   bl_holding,   { "UHold",    "UHld",  "UHd" } },
+    { 10, BL_MASK_AFRAID,    bl_afraid,    { "Afraid",   "Fear",  "Fr"  } },
 };
 
 struct condtests_t condtests[CONDITION_COUNT] = {
@@ -641,6 +644,7 @@ struct condtests_t condtests[CONDITION_COUNT] = {
     { bl_unconsc,   "unconscious", opt_in,  FALSE, FALSE, FALSE },
     { bl_woundedl,  "woundedlegs", opt_in,  FALSE, FALSE, FALSE },
     { bl_holding,   "holding",     opt_in,  FALSE, FALSE, FALSE },
+    { bl_afraid,    "afraid",      opt_out, TRUE, FALSE, FALSE },
 };
 /* condition indexing */
 int cond_idx[CONDITION_COUNT] = { 0 };
@@ -898,6 +902,7 @@ bot_via_windowport(void)
     condtests[bl_stone].test     = (Stoned) ? TRUE : FALSE;
     condtests[bl_strngl].test    = (Strangled) ? TRUE : FALSE;
     condtests[bl_stun].test      = (Stunned) ? TRUE : FALSE;
+    condtests[bl_afraid].test    = (Afraid) ? TRUE : FALSE;
     condtests[bl_submerged].test = (Underwater) ? TRUE : FALSE;
     test_if_enabled(bl_elf_iron) = (FALSE);
     test_if_enabled(bl_bareh)    = (!uarmg && !uwep);

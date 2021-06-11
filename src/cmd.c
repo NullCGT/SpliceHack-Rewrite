@@ -1648,6 +1648,9 @@ wiz_intrinsic(void)
             case STUNNED:
                 make_stunned(newtimeout, TRUE);
                 break;
+            case AFRAID:
+                make_afraid(newtimeout, TRUE);
+                break;
             case VOMITING:
                 Sprintf(buf, fmt, !Vomiting ? "" : " still", "vomiting");
                 make_vomiting(newtimeout, FALSE);
@@ -3734,6 +3737,8 @@ getdir(const char *s)
         You_cant("orient yourself that direction.");
         return 0;
     }
+    if (!u.dz && Afraid)
+        feardir();
     if (!u.dz && (Stunned || (Confusion && !rn2(5))))
         confdir();
     return 1;
@@ -3937,6 +3942,20 @@ confdir(void)
 
     u.dx = xdir[x];
     u.dy = ydir[x];
+    return;
+}
+
+void
+feardir(void)
+{
+
+    if (!u.fearedmon || !couldsee(u.fearedmon->mx, u.fearedmon->my)) {
+        confdir();
+        return;
+    }
+
+    u.dx = sgn(u.ux - u.fearedmon->mx);
+    u.dy = sgn(u.uy - u.fearedmon->my);
     return;
 }
 

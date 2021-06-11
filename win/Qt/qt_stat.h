@@ -59,6 +59,7 @@ private:
 	QPixmap p_sick_il;
 	QPixmap p_stunned;
 	QPixmap p_confused;
+	QPixmap p_afraid;
 	QPixmap p_hallu;
 	QPixmap p_blind;
 	QPixmap p_deaf;
@@ -121,6 +122,7 @@ private:
 	NetHackQtLabelledIcon sick_il;
 	NetHackQtLabelledIcon stunned;
 	NetHackQtLabelledIcon confused;
+	NetHackQtLabelledIcon afraid;
 	NetHackQtLabelledIcon hallu;
 	NetHackQtLabelledIcon blind;
 	NetHackQtLabelledIcon deaf;

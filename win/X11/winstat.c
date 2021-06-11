@@ -92,8 +92,9 @@
 #define F_STUN     38
 #define F_CONF     39
 #define F_HALLU    40
+#define F_AFRAID   41
 
-#define NUM_STATS  41
+#define NUM_STATS  42
 
 static int condcolor(long, unsigned long *);
 static int condattr(long, unsigned long *);
@@ -162,6 +163,7 @@ static struct tt_condinfo {
     { BL_MASK_DEAF, "Deaf" },
     { BL_MASK_STUN, "Stun" },
     { BL_MASK_CONF, "Conf" },
+    { BL_MASK_AFRAID, "Afraid" },
     { BL_MASK_HALLU, "Hallu" },
     { BL_MASK_TRAPPED, "Trapped" },
     { BL_MASK_TETHERED, "Tethered", },
@@ -860,6 +862,7 @@ X11_status_update_fancy(int fld, genericptr_t ptr, int chg UNUSED,
         { BL_MASK_HOLDING, F_HOLDING },
         { BL_MASK_BLIND, F_BLIND },
         { BL_MASK_DEAF, F_DEAF },
+        { BL_MASK_AFRAID, F_AFRAID },
         { BL_MASK_STUN, F_STUN },
         { BL_MASK_CONF, F_CONF },
         { BL_MASK_HALLU, F_HALLU },
@@ -1341,6 +1344,7 @@ static struct X_status_value shown_stats[NUM_STATS] = {
     { "Confused",     SV_NAME,  (Widget) 0,   0L, 0, FALSE, TRUE, FALSE, 0, 0, 0 },
     /* F_HALLU: 40 (full spelling truncated due to space limitations) */
     { "Hallucinat",   SV_NAME,  (Widget) 0,   0L, 0, FALSE, TRUE, FALSE, 0, 0, 0 },
+    { "Afraid",       SV_NAME,  (Widget) 0,   0L, 0, FALSE, TRUE, FALSE, 0, 0, 0 },
 };
 /*
  * The following are supported by the core but not yet handled here:
@@ -1850,6 +1854,9 @@ update_fancy_status_field(int i, int color, int attributes)
         case F_DEAF:
             condmask = BL_MASK_DEAF;
             break;
+        case F_AFRAID:
+            condmask = BL_MASK_AFRAID;
+            break;
         case F_STUN:
             condmask = BL_MASK_STUN;
             break;
@@ -2280,7 +2287,7 @@ static int status_indices[3][11] = {
     { F_DUMMY, F_GRABBED, F_STONE, F_SLIME, F_STRNGL,
       F_FOODPOIS, F_TERMILL, F_IN_LAVA, -1, 0, 0 },
     { F_DUMMY, F_HELD, F_BLIND, F_DEAF, F_STUN,
-      F_CONF, F_HALLU, F_DUMMY, -1, 0, 0 },
+      F_CONF, F_HALLU, F_AFRAID, F_DUMMY, -1, 0 },
 };
 /* used to fill up the empty space to right of 3rd status condition column */
 static int leftover_indices[] = { F_DUMMY, -1, 0, 0 };

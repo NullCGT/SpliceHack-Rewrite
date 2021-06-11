@@ -912,6 +912,15 @@ status_enlightenment(int mode, int final)
         you_are("nauseated", "");
     if (Stunned)
         you_are("stunned", "");
+    if (Afraid) {
+        if (u.fearedmon) {
+            Sprintf(buf, "terrified by %s",
+                canseemon(u.fearedmon) ? a_monnam(u.fearedmon) : "an unseen monster");
+            you_are(buf, "");
+        } else {
+            you_are("frightened", "");
+        }
+    }
     if (Confusion)
         you_are("confused", "");
     if (Hallucination)
@@ -2827,6 +2836,9 @@ mstatusline(struct monst *mtmp)
     if (mtmp == u.usteed)
         Strcat(info, ", carrying you");
 
+    if (mtmp == u.fearedmon)
+        Strcat(info, ", causing you fear");
+
     /* avoid "Status of the invisible newt ..., invisible" */
     /* and unlike a normal mon_nam, use "saddled" even if it has a name */
     Strcpy(monnambuf, x_monnam(mtmp, ARTICLE_THE, (char *) 0,
@@ -2875,6 +2887,8 @@ ustatusline(void)
     }
     if (Stunned)
         Strcat(info, ", stunned");
+    if (Afraid)
+        Strcat(info, ", frightened");
     if (!u.usteed && Wounded_legs) {
         const char *what = body_part(LEG);
         if ((Wounded_legs & BOTH_SIDES) == BOTH_SIDES)

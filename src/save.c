@@ -161,6 +161,7 @@ dosave0(void)
     store_plname_in_file(nhfp);
     g.ustuck_id = (u.ustuck ? u.ustuck->m_id : 0);
     g.usteed_id = (u.usteed ? u.usteed->m_id : 0);
+    g.fearedmon_id = (u.fearedmon ? u.fearedmon->m_id : 0);
     /* savelev() might save uball and uchain, releasing their memory if
        FREEING, so we need to check their status now; if hero is swallowed,
        uball and uchain will persist beyond saving map floor and inventory
@@ -185,6 +186,7 @@ dosave0(void)
      */
     set_ustuck((struct monst *) 0);
     u.usteed = (struct monst *) 0;
+    u.fearedmon = (struct monst *) 0;
 
     for (ltmp = (xchar) 1; ltmp <= maxledgerno(); ltmp++) {
         if (ltmp == ledger_no(&uz_save))
@@ -314,6 +316,10 @@ savegamestate(NHFILE* nhfp)
         if (nhfp->structlevel)
             bwrite(nhfp->fd, (genericptr_t) &g.usteed_id, sizeof g.usteed_id);
     }
+    if (g.fearedmon_id) {
+        if (nhfp->structlevel)
+            bwrite(nhfp->fd, (genericptr_t) &g.fearedmon_id, sizeof g.fearedmon_id);
+    }
     if (nhfp->structlevel) {
         bwrite(nhfp->fd, (genericptr_t) g.pl_character, sizeof g.pl_character);
         bwrite(nhfp->fd, (genericptr_t) g.pl_fruit, sizeof g.pl_fruit);
@@ -413,6 +419,7 @@ savestateinlock(void)
 
             g.ustuck_id = (u.ustuck ? u.ustuck->m_id : 0);
             g.usteed_id = (u.usteed ? u.usteed->m_id : 0);
+            g.fearedmon_id = (u.fearedmon ? u.fearedmon->m_id : 0);
             g.looseball = BALL_IN_MON ? uball : 0;
             g.loosechain = CHAIN_IN_MON ? uchain : 0;
             savegamestate(nhfp);

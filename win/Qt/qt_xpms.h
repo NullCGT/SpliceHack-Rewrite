@@ -399,6 +399,67 @@ static const char *confused_xpm[] = {
 #endif
 };
 /* XPM */
+static const char *afraid_xpm[] = {
+/* width height ncolors chars_per_pixel */
+"40 40 13 1",
+/* colors */
+"  c #000000",
+". c #949E9E",
+"X c #5C7A7A",
+"o c #D4D4D4",
+"O c None",
+"+ c #B0B0B0",
+"@ c #909090",
+"# c #788C8C",
+"$ c #606060",
+"% c #406868",
+"& c #FFFFFF",
+"* c #303030",
+"= c #6C91B6",
+/* pixels */
+/* mirror image of original; confused brain is facing the other way */
+"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO",
+"OOOOOOOOOOOOOO.=.+OO=.+O.OO+O+OO.+OOOOOO",
+"OOOOOOOOOOO++=====O=====+=O+==++=O+OOOOO",
+"OOOOOOOOOOO+=.=====.=++++===OO==+O=+OOOO",
+"OOOOOOOOOOO=+===.+=o==o===+&OoO======OOO",
+"OOOOOOOO+O+====OO+=o&&&&Oo==o&oO+==+=.O.",
+"OOOO+.+=+O==+&&o=oooOo&o&ooo=&oooO==O=+=",
+"OOOOOOOO++O===oo=oo&=&o&&oo=o==&o+==++==",
+"OOOOOOOO=o.=O====o&OO&o&oo&o&&oo=======O",
+"OOOOOOOo===+=O=O=ooO=ooooOOo=o&O=====OOO",
+"OOOOOOOOO+==+=======O=oo====O=o=O===+OOO",
+"OOOOOOOOO.=#=X=+====O========O======OOOO",
+"OOOOOOO.#Xo++.=#%====O==========OO==+OOO",
+"OOOOOO+Xo#+#+.#=.==X====+====O=+=+==+OOO",
+"OOOOO.+.+O===##.#=X.====oX##===o+OO.OOOO",
+"OOOOO#+####O#O##o.#+==#X#O#+...=OOo=+OOO",
+"OOOO++#o+#+X++++#.#O.#+#X.#+X+==+OO=oOOO",
+"OOOO#+.+..X+.##X++#++#..+XX#+##+..OOOOOO",
+"OOOO##....O+#++#+.++#+X+#+#X..+#+#OOOOOO",
+"OOOO++#+.+.#+#O+X#X#XX#.++##.#++.X$OOOOO",
+"OOOOO#+#+.+++#++.+++##+X###+X+X##+**OOOO",
+"OOOOO#..#OO#+.##o###.+..++.+#X+#+#* @OOO",
+"OOOOO+#.#O+#+#O.+++.###+##++###+.#* $OOO",
+"OOOOOOXX+#+#+#o..X##++#+..##.#+###  *OOO",
+"OOOOOOOX#.#X+#+#+#+.#+..+####%XX%%   OOO",
+"OOOOOOOO.%%X.#+#+#.++#+#+#+.X++=.%  *OOO",
+"OOOOOOOOO.* *##+#+.O####.+XX%%%%#%  $OOO",
+"OOOOOOOOOOO.   %X.+.#+++XXX=.+++#X  $OOO",
+"OOOOOOOOOOOO.*   %%X..#X%=.####%X*  $OOO",
+"OOOOOOOOOOOOOO.$ *XX%%%=.#X%###=*   OOOO",
+"OOOOOOOOOOOOOOOOOO+%%%=%%#.+.#=*   @OOOO",
+"OOOOOOOOOOOOOOOOOOo=%%%==X##X%*    OOOOO",
+"OOOOOOOOOOOOOOOOOOO+X%%%%X=%*     @OOOOO",
+"OOOOOOOOOOOOOOOOOOOOX%%%%X      *@OOOOOO",
+"OOOOOOOOOOOOOOOOOOOO=%%%X*   *$$OOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOO+X%%=  .OOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOOX%%%  OOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOO=%%* $OOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOO=%%% $OOOOOOOOOOOOO",
+"OOOOOOOOOOOOOOOOOOOOO+%%% $OOOOOOOOOOOOO"
+};
+/* XPM */
 static const char *deaf_xpm[] = { // placeholder for Deaf condition
 /* width height ncolors chars_per_pixel */
 "40 40 2 1",
