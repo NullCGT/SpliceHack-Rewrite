@@ -458,6 +458,14 @@ dochug(register struct monst* mtmp)
         return 0;
     }
 
+    /* Dragons periodically fall asleep and wake up */
+    if (is_dragon(mtmp->data) && !mtmp->mtame && !Conflict) {
+        if (!mtmp->msleeping && !rn2(10) && (!m_canseeu(mtmp) || mtmp->mpeaceful)) {
+            mtmp->msleeping = 1;
+            if (canseemon(mtmp)) pline("%s curls up and goes to sleep.", Monnam(mtmp));
+        }
+    }
+
     /* not frozen or sleeping: wipe out texts written in the dust */
     wipe_engr_at(mtmp->mx, mtmp->my, 1, FALSE);
 

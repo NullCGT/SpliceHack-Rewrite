@@ -59,6 +59,8 @@ Monster Changes
   - Black dragons are treated as having a pair of horns.
   - Dragons have a chance of roaring at the player. This roar can inflict the afraid status effect,
     making the player flee from the dragon.
+  - In order to offset many of their more powerful abilities, dragons periodically fall
+    asleep and wake up. Running from a dragon and hoping it falls asleep is a valid strategy.
 
 Race Changes
 - Drow
