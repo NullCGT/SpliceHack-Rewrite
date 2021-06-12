@@ -1045,13 +1045,42 @@ dry_a_towel(struct obj *obj,
         finish_towel_change(obj, newspe);
 }
 
+/* Express progress of training of a skill as a percentage, where every 100%
+ * represents a full level of possible enhancement, e.g. a basic skill that
+ * returns 150% for this means it can be advanced to skilled and is 50% of the
+ * way to expert. */
+static int
+skill_training_percent(int skill)
+{
+    int percent = 0;
+    int i;
+
+    if (P_RESTRICTED(skill))
+	return 0;
+
+    for (i = P_SKILL(skill); i < P_MAX_SKILL(skill); i++) {
+        if (P_ADVANCE(skill) >= practice_needed_to_advance(i)) {
+            percent += 100;
+        } else {
+            int mintrain = (i == P_UNSKILLED) ? 0 :
+                practice_needed_to_advance(i - 1);
+            int partial = (P_ADVANCE(skill) - mintrain) * 100 /
+                (practice_needed_to_advance(i) - mintrain);
+            percent += min(partial, 100);
+            break;
+        }
+    }
+
+    return percent;
+}
+
 /* copy the skill level name into the given buffer */
 char *
-skill_level_name(int skill, char *buf)
+skill_level_name(int skill, char *buf, boolean max)
 {
     const char *ptr;
 
-    switch (P_SKILL(skill)) {
+    switch (max ? P_MAX_SKILL(skill) : P_SKILL(skill)) {
     case P_UNSKILLED:
         ptr = "Unskilled";
         break;
@@ -1185,7 +1214,8 @@ int
 enhance_weapon_skill(void)
 {
     int pass, i, n, len, longest, to_advance, eventually_advance, maxxed_cnt;
-    char buf[BUFSZ], sklnambuf[BUFSZ];
+    char buf[BUFSZ], sklnambuf[BUFSZ], percentbuf[BUFSZ];
+    char sklmaxnambuf[80];
     const char *prefix;
     menu_item *selected;
     anything any;
@@ -1275,23 +1305,34 @@ enhance_weapon_skill(void)
                         (to_advance + eventually_advance + maxxed_cnt > 0)
                             ? "    "
                             : "";
-                (void) skill_level_name(i, sklnambuf);
+                (void) skill_level_name(i, sklnambuf, FALSE);
+                (void) skill_level_name(i, sklmaxnambuf, TRUE);
+
+                int percent = skill_training_percent(i);
+                Sprintf(percentbuf, "%5d%%", skill_training_percent(i));
+                boolean maxed = (P_SKILL(i) == P_MAX_SKILL(i));
+                if ((P_SKILL(i) + (percent / 100)) == P_MAX_SKILL(i))
+                    maxed = TRUE;
+
                 if (wizard) {
                     if (!iflags.menu_tab_sep)
                         Snprintf(buf, sizeof(buf), " %s%-*s %-12s %5d(%4d)", prefix,
-                                 longest, P_NAME(i), sklnambuf, P_ADVANCE(i),
-                                 practice_needed_to_advance(P_SKILL(i)));
+                                longest, P_NAME(i), sklnambuf, P_ADVANCE(i),
+                                practice_needed_to_advance(P_SKILL(i)));
                     else
                         Snprintf(buf, sizeof(buf), " %s%s\t%s\t%5d(%4d)", prefix, P_NAME(i),
-                                 sklnambuf, P_ADVANCE(i),
-                                 practice_needed_to_advance(P_SKILL(i)));
+                                sklnambuf, P_ADVANCE(i),
+                                practice_needed_to_advance(P_SKILL(i)));
                 } else {
                     if (!iflags.menu_tab_sep)
-                        Snprintf(buf, sizeof(buf), " %s %-*s [%s]", prefix, longest,
-                                 P_NAME(i), sklnambuf);
+                        Snprintf(buf, sizeof(buf), " %s %-*s [%s/%s]%s", prefix, longest,
+                                P_NAME(i), sklnambuf, sklmaxnambuf, maxed ? " MAX" : !percent ? " " : percentbuf);
                     else
-                        Snprintf(buf, sizeof(buf), " %s%s\t[%s]", prefix, P_NAME(i),
-                                 sklnambuf);
+                        Snprintf(buf, sizeof(buf), " %s%s\t[%s/%s]\t%s", prefix, P_NAME(i),
+                                    sklnambuf,
+                                    sklmaxnambuf,
+                                    maxed ? "   MAX" :
+                                    !percent ? "      " : percentbuf);
                 }
                 any.a_int = can_advance(i, speedy) ? i + 1 : 0;
                 add_menu(win, &nul_glyphinfo, &any, 0, 0,

@@ -91,13 +91,6 @@ dungeon = {
             nlevels = 10
          },
          {
-            name = "statuary",
-            bonetag = "S",
-            base = 18,
-            range = 2,
-            chance = 40
-         },
-         {
             name = "bigrm",
             bonetag = "B",
             base = 20,

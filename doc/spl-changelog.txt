@@ -25,6 +25,7 @@ or outright removed. Rationale will be provided for all removed content.
     often lacks time pressure (the food clock all but disappears past the early game) and so
     techniques incentivize slow, passive play while waiting for used techniques to recharge.
 - Removed the monster conversation feature. It was exceedingly poorly implemented.
+- Removed the statuary level. Overtaken by theme rooms.
 
 Options
 - Added the monkeyname configuration option for those who want a default name for their pet
@@ -44,6 +45,7 @@ QOL
 - In most situations, there is now a message for when a sleeping monster wakes up. Additionally,
   looking at a monster will tell you whether it is sleeping.
 - Added some additional messages for dodging attacks in order to spice up combat logs.
+- The skill training menu correctly displays the maximum training possible in a skill.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.

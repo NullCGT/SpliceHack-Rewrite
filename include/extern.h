@@ -3025,7 +3025,7 @@ extern int abon(void);
 extern int dbon(void);
 extern void wet_a_towel(struct obj *, int, boolean);
 extern void dry_a_towel(struct obj *, int, boolean);
-extern char *skill_level_name(int, char *);
+extern char *skill_level_name(int, char *, boolean);
 extern const char *skill_name(int);
 extern boolean can_advance(int, boolean);
 extern int enhance_weapon_skill(void);
