@@ -168,7 +168,7 @@ missmu(struct monst *mtmp, boolean nearmiss, struct attack *mattk)
                 mon_nam(mtmp), simpleonames(MON_WEP(mtmp)), 
                 yobjnam(uwep, (const char *) 0));
         } else {
-            You("%s %s %s's %s.",
+            You("%s %s's %s.",
                 rn2(2) ? "dodge out of the way of" : "duck past",
                 mon_nam(mtmp),
                 MON_WEP(mtmp) ? simpleonames(MON_WEP(mtmp)) : barehitmsg(&g.youmonst));
