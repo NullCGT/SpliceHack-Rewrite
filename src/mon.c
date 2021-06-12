@@ -218,8 +218,9 @@ mon_sanity_check(void)
         } else if (mtmp->rider_id) {
             /* TODO: clean up this case and make it into a more airtight check */
             continue;
-        } else if (g.level.monsters[x][y] != mtmp) {
-            impossible("mon (%s) at <%d,%d> is not there!",
+        } else if (mtmp != (m = g.level.monsters[x][y])) {
+            if (!m || m->rider_id != mtmp->m_id)
+                impossible("mon (%s) at <%d,%d> is not there!",
                        fmt_ptr((genericptr_t) mtmp), x, y);
         } else if (mtmp->wormno) {
             sanity_check_worm(mtmp);
@@ -239,7 +240,7 @@ mon_sanity_check(void)
                     impossible("steed (%s) is on the map at <%d,%d>!",
                                fmt_ptr((genericptr_t) mtmp), x, y);
                 else if ((mtmp->mx != x || mtmp->my != y)
-                         && mtmp->data != &mons[PM_LONG_WORM])
+                         && mtmp->data != &mons[PM_LONG_WORM] && !mtmp->rider_id)
                     impossible("map mon (%s) at <%d,%d> is found at <%d,%d>?",
                                fmt_ptr((genericptr_t) mtmp),
                                mtmp->mx, mtmp->my, x, y);
@@ -2110,7 +2111,7 @@ replmon(struct monst* mtmp, struct monst* mtmp2)
     relmon(mtmp, (struct monst **) 0);
 
     /* finish adding its replacement */
-    if (mtmp != u.usteed) /* don't place steed onto the map */
+    if (mtmp != u.usteed && !mtmp->rider_id) /* don't place steed onto the map */
         place_monster(mtmp2, mtmp2->mx, mtmp2->my);
     if (mtmp2->wormno)      /* update level.monsters[wseg->wx][wseg->wy] */
         place_wsegs(mtmp2, mtmp); /* locations to mtmp2 not mtmp. */
