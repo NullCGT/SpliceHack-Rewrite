@@ -4607,9 +4607,10 @@ readobjnam(char* bp, struct obj* no_wish)
 
     /* more wishing abuse: don't allow wishing for certain artifacts */
     /* and make them pay; charge them for the wish anyway! */
+    /* Due to increased artifact count, Splice handles artiwishing a bit differently */
     if ((is_quest_artifact(d.otmp)
          || (Role_if(PM_PIRATE) && d.otmp->oartifact == ART_REAVER)
-         || (d.otmp->oartifact && rn2(nartifact_exist()) > 1)) && !wizard) {
+         || (d.otmp->oartifact && rn2(u.uconduct.wisharti) > 1)) && !wizard) {
         artifact_exists(d.otmp, safe_oname(d.otmp), FALSE);
         obfree(d.otmp, (struct obj *) 0);
         d.otmp = (struct obj *) &cg.zeroobj;
