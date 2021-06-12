@@ -21,6 +21,76 @@ static int passiveum(struct permonst *, struct monst *, struct attack *);
 
 #define ld() ((yyyymmdd((time_t) 0) - (getyear() * 10000L)) == 0xe5)
 
+static const char *const monkattacks[] = {
+    "chop", "jab", "headbutt", "elbow", "knee", "hammer strike"
+};
+
+/* any sort of nonsensical or non-lore-friendly physical attack */
+static const char *const hmonkattacks[] = {
+    "suplex",    "piledrive",    "slap",    "shove",    "flick",
+    "heel drop", "uppercut",     "flip",    "smack",    "downercut",
+    "arm-bar",   "haymaker",     "leopard punch",       "sucker punch",
+    "backhand",  "combo",        "caress",  "noogie",   "headpat",
+    "leg drop",  "tickle"
+
+};
+
+const char *
+weaphitmsg(struct obj *obj, boolean uhitm)
+{
+       /* lucern hammers and bec-de-corbins both whack and pierce */
+       return ((objects[obj->otyp].oc_dir & WHACK &&
+               (!(objects[obj->otyp].oc_dir & PIERCE) || rn2(2))) ?
+                       ((objects[obj->otyp].oc_skill == P_CLUB ||
+                       objects[obj->otyp].oc_skill == P_MACE ||
+                       objects[obj->otyp].oc_skill == P_MORNING_STAR) ?
+                           "club" : "whack") :
+               (objects[obj->otyp].oc_dir & PIERCE &&
+               (!(objects[obj->otyp].oc_dir & SLASH) || rn2(2))) ?
+                       (is_blade(obj) ? "stab" : "jab") :
+               (objects[obj->otyp].oc_dir & SLASH) ?
+                       (uhitm && Role_if(PM_BARBARIAN) ? "smite" :
+                        rn2(2) ? "hack" : is_axe(obj) ? "hew" : "slash") :
+               (objects[obj->otyp].oc_skill == P_WHIP) ?
+                       "whip" :
+               "hit");
+}
+
+const char *
+barehitmsg(struct monst *mtmp)
+{
+      if (!strcmp(mbodypart(mtmp, HAND),"claw") ||
+	  !strcmp(mbodypart(mtmp, HAND),"paw") ||
+              !strcmp(mbodypart(mtmp, HAND),"foreclaw") || is_bird(mtmp->data))
+                return "claw";
+      if (!strcmp(mbodypart(mtmp, HAND),"swirl") || /* elementals */
+          !strcmp(mbodypart(mtmp, HAND),"tentacle")) { /* krakens */
+              if (mtmp->data == &mons[PM_EARTH_ELEMENTAL])
+                  return "pummel";
+              return "lash";
+      }
+      if (mtmp->data == &mons[PM_MONK] || mtmp->data == &mons[PM_SAMURAI]
+              || (martial_bonus() &&
+                  (mtmp == &g.youmonst ||
+                  /* Assumes monk or samurai quest monsters */
+                  mtmp->data->msound == MS_LEADER ||
+                  mtmp->data->msound == MS_GUARDIAN ||
+                  mtmp->data->msound == MS_NEMESIS))) {
+              if (Hallucination)
+                  return hmonkattacks[rn2(SIZE(hmonkattacks))];
+              else if (mtmp->data->mlet == S_RUSTMONST || rn2(5))
+                  return "strike";
+              else
+                  return monkattacks[rn2(SIZE(monkattacks))];
+
+      }
+      if (mtmp->data == &mons[PM_NURSE])
+          return "jab";
+      if (!strcmp(mbodypart(mtmp, HAND), "hand"))
+          return "punch";
+      return "hit";
+}
+
 void
 hitmsg(struct monst *mtmp, struct attack *mattk)
 {
@@ -48,7 +118,7 @@ hitmsg(struct monst *mtmp, struct attack *mattk)
             pfmt = "%s stings!";
             break;
         case AT_BUTT:
-            pfmt = "%s butts!";
+            pfmt = has_horns(mtmp->data) ? "%s gores you!" : "%s butts!";
             break;
         case AT_TUCH:
             pfmt = "%s touches you!";
@@ -60,6 +130,20 @@ hitmsg(struct monst *mtmp, struct attack *mattk)
         case AT_EXPL:
         case AT_BOOM:
             pfmt = "%s explodes!";
+            break;
+        case AT_WEAP:
+            if (MON_WEP(mtmp)) {
+                if (is_launcher(MON_WEP(mtmp)) ||
+                    is_missile(MON_WEP(mtmp)) ||
+                    is_ammo(MON_WEP(mtmp)) ||
+                    is_pole(MON_WEP(mtmp)))
+                        pfmt = "%s hits!";
+                else pline("%s %s you!", Monst_name,
+                    makeplural(weaphitmsg(MON_WEP(mtmp),FALSE)));
+                break;
+            } /*fallthrough*/
+        case AT_CLAW:
+            pline("%s %s you!", Monst_name, makeplural(barehitmsg(mtmp)));
             break;
         default:
             pfmt = "%s hits!";
@@ -78,7 +162,18 @@ missmu(struct monst *mtmp, boolean nearmiss, struct attack *mattk)
 
     if (could_seduce(mtmp, &g.youmonst, mattk) && !mtmp->mcan)
         pline("%s pretends to be friendly.", Monnam(mtmp));
-    else
+    else if (!u.usleep && !rn2(3) && canspotmon(mtmp)) {
+        if (MON_WEP(mtmp) && uwep && rn2(4)) {
+            You("parry %s's %s with %s.", 
+                mon_nam(mtmp), simpleonames(MON_WEP(mtmp)), 
+                yobjnam(uwep, (const char *) 0));
+        } else {
+            You("%s %s %s's %s.",
+                rn2(2) ? "dodge out of the way of" : "duck past",
+                mon_nam(mtmp),
+                MON_WEP(mtmp) ? simpleonames(MON_WEP(mtmp)) : barehitmsg(&g.youmonst));
+        }
+    } else
         pline("%s %smisses!", Monnam(mtmp),
               (nearmiss && flags.verbose) ? "just " : "");
 

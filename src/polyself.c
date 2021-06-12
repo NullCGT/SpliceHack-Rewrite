@@ -1806,6 +1806,8 @@ mbodypart(struct monst *mon, int part)
         || mptr == &mons[PM_KI_RIN]
         || (mptr == &mons[PM_ROTHE] && part != HAIR))
         return horse_parts[part];
+    if (has_beak(mptr) && part == NOSE)
+        return "beak";
     if (mptr->mlet == S_LIGHT) {
         if (part == HANDED)
             return "rayed";

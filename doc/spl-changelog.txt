@@ -43,6 +43,7 @@ QOL
   - A number of small easter eggs when wishing for things like "world peace," or "truth."
 - In most situations, there is now a message for when a sleeping monster wakes up. Additionally,
   looking at a monster will tell you whether it is sleeping.
+- Added some additional messages for dodging attacks in order to spice up combat logs.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.

@@ -1373,11 +1373,15 @@ hmon_hitmon(struct monst *mon,
             hit(mshot_xname(obj), mon, exclam(tmp));
         else if (!flags.verbose)
             You("hit it.");
-        else
-            You("%s %s%s",
-                (obj && (is_shield(obj) || obj->otyp == HEAVY_IRON_BALL))
-                  ? "bash" : Role_if(PM_BARBARIAN) ? "smite" : "hit",
-                mon_nam(mon), canseemon(mon) ? exclam(tmp) : ".");
+        else {
+            if (!obj)
+                You("%s %s%s", barehitmsg(&g.youmonst), mon_nam(mon), canseemon(mon) ? exclam(tmp) : ".");
+            else
+                You("%s %s%s",
+                    (obj && (is_shield(obj) || obj->otyp == HEAVY_IRON_BALL))
+                      ? "bash" : weaphitmsg(uwep, TRUE),
+                    mon_nam(mon), canseemon(mon) ? exclam(tmp) : ".");
+        }
     }
 
     if (silvermsg) {
@@ -4602,7 +4606,18 @@ missum(struct monst *mdef, struct attack *mattk, boolean wouldhavehit)
 
     if (could_seduce(&g.youmonst, mdef, mattk))
         You("pretend to be friendly to %s.", mon_nam(mdef));
-    else if (canspotmon(mdef) && flags.verbose)
+    else if (!rn2(3) && mdef->mcanmove && !mdef->msleeping
+             && m_canseeu(mdef) && canspotmon(mdef) && flags.verbose) {
+        if (MON_WEP(mdef) && uwep && rn2(4)) {
+            pline("%s parries %s with %s %s.", Monnam(mdef),
+                yobjnam(uwep, (const char *) 0), mhis(mdef), simpleonames(MON_WEP(mdef)));
+        } else {
+            pline("%s %s %s%s.", Monnam(mdef), 
+                rn2(2) ? "dodges out of the way of" : "ducks past",
+                uwep ? "" : "your ",
+                uwep ? yobjnam(uwep, (const char *) 0) : barehitmsg(&g.youmonst));
+        }
+    } else if (canspotmon(mdef) && flags.verbose)
         You("miss %s.", mon_nam(mdef));
     else
         You("miss it.");
@@ -4799,7 +4814,10 @@ hmonas(struct monst *mon)
                                                 &silverhit);
                     break;
                 case AT_BITE:
-                    verb = "bite";
+                    if (has_beak(g.youmonst.data))
+                        verb = "peck";
+                    else
+                        verb = "bite";
                     break;
                 case AT_STNG:
                     verb = "sting";
