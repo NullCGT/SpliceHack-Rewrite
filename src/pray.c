@@ -1360,6 +1360,7 @@ dosacrifice(void)
     static NEARDATA const char
         cloud_of_smoke[] = "A cloud of %s smoke surrounds you...";
     register struct obj *otmp;
+    struct monst *mon;
     int value = 0, pm;
     boolean highaltar;
     aligntyp altaralign = a_align(u.ux, u.uy);
@@ -1715,9 +1716,10 @@ dosacrifice(void)
                                                ? NH_BLACK
                                                : (const char *) "gray"));
 
-                    if (rnl(u.ulevel) > 6 && u.ualign.record > 0
+                    /* if (rnl(u.ulevel) > 6 && u.ualign.record > 0
                         && rnd(u.ualign.record) > (3 * ALIGNLIM) / 4)
-                        summon_minion(altaralign, TRUE);
+                        summon_minion(altaralign, TRUE); */
+                    summon_minion(altaralign, TRUE);
                     /* anger priest; test handles bones files */
                     if ((pri = findpriest(temple_occupied(u.urooms)))
                         && !p_coaligned(pri))
@@ -1824,6 +1826,46 @@ dosacrifice(void)
                         makeknown(otmp->otyp);
                         discover_artifact(otmp->oartifact);
                     }
+                    return 1;
+                }
+            }
+            /* A particularly faithful player may receive a minion */
+            if (u.ulevel > 4 && u.uluck >= 0
+                && !rn2(10 + (4 * u.ugifts))) {
+                godvoice(u.ualign.type, "Thou shalt not be alone in thy quest!");
+                switch (u.ualign.type) {
+                case A_LAWFUL:
+                    pm = lminion();
+                    break;
+                case A_NEUTRAL:
+                    pm = rand_elemental();
+                    break;
+                case A_CHAOTIC:
+                case A_NONE:
+                    pm = ndemon(u.ualign.type);
+                    break;
+                default:
+                    impossible("unaligned player?");
+                    pm = ndemon(A_NONE);
+                    break;
+                }
+                mon = makemon(&mons[pm], u.ux, u.uy, MM_EMIN | MM_NOERID | MM_NOGRP);
+                if (mon) {
+                    livelog_printf (LL_DIVINEGIFT,
+                                    "was sent %s by %s",
+                                    an(m_monnam(mon)),
+                                    uhim(), align_gname(u.ualign.type));
+                    newedog(mon);
+                    initedog(mon);
+                    mon->isminion = 1;
+                    EMIN(mon)->min_align = u.ualign.type;
+                    EMIN(mon)->renegade = FALSE;
+                    newsym(mon->mx, mon->my);
+                    if (attacktype(mon->data, AT_WEAP)) {
+                        mon->weapon_check = NEED_HTH_WEAPON;
+                        (void) mon_wield_item(mon);
+                    }
+                    u.ugifts++;
                     return 1;
                 }
             }

@@ -27,6 +27,10 @@ or outright removed. Rationale will be provided for all removed content.
 - Removed the monster conversation feature. It was exceedingly poorly implemented.
 - Removed the statuary level. Overtaken by theme rooms.
 
+New Features
+- Gods can rarely grant the player a minion. This feature is similar to the one in SLASH'EM, but
+  much more balanced.
+
 Options
 - Added the monkeyname configuration option for those who want a default name for their pet
   monkey.
@@ -100,6 +104,7 @@ Balancing
   remains a very strong option.
 - Increased generation of items that have been dipped in random potions from one in 10000 to one
   in 800 poisonable objects.
+- Converting an altar will ALWAYS result in a minion of that deity being summoned.
 
 Bug Fixes
 - While porting the previous SpliceHack code, numerous bugs were discovered and fixed. The full
