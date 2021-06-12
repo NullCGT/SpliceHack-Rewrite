@@ -1392,7 +1392,10 @@ dogaze(void)
             break;
         }
     }
-    if (adtyp != AD_CONF && adtyp != AD_FIRE) {
+
+    if (adtyp == AD_HNGY || adtyp == AD_LUCK) adtyp = AD_CONF;
+
+    if (adtyp != AD_CONF && adtyp != AD_FIRE && adtyp != AD_SLEE) {
         impossible("gaze attack %d?", adtyp);
         return 0;
     }
@@ -1470,6 +1473,8 @@ dogaze(void)
                         mtmp->mhp -= dmg;
                     if (DEADMONSTER(mtmp))
                         killed(mtmp);
+                } else if (adtyp == AD_SLEE) {
+
                 }
                 /* For consistency with passive() in uhitm.c, this only
                  * affects you if the monster is still alive.

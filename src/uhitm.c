@@ -3359,6 +3359,43 @@ mhitm_ad_halu(struct monst *magr, struct attack *mattk UNUSED,
 }
 
 void
+mhitm_ad_hngy(struct monst *magr, struct attack *mattk, 
+              struct monst *mdef, struct mhitm_data *mhm)
+{
+    if (magr == &g.youmonst) {
+        /* uhitm */
+        int armpro = magic_negation(mdef);
+        boolean cancelled = !(rn2(10) >= 3 * armpro);
+        mhm->damage = 0;
+        if (cancelled || !mdef->mtame) return;
+        if (mdef->mtame && !mdef->isminion)
+            EDOG(mdef)->hungrytime -= 50;
+
+        if (canseemon(mdef))
+            pline("%s %s rumbles.",
+                s_suffix(Monnam(mdef)), mbodypart(mdef,STOMACH));
+    } else if (mdef == &g.youmonst) {
+        /* mhitu */
+        mhitm_ad_phys(magr, mattk, mdef, mhm);
+        if (mhm->done)
+            return;
+    } else {
+        /* mhitm */
+        int armpro = magic_negation(mdef);
+        boolean cancelled = magr->mcan || !(rn2(10) >= 3 * armpro);
+        mhm->damage = 0;
+        if (cancelled || !mdef->mtame) return;
+        if (mdef->mtame && !mdef->isminion)
+            EDOG(mdef)->hungrytime -= 50;
+
+        magr->mspec_used = magr->mspec_used + 50;
+        if (canseemon(mdef))
+            pline("%s %s rumbles.",
+                s_suffix(Monnam(mdef)), mbodypart(mdef,STOMACH));
+    }
+}
+
+void
 mhitm_ad_vorp(struct monst *magr, struct attack *mattk, 
               struct monst *mdef, struct mhitm_data *mhm)
 {
@@ -4217,6 +4254,7 @@ mhitm_adtyping(struct monst *magr, struct attack *mattk, struct monst *mdef,
     case AD_DGST: mhitm_ad_dgst(magr, mattk, mdef, mhm); break;
     case AD_HALU: mhitm_ad_halu(magr, mattk, mdef, mhm); break;
     /* Todo */
+    case AD_HNGY:  mhitm_ad_hngy(magr, mattk, mdef, mhm); break;
     case AD_VORP: mhitm_ad_vorp(magr, mattk, mdef, mhm); break;
     default:
         mhm->damage = 0;

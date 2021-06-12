@@ -2142,6 +2142,7 @@ extern void drop_boulder_on_player(boolean, boolean, boolean, boolean);
 extern boolean drop_boulder_on_monster(int, int, boolean, boolean);
 extern void wand_explode(struct obj *, int);
 extern void litroom(boolean, struct obj *);
+extern void litroom_mon(boolean, struct obj *, int, int);
 extern void do_genocide(int);
 extern void punish(struct obj *);
 extern void unpunish(void);
@@ -2781,6 +2782,8 @@ extern void mhitm_ad_dise(struct monst *, struct attack *, struct monst *,
 extern void mhitm_ad_sedu(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhitm_ad_ssex(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
+extern void mhtim_ad_hngy(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhitm_ad_vorp(struct monst *, struct attack *, struct monst *, 
                           struct mhitm_data *);

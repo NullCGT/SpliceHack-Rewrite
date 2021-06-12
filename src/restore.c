@@ -395,8 +395,14 @@ restmonchn(NHFILE* nhfp)
 {
     register struct monst *mtmp, *mtmp2 = 0;
     register struct monst *first = (struct monst *) 0;
-    int offset, buflen = 0;
+    int offset, buflen, monstoread, iter;
+    struct permonst *monbegin;
+    int namesize = sizeof(monbegin->pmnames);
+
     boolean ghostly = (nhfp->ftype == NHF_BONESFILE);
+
+    /* get the original base address */
+    mread(nhfp->fd, (genericptr_t)&monbegin, sizeof(monbegin));
 
     while (1) {
         if (nhfp->structlevel)
@@ -461,6 +467,18 @@ restmonchn(NHFILE* nhfp)
         impossible("Restmonchn: error reading monchn.");
         mtmp2->nmon = 0;
     }
+
+    /* get the permonst chain back */
+    mread(nhfp->fd, (genericptr_t) &monstoread, sizeof(int));
+
+    if (monstoread != NUMMONS) {
+        impossible("Restmonchn: number of permonst stored doesn't match current NUMMONS. Using default permonst");
+    } else {
+        for (iter = 0; iter < NUMMONS; iter++) {
+            mread(nhfp->fd, (genericptr_t) &mons[iter] + namesize, sizeof(struct permonst) - namesize);
+        }
+    }
+
     return first;
 }
 

@@ -50,6 +50,10 @@ Monster Changes
 - Gnolls have been reduced to medium size so that they can wear the armor they spawn with.
 - New Yendorian Army Member: The General
   - Upgraded form of the captain. Highly dangerous, and very rare to encounter.
+- New Monster: The Slumber Hulk
+  - A hulk that puts people to sleep with its gaze.
+  - Very low AC.
+  - Falls asleep randomly.
 - Ported UnnetHack Aleaxes: Aleaxes are generated with copies of the player's items.
 - Purple dragons have been renamed to violet dragons.
 - Dragons have been significantly altered.

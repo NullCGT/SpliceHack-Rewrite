@@ -230,6 +230,7 @@ disturb(register struct monst* mtmp)
         && (!(mtmp->data->mlet == S_NYMPH
               || mtmp->data == &mons[PM_JABBERWOCK]
               || mtmp->data == &mons[PM_VORPAL_JABBERWOCK]
+              || mtmp->data == &mons[PM_SLUMBER_HULK]
               || mtmp->data->mlet == S_LEPRECHAUN) || !rn2(50))
         && (Aggravate_monster
             || (mtmp->data->mlet == S_DOG || mtmp->data->mlet == S_HUMAN)
@@ -464,6 +465,11 @@ dochug(register struct monst* mtmp)
             mtmp->msleeping = 1;
             if (canseemon(mtmp)) pline("%s curls up and goes to sleep.", Monnam(mtmp));
         }
+    }
+
+    if (mtmp->data == &mons[PM_SLUMBER_HULK] && !mtmp->msleeping && !rn2(10)) {
+        if (canseemon(mtmp)) pline("%s falls asleep and begins to snore.", Monnam(mtmp));
+        mtmp->msleeping = 1;
     }
 
     /* not frozen or sleeping: wipe out texts written in the dust */
@@ -711,6 +717,13 @@ dochug(register struct monst* mtmp)
         if (tmp != 2)
             distfleeck(mtmp, &inrange, &nearby, &scared); /* recalc */
         update_monsteed(mtmp);
+
+        if (mtmp->data == &mons[PM_UMBRAL_HULK] &&
+                 !mtmp->mcan && !mtmp->mspec_used &&
+                 levl[mtmp->mx][mtmp->my].lit) {
+            litroom_mon(0, 0, mtmp->mx, mtmp->my);
+            mtmp->mspec_used = 5 + rn2(11);
+        }
 
         switch (tmp) { /* for pets, cases 0 and 3 are equivalent */
         case 0: /* no movement, but it can still attack you */

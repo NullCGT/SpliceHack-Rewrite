@@ -1495,6 +1495,18 @@ gazemu(struct monst *mtmp, struct attack *mattk)
             done(STONING);
         }
         break;
+    case AD_HNGY:
+        if(!mtmp->mcan && canseemon(mtmp) &&
+            couldsee(mtmp->mx, mtmp->my) && !is_fainted() &&
+            mtmp->mcansee && !mtmp->mspec_used && rn2(5)) {
+            int hunger = 20 + d(3,4);
+
+            mtmp->mspec_used = mtmp->mspec_used + (hunger + rn2(6));
+            pline("%s gaze reminds you of delicious %s.",
+                s_suffix(Monnam(mtmp)), fruitname(FALSE));
+            morehungry(hunger);
+        }
+        break;
     case AD_CONF:
         if (canseemon(mtmp) && couldsee(mtmp->mx, mtmp->my) && mtmp->mcansee
             && !mtmp->mspec_used && rn2(5)) {
@@ -1531,6 +1543,16 @@ gazemu(struct monst *mtmp, struct attack *mattk)
         }
         break;
     case AD_BLND:
+        if (mtmp->data == &mons[PM_UMBRAL_HULK]){
+            if (!mtmp->mspec_used && !Blind && couldsee(mtmp->mx, mtmp->my) &&
+                    can_blnd(mtmp, &g.youmonst, mattk->aatyp, (struct obj*)0)) {
+                pline("You meet %s gaze! The shadows merge into utter darkness!",
+                      s_suffix(mon_nam(mtmp)) );
+                make_blinded(Blinded + d((int)mattk->damn, (int)mattk->damd), FALSE);
+                if (!Blind) Your1(vision_clears);
+            }
+            break;
+        }
         if (canseemon(mtmp) && !resists_blnd(&g.youmonst)
             && distu(mtmp->mx, mtmp->my) <= BOLT_LIM * BOLT_LIM) {
             if (cancelled) {
@@ -1590,7 +1612,6 @@ gazemu(struct monst *mtmp, struct attack *mattk)
             }
         }
         break;
-#ifdef PM_BEHOLDER /* work in progress */
     case AD_SLEE:
         if (canseemon(mtmp) && couldsee(mtmp->mx, mtmp->my) && mtmp->mcansee
             && g.multi >= 0 && !rn2(5) && !Sleep_resistance) {
@@ -1604,6 +1625,7 @@ gazemu(struct monst *mtmp, struct attack *mattk)
             }
         }
         break;
+#ifdef PM_BEHOLDER /* work in progress */
     case AD_SLOW:
         if (canseemon(mtmp) && couldsee(mtmp->mx, mtmp->my) && mtmp->mcansee
             && (HFast & (INTRINSIC | TIMEOUT)) && !defends(AD_SLOW, uwep)

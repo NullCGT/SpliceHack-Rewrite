@@ -2033,7 +2033,7 @@ struct permonst _mons2[] = {
         M2_STRONG | M2_STALK | M2_HOSTILE | M2_COLLECT,
         M3_INFRAVISIBLE | M3_INFRAVISION, 16, HI_LORD),
     /*
-     * Umber hulk
+     * Hulks
      */
     MON("umber hulk", S_UMBER, LVL(9, 6, 2, 25, 0), (G_GENO | 2),
         A(ATTK(AT_CLAW, AD_PHYS, 3, 4), ATTK(AT_CLAW, AD_PHYS, 3, 4),
@@ -2041,6 +2041,30 @@ struct permonst _mons2[] = {
           NO_ATTK),
         SIZ(1200, 500, MS_SILENT, MZ_LARGE), 0, 0, M1_TUNNEL | M1_CARNIVORE,
         M2_STRONG, M3_INFRAVISIBLE, 12, CLR_BROWN),
+    MON("umbral hulk", S_UMBER, LVL(10, 6, 2, 25, -3), (G_GENO | 2),
+        A(ATTK(AT_CLAW, AD_PHYS, 3, 4), ATTK(AT_CLAW, AD_PHYS, 3, 4),
+          ATTK(AT_BITE, AD_CONF, 2, 5), ATTK(AT_GAZE, AD_BLND, 3, 4),
+          NO_ATTK, NO_ATTK),
+        SIZ(1200, 500, MS_SILENT, MZ_LARGE), 0, 0,
+        M1_CARNIVORE, M2_STRONG | M2_WANDER | M2_HOSTILE, M3_INFRAVISIBLE,
+        14, CLR_BLACK),
+    MON("hunger hulk", S_UMBER, LVL(11, 6, 2, 25, -3), (G_GENO | 2),
+        A(ATTK(AT_CLAW, AD_PHYS, 3, 4), ATTK(AT_CLAW, AD_PHYS, 3, 4),
+          ATTK(AT_BITE, AD_CONF, 2, 5), ATTK(AT_GAZE, AD_HNGY, 0, 0),
+          NO_ATTK, NO_ATTK),
+        SIZ(1200, 1, MS_SILENT, MZ_LARGE), 0, 0,
+        M1_CARNIVORE | M1_TUNNEL, M2_STRONG, M3_INFRAVISIBLE, 15, CLR_RED),
+    MON("slumber hulk", S_UMBER, LVL(9, 6, -12, 25, 0), (G_GENO | 2),
+        A(ATTK(AT_CLAW, AD_PHYS, 3, 4), ATTK(AT_CLAW, AD_PHYS, 3, 4),
+          ATTK(AT_BITE, AD_PHYS, 4, 5), ATTK(AT_GAZE, AD_SLEE, 0, 0), NO_ATTK,
+          NO_ATTK),
+        SIZ(1200, 500, MS_SILENT, MZ_LARGE), 0, 0, M1_TUNNEL | M1_CARNIVORE,
+        M2_STRONG, M3_INFRAVISIBLE, 16, CLR_BLUE),
+    MON("shambling horror", S_UMBER,
+        LVL(10, 12, 0, 0, 0), (G_NOCORPSE | G_HELL),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(25, 25, MS_SILENT, MZ_TINY), 0, 0,
+        M1_CARNIVORE, 0, M3_INFRAVISIBLE, 11, DRAGON_SILVER),
     /*
      * Vampires
      */

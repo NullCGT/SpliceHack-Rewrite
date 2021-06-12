@@ -1891,7 +1891,7 @@ x_monnam(register struct monst *mtmp, int article,
                              (boolean) mtmp->female));
         Strcat(buf, lcase(pbuf));
         name_at_start = FALSE;
-    } else if (is_demon(mdat) && (g.mvitals[monsndx(mdat)].mvflags & G_KNOWN) == 0) {
+    } else if (is_unkdemon(mdat) && (g.mvitals[monsndx(mdat)].mvflags & G_KNOWN) == 0) {
         Strcat(buf, "demon");
         name_at_start = (boolean) type_is_pname(mdat);
     } else {
