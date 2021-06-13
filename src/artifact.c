@@ -533,6 +533,10 @@ set_artifact_intrinsic(struct obj *otmp, boolean on, long wp_mask)
          * that can print a message--need to guard against being printed
          * when restoring a game
          */
+        if (u.uroleplay.hallu) {
+            u.uroleplay.hallu = FALSE;
+            pline("The world no longer makes any sense to you! It all looks so... normal?");
+        }
         (void) make_hallucinated((long) !on,
                                  g.program_state.restoring ? FALSE : TRUE,
                                  wp_mask);

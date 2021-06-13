@@ -295,6 +295,7 @@ demon_talk(register struct monst *mtmp)
         if ((offer = bribe(mtmp)) >= demand) {
             pline("%s vanishes, laughing about cowardly mortals.",
                   Amonnam(mtmp));
+            u.uconduct.pactmaker++;
             livelog_printf(LL_UMONST, "bribed %s with %ld %s for safe passage",
                            Amonnam(mtmp), offer, currency(offer));
         } else if (offer > 0L
@@ -303,6 +304,7 @@ demon_talk(register struct monst *mtmp)
                   Amonnam(mtmp));
             livelog_printf(LL_UMONST, "bribed %s with %ld %s for safe passage",
                            Amonnam(mtmp), offer, currency(offer));
+            u.uconduct.pactmaker++;
         } else {
             pline("%s gets angry...", Amonnam(mtmp));
             mtmp->mpeaceful = 0;

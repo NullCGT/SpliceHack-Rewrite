@@ -870,6 +870,10 @@ from_what(int propidx) /* special cases can have negative values */
              */
             if (propidx == BLINDED && u.uroleplay.blind)
                 Sprintf(buf, " from birth");
+            else if (propidx == FUMBLING && u.uroleplay.clumsy)
+                Sprintf(buf, " due to clumsiness");
+            else if (propidx == DEAF && u.uroleplay.deaf)
+                Sprintf(buf, " from birth");
             else if (innateness == FROM_ROLE || innateness == FROM_RACE)
                 Strcpy(buf, " innately");
             else if (innateness == FROM_INTR) /* [].intrinsic & FROMOUTSIDE */

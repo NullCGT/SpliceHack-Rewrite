@@ -141,6 +141,8 @@ opt_##a,
 #endif
     NHOPTB(clicklook, 0, opt_in, set_in_game, Off, Yes, No, No, NoAlias,
                 &iflags.clicklook)
+    NHOPTB(clumsy, 0, opt_in, set_in_config, Off, Yes, No, No, NoAlias,
+                &u.uroleplay.clumsy)
     NHOPTB(cmdassist, 0, opt_out, set_in_game, On, Yes, No, No, NoAlias,
                 &iflags.cmdassist)
     NHOPTB(color, 0, opt_in, set_in_game, Off, Yes, No, No, "colour",
@@ -153,6 +155,8 @@ opt_##a,
 #endif
     NHOPTB(dark_room, 0, opt_out, set_in_game, On, Yes, No, No, NoAlias,
                 &flags.dark_room)
+    NHOPTB(deaf, 0, opt_in, set_in_config, Off, Yes, No, No, NoAlias,
+                &u.uroleplay.deaf)
 #ifdef BACKWARD_COMPAT
     NHOPTC(DECgraphics, 70, opt_in, set_in_config, Yes, Yes, No, No, NoAlias,
                 "load DECGraphics display symbols")
@@ -208,6 +212,8 @@ opt_##a,
                 &flags.goldX)
     NHOPTB(guicolor, 0, opt_out, set_in_game, On, Yes, No, No,  NoAlias,
                 &iflags.wc2_guicolor)
+    NHOPTB(hallucinating, 0, opt_in, set_in_config, Off, Yes, No, No, NoAlias,
+                &u.uroleplay.hallu)
     NHOPTB(help, 0, opt_out, set_in_game, On, Yes, No, No, NoAlias,
                 &flags.help)
     NHOPTB(herecmd_menu, 0, opt_in, set_in_game, Off, Yes, No, No, NoAlias,
@@ -259,6 +265,8 @@ opt_##a,
                 &flags.biff)
     NHOPTC(map_mode, 20, opt_in, set_gameview, Yes, Yes, No, No, NoAlias,
                 "map display mode under Windows")
+    NHOPTB(marathon, 0, opt_in, set_in_config, Off, Yes, No, No, NoAlias,
+                &u.uroleplay.marathon)
     NHOPTB(mention_decor, 0, opt_in, set_in_game, Off, Yes, No, No, NoAlias,
                 &flags.mention_decor)
     NHOPTB(mention_walls, 0, opt_in, set_in_game, Off, Yes, No, No, NoAlias,

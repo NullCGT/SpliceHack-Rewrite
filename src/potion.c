@@ -711,6 +711,7 @@ peffects(struct obj *otmp)
         }
         break;
     case POT_BOOZE:
+        u.uconduct.alcohol++;
         g.potion_unkn++;
         pline("Ooph!  This tastes like %s%s!",
               otmp->odiluted ? "watered down " : "",
@@ -917,6 +918,7 @@ peffects(struct obj *otmp)
         }
         if (Hallucination) {
             You("are shocked back to your senses!");
+            u.uroleplay.hallu = FALSE;
             (void) make_hallucinated(0L, FALSE, 0L);
         }
         break;
@@ -1196,7 +1198,7 @@ peffects(struct obj *otmp)
 void
 healup(int nhp, int nxtra, boolean curesick, boolean cureblind)
 {
-    if (nhp) {
+    if (nhp && !u.uroleplay.marathon) {
         if (Upolyd) {
             u.mh += nhp;
             if (u.mh > u.mhmax)

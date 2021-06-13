@@ -923,8 +923,11 @@ status_enlightenment(int mode, int final)
     }
     if (Confusion)
         you_are("confused", "");
-    if (Hallucination)
-        you_are("hallucinating", "");
+    if (Hallucination) {
+        Sprintf(buf, "%s hallucinating",
+                u.uroleplay.hallu ? "permanently" : DeathVision ? "deliberately" : "temporarily");
+        you_are(buf, "");
+    }
     if (DeathVision)
         you_are("dealing double damage due to comprehending death", "");
     if (Blind) {
@@ -1884,10 +1887,18 @@ show_conduct(int final)
     g.en_win = create_nhwindow(NHW_MENU);
     putstr(g.en_win, ATR_HEADING, "Voluntary challenges:");
 
+    if (u.uroleplay.clumsy)
+        you_have_been("forever fumbling");
     if (u.uroleplay.blind)
         you_have_been("blind from birth");
     if (u.uroleplay.nudist)
         you_have_been("faithfully nudist");
+    if (u.uroleplay.hallu)
+        you_have_been("hallucinating from birth");
+    if (u.uroleplay.deaf)
+        you_have_been("deaf from birth");
+    if (u.uroleplay.marathon)
+        you_have_been("playing in marathon mode");
 
     if (!u.uconduct.food)
         enl_msg(You_, "have gone", "went", " without food", "");
@@ -2009,6 +2020,21 @@ show_conduct(int final)
         }
         enl_msg(You_, presentverb, pastverb, buf, "");
     }
+
+    /* Splice conducts */
+    if (!u.uconduct.alcohol && final) {
+        you_have_been("a teetotaler");
+    }
+    
+    if (!u.uconduct.pactmaker) {
+        you_have_never("made deals with demonic entities");
+    } else {
+        Sprintf(buf, "made a demonic bargain %ld time%s", u.uconduct.pactmaker,
+                plur(u.uconduct.pactmaker));
+        you_have_X(buf);
+    }
+
+    
 
     show_achievements(final);
 

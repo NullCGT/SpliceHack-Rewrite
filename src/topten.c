@@ -451,6 +451,11 @@ encodeconduct(void)
        entered-sokoban bit in the 'achieve' field */
     if (!u.uconduct.sokocheat && sokoban_in_play())
         e |= 1L << 13;
+    /* Splice conducts */
+    if (!u.uconduct.alcohol)
+        e |= 1L << 14;
+    if (!u.uconduct.pactmaker)
+        e |= 1L << 15;
 
     return e;
 }
@@ -723,7 +728,7 @@ topten(int how, time_t when)
     }
 #endif /* XLOGFILE */
 
-    if (wizard || discover) {
+    if (wizard || discover || u.uroleplay.marathon) {
         if (how != PANICKED)
             HUP {
                 char pbuf[BUFSZ];
@@ -731,7 +736,7 @@ topten(int how, time_t when)
                 topten_print("");
                 Sprintf(pbuf,
              "Since you were in %s mode, the score list will not be checked.",
-                        wizard ? "wizard" : "discover");
+                        wizard ? "wizard" : discover ? "discover" : "marathon");
                 topten_print(pbuf);
             }
         goto showwin;

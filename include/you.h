@@ -157,12 +157,19 @@ struct u_conduct {     /* number of times... */
     long wisharti;     /* wished for an artifact */
     long elbereth;     /* engraved Elbereth */
     long sokocheat;    /* violated special 'rules' in Sokoban */
+    /* Splice conducts */
+    long alcohol;      /* drank alcohol */
+    long pactmaker;    /* made deals with demons */
     /* genocides already listed at end of game */
 };
 
 struct u_roleplay {
     boolean blind;  /* permanently blind */
     boolean nudist; /* has not worn any armor, ever */
+    boolean hallu;  /* permanently hallucinating */
+    boolean deaf;   /* permanently deaf */
+    boolean clumsy; /* permanetnly fumbling */
+    boolean marathon; /* cannot heal, fixed high max hp */
     long numbones;  /* # of bones files loaded  */
 };
 

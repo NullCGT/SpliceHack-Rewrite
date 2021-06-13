@@ -1151,7 +1151,7 @@ dochat(void)
 
     if (is_silent(g.youmonst.data)) {
         pline("As %s, you cannot speak.",
-              an(pmname(g.youmonst.data, flags.female ? FEMALE : MALE)));
+              an(pmname(g.youmonst.data, flags.female)));
         return 0;
     }
     if (Strangled) {
