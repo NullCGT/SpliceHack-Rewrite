@@ -485,6 +485,7 @@ doengrave(void)
     boolean ptext = TRUE;     /* TRUE if we must prompt for engrave text */
     boolean teleengr = FALSE; /* TRUE if we move the old engraving */
     boolean zapwand = FALSE;  /* TRUE if we remove a wand charge */
+    boolean wonder = FALSE;   /* TRUE if the wand is a wand of wonder */
     xchar type = DUST;        /* Type of engraving made */
     xchar oetype = 0;         /* will be set to type of current engraving */
     char buf[BUFSZ];          /* Buffer for final/poly engraving text */
@@ -654,6 +655,12 @@ doengrave(void)
             if (!can_reach_floor(TRUE))
                 ptext = FALSE;
 
+            if (otmp->otyp == WAN_WONDER) {
+                otmp->otyp = WAN_LIGHT + rn2(WAN_LIGHTNING - WAN_LIGHT);
+                pline("You get a funny feeling about this wand.");
+                wonder = TRUE;
+            }
+
             switch (otmp->otyp) {
             /* DUST wands */
             default:
@@ -662,8 +669,11 @@ doengrave(void)
             case WAN_LIGHT:
             case WAN_SECRET_DOOR_DETECTION:
             case WAN_CREATE_MONSTER:
+            case WAN_CREATE_HORDE:
             case WAN_WISHING:
             case WAN_ENLIGHTENMENT:
+                if (wonder)
+                    otmp->otyp = WAN_WONDER;
                 zapnodir(otmp);
                 break;
             /* IMMEDIATE wands */
@@ -685,6 +695,14 @@ doengrave(void)
                     Sprintf(post_engr_text, "The bugs on the %s speed up!",
                             surface(u.ux, u.uy));
                 }
+                break;
+            case WAN_SONICS:
+                if (!Deaf) {
+                    Strcpy(post_engr_text,
+                        "The wand issues a series of loud bangs!");
+                    doknown = TRUE;
+                }
+                wake_nearto(u.ux, u.uy, 5 * 5);
                 break;
             case WAN_POLYMORPH:
                 if (oep) {
@@ -709,7 +727,20 @@ doengrave(void)
             case WAN_LOCKING:
             case WAN_PROBING:
                 break;
+            case WAN_HEALING:
+                if (!Blind) {
+                    Sprintf(post_engr_text, "The bugs on the %s look better!",
+                            surface(u.ux, u.uy));
+                    doknown = TRUE;
+                }
+                break;
             /* RAY wands */
+            case WAN_PSIONICS:
+                if (!Blind)
+                    Sprintf(post_engr_text, "The bugs on the %s run around in circles!",
+                                surface(u.ux, u.uy));
+                    doknown = TRUE;
+                break;
             case WAN_MAGIC_MISSILE:
                 ptext = TRUE;
                 if (!Blind) {
@@ -717,6 +748,15 @@ doengrave(void)
                             "The %s is riddled by bullet holes!",
                             surface(u.ux, u.uy));
                 }
+                break;
+            case WAN_WINDSTORM:
+                if (!Blind) {
+                    Sprintf(post_engr_text, "The bugs on the %s are blown away!",
+                            surface(u.ux, u.uy));
+                    doknown = TRUE;
+                }
+                scatter(u.ux, u.uy, 4, MAY_DESTROY | MAY_HIT | VIS_EFFECTS,
+                    (struct obj *) 0);
                 break;
             /* can't tell sleep from death - Eric Backus */
             case WAN_SLEEP:
@@ -726,6 +766,27 @@ doengrave(void)
                             surface(u.ux, u.uy));
                 }
                 break;
+            case WAN_POISON_GAS:
+                if (!Blind) {
+                    if (Hallucination) {
+                        Sprintf(post_engr_text,
+                        "The bugs on the %s cough!", surface(u.ux, u.uy));
+                        doknown = TRUE;
+                    } else {
+                        Sprintf(post_engr_text,
+                        "The bugs on the %s stop moving!", surface(u.ux, u.uy));
+                    }
+                }
+                create_gas_cloud(u.ux, u.uy, 1, 4);
+                doknown = TRUE;
+                break;
+            case WAN_WATER:
+                if (!Blind)
+                    Sprintf(post_engr_text,
+                            "The bugs on the %s get washed away!", surface(u.ux, u.uy));
+                    doknown = TRUE;
+                if (!oep || (oep->engr_type != BURN))
+                    break;
             case WAN_COLD:
                 if (!Blind)
                     Strcpy(post_engr_text,
@@ -784,6 +845,19 @@ doengrave(void)
                 }
                 Strcpy(post_engr_text, Blind ? "You feel the wand heat up."
                                              : "Flames fly from the wand.");
+                break;
+            case WAN_ACID:
+                ptext = TRUE;
+                type = BURN;
+                if (!objects[otmp->otyp].oc_name_known && !Blind) {
+                    if (flags.verbose)
+                        pline("This %s is a wand of acid!", xname(otmp));
+                    doknown = TRUE;
+                }
+                if (!Blind) {
+                    Strcpy(post_engr_text,
+                            "Acid sprays from the wand.");
+                }
                 break;
             case WAN_LIGHTNING:
                 ptext = TRUE;
@@ -896,6 +970,11 @@ doengrave(void)
      * End of implement setup
      */
 
+    /* Cleanup wand of wonder */
+    if (wonder) {
+        otmp->otyp = WAN_WONDER;
+        doknown = TRUE;
+    }
     /* Identify stylus */
     if (doknown) {
         learnwand(otmp);

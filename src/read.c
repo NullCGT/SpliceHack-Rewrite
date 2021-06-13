@@ -1997,8 +1997,12 @@ wand_explode(struct obj* obj, int chg /* recharging */)
         break;
     case WAN_COLD:
     case WAN_FIRE:
+    case WAN_ACID:
     case WAN_LIGHTNING:
     case WAN_MAGIC_MISSILE:
+    case WAN_POISON_GAS:
+    case WAN_SONICS:
+    case WAN_PSIONICS:
         k = 8;
         break;
     case WAN_NOTHING:

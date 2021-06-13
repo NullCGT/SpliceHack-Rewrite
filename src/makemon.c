@@ -41,6 +41,7 @@ is_home_elemental(struct permonst *ptr)
             return Is_firelevel(&u.uz);
         case PM_ACID_ELEMENTAL:
         case PM_EARTH_ELEMENTAL:
+        case PM_MUD_ELEMENTAL:
             return Is_earthlevel(&u.uz);
         case PM_WATER_ELEMENTAL:
         case PM_ICE_ELEMENTAL:

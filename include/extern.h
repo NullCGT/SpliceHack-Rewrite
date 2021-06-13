@@ -451,7 +451,7 @@ extern char *rnddragonname(char *);
 extern struct monst *christen_dragon(struct monst *);
 extern char *rndorcname(char *);
 extern struct monst *christen_orc(struct monst *, const char *, const char *);
-extern const char *noveltitle(int *);
+extern const char *noveltitle(int *, boolean);
 extern const char *lookup_novel(const char *, int *);
 #ifndef PMNAME_MACROS
 extern int Mgender(struct monst *);
@@ -2666,6 +2666,7 @@ extern boolean lava_damage(struct obj *, xchar, xchar);
 extern void acid_damage(struct obj *);
 extern int water_damage(struct obj *, const char *, boolean);
 extern void water_damage_chain(struct obj *, boolean);
+extern int uwatereffects(void);
 extern boolean drown(void);
 extern void drain_en(int);
 extern int dountrap(void);

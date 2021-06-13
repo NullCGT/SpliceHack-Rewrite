@@ -927,11 +927,20 @@ SCROLL("stinking cloud",             "VELOX NEB",  1,  15, 300),
      * tilemap.c must be modified to match.
      */
 SCROLL(None,      "FOOBIE BLETCH",  1,   0, 100),
+SCROLL(None,            "NYEHEHE",  1,   0, 100), /* laughing noise */
+SCROLL(None,      "ELPHE MONATER",  1,   0, 100), /* famous mistranslation */
+SCROLL(None,               "ABAJ",  1,   0, 100), /* famous mistranslation */
+SCROLL(None,     "CONGLATURATION",  1,   0, 100), /* famous mistranslation */
+SCROLL(None,       "DESUM TETRAL",  1,   0, 100), /* dal aos */
+SCROLL(None,            "NHINRL",   1,   0, 100), /* meta */
+SCROLL(None,          "ISAY INAY",  1,   0, 100), /* meta */
+SCROLL(None,       "WE IX APOGEE",  1,   0, 100), /* Normality */
 SCROLL(None,              "TEMOV",  1,   0, 100),
 SCROLL(None,         "GARVEN DEH",  1,   0, 100),
 SCROLL(None,            "READ ME",  1,   0, 100),
 SCROLL(None,      "ETAOIN SHRDLU",  1,   0, 100),
 SCROLL(None,        "LOREM IPSUM",  1,   0, 100),
+SCROLL(None,         "REDEM SHIN",  1,   0, 100),
 SCROLL(None,              "FNORD",  1,   0, 100), /* Illuminati */
 SCROLL(None,            "KO BATE",  1,   0, 100), /* Kurd Lasswitz */
 SCROLL(None,      "ABRA KA DABRA",  1,   0, 100), /* traditional incantation */
@@ -994,6 +1003,16 @@ SPELL("sleep",           "mottled",
       P_ENCHANTMENT_SPELL, 49,  1, 1, 1, RAY, HI_PAPER),
 SPELL("finger of death", "stained",
       P_ATTACK_SPELL,       5, 10, 7, 1, RAY, HI_PAPER),
+SPELL("lightning",       "rainbow",     
+      P_MATTER_SPELL,       5,  7, 4, 1, RAY, HI_PAPER),
+SPELL("poison blast",    "tattered",    
+      P_ATTACK_SPELL,      10,  7, 4, 1, RAY, HI_PAPER),
+SPELL("acid stream",     "colorful",    
+      P_MATTER_SPELL,       5,  7, 4, 1, RAY, HI_PAPER),
+SPELL("sonicboom",       "ghostly",    
+      P_MATTER_SPELL,       5,  7, 4, 1, RAY, CLR_BLACK),
+SPELL("psystrike",       "worn out",     
+      P_ATTACK_SPELL,       5,  7, 4, 1, RAY, HI_PAPER),
 SPELL("light",           "cloth",
       P_DIVINATION_SPELL,  45,  1, 1, 1, NODIR, HI_CLOTH),
 SPELL("detect monsters", "leathery",
@@ -1062,14 +1081,12 @@ SPELL("jumping",         "thin",
       P_ESCAPE_SPELL,      20,  3, 1, 1, IMMEDIATE, HI_PAPER),
 SPELL("stone to flesh",  "thick",
       P_HEALING_SPELL,     15,  1, 3, 1, IMMEDIATE, HI_PAPER),
-#if 0 /* DEFERRED */
 /* from slash'em, create a tame critter which explodes when attacking,
    damaging adjacent creatures--friend or foe--and dying in the process */
 SPELL("flame sphere",    "canvas",
       P_MATTER_SPELL,      20,  2, 1, 1, NODIR, CLR_BROWN),
 SPELL("freeze sphere",   "hardcover",
       P_MATTER_SPELL,      20,  2, 1, 1, NODIR, CLR_BROWN),
-#endif
 /* books with fixed descriptions
  */
 SPELL("blank paper", "plain", P_NONE, 18, 0, 0, 0, 0, HI_PAPER),
@@ -1077,6 +1094,9 @@ SPELL("blank paper", "plain", P_NONE, 18, 0, 0, 0, 0, HI_PAPER),
 OBJECT(OBJ("novel", "paperback"),
        BITS(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, P_NONE, PAPER),
        0, SPBOOK_CLASS, 1, 0, 0, 20, 0, 0, 0, 1, 20, CLR_BRIGHT_BLUE),
+OBJECT(OBJ("encyclopedia", "hardback"),
+      BITS(0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, P_NONE, PAPER),
+      0, SPBOOK_CLASS, 9, 0, 0, 300, 0, 0, 0, 1, 20, CLR_RED),
 /* a special, one of a kind, spellbook */
 OBJECT(OBJ("Book of the Dead", "papyrus"),
        BITS(0, 0, 1, 0, 1, 0, 1, 1, 0, 0, 0, P_NONE, PAPER),
@@ -1088,16 +1108,21 @@ OBJECT(OBJ("Book of the Dead", "papyrus"),
     OBJECT(OBJ(name, typ),                                              \
            BITS(0, 0, 1, 0, mgc, 1, 0, 0, 0, 0, dir, P_NONE, metal),    \
            0, WAND_CLASS, prob, 0, 7, cost, 0, 0, 0, 0, 30, color)
-WAND("light",           "glass", 95, 100, 1, NODIR, GLASS, HI_GLASS),
+WAND("light",           "glass", 90, 100, 1, NODIR, GLASS, HI_GLASS),
 WAND("secret door detection",
-                        "balsa", 50, 150, 1, NODIR, WOOD, HI_WOOD),
+                        "balsa", 40, 150, 1, NODIR, WOOD, HI_WOOD),
 WAND("enlightenment", "crystal", 15, 150, 1, NODIR, GLASS, HI_GLASS),
-WAND("create monster",  "maple", 45, 200, 1, NODIR, WOOD, HI_WOOD),
+WAND("create monster",  "maple", 40, 200, 1, NODIR, WOOD, HI_WOOD),
+WAND("create horde",    "black",  5, 300, 1, NODIR, PLASTIC, CLR_BLACK),
 WAND("wishing",          "pine",  5, 500, 1, NODIR, WOOD, HI_WOOD),
-WAND("nothing",           "oak", 25, 100, 0, IMMEDIATE, WOOD, HI_WOOD),
+WAND("nothing",           "oak", 20, 100, 0, IMMEDIATE, WOOD, HI_WOOD),
+WAND("wonder",        "plastic",  5, 100, 0, IMMEDIATE, PLASTIC, CLR_RED),
+WAND("windstorm",       "green", 15, 300, 0, IMMEDIATE, PLASTIC,
+                                                            CLR_BRIGHT_GREEN),
 WAND("striking",        "ebony", 75, 150, 1, IMMEDIATE, WOOD, HI_WOOD),
+WAND("water",       "driftwood", 10, 175, 1, IMMEDIATE, WOOD, HI_WOOD),
 WAND("make invisible", "marble", 45, 150, 1, IMMEDIATE, MINERAL, HI_MINERAL),
-WAND("slow monster",      "tin", 50, 150, 1, IMMEDIATE, METAL, HI_METAL),
+WAND("slow monster",      "tin", 25, 150, 1, IMMEDIATE, METAL, HI_METAL),
 WAND("speed monster",   "brass", 50, 150, 1, IMMEDIATE, COPPER, HI_COPPER),
 WAND("undead turning", "copper", 50, 150, 1, IMMEDIATE, COPPER, HI_COPPER),
 WAND("polymorph",      "silver", 45, 200, 1, IMMEDIATE, SILVER, HI_SILVER),
@@ -1106,18 +1131,29 @@ WAND("teleportation", "iridium", 45, 200, 1, IMMEDIATE, METAL,
                                                              CLR_BRIGHT_CYAN),
 WAND("opening",          "zinc", 25, 150, 1, IMMEDIATE, METAL, HI_METAL),
 WAND("locking",      "aluminum", 25, 150, 1, IMMEDIATE, METAL, HI_METAL),
+WAND("healing",        "willow", 25, 175, 1, IMMEDIATE, WOOD, HI_WOOD),
 WAND("probing",       "uranium", 30, 150, 1, IMMEDIATE, METAL, HI_METAL),
 WAND("digging",          "iron", 55, 150, 1, RAY, IRON, HI_METAL),
 WAND("magic missile",   "steel", 50, 150, 1, RAY, IRON, HI_METAL),
-WAND("fire",        "hexagonal", 40, 175, 1, RAY, IRON, HI_METAL),
-WAND("cold",            "short", 40, 175, 1, RAY, IRON, HI_METAL),
+WAND("fire",        "hexagonal", 20, 175, 1, RAY, IRON, HI_METAL),
+WAND("cold",            "short", 20, 175, 1, RAY, IRON, HI_METAL),
 WAND("sleep",           "runed", 50, 175, 1, RAY, IRON, HI_METAL),
 WAND("death",            "long",  5, 500, 1, RAY, IRON, HI_METAL),
-WAND("lightning",      "curved", 40, 175, 1, RAY, IRON, HI_METAL),
+WAND("lightning",      "curved", 10, 175, 1, RAY, IRON, HI_METAL),
+WAND("poison gas",  "octagonal", 20, 175, 1, RAY, IRON, HI_METAL),
+WAND("acid",          "twisted", 20, 175, 1, RAY, WOOD, HI_WOOD),
+WAND("sonics",       "titanium", 20, 175, 1, RAY, IRON, HI_METAL),
+WAND("psionics",      "mithril", 10, 175, 1, RAY, MITHRIL, HI_SILVER),
 /* extra descriptions, shuffled into use at start of new game */
 WAND(None,             "forked",  0, 150, 1, 0, WOOD, HI_WOOD),
+WAND(None,             "holly",  0, 150, 1, 0, WOOD, HI_WOOD),
 WAND(None,             "spiked",  0, 150, 1, 0, IRON, HI_METAL),
-WAND(None,            "jeweled",  0, 150, 1, 0, IRON, HI_MINERAL),
+WAND(None,             "pliable",  0, 150, 1, 0, WOOD, HI_WOOD),
+WAND(None,             "bone",  0, 150, 1, 0, BONE, CLR_WHITE),
+WAND(None,             "dragon-bone",  0, 150, 1, 0, BONE, CLR_WHITE),
+WAND(None,             "golden",  0, 150, 1, 0, GOLD, HI_GOLD),
+WAND(None,             "thin",  0, 150, 1, 0, IRON, HI_METAL),
+WAND(None,             "jeweled",  0, 150, 1, 0, IRON, HI_MINERAL),
 #undef WAND
 
 /* coins ... - so far, gold is all there is */

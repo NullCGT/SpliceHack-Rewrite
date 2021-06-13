@@ -1185,6 +1185,7 @@ on_fire(struct permonst* mptr, struct attack* mattk)
     case PM_FOG_CLOUD:
     case PM_STEAM_VORTEX:
     case PM_ACID_ELEMENTAL:
+    case PM_MUD_ELEMENTAL:
         what = "boiling";
         break;
     case PM_ICE_VORTEX:

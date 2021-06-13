@@ -164,8 +164,11 @@ obj_typename(int otyp)
         Strcpy(buf, "wand");
         break;
     case SPBOOK_CLASS:
-        if (otyp != SPE_NOVEL) {
+        if (otyp < SPE_NOVEL || otyp == SPE_BOOK_OF_THE_DEAD) {
             Strcpy(buf, "spellbook");
+        } else if (otyp == SPE_ENCYCLOPEDIA) {
+            Strcpy(buf, !nn ? "book" : "encyclopedia");
+            nn = 0;
         } else {
             Strcpy(buf, !nn ? "book" : "novel");
             nn = 0;
@@ -698,13 +701,14 @@ xname_flags(
             Sprintf(buf, "%s wand", dn);
         break;
     case SPBOOK_CLASS:
-        if (typ == SPE_NOVEL) { /* 3.6 tribute */
+        if (typ == SPE_NOVEL || typ == SPE_ENCYCLOPEDIA) { /* 3.6 tribute */
             if (!dknown)
                 Strcpy(buf, "book");
             else if (nn)
                 Strcpy(buf, actualn);
             else if (un)
-                Sprintf(buf, "novel called %s", un);
+                Sprintf(buf, typ == SPE_NOVEL
+                    ? "novel called %s" : "encyclopedia called %s", un);
             else
                 Sprintf(buf, "%s book", dn);
             break;
@@ -4589,7 +4593,7 @@ readobjnam(char* bp, struct obj* no_wish)
             d.name = aname;
 
         /* 3.6 tribute - fix up novel */
-        if (d.otmp->otyp == SPE_NOVEL) {
+        if (d.otmp->otyp == SPE_NOVEL || d.otmp->otyp == SPE_ENCYCLOPEDIA) {
             const char *novelname;
 
             novelname = lookup_novel(d.name, &d.otmp->novelidx);

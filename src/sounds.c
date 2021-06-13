@@ -1087,7 +1087,7 @@ domonnoise(register struct monst* mtmp)
         /* 3.6 tribute */
         if (ms_Death && !g.context.tribute.Deathnotice
             && (book = u_have_novel()) != 0) {
-            if ((tribtitle = noveltitle(&book->novelidx)) != 0) {
+            if ((tribtitle = noveltitle(&book->novelidx, FALSE)) != 0) {
                 Sprintf(verbuf, "Ah, so you have a copy of /%s/.", tribtitle);
                 /* no Death featured in these two, so exclude them */
                 if (strcmpi(tribtitle, "Snuff")

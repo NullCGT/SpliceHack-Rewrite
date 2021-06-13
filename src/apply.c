@@ -3502,10 +3502,16 @@ do_break_wand(struct obj *obj)
         goto discard_broken_wand;
     case WAN_DEATH:
     case WAN_LIGHTNING:
+    case WAN_SONICS:
         dmg *= 4;
         goto wanexpl;
     case WAN_FIRE:
         expltype = EXPL_FIERY;
+        /*FALLTHRU*/
+    case WAN_ACID:
+    case WAN_POISON_GAS:
+        if (expltype == EXPL_MAGICAL)
+            expltype = EXPL_NOXIOUS;
         /*FALLTHRU*/
     case WAN_COLD:
         if (expltype == EXPL_MAGICAL)
@@ -3513,10 +3519,19 @@ do_break_wand(struct obj *obj)
         dmg *= 2;
         /*FALLTHRU*/
     case WAN_MAGIC_MISSILE:
+    case WAN_PSIONICS:
  wanexpl:
         explode(u.ux, u.uy, -(obj->otyp), dmg, WAND_CLASS, expltype);
         makeknown(obj->otyp); /* explode describes the effect */
         goto discard_broken_wand;
+    case WAN_WINDSTORM:
+        pline("A tornado surrounds you!");
+        affects_objects = TRUE;
+        break;
+    case WAN_WATER:
+        pline("KER-SPLOOSH!");
+        affects_objects = TRUE;
+        break;
     case WAN_STRIKING:
         /* we want this before the explosion instead of at the very end */
         pline("A wall of force smashes down around you!");
@@ -3537,8 +3552,9 @@ do_break_wand(struct obj *obj)
     /* [TODO?  This really ought to prevent the explosion from being
        fatal so that we never leave a bones file where none of the
        surrounding targets (or underlying objects) got affected yet.] */
-    explode(obj->ox, obj->oy, -(obj->otyp), rnd(dmg), WAND_CLASS,
-            EXPL_MAGICAL);
+    if (obj->otyp != WAN_WINDSTORM && obj->otyp != WAN_WATER)
+        explode(obj->ox, obj->oy, -(obj->otyp), rnd(dmg), WAND_CLASS,
+                EXPL_MAGICAL);
 
     /* prepare for potential feedback from polymorph... */
     zapsetup();
@@ -3582,7 +3598,8 @@ do_break_wand(struct obj *obj)
                                                       : HOLE);
             }
             continue;
-        } else if (obj->otyp == WAN_CREATE_MONSTER) {
+        } else if (obj->otyp == WAN_CREATE_MONSTER ||
+                    obj->otyp == WAN_CREATE_HORDE) {
             /* u.ux,u.uy creates it near you--x,y might create it in rock */
             (void) makemon((struct permonst *) 0, u.ux, u.uy, NO_MM_FLAGS);
             continue;

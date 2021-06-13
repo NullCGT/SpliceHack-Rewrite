@@ -289,6 +289,9 @@ mquaffmsg(struct monst* mtmp, struct obj* otmp)
 #define MUSE_POT_FULL_HEALING 18
 #define MUSE_LIZARD_CORPSE 19
 #define MUSE_WAN_UNDEAD_TURNING 20 /* also an offensive item */
+/* Splice muse */
+#define MUSE_WAN_CREATE_HORDE 21
+#define MUSE_WAN_HEALING 22
 /*
 #define MUSE_INNATE_TPT 9999
  * We cannot use this.  Since monsters get unlimited teleportation, if they
@@ -315,6 +318,13 @@ m_use_healing(struct monst* mtmp)
         g.m.defensive = obj;
         g.m.has_defense = MUSE_POT_HEALING;
         return TRUE;
+    }
+    if ((obj = m_carrying(mtmp, WAN_HEALING)) != 0) {
+        if (obj->spe > 0) {
+            g.m.defensive = obj;
+            g.m.has_defense = MUSE_WAN_HEALING;
+            return TRUE;
+        }
     }
     return FALSE;
 }
@@ -619,6 +629,16 @@ find_defensive(struct monst* mtmp)
                 g.m.defensive = obj;
                 g.m.has_defense = MUSE_WAN_CREATE_MONSTER;
             }
+            nomore(MUSE_WAN_CREATE_HORDE);
+            if (obj->otyp == WAN_CREATE_HORDE && obj->spe > 0) {
+                g.m.defensive = obj;
+                g.m.has_defense = MUSE_WAN_CREATE_HORDE;
+            }
+            nomore(MUSE_WAN_HEALING);
+            if (obj->otyp == WAN_HEALING) {
+                g.m.defensive = obj;
+                g.m.has_defense = MUSE_WAN_HEALING;
+            }
             nomore(MUSE_POT_HEALING);
             if (obj->otyp == POT_HEALING) {
                 g.m.defensive = obj;
@@ -810,6 +830,22 @@ use_defensive(struct monst* mtmp)
         mbhit(mtmp, rn1(8, 6), mbhitm, bhito, otmp);
         g.m_using = FALSE;
         return 2;
+    case MUSE_WAN_CREATE_HORDE: {
+        coord cc;
+        struct permonst *pm=rndmonst();
+        int cnt = 1;
+        if (!enexto(&cc, mtmp->mx, mtmp->my, pm)) return 0;
+        mzapwand(mtmp, otmp, FALSE);
+        if (oseen) makeknown(WAN_CREATE_HORDE);
+        cnt = rnd(4) + 6;
+        while(cnt--) {
+            struct monst *mon;
+            if (!enexto(&cc, mtmp->mx, mtmp->my, pm)) continue;
+            mon = makemon(rndmonst(), cc.x, cc.y, NO_MM_FLAGS);
+            if (mon) newsym(mon->mx,mon->my);
+        }
+        return 2;
+  	}
     case MUSE_WAN_CREATE_MONSTER: {
         coord cc;
         struct monst *mon;
@@ -1018,6 +1054,17 @@ use_defensive(struct monst* mtmp)
             makeknown(POT_HEALING);
         m_useup(mtmp, otmp);
         return 2;
+    case MUSE_WAN_HEALING:
+        mzapwand(mtmp, otmp, TRUE);
+        i = d(6, 4);
+        mtmp->mhp += i;
+        if (mtmp->mhp > mtmp->mhpmax)
+            mtmp->mhp = ++mtmp->mhpmax;
+        if (vismon)
+            pline("%s looks better.", Monnam(mtmp));
+        if (oseen)
+            makeknown(WAN_HEALING);
+        return 2;
     case MUSE_POT_EXTRA_HEALING:
         mquaffmsg(mtmp, otmp);
         i = d(6 + 2 * bcsign(otmp), 8);
@@ -1125,6 +1172,12 @@ rnd_defensive_item(struct monst* mtmp)
 #define MUSE_SCR_EARTH 17
 /*#define MUSE_WAN_UNDEAD_TURNING 20*/ /* also a defensive item so don't
                                      * redefine; nonconsecutive value is ok */
+#define MUSE_WAN_WINDSTORM 21
+#define MUSE_WAN_WATER 22
+#define MUSE_WAN_ACID 23
+#define MUSE_WAN_POISON_GAS 24
+#define MUSE_WAN_SONICS 25
+#define MUSE_WAN_PSIONICS 26
 
 static boolean
 linedup_chk_corpse(int x, int y)
@@ -1239,6 +1292,21 @@ find_offensive(struct monst* mtmp)
                 g.m.offensive = obj;
                 g.m.has_offense = MUSE_WAN_COLD;
             }
+            nomore(MUSE_WAN_ACID);
+            if (obj->otyp == WAN_ACID && obj->spe > 0) {
+                g.m.offensive = obj;
+                g.m.has_offense = MUSE_WAN_ACID;
+            }
+            nomore(MUSE_WAN_POISON_GAS);
+            if (obj->otyp == WAN_POISON_GAS && obj->spe > 0) {
+                g.m.offensive = obj;
+                g.m.has_offense = MUSE_WAN_POISON_GAS;
+            }
+            nomore(MUSE_WAN_SONICS);
+            if (obj->otyp == WAN_SONICS && obj->spe > 0) {
+                g.m.offensive = obj;
+                g.m.has_offense = MUSE_WAN_SONICS;
+            }
             nomore(MUSE_FROST_HORN);
             if (obj->otyp == FROST_HORN && obj->spe > 0 && can_blow(mtmp)
                 && !m_seenres(mtmp, M_SEEN_COLD)) {
@@ -1258,6 +1326,11 @@ find_offensive(struct monst* mtmp)
                 g.m.has_offense = MUSE_WAN_MAGIC_MISSILE;
             }
         }
+        nomore(MUSE_WAN_PSIONICS);
+        if (obj->otyp == WAN_PSIONICS && obj->spe > 0) {
+            g.m.offensive = obj;
+            g.m.has_offense = MUSE_WAN_PSIONICS;
+        }
         nomore(MUSE_WAN_UNDEAD_TURNING);
         m_use_undead_turning(mtmp, obj);
         nomore(MUSE_WAN_STRIKING);
@@ -1265,6 +1338,16 @@ find_offensive(struct monst* mtmp)
             && !m_seenres(mtmp, M_SEEN_MAGR)) {
             g.m.offensive = obj;
             g.m.has_offense = MUSE_WAN_STRIKING;
+        }
+        nomore(MUSE_WAN_WINDSTORM);
+        if (obj->otyp == WAN_WINDSTORM && obj->spe > 0 && !rn2(3)) {
+            g.m.offensive = obj;
+            g.m.has_offense = MUSE_WAN_WINDSTORM;
+        }
+        nomore(MUSE_WAN_WATER);
+        if (obj->otyp == WAN_WATER && obj->spe > 0) {
+            g.m.offensive = obj;
+            g.m.has_offense = MUSE_WAN_WATER;
         }
 #if 0   /* use_offensive() has had some code to support wand of teleportation
          * for a long time, but find_offensive() never selected one;
@@ -1381,6 +1464,44 @@ mbhitm(register struct monst* mtmp, register struct obj* otmp)
             miss("wand", mtmp);
             if (cansee(mtmp->mx, mtmp->my) && g.zap_oseen)
                 makeknown(WAN_STRIKING);
+        }
+        break;
+    case WAN_WINDSTORM:
+        You("get blasted by hurricane-force winds!");
+        hurtle(u.ux - mtmp->mx, u.uy - mtmp->my, 5 + rn2(5), TRUE);
+        break;
+    case WAN_WATER:
+        reveal_invis = TRUE;
+        if (mtmp == &g.youmonst) {
+            if (g.zap_oseen)
+                makeknown(WAN_WATER);
+            if (rnd(20) < 10 + u.uac) {
+                tmp = d(likes_fire(g.youmonst.data) ? 12 : 1, 6);
+                pline_The("jet of water hits you!");
+                erode_armor(&g.youmonst, ERODE_RUST);
+                losehp(tmp, "jet of water", KILLED_BY_AN);
+            } else
+                pline_The("jet of water misses you.");
+            stop_occupation();
+            nomul(0);
+        } else if (mtmp->data == &mons[PM_WATER_ELEMENTAL]) {
+            mtmp->mhp += d(6, 6);
+            if (mtmp->mhp > mtmp->mhpmax)
+                mtmp->mhp = mtmp->mhpmax;
+            if (canseemon(mtmp)) {
+                pline("%s looks a lot better.", Monnam(mtmp));
+            }
+        } else if (mtmp->data == &mons[PM_EARTH_ELEMENTAL]) {
+            if (canseemon(mtmp))
+                pline("%s turns into a roiling pile of mud!", Monnam(mtmp));
+            (void) newcham(mtmp, &mons[PM_MUD_ELEMENTAL], FALSE, FALSE);
+        } else if (rnd(20) < 10 + find_mac(mtmp)) {
+            tmp = d(likes_fire(mtmp->data) ? 12 : 1, 6);
+            hit("jet of water", mtmp, exclam(tmp));
+        } else {
+            miss("jet of water", mtmp);
+            if (cansee(mtmp->mx, mtmp->my) && g.zap_oseen)
+                makeknown(WAN_WATER);
         }
         break;
 #if 0   /* disabled because find_offensive() never picks WAN_TELEPORTATION */
@@ -1556,6 +1677,10 @@ use_offensive(struct monst* mtmp)
     case MUSE_WAN_SLEEP:
     case MUSE_WAN_FIRE:
     case MUSE_WAN_COLD:
+    case MUSE_WAN_ACID:
+    case MUSE_WAN_POISON_GAS:
+    case MUSE_WAN_SONICS:
+    case MUSE_WAN_PSIONICS:
     case MUSE_WAN_LIGHTNING:
     case MUSE_WAN_MAGIC_MISSILE:
         mzapwand(mtmp, otmp, FALSE);
@@ -1579,6 +1704,8 @@ use_offensive(struct monst* mtmp)
     case MUSE_WAN_TELEPORTATION:
     case MUSE_WAN_UNDEAD_TURNING:
     case MUSE_WAN_STRIKING:
+    case MUSE_WAN_WINDSTORM:
+    case MUSE_WAN_WATER:
         g.zap_oseen = oseen;
         mzapwand(mtmp, otmp, FALSE);
         g.m_using = TRUE;
@@ -2369,7 +2496,9 @@ searches_for_item(struct monst* mon, struct obj* obj)
             return (boolean) (mons[monsndx(mon->data)].difficulty < 6);
         if (objects[typ].oc_dir == RAY || typ == WAN_STRIKING
             || typ == WAN_UNDEAD_TURNING
-            || typ == WAN_TELEPORTATION || typ == WAN_CREATE_MONSTER)
+            || typ == WAN_TELEPORTATION || typ == WAN_CREATE_MONSTER
+            || typ == WAN_WINDSTORM || typ == WAN_CREATE_HORDE
+            || typ == WAN_WATER || typ == WAN_HEALING)
             return TRUE;
         break;
     case POTION_CLASS:

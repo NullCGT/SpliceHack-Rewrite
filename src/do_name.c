@@ -2423,6 +2423,21 @@ christen_orc(struct monst *mtmp, const char *gang, const char *other)
     return mtmp;
 }
 
+static const char *const encyclopedias[] = {
+    /* Alliteration */
+    "Index of Items Moste Interesting", "De Dungeons of Doom for Dummies",
+    "The Adventurer\'s Almanac", "The Implausibility of Identification",
+    "The Big Book of Bats", "Mystickism and Magick",
+    "Monsters Most Malevolent", "The Voluminous Volume Vol. V",
+    "Catacomps and Creeps", "The Encyclopedia of Enchantments",
+    "Mummies, Mimics, and More", "On the Magic of Markers",
+    /* Misc */
+    "A Treatise on Yendor", "Collected Essays of Og",
+    /* Sir Terry, Night Watch */
+    "Anecdotes of the Great Accountants, Vol. III",
+    "Some Observations on the Art of Invisibility"
+};
+
 /* make sure "The Colour of Magic" remains the first entry in here */
 static const char *const sir_Terry_novels[] = {
     "The Colour of Magic", "The Light Fantastic", "Equal Rites", "Mort",
@@ -2439,9 +2454,10 @@ static const char *const sir_Terry_novels[] = {
 };
 
 const char *
-noveltitle(int *novidx)
+noveltitle(int *novidx, boolean encyclopedia)
 {
-    int j, k = SIZE(sir_Terry_novels);
+    int j = 0;
+    int k = encyclopedia ? SIZE(encyclopedias) : SIZE(sir_Terry_novels);
 
     j = rn2(k);
     if (novidx) {
@@ -2450,7 +2466,7 @@ noveltitle(int *novidx)
         else if (*novidx >= 0 && *novidx < k)
             j = *novidx;
     }
-    return sir_Terry_novels[j];
+    return encyclopedia ? encyclopedias[j] : sir_Terry_novels[j];
 }
 
 /* figure out canonical novel title from player-specified one */
