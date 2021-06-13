@@ -274,6 +274,11 @@
 #endif
 #endif
 
+
+/* If UNIQDEATHS is defined, "killed by" will sometimes be replaced by a random
+   selection of unique messages. This can be commented out for tournament play. */
+#define UNIQDEATHS
+
 /*
  *      If COMPRESS is defined, it should contain the full path name of your
  *      'compress' program.

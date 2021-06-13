@@ -93,14 +93,22 @@ formatkiller(
     boolean incl_helpless)
 {
     static NEARDATA const char *const killed_by_prefix[] = {
-        /* DIED, CHOKING, POISONING, STARVING, */
-        "killed by ", "choked on ", "poisoned by ", "died of ",
+        /* DIED, MURDERED, CHOKING, POISONING, STARVING, */
+        "killed by ", "killed by " "choked on ", "poisoned by ", "died of ",
         /* DROWNING, BURNING, DISSOLVED, CRUSHING, */
         "drowned in ", "burned by ", "dissolved in ", "crushed to death by ",
         /* STONING, TURNED_SLIME, GENOCIDED, */
         "petrified by ", "turned to slime by ", "killed by ",
         /* PANICKED, TRICKED, QUIT, ESCAPED, ASCENDED */
         "", "", "", "", ""
+    };
+    static NEARDATA const char *const murdered_by_msg[] = {
+        "slain by ",
+        "dismembered by ",  "sent to the next life by ",  "overpowered by ",
+        "killed by ",       "inhumed by ",                "dispatched by ",
+        "done in by ",      "brought low by ",            "struck down by ",
+        "offed by ",        "taken down by ",             "sent to the grave by ",
+        "cut down by ",     "slaughtered by "
     };
     unsigned l;
     char c, *kname = g.killer.name;
@@ -116,7 +124,13 @@ formatkiller(
         kname = an(kname);
         /*FALLTHRU*/
     case KILLED_BY:
-        (void) strncat(buf, killed_by_prefix[how], siz - 1);
+        #ifdef UNIQDEATHS
+        if (how == MURDERED)
+            (void) strncat(buf,
+                murdered_by_msg[g.moves % SIZE(murdered_by_msg)], siz - 1);
+        else
+        #endif
+            (void) strncat(buf, killed_by_prefix[how], siz - 1);
         l = strlen(buf);
         buf += l, siz -= l;
         break;

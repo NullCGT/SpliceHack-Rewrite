@@ -1764,7 +1764,7 @@ mdamageu(struct monst *mtmp, int n)
     } else {
         u.uhp -= n;
         if (u.uhp < 1)
-            done_in_by(mtmp, DIED);
+            done_in_by(mtmp, MURDERED);
     }
 }
 

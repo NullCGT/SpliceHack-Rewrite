@@ -50,6 +50,7 @@ QOL
   looking at a monster will tell you whether it is sleeping.
 - Added some additional messages for dodging attacks in order to spice up combat logs.
 - The skill training menu correctly displays the maximum training possible in a skill.
+- Made unique death messages slightly less silly.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
