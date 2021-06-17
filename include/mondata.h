@@ -35,6 +35,14 @@
 
 #define immune_poisongas(ptr) ((ptr) == &mons[PM_HEZROU])
 
+#define resists_mgc(ptr) \
+    (dmgtype(ptr, AD_MAGM) || ptr == &mons[PM_BABY_GRAY_DRAGON] \
+     || dmgtype(ptr, AD_RBRE)) /* Chromatic Dragon */
+
+#define resists_drain(ptr) \
+    (is_undead(ptr) || is_demon(ptr) || is_were(ptr) \
+     || ptr == &mons[PM_DEATH])
+
 #define resists_sickness(ptr) \
     (is_undead(ptr) || amorphous(ptr) || is_rider(ptr) \
     || is_demon(ptr) \
@@ -199,7 +207,11 @@
 #define is_covetous(ptr) (((ptr)->mflags3 & M3_COVETOUS))
 #define infravision(ptr) (((ptr)->mflags3 & M3_INFRAVISION))
 #define infravisible(ptr) (((ptr)->mflags3 & M3_INFRAVISIBLE))
+#define is_jumper(ptr) (((ptr)->mflags3 & M3_JUMPER) != 0L)
 #define is_displacer(ptr) (((ptr)->mflags3 & M3_DISPLACES) != 0L)
+#define is_displaced(ptr) ((ptr) == &mons[PM_SHIMMERING_DRAGON] || \
+    (ptr) == &mons[PM_BABY_SHIMMERING_DRAGON] || \
+    (ptr) == &mons[PM_DISPLACER_BEAST])
 #define is_mplayer(ptr) \
     (((ptr) >= &mons[PM_ARCHEOLOGIST]) && ((ptr) <= &mons[PM_WIZARD]))
 #define is_watch(ptr) \

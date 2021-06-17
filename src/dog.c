@@ -234,6 +234,7 @@ makedog(void)
         mtmp = christen_monst(mtmp, petname);
 
     initedog(mtmp);
+    learn_monster(pettype);
     return  mtmp;
 }
 

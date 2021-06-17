@@ -874,6 +874,9 @@ u_init(void)
 		u.ulives = 0;
 	}
 
+    /* You automatically recognize monsters of your kind */
+    learn_monster(monsndx(g.youmonst.data));
+
     init_uhunger();
     for (i = 0; i <= MAXSPELL; i++)
         g.spl_book[i].sp_id = NO_SPELL;

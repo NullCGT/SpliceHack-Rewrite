@@ -579,6 +579,374 @@ lookat(int x, int y, char *buf, char *monbuf)
     return (pm && !Hallucination) ? pm : (struct permonst *) 0;
 }
 
+/* This is not the best place to put these arrays, but it's the only place that
+ * currently uses them.
+ * Make sure the order is the same as that defined in monattk.h!
+ */
+static const char * attacktypes[] = {
+    "passive",
+    "claw",
+    "bite",
+    "kick",
+    "butt",
+    "touch",
+    "sting",
+    "bearhug",
+    "spit",
+    "engulf/swallow",
+    "breath",
+    "explode",
+    "explode on death",
+    "gaze",
+    "tentacle",
+    "scream",
+    "volley",
+    "weapon",
+    "spellcast"
+};
+
+static const char * damagetypes[] = {
+    "physical",
+    "magic missile",
+    "fire",
+    "cold",
+    "sleep",
+    "disintegration",
+    "shock",
+    "strength poison",
+    "acid",
+    "sonic",
+    "psionic",
+    "blind",
+    "stun",
+    "slow",
+    "paralyze",
+    "level drain",
+    "energy drain",
+    "wound leg",
+    "petrify",
+    "sticky",
+    "steal gold",
+    "steal item",
+    "charm",
+    "teleport",
+    "rust",
+    "confuse",
+    "digest",
+    "heal",
+    "drown",
+    "lycanthropy",
+    "dexterity poison",
+    "constitution poison",
+    "eat brains",
+    "disease",
+    "decay",
+    "seduce",
+    "hallucination",
+    "Death",
+    "Pestilence",
+    "Famine",
+    "slime",
+    "disenchant",
+    "corrode",
+    "void",
+    "eat memories",
+    "quills",
+    "quake",
+    "cancellation",
+    "disarm",
+    "wind",
+    "calming",
+    "unluck",
+    "head regrowth",
+    "alter material",
+    "get lost",
+    "tickling",
+    "polymorph",
+    "lay eggs",
+    "spawn skeletons",
+    "hunger",
+    "potion effect",
+    "kidnapping",
+    "fumbling",
+    "knockback",
+    "withering",
+    "prosecution",
+    "beheading",
+    "clerical",
+    "arcane",
+    "random breath",
+    "steal Amulet",
+    "random curse",
+    "steal intrinsic",
+};
+
+/* Add some information to an encyclopedia window which is printing information
+ * about a monster. */
+static void
+add_mon_info(datawin, pm)
+winid datawin;
+struct permonst * pm;
+{
+    char buf[BUFSZ];
+    char buf2[BUFSZ];
+    int gen = pm->geno;
+    int freq = (gen & G_FREQ);
+    boolean uniq = !!(gen & G_UNIQ);
+    boolean hell = !!(gen & G_HELL);
+    boolean nohell = !!(gen & G_NOHELL);
+    uchar mcon = pm->mconveys;
+    mcon &= ~(MR_ACID | MR_STONE); /* these don't do anything */
+    unsigned int mflag1 = pm->mflags1;
+
+#define ADDRESIST(condition, str)                       \
+    if (condition) {                                    \
+        if (*buf)                                       \
+            Strcat(buf, ", ");                          \
+        Strcat(buf, str);                               \
+    }
+#define ADDMR(field, res, str)                          \
+    if (field & (res)) {                                \
+        if (*buf)                                       \
+            Strcat(buf, ", ");                          \
+        Strcat(buf, str);                               \
+    }
+#define APPENDC(cond, str)                              \
+    if (cond) {                                         \
+        if (*buf)                                       \
+            Strcat(buf, ", ");                          \
+        Strcat(buf, str);                               \
+    }
+#define MONPUTSTR(str) putstr(datawin, ATR_NONE, str)
+
+    if ((g.mvitals[monsndx(pm)].mvflags & G_KNOWN) == 0) {
+        MONPUTSTR("You do not know enough about this monster yet to ascertain its exact statistics.");
+        MONPUTSTR("Such information could be gained in the following ways, for example:");
+        MONPUTSTR("- Slaying it");
+        MONPUTSTR("- Probing it");
+        MONPUTSTR("- Speaking with it (if peaceful)");
+        return;
+    }
+
+    Sprintf(buf, "\"%s\" - %s %s:", pm->pmnames[NEUTRAL], 
+            uniq ? "unique" : "",
+            def_monsyms[(int) pm->mlet].explain);
+    putstr(datawin, ATR_BOLD, buf);
+    MONPUTSTR("");
+
+    /* Misc */
+
+    Sprintf(buf, "Speed: %d, Base AC: %d, Magic Res: %d, Weight: %d.",
+            pm->mmove, pm->ac, pm->mr, pm->cwt);
+    MONPUTSTR(buf);
+
+    /* Generation */
+    if (wizard) {
+        if (uniq)
+            Strcpy(buf, "Unique.");
+        else if (freq == 0 || gen & G_NOGEN)
+            Strcpy(buf, "Not randomly generated.");
+        else
+            Sprintf(buf, "Normally %s%s, %s.",
+                    hell ? "only appears in Gehennom" :
+                    nohell ? "only appears outside Gehennom" :
+                    "appears in any branch",
+                    (gen & G_SGROUP) ? " in groups" :
+                    (gen & G_LGROUP) ? " in large groups" : "",
+                    freq >= 5 ? "very common" :
+                    freq == 4 ? "common" :
+                    freq == 3 ? "slightly rare" :
+                    freq == 2 ? "rare" : "very rare");
+        MONPUTSTR(buf);
+    }
+
+    /* Resistances */
+    buf[0] = '\0';
+    ADDRESIST(pm_resistance(pm, MR_FIRE), "fire");
+    ADDRESIST(pm_resistance(pm, MR_COLD), "cold");
+    ADDRESIST(pm_resistance(pm, MR_SLEEP), "sleep");
+    ADDRESIST(pm_resistance(pm, MR_DISINT), "disintegration");
+    ADDRESIST(pm_resistance(pm, MR_ELEC), "shock");
+    ADDRESIST(pm_resistance(pm, MR_POISON), "poison");
+    ADDRESIST(pm_resistance(pm, MR_ACID), "acid");
+    ADDRESIST(pm_resistance(pm, MR_STONE), "petrification");
+    ADDRESIST(pm_resistance(pm, MR_SONIC), "sonic");
+    ADDRESIST(pm_resistance(pm, MR_PSYCHIC), "psionics");
+
+
+    ADDRESIST(resists_drain(pm), "life-drain");
+    ADDRESIST(resists_sickness(pm), "sickness");
+    ADDRESIST(resists_mgc(pm), "magic");
+    if (*buf) {
+        Snprintf(buf2, sizeof(buf2), "Resists %s.", buf);
+        MONPUTSTR(buf2);
+    }
+    else {
+        MONPUTSTR("Has no resistances.");
+    }
+
+    /* Corpse conveyances */
+    buf[0] = '\0';
+    ADDMR(mcon, MR_FIRE, "fire");
+    ADDMR(mcon, MR_COLD, "cold");
+    ADDMR(mcon, MR_SLEEP, "sleep");
+    ADDMR(mcon, MR_DISINT, "disintegration");
+    ADDMR(mcon, MR_ELEC, "shock");
+    ADDMR(mcon, MR_POISON, "poison");
+    if (*buf)
+        Strcat(buf, " resistance");
+    ADDMR(mflag1, M1_TPORT, "teleportitis");
+    ADDMR(mflag1, M1_TPORT_CNTRL, "teleport control");
+    if (!(gen & G_NOCORPSE)) {
+        Snprintf(buf2, sizeof(buf2), "Provides %d nutrition when eaten.", pm->cnutrit);
+        MONPUTSTR(buf2);
+        if (*buf) {
+            Snprintf(buf2, sizeof(buf2), "Corpse may convey %s.", buf);
+            MONPUTSTR(buf2);
+        }
+        else
+            MONPUTSTR("Corpse conveys nothing.");
+    }
+    else
+        MONPUTSTR("Leaves no corpse.");
+
+    /* Flag descriptions */
+    buf[0] = '\0';
+    APPENDC(is_male(pm), "male");
+    APPENDC(is_female(pm), "female");
+    APPENDC(pm->msize == MZ_TINY, "tiny");
+    APPENDC(pm->msize == MZ_SMALL, "small");
+    APPENDC(pm->msize == MZ_LARGE, "large");
+    APPENDC(pm->msize == MZ_HUGE, "huge");
+    APPENDC(pm->msize == MZ_GIGANTIC, "gigantic");
+    if (!(*buf)) {
+        /* for nonstandard sizes */
+        if (verysmall(pm)) {
+            APPENDC(TRUE, "small");
+        }
+        else if (bigmonst(pm)) {
+            APPENDC(TRUE, "big");
+        }
+    }
+
+    APPENDC(!(gen & G_GENO), "ungenocideable");
+    APPENDC(breathless(pm), "breathless");
+    if (!breathless(pm))
+        APPENDC(amphibious(pm), "amphibious");
+    APPENDC(amorphous(pm), "amorphous");
+    APPENDC(noncorporeal(pm), "incorporeal");
+    if (!noncorporeal(pm))
+        APPENDC(unsolid(pm), "unsolid");
+    APPENDC(acidic(pm), "acidic");
+    APPENDC(poisonous(pm), "poisonous");
+    APPENDC(regenerates(pm), "regenerating");
+    APPENDC(is_reviver(pm), "reviving");
+    APPENDC(is_floater(pm), "floating");
+    APPENDC(pm_invisible(pm), "invisible");
+    APPENDC(is_undead(pm), "undead");
+    APPENDC(is_demon(pm), "demonic");
+    if (!is_undead(pm))
+        APPENDC(nonliving(pm), "nonliving");
+    if (*buf) {
+        Snprintf(buf2, sizeof(buf2), "Is %s.", buf);
+        MONPUTSTR(buf2);
+        buf[0] = '\0';
+    }
+
+    APPENDC(hides_under(pm), "hide under objects");
+    if (!hides_under(pm))
+        APPENDC(is_hider(pm), "hide");
+    APPENDC(is_swimmer(pm), "swim");
+    if (!is_floater(pm))
+        APPENDC(is_flyer(pm), "fly");
+    APPENDC(passes_walls(pm), "phase through walls");
+    APPENDC(can_teleport(pm), "teleport");
+    APPENDC(is_clinger(pm), "cling to the ceiling");
+    APPENDC(needspick(pm), "mine");
+    APPENDC(is_jumper(pm), "jump long distances");
+    if (!needspick(pm))
+        APPENDC(tunnels(pm), "dig");
+    if (*buf) {
+        Snprintf(buf2, sizeof(buf2), "Can %s.", buf);
+        MONPUTSTR(buf2);
+        buf[0] = '\0';
+    }
+
+    /* Full-line remarks. */
+    if (is_displaced(pm))
+        MONPUTSTR("Has displacement.");
+    if (is_domestic(pm))
+        MONPUTSTR("Is treated as domestic.");
+    if (touch_petrifies(pm))
+        MONPUTSTR("Petrifies by touch.");
+    if (perceives(pm))
+        MONPUTSTR("Can see invisible.");
+    if (control_teleport(pm))
+        MONPUTSTR("Has teleport control.");
+    if (your_race(pm))
+        MONPUTSTR("Is the same race as you.");
+    if (!(gen & G_NOCORPSE)) {
+        if (vegan(pm))
+            MONPUTSTR("May be eaten by vegans.");
+        else if (vegetarian(pm))
+            MONPUTSTR("May be eaten by vegetarians.");
+    }
+    Sprintf(buf, "Is %sa valid polymorph form.",
+            polyok(pm) ? "" : "not ");
+    MONPUTSTR(buf);
+
+    /* Attacks */
+    buf[0] = buf2[0] = '\0';
+    int i;
+    for (i = 0; i < 6; i++) {
+        char dicebuf[20]; /* should be a safe limit */
+        struct attack * attk;
+
+
+        attk = &(pm->mattk[i]);
+
+        if (is_dragon(pm) && attk->aatyp == AT_BREA) {
+            Sprintf(dicebuf, "(%d + age)d%d", attk->damn, attk->damd);
+        } else if (attk->damn) {
+            Sprintf(dicebuf, "%dd%d", attk->damn, attk->damd);
+        }
+        else if (attk->damd) {
+            Sprintf(dicebuf, "(level+1)d%d", attk->damd);
+        }
+        else {
+            if (!attk->aatyp && !attk->adtyp) {
+                /* no attack in this slot */
+                continue;
+            }
+            else {
+                /* real attack, but 0d0 damage */
+                dicebuf[0] = '\0';
+            }
+        }
+        if (attk->aatyp > LAST_AT) {
+            impossible("add_to_mon: unknown attack type %d", attk->aatyp);
+        }
+        else if (attk->adtyp > LAST_AD) {
+            impossible("add_to_mon: unknown damage type %d", attk->adtyp);
+        }
+        else {
+            Sprintf(buf2, "%s%s%s %s", dicebuf, ((*dicebuf) ? " " : ""),
+                    attacktypes[attk->aatyp], damagetypes[attk->adtyp]);
+            APPENDC(TRUE, buf2);
+        }
+    }
+    if (*buf) {
+        Snprintf(buf2, sizeof(buf2), "Attacks:\n %s", buf);
+        MONPUTSTR(buf2);
+    }
+    else
+        MONPUTSTR("Has no attacks.");
+}
+#undef ADDPROP
+#undef ADDMR
+#undef APPENDC
+#undef MONPUTSTR
+
 /*
  * Look in the "data" file for more info.  Called if the user typed in the
  * whole name (user_typed_name == TRUE), or we've found a possible match
@@ -859,7 +1227,7 @@ checkfile(char *inp, struct permonst *pm, boolean user_typed_name,
                     destroy_nhwindow(datawin), datawin = WIN_ERR;
                 }
             } else if (user_typed_name && pass == 0 && !pass1found_in_file)
-                pline("I don't have any information on those things.");
+                pline("You don't have any information on those things.");
         }
     }
     goto checkfile_done; /* skip error feedback */
@@ -1431,9 +1799,16 @@ do_look(int mode, coord *click_cc)
                 if (supplemental_pm)
                     do_supplemental_info(supplemental_name, supplemental_pm,
                                          (boolean) (ans == LOOK_VERBOSE));
+            } else if (found == 1 && ans == LOOK_ONCE && supplemental_pm) {
+                winid datawin = WIN_ERR;
+                datawin = create_nhwindow(NHW_MENU);
+                add_mon_info(datawin, supplemental_pm);
+                putstr(datawin, 0, "");
+                display_nhwindow(datawin, FALSE);
+                destroy_nhwindow(datawin), datawin = WIN_ERR;
             }
         } else {
-            pline("I've never heard of such things.");
+            pline("You've never heard of such things.");
         }
     } while (from_screen && !quick && ans != LOOK_ONCE && !clicklook);
 

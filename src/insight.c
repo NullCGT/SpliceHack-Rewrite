@@ -2662,11 +2662,23 @@ num_extinct(void)
     return n;
 }
 
+int
+num_encountered(void)
+{
+    int i, n = 0;
+
+    for (i = LOW_PM; i < NUMMONS; ++i) {
+        if ((g.mvitals[i].mvflags & G_KNOWN) == G_EXTINCT)
+            ++n;
+    }
+    return n;
+}
+
 void
 list_genocided(char defquery, boolean ask)
 {
     register int i;
-    int ngenocided, nextinct;
+    int ngenocided, nextinct, nencountered;
     char c;
     winid klwin;
     char buf[BUFSZ];
@@ -2678,6 +2690,7 @@ list_genocided(char defquery, boolean ask)
 
     ngenocided = num_genocides();
     nextinct = num_extinct();
+    nencountered = num_encountered();
 
     /* genocided or extinct species list */
     if (ngenocided != 0 || nextinct != 0) {
@@ -2723,6 +2736,10 @@ list_genocided(char defquery, boolean ask)
             }
             if (nextinct > 0) {
                 Sprintf(buf, "%d species extinct.", nextinct);
+                putstr(klwin, ATR_PREFORM, buf);
+            }
+            if (nencountered > 0) {
+                Sprintf(buf, "%d species encountered.", nextinct);
                 putstr(klwin, ATR_PREFORM, buf);
             }
 
