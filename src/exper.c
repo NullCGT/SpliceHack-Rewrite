@@ -280,7 +280,7 @@ pluslvl(boolean incr) /* true iff via incremental experience growth */
     if (!incr)
         You_feel("more experienced.");
 
-    if (!u.uroleplay.marathon) {
+    if (!u.uroleplay.marathon && !u.uroleplay.heaven_or_hell) {
         /* increase hit points (when polymorphed, do monster form first
            in order to retain normal human/whatever increase for later) */
         if (Upolyd) {

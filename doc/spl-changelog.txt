@@ -30,12 +30,7 @@ or outright removed. Rationale will be provided for all removed content.
 New Features
 - Gods can rarely grant the player a minion. This feature is similar to the one in SLASH'EM, but
   much more balanced.
-
-Options
-- Added the monkeyname configuration option for those who want a default name for their pet
-  monkey.
-- Added a number of small easter egg pet names for players who have not set a default pet
-  name.
+- Added Heaven or Hell mode from AceHack. Enable it by adding "heaven_or_hell" to your config file.
 
 QOL
 - Added a number of QOL fixes to the wish parser. Many of these were pulled from the NetHack YANI
@@ -51,6 +46,10 @@ QOL
 - Added some additional messages for dodging attacks in order to spice up combat logs.
 - The skill training menu correctly displays the maximum training possible in a skill.
 - Made unique death messages slightly less silly.
+- Added the monkeyname configuration option for those who want a default name for their pet
+  monkey.
+- Added a number of small easter egg pet names for players who have not set a default pet
+  name.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.

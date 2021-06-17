@@ -30,6 +30,7 @@ static void get_valuables(struct obj *);
 static void sort_valuables(struct valuable_data *, int);
 static void done_object_cleanup(void);
 static void artifact_score(struct obj *, boolean, winid);
+static int heaven_or_hell_lifesave_end(void);
 static void really_done(int) NORETURN;
 static void savelife(int);
 static boolean should_query_disclose_option(int, char *);
@@ -1210,6 +1211,24 @@ done(int how)
             g.context.botl = 1;
         }
     }
+    /* Save life when under heaven or hell mode, but not when
+	 * self-genociding. */
+	if (u.ulives > 0 && how < GENOCIDED) {
+		pline("But wait...");
+		You("suddenly start to feel better!");
+		savelife(how);
+		u.ulives--;
+		if (!u.ulives)
+			You_feel("death is waiting for you just around the corner...");
+		/* Set invulnerability and wait until player gets another action. */
+		nomul(-5);
+		u.uinvulnerable = TRUE;
+		g.nomovemsg = You_can_move_again;
+		g.afternmv = heaven_or_hell_lifesave_end;
+		g.killer.name[0] = '\0';
+		g.killer.format = 0;
+		return;
+	}
     if (Lifesaved && (how <= GENOCIDED)) {
         pline("But wait...");
         makeknown(AMULET_OF_LIFE_SAVING);
@@ -1248,6 +1267,13 @@ done(int how)
     }
     really_done(how);
     /*NOTREACHED*/
+}
+
+static int
+heaven_or_hell_lifesave_end(void)
+{
+	u.uinvulnerable = FALSE;
+	return 1;
 }
 
 /* separated from done() in order to specify the __noreturn__ attribute */

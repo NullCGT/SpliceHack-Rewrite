@@ -160,6 +160,7 @@ struct u_conduct {     /* number of times... */
     /* Splice conducts */
     long alcohol;      /* drank alcohol */
     long pactmaker;    /* made deals with demons */
+    long celibate;     /* never interacted with amorous demons */
     /* genocides already listed at end of game */
 };
 
@@ -170,6 +171,7 @@ struct u_roleplay {
     boolean deaf;   /* permanently deaf */
     boolean clumsy; /* permanetnly fumbling */
     boolean marathon; /* cannot heal, fixed high max hp */
+    boolean heaven_or_hell; /* everything has 1 hp */
     long numbones;  /* # of bones files loaded  */
 };
 
@@ -491,6 +493,7 @@ struct you {
     int umortality;          /* how many times you died */
     int ugrave_arise;    /* you die and become something aside from a ghost */
     int weapon_slots;        /* unused skill slots */
+    int ulives;              /* lives in heaven or hell mode */
     int skills_advanced;     /* # of advances made so far */
     xchar skill_record[P_SKILL_LIMIT]; /* skill advancements */
     struct skills weapon_skills[P_NUM_SKILLS];

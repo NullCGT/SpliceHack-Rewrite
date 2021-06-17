@@ -932,7 +932,7 @@ trapeffect_arrow_trap(
     struct obj *otmp;
 
     if (mtmp == &g.youmonst) {
-        if (trap->once && trap->tseen && !rn2(15)) {
+        if (trap->once && trap->tseen && (!rn2(15) || u.uroleplay.heaven_or_hell)) {
             You_hear("a loud click!");
             deltrap(trap);
             newsym(u.ux, u.uy);
@@ -990,7 +990,7 @@ trapeffect_dart_trap(
     if (mtmp == &g.youmonst) {
         int oldumort = u.umortality;
 
-        if (trap->once && trap->tseen && !rn2(15)) {
+        if (trap->once && trap->tseen && (!rn2(15) || u.uroleplay.heaven_or_hell)) {
             You_hear("a soft click.");
             deltrap(trap);
             newsym(u.ux, u.uy);
@@ -1056,7 +1056,7 @@ trapeffect_rocktrap(
     struct obj *otmp;
 
     if (mtmp == &g.youmonst) {
-        if (trap->once && trap->tseen && !rn2(15)) {
+        if (trap->once && trap->tseen && (!rn2(15) || u.uroleplay.heaven_or_hell)) {
             pline("A trap door in %s opens, but nothing falls out!",
                   the(ceiling(u.ux, u.uy)));
             deltrap(trap);
@@ -1568,38 +1568,41 @@ trapeffect_pit(
          */
         set_utrap((unsigned) rn1(6, 2), TT_PIT);
         if (!steedintrap(trap, (struct obj *) 0)) {
-            if (ttype == SPIKED_PIT) {
-                oldumort = u.umortality;
-                losehp(Maybe_Half_Phys(rnd(conj_pit ? 4 : adj_pit ? 6 : 10)),
-                       /* note: these don't need locomotion() handling;
-                          if fatal while poly'd and Unchanging, the
-                          death reason will be overridden with
-                          "killed while stuck in creature form" */
-                       plunged
-                       ? "deliberately plunged into a pit of iron spikes"
-                       : conj_pit
-                       ? "stepped into a pit of iron spikes"
-                       : adj_pit
-                       ? "stumbled into a pit of iron spikes"
-                       : "fell into a pit of iron spikes",
-                       NO_KILLER_PREFIX);
-                if (!rn2(6))
-                    poisoned("spikes", A_STR,
-                             (conj_pit || adj_pit)
-                             ? "stepping on poison spikes"
-                             : "fall onto poison spikes",
-                             /* if damage triggered life-saving,
-                                poison is limited to attrib loss */
-                             (u.umortality > oldumort) ? 0 : 8, FALSE, 0);
-            } else {
-                /* plunging flyers take spike damage but not pit damage */
-                if (!conj_pit
-                    && !(plunged && (Flying || is_clinger(g.youmonst.data))))
-                    losehp(Maybe_Half_Phys(rnd(adj_pit ? 3 : 6)),
-                           plunged ? "deliberately plunged into a pit"
-                           : "fell into a pit",
-                           NO_KILLER_PREFIX);
-            }
+            if (!u.uroleplay.heaven_or_hell) {
+                if (ttype == SPIKED_PIT) {
+                    oldumort = u.umortality;
+                    losehp(Maybe_Half_Phys(rnd(conj_pit ? 4 : adj_pit ? 6 : 10)),
+                        /* note: these don't need locomotion() handling;
+                            if fatal while poly'd and Unchanging, the
+                            death reason will be overridden with
+                            "killed while stuck in creature form" */
+                        plunged
+                        ? "deliberately plunged into a pit of iron spikes"
+                        : conj_pit
+                        ? "stepped into a pit of iron spikes"
+                        : adj_pit
+                        ? "stumbled into a pit of iron spikes"
+                        : "fell into a pit of iron spikes",
+                        NO_KILLER_PREFIX);
+                    if (!rn2(6))
+                        poisoned("spikes", A_STR,
+                                (conj_pit || adj_pit)
+                                ? "stepping on poison spikes"
+                                : "fall onto poison spikes",
+                                /* if damage triggered life-saving,
+                                    poison is limited to attrib loss */
+                                (u.umortality > oldumort) ? 0 : 8, FALSE, 0);
+                } else {
+                    /* plunging flyers take spike damage but not pit damage */
+                    if (!conj_pit
+                        && !(plunged && (Flying || is_clinger(g.youmonst.data))))
+                        losehp(Maybe_Half_Phys(rnd(adj_pit ? 3 : 6)),
+                            plunged ? "deliberately plunged into a pit"
+                            : "fell into a pit",
+                            NO_KILLER_PREFIX);
+                }
+            } else
+                You("feel as if something protected you.");
             if (Punished && !carried(uball)) {
                 unplacebc();
                 ballfall();
@@ -2169,7 +2172,10 @@ trapeffect_landmine(
          * blow_up_landmine will remove the pit afterwards if inappropriate */
         trap->ttyp = PIT;
         trap->madeby_u = FALSE;
-        losehp(Maybe_Half_Phys(rnd(16)), "land mine", KILLED_BY_AN);
+        if (!u.uroleplay.heaven_or_hell)
+			losehp(rnd(16), "land mine", KILLED_BY_AN);
+		else
+			You_feel("as if something protected you.");
         blow_up_landmine(trap);
         if (steed_mid && saddle && !u.usteed)
             (void) keep_saddle_with_steedcorpse(steed_mid, fobj, saddle);
@@ -3515,6 +3521,12 @@ dofiretrap(
 {
     boolean see_it = !Blind;
     int num, alt;
+
+    /* Disable fire traps in case of heaven or hell mode */
+	if (u.uroleplay.heaven_or_hell) {
+		You_feel("as if something protected you.");
+		return;
+	}
 
     /* Bug: for box case, the equivalent of burn_floor_objects() ought
      * to be done upon its contents.
@@ -5592,7 +5604,11 @@ b_trapped(const char* item, int bodypart)
 
     pline("KABOOM!!  %s was booby-trapped!", The(item));
     wake_nearby();
-    losehp(Maybe_Half_Phys(dmg), "explosion", KILLED_BY_AN);
+    if (u.uroleplay.heaven_or_hell) {
+        You("feel as if something protected you.");
+    } else {
+        losehp(Maybe_Half_Phys(dmg), "explosion", KILLED_BY_AN);
+    }
     exercise(A_STR, FALSE);
     if (bodypart)
         exercise(A_CON, FALSE);

@@ -190,6 +190,26 @@ for your deity, or die in the attempt.  Your hour of
 destiny has come. Once more, you must go bravely with %d.
          ]],
       },
+      legacy_heaven_or_hell = {
+         synopsis = "[You are following the path of Heaven or Hell.]",
+         output = "menu",
+         text = [[Three lives left.
+Two possible endings.
+One touch kills.
+Heaven... or Hell.
+         ]]
+      },
+      legacy_marathon = {
+         synopsis = "[You are the healthiest you will ever be.]",
+         output = "menu",
+         text = [[
+Some are strong because they never show weakness.
+Others are strong because of their character.
+You are strong because you endure.
+
+The race to the amulet is not to be a sprint. It is to be a marathon.
+         ]]
+      },
       angel_edicts = {
          synopsis = "[You must obey the edicts of %d.]",
          output = "menu",

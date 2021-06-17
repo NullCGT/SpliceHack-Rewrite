@@ -1228,6 +1228,11 @@ newmonhp(struct monst *mon, int mndx)
     int basehp = 0;
 
     mon->m_lev = adj_lev(ptr);
+    if (u.uroleplay.heaven_or_hell) {
+        mon->mhp = 1;
+        mon->mhpmax = 1;
+        return;
+    }
     if (is_golem(ptr)) {
         /* golems have a fixed amount of HP, varying by golem type */
         mon->mhpmax = mon->mhp = golemhp(mndx);

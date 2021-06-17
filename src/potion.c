@@ -1367,10 +1367,11 @@ potionhit(struct monst *mon, struct obj *obj, int how)
         distance = 0;
         pline_The("%s crashes on your %s and breaks into shards.", botlnam,
                   body_part(HEAD));
-        losehp(Maybe_Half_Phys(rnd(2)),
-               (how == POTHIT_OTHER_THROW) ? "propelled potion" /* scatter */
-                                           : "thrown potion",
-               KILLED_BY_AN);
+        if (!u.uroleplay.heaven_or_hell)
+            losehp(Maybe_Half_Phys(rnd(2)),
+                (how == POTHIT_OTHER_THROW) ? "propelled potion" /* scatter */
+                                            : "thrown potion",
+                KILLED_BY_AN);
     } else if (!injection) {
         tx = mon->mx, ty = mon->my;
         /* sometimes it hits the saddle */

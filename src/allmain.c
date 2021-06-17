@@ -132,6 +132,13 @@ moveloop(boolean resuming)
                 } while (monscanmove);
                 g.context.mon_moving = FALSE;
 
+                /* heaven or hell mode: player always has 1 maxhp */
+                if (u.uroleplay.heaven_or_hell) {
+                    u.uhpmax = 1;
+                    if (u.uhp > u.uhpmax)
+                        u.uhp = u.uhpmax;
+                }
+
                 if (!monscanmove && g.youmonst.movement < NORMAL_SPEED) {
                     /* both hero and monsters are out of steam this round */
                     struct monst *mtmp;
@@ -711,7 +718,11 @@ newgame(void)
 
     if (flags.legacy) {
         flush_screen(1);
-        if (Role_if(PM_CONVICT)) {
+        if (u.uroleplay.heaven_or_hell) {
+            com_pager("legacy_heaven_or_hell");
+        } else if (u.uroleplay.marathon) {
+            com_pager("legacy_marathon");
+        } else if (Role_if(PM_CONVICT)) {
 		    com_pager("legacy_convict");
         } else
             com_pager("legacy");
@@ -750,7 +761,7 @@ welcome(boolean new_game) /* false => restoring an old game */
         return;
     }
 
-    if (new_game && u.uroleplay.marathon) {
+    if (new_game && u.uroleplay.marathon && !u.uroleplay.heaven_or_hell) {
         u.uhp = 999;
         u.uhpmax = 999;
     }

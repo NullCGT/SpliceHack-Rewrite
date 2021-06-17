@@ -214,6 +214,8 @@ opt_##a,
                 &iflags.wc2_guicolor)
     NHOPTB(hallucinating, 0, opt_in, set_in_config, Off, Yes, No, No, NoAlias,
                 &u.uroleplay.hallu)
+    NHOPTB(heaven_or_hell, 0, opt_in, set_in_config, Off, Yes, No, No, NoAlias,
+                &u.uroleplay.heaven_or_hell)
     NHOPTB(help, 0, opt_out, set_in_game, On, Yes, No, No, NoAlias,
                 &flags.help)
     NHOPTB(herecmd_menu, 0, opt_in, set_in_game, Off, Yes, No, No, NoAlias,

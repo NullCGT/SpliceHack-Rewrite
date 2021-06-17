@@ -203,6 +203,10 @@ mon_regen(struct monst* mon, boolean digest_meal)
                 finish_meating(mon);
         }
     }
+    if (u.uroleplay.marathon) {
+        mon->mhp = 1;
+        mon->mhpmax = 1;
+    }
 }
 
 /*

@@ -822,6 +822,19 @@ status_enlightenment(int mode, int final)
     enlght_out_attr(ATR_SUBHEAD, final ? "Final Status:" : "Current Status:");
 
     Strcpy(youtoo, You_);
+    /* In heaven or hell mode, this is arguably the most important
+       attribute. */
+    /* heaven or hell modes */
+	if (u.uroleplay.heaven_or_hell) {
+		if (u.ulives > 1)
+			Sprintf(buf, "%d lives remaining", u.ulives);
+		else if (u.ulives == 0)
+			Sprintf(buf, "no lives remaining");
+		else
+			Sprintf(buf, "%d life remaining", u.ulives);
+		you_have(buf, "");
+	}
+
     /* not a traditional status but inherently obvious to player; more
        detail given below (attributes section) for magic enlightenment */
     if (Upolyd) {
@@ -1899,6 +1912,8 @@ show_conduct(int final)
         you_have_been("deaf from birth");
     if (u.uroleplay.marathon)
         you_have_been("playing in marathon mode");
+    if (u.uroleplay.heaven_or_hell)
+        you_have_been("following the path of Heaven or Hell");
 
     if (!u.uconduct.food)
         enl_msg(You_, "have gone", "went", " without food", "");
@@ -1933,6 +1948,14 @@ show_conduct(int final)
         you_have_never("engraved Elbereth");
     } else {
         Sprintf(buf, "engraved Elbereth %ld time%s", u.uconduct.elbereth,
+                plur(u.uconduct.elbereth));
+        you_have_X(buf);
+    }
+
+    if (u.uconduct.celibate == 0) {
+        you_have_been("celibate");
+    } else {
+        Sprintf(buf, "engaged in demonic debauchery %ld time%s", u.uconduct.celibate,
                 plur(u.uconduct.elbereth));
         you_have_X(buf);
     }

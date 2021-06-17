@@ -862,6 +862,18 @@ u_init(void)
     adjabil(0, 1);
     u.ulevel = u.ulevelmax = 1;
 
+    /* Init heaven or hell. */
+    if (u.uroleplay.heaven_or_hell) {
+		u.ulives = 3;
+		u.uhpmax = 1;
+		u.uhp = 1;
+        if (!(HWarning & FROMOUTSIDE))
+            HWarning |= FROMOUTSIDE;
+	}
+	else {
+		u.ulives = 0;
+	}
+
     init_uhunger();
     for (i = 0; i <= MAXSPELL; i++)
         g.spl_book[i].sp_id = NO_SPELL;
@@ -1058,6 +1070,11 @@ u_init(void)
     default: /* impossible */
         break;
     }
+
+    /* Add knowledge of life saving amulets for heaven or hell mode. */
+	if (u.uroleplay.heaven_or_hell) {
+		knows_object(AMULET_OF_LIFE_SAVING);
+	}
 
     /*** Race-specific initializations ***/
     switch (Race_switch) {

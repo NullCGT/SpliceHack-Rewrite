@@ -132,6 +132,9 @@
 - Colored Walls and Floors Patch
 - Gold Dragon Patch
 
+#AceHack
+- Heaven or Hell mode.
+
 #L
 - Dilapidated Armory Patch
 

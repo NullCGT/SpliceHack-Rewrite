@@ -171,7 +171,7 @@ missmu(struct monst *mtmp, boolean nearmiss, struct attack *mattk)
             You("%s %s's %s.",
                 rn2(2) ? "dodge out of the way of" : "duck past",
                 mon_nam(mtmp),
-                MON_WEP(mtmp) ? simpleonames(MON_WEP(mtmp)) : barehitmsg(&g.youmonst));
+                MON_WEP(mtmp) ? simpleonames(MON_WEP(mtmp)) : barehitmsg(mtmp));
         }
     } else
         pline("%s %smisses!", Monnam(mtmp),
@@ -2006,6 +2006,7 @@ doseduce(struct monst *mon)
     if (u.ualign.type == A_CHAOTIC)
         adjalign(1);
 
+    u.uconduct.celibate++;
     /* by this point you have discovered mon's identity, blind or not... */
     pline("Time stands still while you and %s lie in each other's arms...",
           noit_mon_nam(mon));
