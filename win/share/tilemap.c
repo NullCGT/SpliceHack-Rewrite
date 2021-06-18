@@ -730,6 +730,7 @@ struct {
 {S_throne,   "throne", "opulent throne"},
 {S_sink,     "sink", "sink"},
 {S_fountain, "fountain", "fountain"},
+{S_vent,     "vent",     "vent"},
 {S_pool,     "pool", "water"},
 {S_ice,      "ice", "ice"},
 {S_lava,     "lava", "molten lava"},

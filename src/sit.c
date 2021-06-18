@@ -143,6 +143,8 @@ dosit(void)
         You(sit_message, "stairs");
     } else if (typ == LADDER) {
         You(sit_message, "ladder");
+    } else if (typ == VENT) {
+        You(sit_message, "grate");
     } else if (is_lava(u.ux, u.uy)) {
         /* must be WWalking */
         You(sit_message, hliquid("lava"));

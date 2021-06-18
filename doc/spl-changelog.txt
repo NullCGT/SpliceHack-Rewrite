@@ -4,14 +4,12 @@
 
 Removed Content
 Since this release is a rewrite, a number of pieces of existing content have been heavily altered
-or outright removed. Rationale will be provided for all removed content.
-- Removed the following monsters:
-  - Anubites. Anubites were not interesting to fight, and did not fit the theme of SpliceHack.
-  - Nuckelavees. Uninteresting to fight.
+or outright removed. Rationale will be provided for all removed content upon request.
+- Removed the following monsters: Anubites, Nuckelavees, Plant Monsters, Lords of Worms.
 - Removed the following objects:
-  - Razor whips. Razor whips have been made irrelevant by the object materials ptach.
+  - Razor whips.
 - The intelligent pet patch from GruntHack has been removed. This patch introduced an incredible
-  number of bugs in monster AI, and additionally made the monster AI code nigh unreadable.
+  number of bugs in monster AI, and made the monster AI code nigh unreadable.
   Additionally, many of the changes made by it were supersceded by later vanilla changes.
 - The Dancer role has been removed. Many of its features were poorly implemented, leading to
   confusion for players. If there is interest in the dancer role being added again, I am open
@@ -26,6 +24,7 @@ or outright removed. Rationale will be provided for all removed content.
     techniques incentivize slow, passive play while waiting for used techniques to recharge.
 - Removed the monster conversation feature. It was exceedingly poorly implemented.
 - Removed the statuary level. Overtaken by theme rooms.
+- Removed aligned glyph traps. They were more dangerous and less interesting than hoped.
 
 New Features
 - Gods can rarely grant the player a minion. This feature is similar to the one in SLASH'EM, but
@@ -50,6 +49,16 @@ QOL
   monkey.
 - Added a number of small easter egg pet names for players who have not set a default pet
   name.
+
+Dungeon Changes
+One goal of this release of SpliceHack is to make regular dungeon levels more interesting and
+dynamic to explore. Each level should present unique challenges and be interesting to explore
+in its own way.
+- New Dungeon Feature: Vents
+  - Emit clouds of gas at a predictable interval, allowing players to plan around them or
+    use them to their advantage.
+  - Vents can emit poison gas or harmless mist. This is random, but influenced by the
+    dungeon level.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
@@ -113,6 +122,8 @@ Bug Fixes
 - Graphical tiles builds work once more! Rejoice!
 - Fixed lighting shops randomly generating throughout the dungeon.
 - Fixed parrots not using the birdname option from a config file.
+- Fixed grenade explosions being treated as if they were caused by the player, even when they
+  were not.
 
                             Version 0.8.3
 

@@ -286,6 +286,10 @@ do_earthquake(int force, int ox, int oy)
                 if (cansee(x, y))
                     pline_The("fountain falls%s.", into_a_chasm);
                 goto do_pit;
+            case VENT:
+                if (cansee(x, y))
+                    pline_The("vent is torn apart.");
+                goto do_pit;
             case SINK:
                 if (cansee(x, y))
                     pline_The("kitchen sink falls%s.", into_a_chasm);

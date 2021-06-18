@@ -3118,7 +3118,14 @@ wizterrainwish(struct _readobjnam_data *d)
         lev->looted = d->looted ? (S_LPUDDING | S_LDWASHER | S_LRING) : 0;
         pline("A sink.");
         madeterrain = TRUE;
-
+    } else if (!BSTRCMPI(bp, p - 4, "vent")) {
+        lev->typ = VENT;
+        lev->poisonvnt = !strncmpi(bp, "poison ", 7);
+        pline("A %svent.", lev->poisonvnt ? "poison " : "");
+        g.level.flags.nvents++;
+        (void) start_timer((long) rnd(10), TIMER_LEVEL, FIXTURE_ACTIVATE,
+                           long_to_any(((long) x << 16) | (long) y));
+        madeterrain = TRUE;
     /* ("water" matches "potion of water" rather than terrain) */
     } else if (!BSTRCMPI(bp, p - 4, "pool")
                || !BSTRCMPI(bp, p - 4, "moat")) {
@@ -3315,15 +3322,19 @@ wizterrainwish(struct _readobjnam_data *d)
             g.level.flags.nfountains--;
         else if (IS_SINK(oldtyp))
             g.level.flags.nsinks--;
+        else if (IS_VENT(oldtyp))
+            g.level.flags.nvents--;
         /* horizontal is overlaid by fountain->blessedftn, grave->disturbed */
         if (IS_FOUNTAIN(oldtyp) || IS_GRAVE(oldtyp)
             || IS_WALL(oldtyp) || oldtyp == IRONBARS
-            || IS_DOOR(oldtyp) || oldtyp == SDOOR) {
+            || IS_DOOR(oldtyp) || oldtyp == SDOOR
+            || IS_VENT(oldtyp)) {
             /* when new terrain is a fountain, 'blessedftn' was explicitly
                set above; likewise for grave and 'disturbed'; when it's a
                secret door, the old type was a wall or a door and we retain
                the 'horizontal' value from those */
             if (!IS_FOUNTAIN(lev->typ) && !IS_GRAVE(lev->typ)
+                && !IS_VENT(lev->typ)
                 && lev->typ != SDOOR)
                 lev->horizontal = 0; /* also clears blessedftn, disturbed */
         }

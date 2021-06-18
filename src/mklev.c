@@ -13,6 +13,7 @@ static boolean generate_stairs_room_good(struct mkroom *, int);
 static struct mkroom *generate_stairs_find_room(void);
 static void generate_stairs(void);
 static void mkfount(int, struct mkroom *);
+static void mkvent(int, struct mkroom *);
 static boolean find_okay_roompos(struct mkroom *, coord *);
 static void mksink(struct mkroom *);
 static void mkaltar(struct mkroom *);
@@ -686,6 +687,7 @@ clear_level_structures(void)
     g.level.bonesinfo = (struct cemetery *) 0;
 
     g.level.flags.nfountains = 0;
+    g.level.flags.nvents = 0;
     g.level.flags.nsinks = 0;
     g.level.flags.has_shop = 0;
     g.level.flags.has_vault = 0;
@@ -776,6 +778,10 @@ fill_ordinary_room(struct mkroom *croom)
         goto skip_nonrogue;
     if (!rn2(10))
         mkfount(0, croom);
+    if (!rn2(80) && depth(&u.uz) > 3)
+        /* We could make vents at any level, but generating them
+           on level one could lead to cheap instadeaths. */
+        mkvent(0, croom);
     if (!rn2(60))
         mksink(croom);
     if (!rn2(60))
@@ -1709,6 +1715,29 @@ mkfount(int mazeflag, struct mkroom *croom)
         levl[m.x][m.y].blessedftn = 1;
 
     g.level.flags.nfountains++;
+}
+
+static void
+mkvent(int mazeflag, struct mkroom *croom)
+{
+    coord m;
+    register int tryct = 0;
+
+    do {
+        if (++tryct > 200)
+            return;
+        if (mazeflag)
+            mazexy(&m);
+        else if (!somexy(croom, &m))
+            return;
+    } while (occupied(m.x, m.y) || bydoor(m.x, m.y));
+
+    levl[m.x][m.y].typ = VENT;
+    g.level.flags.nvents++;
+    if (depth(&u.uz) > 6 && rn2(depth(&u.uz - 4)))
+        levl[m.x][m.y].poisonvnt = 1;
+    (void) start_timer((long) rnd(10), TIMER_LEVEL, FIXTURE_ACTIVATE,
+                           long_to_any(((long) m.x << 16) | (long) m.y));
 }
 
 static boolean

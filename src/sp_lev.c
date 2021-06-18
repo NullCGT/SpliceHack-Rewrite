@@ -870,7 +870,7 @@ count_features(void)
 {
     xchar x, y;
 
-    g.level.flags.nfountains = g.level.flags.nsinks = 0;
+    g.level.flags.nfountains = g.level.flags.nsinks = g.level.flags.nvents = 0;
     for (y = 0; y < ROWNO; y++)
         for (x = 0; x < COLNO; x++) {
             int typ = levl[x][y].typ;
@@ -878,6 +878,8 @@ count_features(void)
                 g.level.flags.nfountains++;
             else if (typ == SINK)
                 g.level.flags.nsinks++;
+            else if (typ == VENT)
+                g.level.flags.nvents++;
         }
 }
 

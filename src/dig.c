@@ -1648,6 +1648,9 @@ adj_pit_checks(coord *cc, char *msg)
     } else if (IS_SINK(ltyp)) {
         Strcpy(msg, "A tangled mass of plumbing remains below the sink.");
         return FALSE;
+    } else if (IS_VENT(ltyp)) {
+        Strcpy(msg, "The vent remains intact.");
+        return FALSE;
     } else if (On_ladder(cc->x, cc->y)) {
         Strcpy(msg, "The ladder is unaffected.");
         return FALSE;

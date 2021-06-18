@@ -4888,6 +4888,40 @@ melt_ice_away(anything *arg, long timeout UNUSED)
     g.context.mon_moving = save_mon_moving;
 }
 
+/*
+ *  Called when a timed dungeon fixture activates.
+ */
+void
+fixture_activate(anything *arg, long timeout UNUSED)
+{
+    xchar x, y;
+    long where = arg->a_long;
+    boolean save_mon_moving = g.context.mon_moving;
+    y = (xchar) (where & 0xFFFF);
+    x = (xchar) ((where >> 16) & 0xFFFF);
+
+    if (!IS_VENT(levl[x][y].typ))
+        return;
+    g.context.mon_moving = TRUE; /* hero doesn't get blamed. */
+    spec_fixture_activate(x, y);
+    g.context.mon_moving = save_mon_moving;
+}
+
+void
+spec_fixture_activate(xchar x, xchar y)
+{
+    switch(levl[x][y].typ) {
+    case VENT:
+        create_gas_cloud(x, y, 3, levl[x][y].poisonvnt ? depth(&u.uz) : 0);
+        (void) start_timer((long) 10L, TIMER_LEVEL, FIXTURE_ACTIVATE,
+                           long_to_any(((long) x << 16) | (long) y));
+        break;
+    default:
+        impossible("weird fixture activation %s?", levl[x][y].typ);
+        break;
+    }
+}
+
 /* Burn floor scrolls, evaporate pools, etc... in a single square.
  * Used both for normal bolts of fire, cold, etc... and for fireballs.
  * Sets shopdamage to TRUE if a shop door is destroyed, and returns the
@@ -5910,6 +5944,9 @@ grenade_explode(struct obj *obj, int x, int y, boolean isyou)
     int ztype;
     int otyp = obj->otyp;
     int yours = isyou ? 1 : -1;
+    boolean save_mon_moving = g.context.mon_moving;
+
+    g.context.mon_moving = yours ? FALSE : TRUE;
 
     if (obj->oartifact == ART_HAND_GRENADE_OF_ANTIOCH) {
         ztype = isyou * ZT_SPELL(ZT_MAGIC_MISSILE);
@@ -5924,6 +5961,7 @@ grenade_explode(struct obj *obj, int x, int y, boolean isyou)
         explode(x, y, ztype, d(3,6), WEAPON_CLASS,
             isyou * -1 * EXPL_NOXIOUS);
     }
+    g.context.mon_moving = save_mon_moving;
     wake_nearto(x, y, 400);
 }
 

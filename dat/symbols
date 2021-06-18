@@ -75,6 +75,7 @@ start: NHAccess
 	S_sink: \126
 	S_furnace: \126
 	S_fountain: \126
+	S_vent: \126
 	S_pool: \042
 	S_ice: \042
 	S_lava: \035
@@ -95,9 +96,6 @@ start: NHAccess
 	S_buzzsaw_trap: \094
 	S_whirlwind_trap: \094
 	S_ice_block_trap: \094
-	S_glyph_of_neutrality: \094
-	S_glyph_of_law: \094
-	S_glyph_of_chaos: \094
 	S_pit: \094
 	S_spiked_pit: \094
 	S_hole: \094
@@ -167,9 +165,6 @@ start: Blank
 		S_buzzsaw_trap: \032
 		S_whirlwind_trap: \032
 		S_ice_block_trap: \032
-		S_glyph_of_neutrality: \032
-		S_glyph_of_law: \032
-		S_glyph_of_chaos: \032
         S_centaur: \032
         S_chain: \032
         S_cloud: \032
@@ -310,6 +305,7 @@ start: Blank
         S_vcdbridge: \032
         S_vcdoor: \032
         S_venom: \032
+		S_vent: \032
         S_vibrating_square: \032
         S_vodbridge: \032
         S_vodoor: \032

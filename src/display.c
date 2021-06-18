@@ -1868,6 +1868,9 @@ back_to_glyph(xchar x, xchar y)
     case FOUNTAIN:
         idx = S_fountain;
         break;
+    case VENT:
+        idx = S_vent;
+        break;
     case SINK:
         idx = S_sink;
         break;
@@ -2465,6 +2468,7 @@ static const char *type_names[MAX_TYPE] = {
     "CROSSWALL", "TUWALL", "TDWALL", "TLWALL", "TRWALL", "DBWALL", "TREE",
     "SDOOR", "SCORR", "POOL", "MOAT", "WATER", "DRAWBRIDGE_UP", "LAVAPOOL",
     "IRON_BARS", "DOOR", "CORR", "ROOM", "STAIRS", "LADDER", "FOUNTAIN",
+    "VENT",
     "THRONE", "SINK", "GRAVE", "ALTAR", "ICE", "DRAWBRIDGE_DOWN", "AIR",
     "CLOUD"
 };

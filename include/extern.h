@@ -3239,6 +3239,8 @@ extern void dobuzz(int, int, xchar, xchar, int, int, boolean);
 extern void melt_ice(xchar, xchar, const char *);
 extern void start_melt_ice_timeout(xchar, xchar, long);
 extern void melt_ice_away(union any *, long);
+extern void fixture_activate(union any *, long);
+extern void spec_fixture_activate(xchar, xchar);
 extern int zap_over_floor(xchar, xchar, int, boolean *, short);
 extern void fracture_rock(struct obj *);
 extern boolean break_statue(struct obj *);

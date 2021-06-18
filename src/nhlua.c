@@ -243,6 +243,7 @@ const struct {
                 { 'S', SDOOR },
                 { 'H', SCORR },
                 { '{', FOUNTAIN },
+                { 'V', VENT },
                 { '\\', THRONE },
                 { 'K', SINK },
                 { '}', MOAT },
