@@ -578,6 +578,7 @@ find_defensive(struct monst* mtmp)
             && !(levl[x][y].wall_info & W_NONDIGGABLE)
             && !(Is_botlevel(&u.uz) || In_endgame(&u.uz))
             && !(is_ice(x, y) || is_pool(x, y) || is_lava(x, y))
+            && !(is_bridge(x, y))
             && !(mtmp->data == &mons[PM_VLAD_THE_IMPALER]
                  && In_V_tower(&u.uz))) {
             g.m.defensive = obj;

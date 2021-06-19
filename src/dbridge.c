@@ -88,6 +88,13 @@ is_ice(int x, int y)
 }
 
 boolean
+is_bridge(int x, int y)
+{
+    schar ltyp = levl[x][y].typ;
+    return ltyp == BRIDGE;
+}
+
+boolean
 is_moat(int x, int y)
 {
     schar ltyp;
@@ -829,6 +836,72 @@ open_drawbridge(int x, int y)
     if (Is_stronghold(&u.uz))
         u.uevent.uopened_dbridge = TRUE;
     nokiller();
+}
+
+void
+collapse_rope_bridge(anything *arg, long timeout UNUSED)
+{
+    xchar x, y;
+    long where = arg->a_long;
+    y = (xchar) (where & 0xFFFF);
+    x = (xchar) ((where >> 16) & 0xFFFF);
+    destroy_rope_bridge(x, y);
+}
+
+void
+start_collapse_rope_bridge(xchar x, xchar y)
+{
+    if (x >= COLNO || y >= ROWNO || x < 0 || y < 0)
+        return;
+    if (!is_bridge(x, y)) return;
+    spot_stop_timers(x, y, COLLAPSE_ROPE_BRIDGE);
+    start_timer((long) (2 + rn2(3)), TIMER_LEVEL, COLLAPSE_ROPE_BRIDGE, long_to_any(((long) x << 16) | (long) y));
+}
+
+/* destroy the rope bridge located at x, y */
+void
+destroy_rope_bridge(xchar x, xchar y)
+{
+    register struct rm *lev1;
+    struct trap *t;
+    xchar x2, y2;
+    long time_left, where;
+
+    lev1 = &levl[x][y];
+    if (!is_bridge(x, y))
+        return;
+    if (cansee(x, y)) {
+        pline_The("bridge collapses!");
+    } else if (!Deaf && !rn2(10)) {
+        /* Low chance of hearing this because oftentimes
+           a lot of bridges will be destroyed at once. */
+        You_hear("something snap.");
+    }
+
+    lev1->typ = (lev1->drawbridgemask & DB_UNDER);
+    lev1->drawbridgemask = 0;
+    spot_stop_timers(x, y, COLLAPSE_ROPE_BRIDGE);
+    if ((t = t_at(x, y)) != 0)
+        deltrap(t);
+    del_engr_at(x, y);
+    if (!does_block(x, y, lev1))
+        unblock_point(x, y);
+    newsym(x, y);
+    /* TODO: If we end up adding rope or wooden planks, 
+        we should scatter some of that here. */
+    /* Nearby bridges begin collapsing as well */
+
+    start_collapse_rope_bridge(x - 1, y);
+    start_collapse_rope_bridge(x + 1, y);
+    start_collapse_rope_bridge(x, y - 1);
+    start_collapse_rope_bridge(x, y + 1);
+}
+
+void
+create_rope_bridge(int x, int y)
+{
+    levl[x][y].drawbridgemask |= levl[x][y].typ;
+    levl[x][y].typ = BRIDGE;
 }
 
 /*

@@ -339,7 +339,8 @@ describe_decor(void)
     } else if (!Underwater) {
         if (IS_POOL(iflags.prev_decor)
             || iflags.prev_decor == LAVAPOOL
-            || iflags.prev_decor == ICE) {
+            || iflags.prev_decor == ICE
+            || iflags.prev_decor == BRIDGE) {
             const char *ground = surface(u.ux, u.uy);
 
             if (iflags.last_msg != PLNMSG_BACK_ON_GROUND)

@@ -3290,6 +3290,8 @@ dfeature_at(int x, int y, char *buf)
         cmap = S_throne; /* "opulent throne" */
     else if (is_lava(x, y))
         cmap = S_lava; /* "molten lava" */
+    else if (is_bridge(x, y))
+        cmap = S_bridge;
     else if (is_ice(x, y))
         cmap = S_ice; /* "ice" */
     else if (is_pool(x, y))

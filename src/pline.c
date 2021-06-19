@@ -57,7 +57,7 @@ piratesay(const char *orig)
 		orig = replace(orig,"Her","'er");
 		orig = replace(orig," her"," 'er");
 		orig = replace(orig,"Are","Be");
-		orig = replace(orig," are"," be");
+		orig = replace(orig," are "," be ");
 		orig = replace(orig,"Is","Be");
 		orig = replace(orig," is "," be ");
         orig = replace(orig," is."," be.");

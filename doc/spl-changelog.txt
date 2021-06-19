@@ -59,6 +59,12 @@ in its own way.
     use them to their advantage.
   - Vents can emit poison gas or harmless mist. This is random, but influenced by the
     dungeon level.
+- New Dungeon Feature: Rope Bridges
+  - Rope bridges are vulnerable to fire, and can be destroyed by exposing them to it.
+  - When a tile of a rope bridge is destroyed, a countdown begins for all adjacent bridge
+    tiles. When this countdown ends, that tile will collapse as well.
+- Many levels generate with pools of water or lava bridged by rope bridges. This replaces the
+  underground rivers patch.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.

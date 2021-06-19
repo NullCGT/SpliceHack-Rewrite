@@ -1889,6 +1889,9 @@ back_to_glyph(xchar x, xchar y)
     case ICE:
         idx = S_ice;
         break;
+    case BRIDGE:
+        idx = S_bridge;
+        break;
     case AIR:
         idx = S_air;
         break;
@@ -2033,6 +2036,9 @@ get_bk_glyph(xchar x, xchar y)
         case ICE:
            idx = S_ice;
            break;
+        case BRIDGE:
+            idx = S_bridge;
+            break;
         case AIR:
            idx = S_air;
            break;
@@ -2469,7 +2475,8 @@ static const char *type_names[MAX_TYPE] = {
     "SDOOR", "SCORR", "POOL", "MOAT", "WATER", "DRAWBRIDGE_UP", "LAVAPOOL",
     "IRON_BARS", "DOOR", "CORR", "ROOM", "STAIRS", "LADDER", "FOUNTAIN",
     "VENT",
-    "THRONE", "SINK", "GRAVE", "ALTAR", "ICE", "DRAWBRIDGE_DOWN", "AIR",
+    "THRONE", "SINK", "GRAVE", "ALTAR", "ICE", "BRIDGE",
+    "DRAWBRIDGE_DOWN", "AIR",
     "CLOUD"
 };
 

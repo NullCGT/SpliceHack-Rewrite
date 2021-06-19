@@ -249,6 +249,7 @@ extern boolean is_pool(int, int);
 extern boolean is_lava(int, int);
 extern boolean is_pool_or_lava(int, int);
 extern boolean is_ice(int, int);
+extern boolean is_bridge(int, int);
 extern boolean is_moat(int, int);
 extern schar db_under_typ(int);
 extern int is_drawbridge_wall(int, int);
@@ -257,6 +258,9 @@ extern boolean find_drawbridge(int *, int *);
 extern boolean create_drawbridge(int, int, int, boolean);
 extern void open_drawbridge(int, int);
 extern void close_drawbridge(int, int);
+extern void collapse_rope_bridge(union any *, long);
+extern void create_rope_bridge(int, int);
+extern void destroy_rope_bridge(xchar, xchar);
 extern void destroy_drawbridge(int, int);
 
 /* ### decl.c ### */

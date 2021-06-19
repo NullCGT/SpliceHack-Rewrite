@@ -4797,7 +4797,7 @@ melt_ice(xchar x, xchar y, const char *msg)
 
     if (!msg)
         msg = "The ice crackles and melts.";
-    if (lev->typ == DRAWBRIDGE_UP || lev->typ == DRAWBRIDGE_DOWN) {
+    if (lev->typ == DRAWBRIDGE_UP || lev->typ == DRAWBRIDGE_DOWN || lev->typ == BRIDGE) {
         lev->drawbridgemask &= ~DB_ICE; /* revert to DB_MOAT */
     } else { /* lev->typ == ICE */
 #ifdef STUPID
@@ -4956,6 +4956,9 @@ zap_over_floor(xchar x, xchar y, int type, boolean *shopdamage,
         }
         if (is_ice(x, y)) {
             melt_ice(x, y, (char *) 0);
+        } else if (is_bridge(x, y)) {
+            if (cansee(x, y)) pline_The("bridge catches fire!");
+            destroy_rope_bridge(x, y);
         } else if (is_pool(x, y)) {
             boolean on_water_level = Is_waterlevel(&u.uz);
             const char *msgtxt = (!Deaf)
@@ -5013,7 +5016,7 @@ zap_over_floor(xchar x, xchar y, int type, boolean *shopdamage,
 
                 Strcpy(buf, waterbody_name(x, y)); /* for MOAT */
                 rangemod -= 3;
-                if (lev->typ == DRAWBRIDGE_UP) {
+                if (lev->typ == DRAWBRIDGE_UP || lev->typ == BRIDGE) {
                     lev->drawbridgemask &= ~DB_UNDER; /* clear lava */
                     lev->drawbridgemask |= (lava ? DB_FLOOR : DB_ICE);
                 } else {

@@ -733,6 +733,7 @@ struct {
 {S_vent,     "vent",     "vent"},
 {S_pool,     "pool", "water"},
 {S_ice,      "ice", "ice"},
+{S_bridge,   "rope bridge", "rope bridge"},
 {S_lava,     "lava", "molten lava"},
 {S_vodbridge, "vertical open drawbridge", "lowered drawbridge"},
 {S_hodbridge, "horizontal open drawbridge", "lowered drawbridge"},

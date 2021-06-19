@@ -160,6 +160,9 @@ dosit(void)
         You(sit_message, defsyms[S_ice].explanation);
         if (!Cold_resistance)
             pline_The("ice feels cold.");
+    } else if (typ == BRIDGE) {
+        You(sit_message, "bridge");
+        pline_The("bridge sways.");
     } else if (typ == DRAWBRIDGE_DOWN) {
         You(sit_message, "drawbridge");
     } else if (IS_THRONE(typ)) {

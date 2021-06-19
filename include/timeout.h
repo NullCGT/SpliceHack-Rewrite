@@ -36,6 +36,7 @@ enum timeout_types {
     MELT_ICE_AWAY,
     BOMB_BLOW,
     FIXTURE_ACTIVATE,
+    COLLAPSE_ROPE_BRIDGE,
 
     NUM_TIME_FUNCS
 };

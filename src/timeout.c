@@ -1893,7 +1893,8 @@ static const ttable timeout_funcs[NUM_TIME_FUNCS] = {
     TTAB(fig_transform, (timeout_proc) 0, "fig_transform"),
     TTAB(melt_ice_away, (timeout_proc) 0, "melt_ice_away"),
     TTAB(bomb_blow, (timeout_proc) 0, "bomb_blow"),
-    TTAB(fixture_activate, (timeout_proc) 0, "fixture_activate")
+    TTAB(fixture_activate, (timeout_proc) 0, "fixture_activate"),
+    TTAB(collapse_rope_bridge, (timeout_proc) 0, "collapse_rope_bridge")
 };
 #undef TTAB
 

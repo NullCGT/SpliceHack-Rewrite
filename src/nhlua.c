@@ -250,6 +250,7 @@ const struct {
                 { 'P', POOL },
                 { 'L', LAVAPOOL },
                 { 'I', ICE },
+                { 'b', BRIDGE },
                 { 'W', WATER },
                 { 'T', TREE },
                 { 'F', IRONBARS }, /* Fe = iron */

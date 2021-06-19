@@ -57,7 +57,7 @@ boulder_hits_pool(struct obj *otmp, int rx, int ry, boolean pushing)
         if (fills_up) {
             struct trap *ttmp = t_at(rx, ry);
 
-            if (ltyp == DRAWBRIDGE_UP) {
+            if (ltyp == DRAWBRIDGE_UP || ltyp == BRIDGE) {
                 levl[rx][ry].drawbridgemask &= ~DB_UNDER; /* clear lava */
                 levl[rx][ry].drawbridgemask |= DB_FLOOR;
             } else

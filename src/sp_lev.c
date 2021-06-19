@@ -769,7 +769,8 @@ flip_level(int flp, boolean extras)
 
     /* timed effects */
     for (timer = g.timer_base; timer; timer = timer->next) {
-        if (timer->func_index == MELT_ICE_AWAY) {
+        if (timer->func_index == MELT_ICE_AWAY || timer->func_index == FIXTURE_ACTIVATE
+            || timer->func_index == COLLAPSE_ROPE_BRIDGE) {
             long ty = timer->arg.a_long & 0xffff;
             long tx = (timer->arg.a_long >> 16) & 0xffff;
 
@@ -1123,7 +1124,7 @@ is_ok_location(xchar x, xchar y, int humidity)
     if (humidity & DRY) {
         typ = levl[x][y].typ;
         if (typ == ROOM || typ == AIR || typ == CLOUD || typ == ICE
-            || typ == CORR)
+            || typ == CORR || typ == BRIDGE)
             return TRUE;
     }
     if ((humidity & SPACELOC) && SPACE_POS(levl[x][y].typ))

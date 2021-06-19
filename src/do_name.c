@@ -394,6 +394,7 @@ gather_locs_interesting(int x, int y, int gloc)
                           || sym == S_tree
                           || sym == S_bars
                           || sym == S_ice
+                          || sym == S_bridge
                           || sym == S_air
                           || sym == S_cloud
                           || is_cmap_lava(sym)
