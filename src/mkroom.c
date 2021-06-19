@@ -79,6 +79,15 @@ do_mkroom(int roomtype)
         case ANTHOLE:
             mkzoo(ANTHOLE);
             break;
+        case DEN:
+            mkzoo(DEN);
+            break;
+        case ARMORY:
+            mkzoo(ARMORY);
+            break;
+        case LEMUREPIT:
+            mkzoo(LEMUREPIT);
+            break;
         default:
             impossible("Tried to make a room of type %d.", roomtype);
         }
@@ -128,6 +137,14 @@ mkshop(void)
                 mkzoo(LEPREHALL);
                 return;
             }
+            if (*ep == 'd' || *ep == 'D') {
+                mkzoo(DEN);
+                return;
+            }
+            if(*ep == 'p' || *ep == 'P'){
+ 				mkzoo(LEMUREPIT);
+ 				return;
+ 			}
             if (*ep == '_') {
                 mktemple();
                 return;
@@ -323,6 +340,8 @@ fill_zoo(struct mkroom* sroom)
             /* don't place monster on explicitly placed throne */
             if (type == COURT && IS_THRONE(levl[sx][sy].typ))
                 continue;
+            if ((type == ARMORY) && rn2(2))
+                continue;
             mon = makemon((type == COURT)
                            ? courtmon()
                            : (type == BARRACKS)
@@ -333,13 +352,20 @@ fill_zoo(struct mkroom* sroom)
                                      ? (sx == tx && sy == ty
                                          ? &mons[PM_QUEEN_BEE]
                                          : &mons[PM_KILLER_BEE])
-                                     : (type == LEPREHALL)
-                                         ? &mons[PM_LEPRECHAUN]
-                                         : (type == COCKNEST)
-                                             ? &mons[PM_COCKATRICE]
-                                             : (type == ANTHOLE)
-                                                 ? antholemon()
-                                                 : (struct permonst *) 0,
+                                     : (type == LEMUREPIT) ?
+                                        (!rn2(10) ? &mons[PM_HORNED_DEVIL] :
+                                        &mons[PM_LEMURE])
+                                       : (type == LEPREHALL)
+                                           ? &mons[PM_LEPRECHAUN]
+                                           : (type == COCKNEST)
+                                               ? &mons[PM_COCKATRICE]
+                                               : (type == ARMORY) 
+                                                    ? (rn2(3) ? mkclass(S_RUSTMONST,0) : &mons[PM_BROWN_PUDDING])
+                                                        : (type == DEN)
+                                                            ? denmon()
+                                                            : (type == ANTHOLE)
+                                                                ? antholemon()
+                                                                : (struct permonst *) 0,
                           sx, sy, MM_ASLEEP);
             if (mon) {
                 mon->msleeping = 1;
@@ -392,6 +418,17 @@ fill_zoo(struct mkroom* sroom)
                     }
                 }
                 break;
+            case ARMORY: {
+                    struct obj *otmp;
+                    if (rn2(2))
+                        otmp = mkobj_at(WEAPON_CLASS, sx, sy, FALSE);
+                    else
+                        otmp = mkobj_at(ARMOR_CLASS, sx, sy, FALSE);
+                    otmp->spe = 0;
+                    if (is_rustprone(otmp)) otmp->oeroded = rn2(4);
+                    else if (is_rottable(otmp)) otmp->oeroded2 = rn2(4);
+                }
+                break;
             case ANTHOLE:
                 if (!rn2(3))
                     (void) mkobj_at(FOOD_CLASS, sx, sy, FALSE);
@@ -428,6 +465,15 @@ fill_zoo(struct mkroom* sroom)
         break;
     case BEEHIVE:
         g.level.flags.has_beehive = 1;
+        break;
+    case LEMUREPIT:
+ 		g.level.flags.has_lemurepit = 1;
+ 		break;
+    case DEN:
+        g.level.flags.has_den = 1;
+        break;
+    case ARMORY:
+        g.level.flags.has_armory = 1;
         break;
     }
 }
@@ -505,6 +551,25 @@ antholemon(void)
 
     return ((g.mvitals[mtyp].mvflags & G_GONE) ? (struct permonst *) 0
                                              : &mons[mtyp]);
+}
+
+struct permonst *
+denmon(void)
+{
+    int i = rn2(60) + rn2(3 * level_difficulty());
+
+    if (i > 100)
+        return &mons[PM_MUMAK];
+    else if (i > 75)
+        return mkclass(S_QUADRUPED, 0);
+    else if (i > 70)
+        return &mons[PM_WOLF];
+    else if (i > 40)
+        return &mons[PM_TIGER];
+    else if (i > 20)
+        return mkclass(S_FELINE, 0);
+    else
+        return mkclass(S_DOG, 0);
 }
 
 static void

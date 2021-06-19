@@ -2595,6 +2595,8 @@ fill_special_room(struct mkroom* croom)
         case LEPREHALL:
         case MORGUE:
         case BARRACKS:
+        case DEN:
+        case LEMUREPIT:
             fill_zoo(croom);
             break;
         }
@@ -2624,6 +2626,15 @@ fill_special_room(struct mkroom* croom)
     case SWAMP:
         g.level.flags.has_swamp = TRUE;
         break;
+    case ARMORY:
+        g.level.flags.has_armory = TRUE;
+        break;
+    case DEN:
+        g.level.flags.has_den = TRUE;
+        break;
+    case LEMUREPIT:
+ 		g.level.flags.has_lemurepit = TRUE;
+ 		break;
     }
 }
 
@@ -3612,6 +3623,8 @@ static const struct {
     { "swamp", SWAMP },
     { "vault", VAULT },
     { "beehive", BEEHIVE },
+    { "lemurepit", LEMUREPIT },
+    { "den", DEN },
     { "morgue", MORGUE },
     { "barracks", BARRACKS },
     { "zoo", ZOO },
@@ -3620,6 +3633,7 @@ static const struct {
     { "anthole", ANTHOLE },
     { "blackfoyer", BLACKFOYER },
     { "cocknest", COCKNEST },
+    { "dilapidated armory", ARMORY },
     { "leprehall", LEPREHALL },
     { "shop", SHOPBASE },
     { "armor shop", ARMORSHOP },

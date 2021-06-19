@@ -13,6 +13,7 @@ static void dosinkfall(void);
 static boolean findtravelpath(int);
 static boolean trapmove(int, int, struct trap *);
 static struct monst *monstinroom(struct permonst *, int);
+static void interesting_room(void);
 static boolean doorless_door(int, int);
 static void move_update(boolean);
 static int pickup_checks(void);
@@ -2624,6 +2625,15 @@ check_special_room(boolean newlev)
         case BEEHIVE:
             You("enter a giant beehive!");
             break;
+        case DEN:
+            You("enter the den of a beast pack!");
+            break;
+        case LEMUREPIT:
+ 		    You("enter a pit of screaming lemures!");
+ 		    break;
+        case ARMORY:
+            You("enter a dilapidated armory!");
+            break;
         case COCKNEST:
             You("enter a disgusting nest!");
             break;
@@ -2659,6 +2669,12 @@ check_special_room(boolean newlev)
                     Hello((struct monst *)0), g.plname);
                     verbalize("Please have a look around, but don't even think about stealing anything.");
             }
+            break;
+        case ARTROOM:
+            if (Blind)
+                msg_given = FALSE;
+            else
+                interesting_room();
             break;
         case TEMPLE:
             intemple(roomno + ROOMOFFSET);
@@ -2696,6 +2712,15 @@ check_special_room(boolean newlev)
                     break;
                 case BEEHIVE:
                     g.level.flags.has_beehive = 0;
+                    break;
+                case LEMUREPIT:
+     				g.level.flags.has_lemurepit = 0;
+     				break;
+                case DEN:
+                    g.level.flags.has_den = 0;
+                    break;
+                case ARMORY:
+                    g.level.flags.has_armory = 0;
                     break;
                 }
             }
@@ -2984,6 +3009,63 @@ lookaround(void)
             u.dx = x0 - u.ux;
             u.dy = y0 - u.uy;
         }
+    }
+}
+
+/* Message for entering an art room. */
+static void
+interesting_room(void)
+{
+
+    static const char *const adjectives[] = {
+        "furious",          "wrathful",  "mysterious",  "ugly",
+        "beautiful",        "fearful",   "horrified",   "sinister",
+        "poorly-rendered",  "large",     "lifelike",    "unnerving",
+        "peaceful",         "covetous",  "subservient", "lovely",
+        "misshapen"
+    };
+
+    static const char *const art[] = {
+        "painting",   "carving",   "tapestry",  "bas-relief"
+    };
+
+    int name, name2;
+    /* Modified version of rndmonnam */
+    do {
+        name = rn2(NUMMONS);
+    } while ((type_is_pname(&mons[name]) || (mons[name].geno & G_UNIQ)));
+    do {
+        name2 = rn2(NUMMONS);
+    } while ((type_is_pname(&mons[name2]) || (mons[name2].geno & G_UNIQ)));
+    const char* carvemon = mons[name].pmnames[rn2(NEUTRAL + 1)];
+    const char* carvemon2 = mons[name2].pmnames[rn2(NEUTRAL + 1)];
+    /* Carving message */
+    switch(rn2(5)) {
+    case 0:
+        pline("%s on a wall of this room depicts %s %s.",
+            An(art[rn2(SIZE(art))]),
+            an(adjectives[rn2(SIZE(adjectives))]), carvemon);
+        break;
+    case 1:
+        pline("There is %s of %s in this room.",
+        an(art[rn2(SIZE(art))]), u_gname());
+        break;
+    case 2:
+        pline("%s on a wall of this room depicts a large number of %s.",
+            An(art[rn2(SIZE(art))]), makeplural(carvemon));
+        break;
+    case 3:
+        pline("%s in this room contains a partial map of the dungeon!",
+            An(art[rn2(SIZE(art))]));
+            HConfusion = 1;
+            do_mapping();
+            HConfusion = 0;
+        break;
+    default:
+        pline("%s on the wall of this room depicts a battle between %s and %s. The %s are winning.",
+            An(art[rn2(SIZE(art))]),
+            makeplural(carvemon), makeplural(carvemon2),
+            makeplural(rn2(2) ? carvemon : carvemon2));
     }
 }
 

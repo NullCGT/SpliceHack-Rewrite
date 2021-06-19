@@ -762,6 +762,9 @@ clear_level_structures(void)
     g.level.flags.has_barracks = 0;
     g.level.flags.has_temple = 0;
     g.level.flags.has_swamp = 0;
+    g.level.flags.has_den = 0;
+    g.level.flags.has_armory = 0;
+    g.level.flags.has_lemurepit = 0;
     g.level.flags.noteleport = 0;
     g.level.flags.hardfloor = 0;
     g.level.flags.nommap = 0;
@@ -886,6 +889,10 @@ fill_ordinary_room(struct mkroom *croom)
                 make_engr_at(x, y, mesg, 0L, MARK);
         }
     }
+
+    /* Maybe decorate the walls */
+    if (croom->rtype == OROOM && depth(&u.uz) > 1 && !rn2(20))
+        croom->rtype = ARTROOM;
 
  skip_nonrogue:
     if (!rn2(3) && somexyspace(croom, &pos)) {
@@ -1015,6 +1022,8 @@ makelevel(void)
             do_mkroom(MORGUE);
         else if (u_depth > 12 && !rn2(8) && antholemon())
             do_mkroom(ANTHOLE);
+        else if (u_depth > 12 && !rn2(8))
+            do_mkroom(DEN);
         else if (u_depth > 14 && !rn2(4)
                  && !(g.mvitals[PM_SOLDIER].mvflags & G_GONE))
             do_mkroom(BARRACKS);
@@ -1023,6 +1032,9 @@ makelevel(void)
         else if (u_depth > 16 && !rn2(8)
                  && !(g.mvitals[PM_COCKATRICE].mvflags & G_GONE))
             do_mkroom(COCKNEST);
+        else if (u_depth > 20 && !rn2(8)
+ 	             && !(g.mvitals[PM_LEMURE].mvflags & G_GONE)) 
+            do_mkroom(LEMUREPIT);
 
  skip0:
         /* Place multi-dungeon branch. */

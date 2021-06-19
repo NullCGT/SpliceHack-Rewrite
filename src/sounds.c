@@ -204,6 +204,81 @@ dosounds(void)
             }
         }
     }
+    if (g.level.flags.has_den && !rn2(200)) {
+        static const char *const zoo_msg[3] = {
+            "the baying of hounds.",
+            "angry snarling.", "Sher Kahn!",
+        };
+        for (mtmp = fmon; mtmp; mtmp = mtmp->nmon) {
+            if (DEADMONSTER(mtmp))
+                continue;
+            if ((mtmp->msleeping || is_animal(mtmp->data))
+                && mon_in_room(mtmp, DEN)) {
+                You_hear1(zoo_msg[rn2(2) + hallu]);
+                return;
+            }
+        }
+    }
+    if (g.level.flags.has_armory && !rn2(200)) {
+        static const char *const armory_msg[3] = {
+            "the scraping of metal on metal.",
+            "chains clinking.", "the nearby ACME building!",
+        };
+        for (mtmp = fmon; mtmp; mtmp = mtmp->nmon) {
+            if (DEADMONSTER(mtmp))
+                continue;
+            if ((mtmp->msleeping || 
+                mtmp->data->mlet == 'P' || 
+                mtmp->data->mlet == 'R')
+                && mon_in_room(mtmp, ARMORY)) {
+                You_hear1(armory_msg[rn2(2) + hallu]);
+                return;
+            }
+        }
+    }
+    if (g.level.flags.has_lemurepit && !rn2(20)) {
+        for (mtmp = fmon; mtmp; mtmp = mtmp->nmon) {
+            if (DEADMONSTER(mtmp)) continue;
+            if ( mtmp->data == &mons[PM_LEMURE]
+            && mon_in_room(mtmp, LEMUREPIT) ) {
+            if (hallu) {
+                switch (rn2(3)) {
+                    case 0:
+                    You_hear("screams of lust!");
+                    break;
+                    case 1:
+                    You_hear("the crack of your mistress's whip!");
+                    break;
+                    case 2:
+                    You_hear("a weeping willow!");
+                    break;
+                }	
+            } else {
+                switch (rn2(6)) {
+                    case 0:
+                    You_hear("the crack of a barbed whip!");
+                    break;
+                    case 1:
+                    You_hear("the screams of tortured souls!");
+                    break;
+                    case 2:
+                    You_hear("a wail of eternal anguish!");
+                    break;
+                    case 3:
+                    You_hear("diabolical laughter!");
+                    break;
+                    case 4:
+                    You_hear("cries of repentance!");
+                    break;
+                    case 5:
+                    You_hear("futile pleas for mercy!");
+                    break;
+                }
+            }
+            return;
+            }
+        }
+    }
     if (g.level.flags.has_shop && !rn2(200)) {
         if (!(sroom = search_special(ANY_SHOP))) {
             /* strange... */

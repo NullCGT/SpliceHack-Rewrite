@@ -1394,6 +1394,7 @@ extern struct obj *init_dummyobj(struct obj *, short, long);
 
 extern void do_mkroom(int);
 extern void fill_zoo(struct mkroom *);
+extern struct permonst *denmon(void);
 extern struct permonst *antholemon(void);
 extern boolean nexttodoor(int, int);
 extern boolean has_dnstairs(struct mkroom *);

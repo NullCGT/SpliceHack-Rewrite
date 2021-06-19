@@ -1355,6 +1355,12 @@ wiz_map_levltyp(void)
             Strcat(dsc, " hive");
         if (g.level.flags.has_swamp)
             Strcat(dsc, " swamp");
+        if (g.level.flags.has_den)
+            Strcat(dsc, " den");
+        if (g.level.flags.has_armory)
+            Strcat(dsc, " armory");
+        if (g.level.flags.has_lemurepit)
+            Strcat(dsc, " lemurepit");
         /* level flags */
         if (g.level.flags.noteleport)
             Strcat(dsc, " noTport");
