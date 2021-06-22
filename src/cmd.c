@@ -2697,6 +2697,8 @@ size_monst(struct monst *mtmp, boolean incl_wsegs)
             sz += (int) sizeof (struct edog);
         if (ERID(mtmp))
             sz += (int) sizeof (struct erid);
+        if (ETEMPLATE(mtmp))
+            sz += (int) sizeof (struct etemplate);
         /* mextra->mcorpsenm doesn't point to more memory */
     }
     return sz;

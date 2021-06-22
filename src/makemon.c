@@ -24,6 +24,8 @@ static void m_initthrow(struct monst *, int, int);
 static void m_initweap(struct monst *);
 static void m_initinv(struct monst *);
 static boolean makemon_rnd_goodpos(struct monst *, long, coord *);
+static int template_chance(struct monst *);
+static boolean is_valid_template(struct monst *, int);
 
 #define m_initsgrp(mtmp, x, y, mmf) m_initgrp(mtmp, x, y, 3, mmf)
 #define m_initlgrp(mtmp, x, y, mmf) m_initgrp(mtmp, x, y, 10, mmf)
@@ -1362,7 +1364,7 @@ makemon(register struct permonst *ptr,
     register struct monst *mtmp;
     struct monst fakemon;
     coord cc;
-    int mndx, mcham, ct, mitem, i;
+    int mndx, mcham, ct, mitem, i, tindex;
     boolean anymon = !ptr,
             byyou = (x == u.ux && y == u.uy),
             allow_minvent = ((mmflags & NO_MINVENT) == 0),
@@ -1663,6 +1665,21 @@ makemon(register struct permonst *ptr,
                               ? !eminp->renegade
                               : eminp->renegade;
     }
+
+    /* The monster has a chance of receiving one of a number of templates.
+       This chance is dependent on a number of factors. */
+    /* Make a sound. One of the issues in SpliceHack is that deafness
+            is often more useful than hearing, so we want to make sure that
+            being able to hear is important. */
+    tindex = template_chance(mtmp);
+    if (tindex >= 0) {
+        newetemplate(mtmp);
+        initetemplate(mtmp, tindex);
+        if (!mtmp->mpeaceful && !Deaf && !g.in_mklev
+            && montemplates[ETEMPLATE(mtmp)->template_index].difficulty)
+            You_hear("a distant %s.", growl_sound(mtmp));
+    }
+
     set_malign(mtmp); /* having finished peaceful changes */
     if (anymon && !(mmflags & MM_NOGRP)) {
         if ((ptr->geno & G_SGROUP) && rn2(2)) {
@@ -2663,6 +2680,170 @@ bagotricks(struct obj *bag,
         }
     }
     return moncount;
+}
+
+
+/* monster templating */
+
+/* mextra etemplate creation */
+void
+newetemplate(struct monst *mtmp)
+{
+    if (!mtmp->mextra)
+        mtmp->mextra = newmextra();
+    if (!ETEMPLATE(mtmp)) {
+        ETEMPLATE(mtmp) = (struct etemplate *) alloc(sizeof(struct etemplate));
+        (void) memset((genericptr_t) ETEMPLATE(mtmp), 0, sizeof(struct etemplate));
+    }
+    ETEMPLATE(mtmp)->data_p = &(ETEMPLATE(mtmp)->data);
+}
+
+/* free etemplate from memory */
+void
+free_etemplate(struct monst *mtmp)
+{
+    if (mtmp->mextra && ETEMPLATE(mtmp)) {
+        free((genericptr_t) ETEMPLATE(mtmp));
+        ETEMPLATE(mtmp) = (struct etemplate *) 0;
+    }
+}
+
+/* restore etemplate */
+void
+resttemplate(struct monst *mtmp)
+{
+    int i;
+    /* Because the template data is a shallow copy of the original
+       monster data, the pmnames are not copied over, and we must
+       set them manually. */
+    for (i = 0; i < NUM_MGENDERS; i++) {
+        ETEMPLATE(mtmp)->data.pmnames[i] = mtmp->data->pmnames[i];
+    }
+    /* Point the monster's data back at the template's data. */
+    mtmp->data = &ETEMPLATE(mtmp)->data;
+}
+
+/* Initialize etemplate. Must be called after newetemplate. */
+/* TODO: Passing in zero will initialize a random template */
+void
+initetemplate(struct monst *mtmp, int tindex)
+{
+    struct permonst newdata = mons[mtmp->mnum];
+
+    /* Set the indicies */
+    newdata.orig_mnum = mtmp->mnum;
+    ETEMPLATE(mtmp)->template_index = tindex; /* TODO: move later!!!! */
+    /* Apply the template */
+    newdata = apply_template(newdata, tindex);
+    /* Finally, assign to the mextra struct */
+    ETEMPLATE(mtmp)->base_mnum = mtmp->mnum;
+    ETEMPLATE(mtmp)->data = newdata;
+    /* Set the data (probably move to the newetemplate func) */
+    mtmp->data = &(ETEMPLATE(mtmp)->data);
+    /* mtmp->data = (ETEMPLATE(mtmp)->data_p); */
+}
+
+static boolean
+is_valid_template(struct monst *mtmp, int tindex) {
+    switch (tindex) {
+    case MT_ELVEN:
+    case MT_DWARVISH:
+    case MT_GNOMISH:
+        return is_human(mtmp->data);
+    case MT_FIENDISH:
+        return !is_demon(mtmp->data);
+    case MT_HALF_ILLITHID:
+        return !is_mind_flayer(mtmp->data);
+    default:
+        return TRUE;
+    }
+}
+
+static int
+template_chance(struct monst *mtmp) {
+    int chance = 1;
+    int template = -1;
+    int tryct = 0;
+
+    /* Unique monsters do not receive random templates. */
+    if (mtmp->data->msound == MS_LEADER 
+        || mtmp->data->msound == MS_NEMESIS
+        || unique_corpstat(mtmp->data)
+        || has_etemplate(mtmp))
+        return template;
+
+    /* Traditionally human monsters have a randomly determined
+       race template. Other monsters have a small chance of receiving
+       a template upon creation. */
+    if (is_human(mtmp->data)) {
+        switch (rn2(4)) {
+        case 0: template = MT_DWARVISH; break;
+        case 1: template = MT_ELVEN; break;
+        case 2: template = MT_GNOMISH; break;
+        default:
+            break;
+        }
+    } else {
+        if (u.uhave.bell) chance += 1;
+        if (u.uhave.book) chance += 1;
+        if (u.uhave.menorah) chance += 1;
+        if (u.uhave.amulet) chance += 2;
+        chance += level_difficulty() / 6;
+    }
+
+    if (rn2(200) >= chance) {
+        return template;
+    } else {
+        do {
+            template = rn2(NUMTEMPLATES);
+            if (is_valid_template(mtmp, template)) break;
+            tryct++;
+        } while (tryct < 50);
+    }
+
+    return template;
+}
+
+/* Applies the template to a monster. Called only from within
+   initetemplate. */
+struct permonst
+apply_template(struct permonst basemon, int tindex)
+{
+    int i;
+    struct permonst template = montemplates[tindex];
+    
+    /* Additive Properties */
+    basemon.mlevel += template.mlevel;
+    basemon.mmove += template.mmove;
+    basemon.ac += template.ac;
+    basemon.mr += template.mr;
+    basemon.maligntyp += template.maligntyp;
+    basemon.geno |= template.geno;
+    basemon.mresists |= template.mresists;
+    basemon.mconveys |= template.mconveys;
+    basemon.mflags1 |= template.mflags1;
+    basemon.mflags2 |= template.mflags2;
+    basemon.mflags3 |= template.mflags3;
+    basemon.difficulty += template.difficulty;
+
+    /* Attacks */
+    for (i = 0; i < 6; i++) {
+        if (template.mattk[i].damd)
+            basemon.mattk[i] = template.mattk[i];
+    }
+
+    /* Replacement Properties */
+    /* mlet only exists for purposes of makedefs iteration. */
+    /* if (template.mlet) basemon.mlet = template.mlet; */
+    if (template.cwt) basemon.cwt = template.cwt;
+    if (template.cnutrit) basemon.cnutrit = template.cnutrit;
+    if (template.msound) basemon.msound = template.msound;
+    if (template.msize) basemon.msize = template.msize;
+    #ifdef TEXTCOLOR
+    if (template.mcolor) basemon.mcolor = template.mcolor;
+    #endif
+
+    return basemon;
 }
 
 /*makemon.c*/

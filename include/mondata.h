@@ -190,6 +190,7 @@
 #define is_dlord(ptr) (is_demon(ptr) && is_lord(ptr))
 #define is_dprince(ptr) (is_demon(ptr) && is_prince(ptr))
 #define is_unkdemon(ptr) (is_ndemon(ptr) \
+        && (ptr)->mlet == S_DEMON \
         && (ptr) != &mons[PM_WATER_DEMON] \
         && (ptr) != &mons[PM_LAVA_DEMON] \
         && (ptr) != &mons[PM_DJINNI])

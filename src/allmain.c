@@ -740,13 +740,6 @@ newgame(void)
     return;
 }
 
-static const char *const dragon_names[] = {
-    "wyrm",            "orm",                "drake",
-    "vurm",            "lindworm",           "leviathan",
-    "crawling dragon", "crested dragon",     "wyvern",
-    "hoarding dragon", "scheming dragon",    "forgotten dragon"
-};
-
 /* show "welcome [back] to nethack" message at program startup */
 void
 welcome(boolean new_game) /* false => restoring an old game */

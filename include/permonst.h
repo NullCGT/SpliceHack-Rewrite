@@ -62,9 +62,13 @@ struct permonst {
 #ifdef TEXTCOLOR
     uchar mcolor; /* color to use */
 #endif
+    short orig_mnum;            /* templated monsters - This corresponds with
+                                   the pm of the base monster, so that we can
+                                   find it with monsndx. */
 };
 
 extern NEARDATA struct permonst mons[]; /* the master list of monster types */
+extern NEARDATA struct permonst montemplates[]; /* the master list of monster templates */
 
 #define VERY_SLOW 3
 #define SLOW_SPEED 9

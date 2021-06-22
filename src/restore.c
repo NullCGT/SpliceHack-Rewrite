@@ -383,6 +383,15 @@ restmon(NHFILE* nhfp, struct monst* mtmp)
             if (nhfp->structlevel)
                 mread(nhfp->fd, (genericptr_t) ERID(mtmp), sizeof(struct erid));
         }
+        /* etemplate - monster modifier */
+        if (nhfp->structlevel)
+            mread(nhfp->fd, (genericptr_t) &buflen, sizeof(buflen));
+        if (buflen > 0) {
+            newetemplate(mtmp);
+            if (nhfp->structlevel) {
+                mread(nhfp->fd, (genericptr_t) ETEMPLATE(mtmp), sizeof(struct etemplate));
+            }
+        }
         /* mcorpsenm - obj->corpsenm for mimic posing as corpse or
            statue (inline int rather than pointer to something) */
         if (nhfp->structlevel)
@@ -456,6 +465,9 @@ restmonchn(NHFILE* nhfp)
             restshk(mtmp, ghostly);
         if (mtmp->ispriest)
             restpriest(mtmp, ghostly);
+        if (has_etemplate(mtmp)) {
+            resttemplate(mtmp);
+        }
 
         if (!ghostly) {
             if (mtmp->m_id == g.context.polearm.m_id)
@@ -543,6 +555,7 @@ restgamestate(NHFILE* nhfp, unsigned int* stuckid, unsigned int* steedid, unsign
     struct context_info newgamecontext; /* all 0, but has some pointers */
     struct obj *otmp;
     struct obj *bc_obj;
+    struct monst *mtmp;
     char timebuf[15];
     unsigned long uid = 0;
     boolean defer_perm_invent;

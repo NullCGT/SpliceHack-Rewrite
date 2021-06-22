@@ -179,6 +179,13 @@ struct erid {
     unsigned int mid;   /* pointer to attached monster id */
 };
 
+struct etemplate {
+    short template_index;   /* Index of the template applied */
+    short base_mnum;        /* mnum of base monster */
+    struct permonst data;   /* Modified monster struct */
+    struct permonst *data_p; /* Pointer to modified struct */
+};
+
 /***
  **     mextra.h -- collection of all monster extensions
  */
@@ -190,6 +197,7 @@ struct mextra {
     struct emin *emin;
     struct edog *edog;
     struct erid *erid;
+    struct etemplate *etemplate;
     int mcorpsenm; /* obj->corpsenm for mimic posing as statue or corpse,
                     * obj->spe (fruit index) for one posing as a slime mold,
                     * or an alignment mask for one posing as an altar */
@@ -202,6 +210,7 @@ struct mextra {
 #define EMIN(mon) ((mon)->mextra->emin)
 #define EDOG(mon) ((mon)->mextra->edog)
 #define ERID(mon) ((mon)->mextra->erid)
+#define ETEMPLATE(mon) ((mon)->mextra->etemplate)
 #define MCORPSENM(mon) ((mon)->mextra->mcorpsenm)
 
 #define has_mgivenname(mon) ((mon)->mextra && MGIVENNAME(mon))
@@ -211,6 +220,9 @@ struct mextra {
 #define has_emin(mon)  ((mon)->mextra && EMIN(mon))
 #define has_edog(mon)  ((mon)->mextra && EDOG(mon))
 #define has_erid(mon)  ((mon)->mextra && ERID(mon))
+#define has_etemplate(mon) ((mon)->mextra && ETEMPLATE(mon))
 #define has_mcorpsenm(mon) ((mon)->mextra && MCORPSENM(mon) != NON_PM)
+
+#define templated(mon, X) (has_etemplate(mon) && ETEMPLATE(mon)->template_index == X)
 
 #endif /* MEXTRA_H */

@@ -46,12 +46,12 @@
 #define MON(nam, sym, lvl, gen, atk, siz, mr1, mr2, flg1, flg2, flg3, d, col) \
     {                                                                      \
         {(const char *) 0, (const char *) 0, nam}, \
-        sym, lvl, gen, atk, siz, mr1, mr2, flg1, flg2, flg3, d, C(col)   \
+        sym, lvl, gen, atk, siz, mr1, mr2, flg1, flg2, flg3, d, C(col), 0   \
     }
 #define MON3(namm, namf, namn, sym, lvl, gen, atk, siz, mr1, mr2, flg1, flg2, flg3, d, col) \
     {                                                                      \
         {namm, namf, namn}, \
-        sym, lvl, gen, atk, siz, mr1, mr2, flg1, flg2, flg3, d, C(col)   \
+        sym, lvl, gen, atk, siz, mr1, mr2, flg1, flg2, flg3, d, C(col), 0   \
     }
 /* LVL() and SIZ() collect several fields to cut down on number of args
  * for MON()
@@ -468,7 +468,7 @@ NEARDATA struct permonst mons_init[] = {
         A(ATTK(AT_WEAP, AD_PHYS, 1, 4), ATTK(AT_TENT, AD_DRIN, 2, 1),
           ATTK(AT_TENT, AD_DRIN, 2, 1), ATTK(AT_TENT, AD_DRIN, 2, 1), NO_ATTK,
           NO_ATTK),
-        SIZ(1450, 400, MS_HISS, MZ_HUMAN), 0, 0,
+        SIZ(1450, 400, MS_HISS, MZ_HUMAN), MR_PSYCHIC, 0,
         M1_HUMANOID | M1_FLY | M1_SEE_INVIS | M1_OMNIVORE,
         M2_HOSTILE | M2_NASTY | M2_GREEDY | M2_JEWELS | M2_COLLECT,
         M3_INFRAVISIBLE | M3_INFRAVISION, 13, CLR_MAGENTA),
@@ -477,7 +477,7 @@ NEARDATA struct permonst mons_init[] = {
         A(ATTK(AT_WEAP, AD_PHYS, 1, 8), ATTK(AT_TENT, AD_DRIN, 2, 1),
           ATTK(AT_TENT, AD_DRIN, 2, 1), ATTK(AT_TENT, AD_DRIN, 2, 1),
           ATTK(AT_TENT, AD_DRIN, 2, 1), ATTK(AT_TENT, AD_DRIN, 2, 1)),
-        SIZ(1450, 400, MS_HISS, MZ_HUMAN), 0, 0,
+        SIZ(1450, 400, MS_HISS, MZ_HUMAN), MR_PSYCHIC, 0,
         M1_HUMANOID | M1_FLY | M1_SEE_INVIS | M1_OMNIVORE,
         M2_HOSTILE | M2_NASTY | M2_GREEDY | M2_JEWELS | M2_COLLECT,
         M3_INFRAVISIBLE | M3_INFRAVISION, 19, CLR_MAGENTA),
@@ -2383,7 +2383,7 @@ struct permonst _mons2[] = {
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
         SIZ(WT_HUMAN, 400, MS_HUMANOID, MZ_HUMAN), 0, 0,
         M1_TUNNEL | M1_NEEDPICK | M1_HUMANOID | M1_OMNIVORE,
-        M2_NOPOLY | M2_STRONG,
+        M2_NOPOLY | M2_STRONG | M2_HUMAN,
         M3_INFRAVISIBLE, 4, CLR_GRAY),
     MON("prison guard", S_HUMAN,
         LVL(12, 10, 10, 15, -6), G_NOGEN,
@@ -2391,7 +2391,8 @@ struct permonst _mons2[] = {
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
         SIZ(WT_HUMAN, 400, MS_BRIBE, MZ_HUMAN), 0, 0,
         M1_HUMANOID | M1_OMNIVORE,
-        M2_NOPOLY | M2_MERC | M2_STALK | M2_HOSTILE | M2_STRONG | M2_COLLECT,
+        M2_NOPOLY | M2_MERC | M2_STALK | M2_HOSTILE | M2_STRONG | M2_COLLECT
+          | M2_HUMAN,
         M3_INFRAVISIBLE, 14, HI_METAL),
     MON("wererat", S_HUMAN, LVL(2, 12, 10, 10, -7), (1),
         A(ATTK(AT_WEAP, AD_PHYS, 2, 4),
@@ -3661,6 +3662,49 @@ struct permonst _mons2[] = {
     MON("", 0, LVL(0, 0, 0, 0, 0), (0),
         A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
         SIZ(0, 0, 0, 0), 0, 0, 0L, 0L, 0, 0, 0)
+};
+
+/* Templates that can be applied to monsters. Each template contains
+   the changes that must be made to the original permonst struct in
+   order to apply the template. */
+NEARDATA struct permonst montemplates[] = {
+    MON("elven", S_HUMAN, LVL(0, 0, 0, 0, -3), (0),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(0, 0, 0, 0), MR_SLEEP, MR_SLEEP, 
+        M1_SEE_INVIS, M2_ELF, 
+        M3_INFRAVISION | M3_INFRAVISIBLE, 0, 0),
+    MON("gnomish", S_GNOME, LVL(0, 0, -1, 0, 0), (0),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(0, 0, 0, 0), 0, 0, 
+        0, M2_GNOME, 
+        M3_INFRAVISION | M3_INFRAVISIBLE, 0, 0),
+    MON("dwarvish", S_HUMANOID, LVL(0, 0, 0, 10, 4), (0),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(0, 0, 0, 0), 0, 0, 
+        M1_TUNNEL | M1_NEEDPICK,
+        M2_DWARF | M2_STRONG | M2_JEWELS | M2_COLLECT,
+        M3_INFRAVISION | M3_INFRAVISIBLE, 0, 0),
+    MON("fiendish", S_DEMON, LVL(0, 0, 0, 15, -4), (0),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(0, 0, 0, 0), MR_FIRE, MR_FIRE, 
+        M1_POIS, M2_DEMON, 
+        0, 2, 0),
+    MON("half-illithid", S_HUMANOID, LVL(0, 0, -3, 40, -3), (0),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
+          ATTK(AT_TENT, AD_DRIN, 2, 1)),
+        SIZ(0, 0, 0, 0), MR_PSYCHIC, 0, 0L, 0L, 0, 5, 0),
+    MON("shadowy", S_GHOST, LVL(2, 2, -3, 0, 3), (0),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(0, 0, 0, 0), MR_COLD | MR_STONE, MR_COLD | MR_STONE,
+        M1_WALLWALK | M1_UNSOLID | M1_BREATHLESS | M1_FLY, 
+        M2_UNDEAD | M2_STALK, 0, 2, 0),
+    /*
+     * array terminator
+     */
+    MON("", 0, LVL(0, 0, 0, 0, 0), (0),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(0, 0, 0, 0), 0, 0, 0L, 0L, 0, 0, 0)
+    /* need array term? */
 };
 #endif /* !SPLITMON_1 */
 

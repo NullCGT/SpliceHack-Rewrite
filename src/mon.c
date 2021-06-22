@@ -503,6 +503,11 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
     unsigned corpstatflags = corpseflags;
     boolean burythem = ((corpstatflags & CORPSTAT_BURIED) != 0);
 
+    /* TODO: Handle undead templated monsters. */
+    if (has_etemplate(mtmp)) {
+        mndx = ETEMPLATE(mtmp)->data.orig_mnum;
+    }
+
     switch (mndx) {
     case PM_GRAY_DRAGON:
     case PM_SILVER_DRAGON:
@@ -2239,6 +2244,11 @@ copy_mextra(struct monst* mtmp2, struct monst* mtmp1)
             newerid(mtmp2);
         *ERID(mtmp2) = *ERID(mtmp1);
     }
+    if (ETEMPLATE(mtmp1)) {
+        if (!ETEMPLATE(mtmp2))
+            newetemplate(mtmp2);
+        *ETEMPLATE(mtmp2) = *ETEMPLATE(mtmp1);
+    }
     if (has_mcorpsenm(mtmp1))
         MCORPSENM(mtmp2) = MCORPSENM(mtmp1);
 }
@@ -2263,6 +2273,8 @@ dealloc_mextra(struct monst* m)
             free((genericptr_t) x->edog);
         if (x->erid)
             free((genericptr_t) x->erid);
+        if (x->etemplate)
+            free((genericptr_t) x->etemplate);
         /* [no action needed for x->mcorpsenm] */
 
         free((genericptr_t) x);
@@ -4518,6 +4530,10 @@ newcham(
 
     /* take on the new form... */
     set_mon_data(mtmp, mdat);
+
+    /* If we have a template, apply it to the new form. */
+    if (has_etemplate(mtmp))
+        initetemplate(mtmp, ETEMPLATE(mtmp)->template_index);
 
     if (mtmp->mleashed && !leashable(mtmp))
         m_unleash(mtmp, TRUE);

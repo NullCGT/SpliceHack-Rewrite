@@ -856,6 +856,13 @@ savemon(NHFILE* nhfp, struct monst* mtmp)
         if (buflen > 0)
             if (nhfp->structlevel)
                 bwrite(nhfp->fd, (genericptr_t) ERID(mtmp), buflen);
+        buflen = ETEMPLATE(mtmp) ? (int) sizeof (struct etemplate) : 0;
+        if (nhfp->structlevel)
+            bwrite(nhfp->fd, (genericptr_t) &buflen, sizeof(int));
+        if (buflen > 0)
+            if (nhfp->structlevel) {
+                bwrite(nhfp->fd, (genericptr_t) ETEMPLATE(mtmp), buflen);
+            }
         /* mcorpsenm is inline int rather than pointer to something,
            so doesn't need to be preceded by a length field */
         if (nhfp->structlevel)

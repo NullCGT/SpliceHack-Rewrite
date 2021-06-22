@@ -585,7 +585,8 @@ dochug(register struct monst* mtmp)
     if (is_watch(mdat)) {
         watch_on_duty(mtmp);
 
-    } else if (is_mind_flayer(mdat) && !rn2(20)) {
+    } else if ((is_mind_flayer(mdat) && !rn2(20))
+               || (templated(mtmp, MT_HALF_ILLITHID) && !rn2(40))) {
         struct monst *m2, *nmon = (struct monst *) 0;
 
         if (canseemon(mtmp))

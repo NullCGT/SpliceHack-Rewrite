@@ -1845,6 +1845,9 @@ x_monnam(register struct monst *mtmp, int article,
         age_category = dragonages[max(0, min((int) mtmp->m_lev - (int) mdat->mlevel + 3, SIZE(dragonages) -1))];
         Sprintf(buf, "%s", age_category);
     }
+    if (has_etemplate(mtmp)) {
+        Sprintf(eos(buf), "%s ", montemplates[ETEMPLATE(mtmp)->template_index].pmnames[NEUTRAL]);
+    }
     has_adjectives = (buf[0] != '\0');
 
     /* Put the actual monster name or type into the buffer now.

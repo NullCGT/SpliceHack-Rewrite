@@ -1198,6 +1198,11 @@ extern void mkmonmoney(struct monst *, long);
 extern int bagotricks(struct obj *, boolean, int *);
 extern boolean propagate(int, boolean, boolean);
 extern boolean usmellmon(struct permonst *);
+extern void newetemplate(struct monst *);
+extern void free_etemplate(struct monst *);
+extern void resttemplate(struct monst *);
+extern void initetemplate(struct monst *, int);
+extern struct permonst apply_template(struct permonst, int);
 
 /* ### mcastu.c ### */
 

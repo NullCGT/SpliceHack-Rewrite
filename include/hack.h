@@ -287,6 +287,7 @@ typedef struct sortloot_item Loot;
 #define GP_ALLOW_U  0x080000L /* don't reject hero's location */
 #define MM_ERID     0x100000L /* add erid structure */
 #define MM_NOERID   0x200000L /* disallow steed */
+#define MM_NOTEMPLATE 0x40000000L /* no template chance */
 
 /* flags for make_corpse() and mkcorpstat() */
 #define CORPSTAT_NONE 0x00

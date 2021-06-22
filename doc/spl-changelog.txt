@@ -5,7 +5,7 @@
 Removed Content
 Since this release is a rewrite, a number of pieces of existing content have been heavily altered
 or outright removed. Rationale will be provided for all removed content upon request.
-- Removed the following monsters: Anubites, Nuckelavees, Plant Monsters, Lords of Worms.
+- Removed the following monsters: Anubites, Nuckelavees, Plant Monsters, Lords of Worms, Penguins.
 - Removed the following objects:
   - Razor whips.
 - The intelligent pet patch from GruntHack has been removed. This patch introduced an incredible
@@ -95,6 +95,15 @@ Monster Changes
   identified and will have the correct tile.
   - The rationale for this feature is that it helps ensure that the late game still has some sort
     of identification and undertainty mechanics. Gehennom doesn't have to be the end of discovery!
+- Templated Monsters
+  - Monsters can spawn with templates applied to them, such as "fiendish," "elven," or "half-illithid."
+    These templates modify the data of the monster, making them more dangerous.
+  - Your starting pet can rarely spawn with a template applied to it.
+  - Many traditionally human monsters can have their race randomly altered.
+  - TODO: Dangerous templated monsters have a visual indicator.
+  - TODO: Allow wizmode users to spawn templated monsters?
+  - TODO: Fix corpses for templated monsters.
+  - KNOWN BUG: Shopkeeper template names are quashed.
 
 Race Changes
 - Drow
