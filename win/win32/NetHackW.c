@@ -142,6 +142,10 @@ WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine,
         LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_RIDINGMARK));
     if (_nethack_app.bmpRidingMark == NULL)
         panic("cannot load riding mark bitmap");
+    _nethack_app.bmpTemplateMark =
+        LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_TEMPLATEMARK));
+    if (_nethack_app.bmpTemplateMark == NULL)
+        panic("cannot load template mark bitmap");
 #ifdef USE_PILEMARK
     _nethack_app.bmpPileMark =
         LoadBitmap(hInstance, MAKEINTRESOURCE(IDB_PILEMARK));

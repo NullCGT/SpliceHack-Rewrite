@@ -2119,6 +2119,9 @@ static const int explcolors[] = {
 
 #define is_objpile(x,y) (!Hallucination && g.level.objects[(x)][(y)] \
                          && g.level.objects[(x)][(y)]->nexthere)
+#define is_templatemon(x,y) (!Hallucination && g.level.monsters[(x)][(y)] \
+                             && has_etemplate(g.level.monsters[(x)][(y)]) \
+                             && montemplates[ETEMPLATE(g.level.monsters[(x)][(y)])->template_index].difficulty)
 
 #define GMAP_SET                 0x00000001
 #define GMAP_ROGUELEVEL          0x00000002
@@ -2404,6 +2407,8 @@ map_glyphinfo(xchar x, xchar y, int glyph,
                 color = HI_DOMESTIC;
 #endif
         }
+        if (is_templatemon(x,y))
+            special |= MG_TEMPLATE;
         do_mon_checks = TRUE;
     }
 

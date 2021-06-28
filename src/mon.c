@@ -505,6 +505,8 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
 
     /* TODO: Handle undead templated monsters. */
     if (has_etemplate(mtmp)) {
+        if (is_undead(mtmp->data))
+            obj->age -= (TAINT_AGE + 1); /* this is an OLD corpse */
         mndx = ETEMPLATE(mtmp)->data.orig_mnum;
     }
 

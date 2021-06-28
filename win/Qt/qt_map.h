@@ -50,6 +50,7 @@ private:
         QPixmap pet_annotation;
         QPixmap pile_annotation;
 		QPixmap riding_annotation;
+		QPixmap template_annotation;
         NetHackQtClickBuffer &clicksink;
         Clusterizer change;
 

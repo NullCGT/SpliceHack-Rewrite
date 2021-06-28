@@ -164,6 +164,7 @@
     <UUFiles Include = "$(WinWin32Dir)petmark.uu"/>
     <UUFiles Include = "$(WinWin32Dir)pilemark.uu"/>
     <UUFiles Include = "$(WinWin32Dir)ridingmark.uu"/>
+    <UUFiles Include = "$(WinWin32Dir)templatemark.uu"/>
     <UUFiles Include = "$(WinWin32Dir)splash.uu"/>
     <UUFiles Include = "$(WinWin32Dir)rip.uu"/>
     <UUFiles Include = "$(WinWin32Dir)record.uu"/>
@@ -181,6 +182,7 @@
     <BmpFiles Include = "$(WinWin32Dir)petmark.bmp"/>
     <BmpFiles Include = "$(WinWin32Dir)pilemark.bmp"/>
     <BmpFiles Include = "$(WinWin32Dir)ridingmark.bmp"/>
+    <BmpFiles Include = "$(WinWin32Dir)templatemark.bmp"/>
     <BmpFiles Include = "$(WinWin32Dir)rip.bmp"/>
     <BmpFiles Include = "$(WinWin32Dir)splash.bmp"/>
   </ItemGroup>

@@ -103,6 +103,9 @@ pet_mark.xbm : $(WINX11)pet_mark.xbm
 riding_mark.xbm : $(WINX11)riding_mark.xbm
 	copy $(WINX11)riding_mark.xbm riding_mark.xbm
 
+template_mark.xbm : $(WINX11)template_mark.xbm
+	copy $(WINX11)template_mark.xbm template_mark.xbm
+
 rip.xpm : $(WINX11)rip.xpm
 	copy $(WINX11)rip.xpm rip.xpm
 

@@ -11,6 +11,7 @@
 	<Exec Command="&quot;$(ToolsDir)uudecode.exe&quot; &quot;$(WinWin32Dir)petmark.uu&quot;" WorkingDirectory="$(WinWin32Dir)"/>
 	<Exec Command="&quot;$(ToolsDir)uudecode.exe&quot; &quot;$(WinWin32Dir)pilemark.uu&quot;" WorkingDirectory="$(WinWin32Dir)"/>
 	<Exec Command="&quot;$(ToolsDir)uudecode.exe&quot; &quot;$(WinWin32Dir)ridingmark.uu&quot;" WorkingDirectory="$(WinWin32Dir)"/>
+	<Exec Command="&quot;$(ToolsDir)uudecode.exe&quot; &quot;$(WinWin32Dir)templatemark.uu&quot;" WorkingDirectory="$(WinWin32Dir)"/>
 	<Exec Command="&quot;$(ToolsDir)uudecode.exe&quot; &quot;$(WinWin32Dir)splash.uu&quot;" WorkingDirectory="$(WinWin32Dir)"/>
 	<Exec Command="&quot;$(ToolsDir)uudecode.exe&quot; &quot;$(WinWin32Dir)rip.uu&quot;" WorkingDirectory="$(WinWin32Dir)"/>
 	<Exec Command="&quot;$(ToolsDir)uudecode.exe&quot; &quot;$(WinWin32Dir)record.uu&quot;" WorkingDirectory="$(WinWin32Dir)"/>

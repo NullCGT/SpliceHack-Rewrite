@@ -421,7 +421,7 @@ mhstatus.c             mhstatus.h             mhtext.c
 mhtext.h               mnsel.uu               mnselcnt.uu
 mnunsel.uu             mswproc.c              splicehack.rc
 nhresource.h           petmark.uu             pilemark.uu
-ridingmark.uu
+ridingmark.uu          templatemark.uu
 record.uu              resource.h             rip.uu
 splash.uu              tiles-mingw32.mak      tiles.mak
 winMS.h

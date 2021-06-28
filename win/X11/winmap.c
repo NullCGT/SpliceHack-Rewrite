@@ -127,6 +127,7 @@ X11_print_glyph(winid window, xchar x, xchar y, const glyph_info *glyphinfo,
         colordif = (((special & MG_PET) != 0 && iflags.hilite_pet)
                     || ((special & MG_OBJPILE) != 0 && iflags.hilite_pile)
                     || ((special & MG_RIDDEN) != 0)
+                    || ((special & MG_TEMPLATE) != 0)
                     || ((special & (MG_DETECT | MG_BW_LAVA | MG_BW_ICE)) != 0
                         && iflags.use_inverse))
                       ? CLR_MAX : 0;
@@ -188,6 +189,7 @@ struct tile_annotation {
 static struct tile_annotation pet_annotation;
 static struct tile_annotation pile_annotation;
 static struct tile_annotation riding_annotation;
+static struct tile_annotation template_annotation;
 
 static void
 init_annotation(struct tile_annotation *annotation, char *filename, Pixel colorpixel)
@@ -247,6 +249,8 @@ post_process_tiles(void)
                     appResources.pet_mark_color);
     init_annotation(&riding_annotation, appResources.riding_mark_bitmap,
                     appResources.riding_mark_color);
+    init_annotation(&template_annotation, appResources.template_mark_bitmap,
+                    appResources.template_mark_color);
     init_annotation(&pile_annotation, appResources.pilemark_bitmap,
                     appResources.pilemark_color);
 }
@@ -1295,6 +1299,21 @@ map_update(struct xwindow *wp, int start_row, int stop_row, int start_col, int s
                     XCopyPlane(dpy, riding_annotation.bitmap, XtWindow(wp->w),
                                tile_map->black_gc, 0, 0, riding_annotation.width,
                                riding_annotation.height, dest_x, dest_y, 1);
+                    XSetClipOrigin(dpy, tile_map->black_gc, 0, 0);
+                    XSetClipMask(dpy, tile_map->black_gc, None);
+                    XSetForeground(dpy, tile_map->black_gc,
+                                   BlackPixelOfScreen(screen));
+                }
+                if ((tile_map->glyphs[row][cur_col].glyphflags & MG_TEMPLATE)) {
+                    /* draw template annotation (a letter X) */
+                    XSetForeground(dpy, tile_map->black_gc,
+                                   template_annotation.foreground);
+                    XSetClipOrigin(dpy, tile_map->black_gc, dest_x, dest_y);
+                    XSetClipMask(dpy, tile_map->black_gc,
+                                 template_annotation.bitmap);
+                    XCopyPlane(dpy, template_annotation.bitmap, XtWindow(wp->w),
+                               tile_map->black_gc, 0, 0, template_annotation.width,
+                               template_annotation.height, dest_x, dest_y, 1);
                     XSetClipOrigin(dpy, tile_map->black_gc, 0, 0);
                     XSetClipMask(dpy, tile_map->black_gc, None);
                     XSetForeground(dpy, tile_map->black_gc,

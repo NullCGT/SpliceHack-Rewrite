@@ -38,7 +38,7 @@ WINSRC = $(WINX11SRC)
 WINOBJ = $(WINX11OBJ)
 WINLIB = $(WINX11LIB)
 
-VARDATND = x11tiles NetHack.ad pet_mark.xbm riding_mark.xbm pilemark.xbm
+VARDATND = x11tiles NetHack.ad pet_mark.xbm riding_mark.xbm template_mark.xbm pilemark.xbm
 
 WINX11LIB = -lXaw -lXmu -lXext -lXt -lX11
 

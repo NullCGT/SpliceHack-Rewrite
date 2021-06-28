@@ -289,6 +289,7 @@
     <Image Include="..\petmark.bmp" />
     <Image Include="..\pilemark.bmp" />
     <Image Include="..\ridingmark.bmp" />
+    <Image Include="..\templatemark.bmp" />
     <Image Include="..\rip.bmp" />
     <Image Include="..\splash.bmp" />
     <Image Include="..\tiles.bmp" />

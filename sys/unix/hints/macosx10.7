@@ -95,7 +95,7 @@ endif	# !WANT_WIN_TTY
 
 ifdef WANT_WIN_X11
 WINX11LIB = -lXaw -lXmu -lXext -lXt -lX11
-VARDATND = x11tiles NetHack.ad pet_mark.xbm riding_mark.xbm pilemark.xbm
+VARDATND = x11tiles NetHack.ad pet_mark.xbm riding_mark.xbm template_mark.xbm pilemark.xbm
 POSTINSTALL+= bdftopcf win/X11/nh10.bdf > $(INSTDIR)/nh10.pcf; ( cd $(INSTDIR); mkfontdir -x .lev );
 CFLAGS += -DX11_GRAPHICS
 ifdef USE_XPM

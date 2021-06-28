@@ -43,7 +43,7 @@ WINOBJ = $(WINQT4OBJ)
 WINLIB = $(WINQT4LIB)
 MOC = moc-qt4
 
-VARDATND = nhtiles.bmp rip.xpm nhsplash.xpm pet_mark.xbm riding_mark.xbm pilemark.xbm
+VARDATND = nhtiles.bmp rip.xpm nhsplash.xpm pet_mark.xbm riding_mark.xbm template_mark.xbm pilemark.xbm
 
 QTDIR=/usr
 

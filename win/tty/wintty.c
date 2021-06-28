@@ -3430,6 +3430,13 @@ tty_print_glyph(winid window, xchar x, xchar y,
         inverse_on = TRUE;
         ttyDisplay->color = CLR_BRIGHT_MAGENTA;
         term_start_color(ttyDisplay->color);
+    } else if ((special & MG_TEMPLATE) && iflags.use_inverse) {
+        if (ttyDisplay->color != NO_COLOR)
+            term_end_color();
+        term_start_attr(ATR_INVERSE);
+        inverse_on = TRUE;
+        ttyDisplay->color = CLR_ORANGE;
+        term_start_color(ttyDisplay->color);
     }
 #endif
 

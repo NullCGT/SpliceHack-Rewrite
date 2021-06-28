@@ -84,6 +84,7 @@ typedef struct mswin_nhwindow_app {
     HBITMAP bmpTiles;
     HBITMAP bmpPetMark;
     HBITMAP bmpRidingMark;
+    HBITMAP bmpTemplateMark;
 #ifdef USE_PILEMARK
     HBITMAP bmpPileMark;
 #endif

@@ -3708,17 +3708,17 @@ NEARDATA struct permonst montemplates[] = {
           ATTK(AT_BITE, AD_DRLI, 1, 6)),
         SIZ(0, 0, 0, 0), 0, 0, 
         M1_FLY | M1_POIS | M1_REGEN | M1_BREATHLESS, 
-        M2_UNDEAD | M2_STALK | M2_STRONG, 0, 0, 4),
+        M2_UNDEAD | M2_STALK | M2_STRONG, 0, 4, 0),
     MON("armored", S_ANT, LVL(0, -2, -6, 0, 0), (0),
         A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
-        SIZ(0, 0, 0, 0), 0, 0, 0L, M2_STRONG, 0, 0, 2),
+        SIZ(0, 0, 0, 0), 0, 0, 0L, M2_STRONG, 0, 2, 0),
     MON("Juiblex-touched", S_PUDDING, LVL(0, 0, 0, 0, 0), (0),
-        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, ATTK(AT_TUCH, AD_SLIM, 1, 2)),
         SIZ(0, 0, 0, 0), 
         MR_COLD | MR_ELEC | MR_POISON | MR_ACID | MR_STONE,
         MR_COLD | MR_ELEC | MR_POISON,
         M1_BREATHLESS | M1_AMORPHOUS | M1_ACID, 
-        M2_NEUTER, 0, 0, 4),
+        M2_NEUTER, 0, 4, 0),
     /*
      * array terminator
      */

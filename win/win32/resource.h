@@ -31,6 +31,7 @@
 #define IDD_SPLASH                      148
 #define IDB_PILEMARK                    149
 #define IDB_RIDINGMARK                  150
+#define IDB_TEMPLATEMARK                151
 #define IDC_TEXT_VIEW                   1000
 #define IDC_TEXT_CONTROL                1000
 #define IDC_CMD_MOVE_NW                 1001

@@ -62,6 +62,9 @@ pilemark.xbm: ../win/X11/pilemark.xbm
 riding_mark.xbm: ../win/X11/riding_mark.xbm
 	cp ../win/X11/riding_mark.xbm riding_mark.xbm
 
+template_mark.xbm: ../win/X11/template_mark.xbm
+	cp ../win/X11/template_mark.xbm template_mark.xbm
+
 rip.xpm: ../win/X11/rip.xpm
 	cp ../win/X11/rip.xpm rip.xpm
 
@@ -132,7 +135,7 @@ clean:
 
 spotless: clean
 	-rm -f nhdat $(VARDAT) \
-		x11tiles pet_mark.xbm pilemark.xbm riding_mark.xbm rip.xpm mapbg.xpm \
+		x11tiles pet_mark.xbm pilemark.xbm riding_mark.xbm template_mark.xbm rip.xpm mapbg.xpm \
 		rip.img GEM_RSC.RSC title.img nh16.img NetHack.ad \
 		nhsplash.xpm nhtiles.bmp beostiles
 

@@ -289,6 +289,8 @@ typedef struct {
     Pixel pilemark_color;     /* color of item pile mark */
     String riding_mark_bitmap; /* X11 bitmap file used to mark rider pairs */
     Pixel riding_mark_color;  /* color of riding mark */
+    String template_mark_bitmap; /* X11 bitmap file used to mark templated monsters */
+    Pixel template_mark_color; /* color of template mark */
 #ifdef GRAPHIC_TOMBSTONE
     String tombstone; /* name of XPM file for tombstone */
     int tombtext_x;   /* x-coord of center of first tombstone text */

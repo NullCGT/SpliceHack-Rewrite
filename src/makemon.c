@@ -2750,7 +2750,9 @@ is_valid_template(struct monst *mtmp, int tindex) {
     case MT_DWARVISH:
     case MT_GNOMISH:
     case MT_ORCISH:
-        return is_human(mtmp->data);
+        return (is_human(mtmp->data) 
+            && monsndx(mtmp->data) != PM_HUMAN_ZOMBIE
+            && monsndx(mtmp->data) != PM_HUMAN_MUMMY);
     case MT_VAMPIRIC:
         return !is_undead(mtmp->data);
     case MT_FIENDISH:

@@ -123,7 +123,7 @@ endif
 
 ifdef WANT_WIN_X11
 WINX11LIB = -lXaw -lXmu -lXext -lXt -lX11
-VARDATND = x11tiles NetHack.ad pet_mark.xbm riding_mark.xbm pilemark.xbm
+VARDATND = x11tiles NetHack.ad pet_mark.xbm riding_mark.xbm template_mark.xbm pilemark.xbm
 # -x: if built without dlb, some versions of mkfontdir think *.lev are fonts
 POSTINSTALL+= bdftopcf win/X11/nh10.bdf > $(HACKDIR)/nh10.pcf; ( cd $(HACKDIR); mkfontdir -x .lev );
 CFLAGS += -DX11_GRAPHICS

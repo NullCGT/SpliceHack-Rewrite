@@ -44,6 +44,9 @@ NetHack.tile_file: x11tiles
 ! The annotation of riding.
 !NetHack.riding_mark_bitmap: riding_mark.xbm
 !NetHack.riding_mark_color: Green
+! The annotation of templates.
+!NetHack.template_mark_bitmap: template_mark.xbm
+!NetHack.template_mark_color: Magenta
 ! The annotation of item piles.
 !NetHack.pilemark_bitmap: pilemark.xbm
 !NetHack.pilemark_color: Green

@@ -901,6 +901,24 @@ paintTile(PNHMapWindow data, int i, int j, RECT * rect)
         SelectObject(hdcRidingMark, bmRidingMarkOld);
         DeleteDC(hdcRidingMark);
     }
+    if ((glyph != NO_GLYPH) && (data->map[i][j].glyphflags & MG_TEMPLATE)) {
+        /* apply template mark transparently over
+            monster image */
+        HDC hdcTemplateMark;
+        HBITMAP bmTemplateMarkOld;
+
+        /* this is DC for templatemark bitmap */
+        hdcTemplateMark = CreateCompatibleDC(data->backBufferDC);
+        bmTemplateMarkOld =
+            SelectObject(hdcTemplateMark, GetNHApp()->bmpTemplateMark);
+
+        (*GetNHApp()->lpfnTransparentBlt)(
+            data->backBufferDC, rect->left, rect->top,
+            data->xBackTile, data->yBackTile, hdcTemplateMark, 0, 0,
+            TILE_X, TILE_Y, TILE_BK_COLOR);
+        SelectObject(hdcTemplateMark, bmTemplateMarkOld);
+        DeleteDC(hdcTemplateMark);
+    }
 #ifdef USE_PILEMARK
     if ((glyph != NO_GLYPH) && (data->map[i][j].glyphflags & MG_OBJPILE)
         && iflags.hilite_pile) {

@@ -166,6 +166,7 @@ dialogs.c	- A better dialog widget.  Original code (modified slightly
 		  the GNU public license, v2 or higher).
 pet_mark.xbm	- A pet indicator bitmap for tiles.
 riding_mark.xbm - A riding indicator bitmap for tiles.
+template_mark.xbm - A template indicator bitmap for tiles.
 pilemark.xbm	- Item pile indicator for tiles.
 rip.xpm		- A graphical tombstone.
 tile2x11.c	- Converts win/share tiles for X11 use.

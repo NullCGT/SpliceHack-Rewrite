@@ -506,5 +506,6 @@ enum explosion_types {
 #define MG_UNEXPL  0x0400  /* char represents GLYPH_UNEXPLORED */
 #define MG_FEMALE  0x0800  /* represents a female mon,detected mon,pet,ridden */
 #define MG_BADXY   0x1000  /* bad coordinates were passed */
+#define MG_TEMPLATE 0x2000 /* monster has an interesting template */
 
 #endif /* DISPLAY_H */

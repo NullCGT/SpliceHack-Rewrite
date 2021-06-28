@@ -100,7 +100,7 @@ Monster Changes
     These templates modify the data of the monster, making them more dangerous.
   - Your starting pet can rarely spawn with a template applied to it.
   - Many traditionally human monsters can have their race randomly altered.
-  - TODO: Dangerous templated monsters have a visual indicator.
+  - TODO: Update visual indicator for templated mons in windows ports using certain files.
   - KNOWN BUG: Werecreature corpses???
 
 Race Changes

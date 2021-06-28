@@ -1059,7 +1059,7 @@ tileutil: $(U)gif2txt.exe $(U)gif2tx32.exe $(U)txt2ppm.exe
 $(O)NetHackW.res: $(TILEBMP16) $(MSWIN)\NetHackW.rc $(MSWIN)\mnsel.bmp \
 	$(MSWIN)\mnselcnt.bmp $(MSWIN)\mnunsel.bmp \
 	$(MSWIN)\petmark.bmp $(MSWIN)\pilemark.bmp $(MSWIN)\NetHack.ico $(MSWIN)\rip.bmp \
-	$(MSWIN)\splash.bmp $(MSWIN)\ridingmark.bmp
+	$(MSWIN)\splash.bmp $(MSWIN)\ridingmark.bmp $(MSWIN)\templatemark.bmp
 	@$(rc) -r -fo$@ -i$(MSWIN) -dNDEBUG $(MSWIN)\NetHackW.rc
 
 $(O)console.res: $(MSWSYS)\console.rc $(MSWSYS)\NetHack.ico
@@ -1151,6 +1151,11 @@ $(MSWIN)\petmark.bmp: $(U)uudecode.exe $(MSWIN)\petmark.uu
 $(MSWIN)\ridingmark.bmp: $(U)uudecode.exe $(MSWIN)\ridingmark.uu
 	chdir $(MSWIN)
 	..\..\util\uudecode.exe ridingmark.uu
+	chdir ..\..\src
+
+$(MSWIN)\templatemark.bmp: $(U)uudecode.exe $(MSWIN)\templatemark.uu
+	chdir $(MSWIN)
+	..\..\util\uudecode.exe templatemark.uu
 	chdir ..\..\src
 
 $(MSWIN)\pilemark.bmp: $(U)uudecode.exe $(MSWIN)\pilemark.uu
@@ -1661,6 +1666,7 @@ spotless: clean
 	if exist $(MSWIN)\mnunsel.bmp    del $(MSWIN)\mnunsel.bmp
 	if exist $(MSWIN)\petmark.bmp    del $(MSWIN)\petmark.bmp
 	if exist $(MSWIN)\ridingmark.bmp    del $(MSWIN)\ridingmark.bmp
+	if exist $(MSWIN)\templatemark.bmp  del $(MSWIN)\templatemark.bmp
 	if exist $(MSWIN)\pilemark.bmp   del $(MSWIN)\pilemark.bmp
 	if exist $(MSWIN)\rip.bmp        del $(MSWIN)\rip.bmp
 	if exist $(MSWIN)\splash.bmp     del $(MSWIN)\splash.bmp

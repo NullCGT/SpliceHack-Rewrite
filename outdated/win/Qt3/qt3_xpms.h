@@ -962,6 +962,23 @@ static const char *riding_mark_xpm[] = {
 " ....  ."
 };
 /* XPM */
+static const char *template_mark_xpm[] = {
+/* width height ncolors chars_per_pixel */
+"8 7 2 1",
+/* colors */
+". c None",
+"  c #FF00FF",
+/* pixels */
+"  ....  ",
+".  ..  .",
+"..    ..",
+"..   ...",
+"..    ..",
+".  ..  .",
+"  ....  "
+};
+}
+/* XPM */
 static const char *pile_mark_xpm[] = {
 /* width height ncolors chars_per_pixel */
 "5 5 2 1",
