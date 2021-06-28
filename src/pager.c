@@ -719,7 +719,7 @@ struct permonst * pm;
     }
 #define MONPUTSTR(str) putstr(datawin, ATR_NONE, str)
 
-    if ((g.mvitals[monsndx(pm)].mvflags & G_KNOWN) == 0) {
+    if ((g.mvitals[monsndx(pm)].mvflags & G_KNOWN) == 0 && !wizard) {
         MONPUTSTR("You do not know enough about this monster yet to ascertain its exact statistics.");
         MONPUTSTR("Such information could be gained in the following ways, for example:");
         MONPUTSTR("- Slaying it");

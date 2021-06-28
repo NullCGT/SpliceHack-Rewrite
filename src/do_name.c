@@ -1828,6 +1828,8 @@ x_monnam(register struct monst *mtmp, int article,
         Strcat(buf, " the ");
         if (do_invis)
             Strcat(buf, "invisible ");
+        if (has_etemplate(mtmp))
+            Sprintf(eos(buf), "%s ", montemplates[ETEMPLATE(mtmp)->template_index].pmnames[NEUTRAL]);
         Strcat(buf, pm_name);
         return buf;
     }

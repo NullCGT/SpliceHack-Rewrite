@@ -2477,7 +2477,7 @@ mondead(register struct monst* mtmp)
         }
     }
 
-    if (is_vampshifter(mtmp)) {
+    if (is_vampshifter(mtmp) && is_shapeshifter(mtmp->data)) {
         int mndx = mtmp->cham;
         int x = mtmp->mx, y = mtmp->my;
 

@@ -2749,11 +2749,16 @@ is_valid_template(struct monst *mtmp, int tindex) {
     case MT_ELVEN:
     case MT_DWARVISH:
     case MT_GNOMISH:
+    case MT_ORCISH:
         return is_human(mtmp->data);
+    case MT_VAMPIRIC:
+        return !is_undead(mtmp->data);
     case MT_FIENDISH:
         return !is_demon(mtmp->data);
     case MT_HALF_ILLITHID:
         return !is_mind_flayer(mtmp->data);
+    case MT_JUIBLEX_TOUCHED:
+        return !amorphous(mtmp->data);
     default:
         return TRUE;
     }
@@ -2776,10 +2781,12 @@ template_chance(struct monst *mtmp) {
        race template. Other monsters have a small chance of receiving
        a template upon creation. */
     if (is_human(mtmp->data)) {
-        switch (rn2(4)) {
+        switch (rn2(5)) {
         case 0: template = MT_DWARVISH; break;
         case 1: template = MT_ELVEN; break;
         case 2: template = MT_GNOMISH; break;
+        case 3: template = MT_ORCISH; break;
+        case 4:
         default:
             break;
         }
@@ -2842,6 +2849,11 @@ apply_template(struct permonst basemon, int tindex)
     #ifdef TEXTCOLOR
     if (template.mcolor) basemon.mcolor = template.mcolor;
     #endif
+
+    /* Remove human flag */
+    if (tindex == MT_ELVEN || tindex == MT_DWARVISH || tindex == MT_GNOMISH
+        || tindex == MT_ORCISH)
+        basemon.mflags2 &= ~M2_HUMAN;
 
     return basemon;
 }

@@ -207,7 +207,8 @@ struct monst {
 #define is_starting_pet(mon) ((mon)->m_id == g.context.startingpet_mid)
 #define is_vampshifter(mon)                                      \
     ((mon)->cham == PM_VAMPIRE || (mon)->cham == PM_VAMPIRE_LEADER \
-     || (mon)->cham == PM_VLAD_THE_IMPALER || (mon)->cham == PM_VAMPIRE_MAGE)
+     || (mon)->cham == PM_VLAD_THE_IMPALER || (mon)->cham == PM_VAMPIRE_MAGE \
+     || templated(mon, MT_VAMPIRIC))
 #define vampshifted(mon) (is_vampshifter((mon)) && !is_vampire((mon)->data))
 
 /* monsters which cannot be displaced: priests, shopkeepers, vault guards,

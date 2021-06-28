@@ -415,7 +415,8 @@ mattackm(register struct monst *magr, register struct monst *mdef)
             if (strike) {
                 res[i] = hitmm(magr, mdef, mattk, mwep, dieroll);
                 if ((mdef->data == &mons[PM_BLACK_PUDDING]
-                     || mdef->data == &mons[PM_BROWN_PUDDING])
+                     || mdef->data == &mons[PM_BROWN_PUDDING]
+                     || templated(mdef, MT_JUIBLEX_TOUCHED))
                     && (mwep && (objects[mwep->otyp].oc_material == IRON
                                  || objects[mwep->otyp].oc_material == METAL))
                     && mdef->mhp > 1 && !mdef->mcan) {
@@ -773,7 +774,7 @@ gulpmm(register struct monst *magr, register struct monst *mdef,
     for (obj = mdef->minvent; obj; obj = obj->nobj)
         (void) snuff_lit(obj);
 
-    if (is_vampshifter(mdef)
+    if (is_vampshifter(mdef) && is_shapeshifter(mdef->data)
         && newcham(mdef, &mons[mdef->cham], FALSE, FALSE)) {
         if (g.vis) {
             /* 'it' -- previous form is no longer available and

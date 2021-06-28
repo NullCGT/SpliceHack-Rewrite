@@ -101,9 +101,7 @@ Monster Changes
   - Your starting pet can rarely spawn with a template applied to it.
   - Many traditionally human monsters can have their race randomly altered.
   - TODO: Dangerous templated monsters have a visual indicator.
-  - TODO: Allow wizmode users to spawn templated monsters?
-  - TODO: Fix corpses for templated monsters.
-  - KNOWN BUG: Shopkeeper template names are quashed.
+  - KNOWN BUG: Werecreature corpses???
 
 Race Changes
 - Drow

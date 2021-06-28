@@ -2631,7 +2631,7 @@ create_particular_parse(char* str, struct _create_particular_data* d)
     d->genderconf = -1;  /* no confusion on which gender to assign */
     d->randmonst = FALSE;
     d->maketame = d->makepeaceful = d->makehostile = FALSE;
-    d->sleeping = d->saddled = d->invisible = d->hidden = FALSE;
+    d->sleeping = d->saddled = d->invisible = d->hidden = d->templated = FALSE;
 
     /* quantity */
     if (digit(*bufp)) {
@@ -2685,6 +2685,11 @@ create_particular_parse(char* str, struct _create_particular_data* d)
     } else if (!strncmpi(bufp, "hostile ", 8)) {
         bufp += 8;
         d->makehostile = TRUE;
+    }
+    /* TODO: Parse specific templates */
+    if (!strncmpi(bufp, "templated ", 10)) {
+        bufp += 10;
+        d->templated = TRUE;
     }
     /* decide whether a valid monster was chosen */
     if (wizard && (!strcmp(bufp, "*") || !strcmp(bufp, "random"))) {
@@ -2803,6 +2808,10 @@ create_particular_creation(struct _create_particular_data* d)
             mtmp->mtame = 0; /* sanity precaution */
             mtmp->mpeaceful = d->makepeaceful ? 1 : 0;
             set_malign(mtmp);
+        }
+        if (d->templated) {
+            newetemplate(mtmp);
+            initetemplate(mtmp, rn2(NUMTEMPLATES));
         }
         if (d->saddled && can_saddle(mtmp) && !which_armor(mtmp, W_SADDLE)) {
             struct obj *otmp = mksobj(SADDLE, TRUE, FALSE);
