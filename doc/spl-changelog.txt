@@ -22,6 +22,8 @@ or outright removed. Rationale will be provided for all removed content upon req
   - Timed cooldowns for abilities do not mesh with the pace of NetHack. NetHack is a game that
     often lacks time pressure (the food clock all but disappears past the early game) and so
     techniques incentivize slow, passive play while waiting for used techniques to recharge.
+  - Techniques have been replaced with the skill system, which should allow for much greater build
+    variety and character customization.
 - Removed the monster conversation feature. It was exceedingly poorly implemented.
 - Removed the statuary level. Overtaken by theme rooms.
 - Removed aligned glyph traps. They were more dangerous and less interesting than hoped.
@@ -49,6 +51,17 @@ QOL
   monkey.
 - Added a number of small easter egg pet names for players who have not set a default pet
   name.
+
+Skill System
+- Rather than techniques, SpliceHack uses a skill system.
+- In addition to the regular skills offered in NetHack, roles and races provide access to their
+  own sets of skills. By investing points in these skills, a character can use unique abilities,
+  or increase the power of their existing special abilities.
+- Ideally, this should open the way for numerous diverse character builds, as well as help to
+  offset the increased difficulty of new features.
+- Tourists are unique in that they have no special skills of their own, but can attain basic
+  levels in numerous skills from other roles.
+- A full list of skills and what they do can be found in an attached text document.
 
 Dungeon Changes
 One goal of this release of SpliceHack is to make regular dungeon levels more interesting and

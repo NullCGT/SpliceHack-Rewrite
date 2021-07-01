@@ -452,6 +452,11 @@ static const struct def_skill Skill_Mon[] = {
     { P_ESCAPE_SPELL, P_SKILLED },
     { P_MATTER_SPELL, P_BASIC },
     { P_MARTIAL_ARTS, P_GRAND_MASTER },
+    /* Role-Specific Skills */
+    { P_FLAMING_FISTS, P_GRAND_MASTER },
+    { P_SHOCKING_FISTS, P_GRAND_MASTER },
+    { P_FREEZING_FISTS, P_GRAND_MASTER },
+    { P_STUNNING_FIST, P_GRAND_MASTER },
     { P_NONE, 0 }
 };
 static const struct def_skill Skill_P[] = {
@@ -531,6 +536,8 @@ static const struct def_skill Skill_R[] = {
     { P_TWO_WEAPON_COMBAT, P_EXPERT },
     { P_BARE_HANDED_COMBAT, P_EXPERT },
     { P_FIREARM, P_EXPERT },
+    /* Role-Specific Skills */
+    { P_BACKSTAB, P_EXPERT },
     { P_NONE, 0 }
 };
 static const struct def_skill Skill_Ran[] = {
@@ -620,6 +627,10 @@ static const struct def_skill Skill_T[] = {
     { P_TWO_WEAPON_COMBAT, P_SKILLED },
     { P_BARE_HANDED_COMBAT, P_SKILLED },
     { P_FIREARM, P_BASIC },
+    /* Tourists have no specific skills of their own, but can get
+       basic skill in the role-specific skills of many other roles. */
+    { P_STUNNING_FIST, P_BASIC },
+    { P_BACKSTAB, P_BASIC },
     { P_NONE, 0 }
 };
 static const struct def_skill Skill_V[] = {

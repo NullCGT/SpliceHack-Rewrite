@@ -24,6 +24,7 @@ static int gulpum(struct monst *, struct attack *);
 static boolean hmonas(struct monst *);
 static void nohandglow(struct monst *);
 static boolean shade_aware(struct obj *);
+static int skill_hit_effects(struct monst *);
 
 #define PROJECTILE(obj) ((obj) && is_ammo(obj))
 
@@ -703,6 +704,7 @@ hmon_hitmon(struct monst *mon,
     int tmp;
     struct permonst *mdat = mon->data;
     int barehand_silver_rings = 0;
+    int spec_skillbon;
     /* The basic reason we need all these booleans is that we don't want
      * a "hit" message when a monster dies, so we have to know how much
      * damage it did _before_ outputting a hit message, but any messages
@@ -814,11 +816,13 @@ hmon_hitmon(struct monst *mon,
                        let it also hit from behind or shatter foes' weapons */
                     || (hand_to_hand && obj->oartifact == ART_CLEAVER)) {
                     ; /* no special bonuses */
-                } else if (mon->mflee && Role_if(PM_ROGUE) && !Upolyd
+                } else if (mon->mflee && (Role_if(PM_ROGUE) || P_SKILL(P_BACKSTAB)) 
+                            && !Upolyd
                            /* multi-shot throwing is too powerful here */
                            && hand_to_hand) {
                     You("strike %s from behind!", mon_nam(mon));
-                    tmp += rnd(u.ulevel);
+                    if (P_SKILL(P_BACKSTAB)) tmp += rnd(u.ulevel * (1 + P_SKILL(P_BACKSTAB)));
+                    else tmp += rnd(u.ulevel);
                     hittxt = TRUE;
                 } else if (dieroll == 2 && obj == uwep
                            && obj->oclass == WEAPON_CLASS
@@ -1309,7 +1313,8 @@ hmon_hitmon(struct monst *mon,
         hittxt = TRUE;
     } else if (unarmed && tmp > 1 && !thrown && !obj && !Upolyd) {
         /* VERY small chance of stunning opponent if unarmed. */
-        if (rnd(100) < P_SKILL(P_BARE_HANDED_COMBAT) && !bigmonst(mdat)
+        if (rnd(100) < (P_SKILL(P_BARE_HANDED_COMBAT) + P_SKILL(P_STUNNING_FIST)) 
+            && !bigmonst(mdat)
             && !thick_skinned(mdat)) {
             if (canspotmon(mon))
                 pline("%s %s from your powerful strike!", Monnam(mon),
@@ -1324,6 +1329,13 @@ hmon_hitmon(struct monst *mon,
             hittxt = TRUE;
         }
     }
+
+    spec_skillbon = skill_hit_effects(mon);
+    tmp += spec_skillbon;
+    if (spec_skillbon)
+        hittxt = TRUE;
+    if (DEADMONSTER(mon))
+        already_killed = TRUE;
 
     if (!already_killed)
         mon->mhp -= tmp;
@@ -5481,6 +5493,47 @@ light_hits_gremlin(struct monst *mon, int dmg)
     } else if (cansee(mon->mx, mon->my) && !canspotmon(mon)) {
         map_invisible(mon->mx, mon->my);
     }
+}
+
+int
+skill_hit_effects(struct monst *mon) {
+    int damage_bonus = 0;
+    /* Martial arts skills */
+    if (!uwep && !uarm && !uarms) {
+        if (P_SKILL(P_FLAMING_FISTS) && rn2(20) < P_SKILL(P_FLAMING_FISTS)) {
+            if (resists_fire(mon)) {
+                shieldeff(mon->mx, mon->my);
+            } else {
+                if (canspotmon(mon)) pline("You set %s on fire with your blow!", mon_nam(mon));
+                damage_bonus += d(1,6);
+                golemeffects(mon, AD_FIRE, damage_bonus);
+            }
+            damage_bonus += destroy_mitem(mon, POTION_CLASS, AD_FIRE);
+            ignite_items(mon->minvent);
+        }
+        if (P_SKILL(P_FREEZING_FISTS) && rn2(25) < P_SKILL(P_FREEZING_FISTS)) {
+            if (resists_cold(mon)) {
+                shieldeff(mon->mx, mon->my);
+            } else {
+                if (canspotmon(mon)) pline("You freeze %s with your blow!", mon_nam(mon));
+                damage_bonus += d(1,6);
+                golemeffects(mon, AD_COLD, damage_bonus);
+            }
+            damage_bonus += destroy_mitem(mon, POTION_CLASS, AD_COLD);
+        }
+        if (P_SKILL(P_SHOCKING_FISTS) && rn2(100) < P_SKILL(P_SHOCKING_FISTS)) {
+            if (resists_cold(mon)) {
+                shieldeff(mon->mx, mon->my);
+            } else {
+                if (canspotmon(mon)) pline("Lightning flashes as you strike %s!", mon_nam(mon));
+                damage_bonus += d(1,20);
+                golemeffects(mon, AD_ELEC, damage_bonus);
+            }
+            damage_bonus += destroy_mitem(mon, WAND_CLASS, AD_ELEC);
+        }
+    }
+
+    return damage_bonus;
 }
 
 /*uhitm.c*/

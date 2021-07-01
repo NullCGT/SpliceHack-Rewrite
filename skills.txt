@@ -1,0 +1,47 @@
+Flaming Fists
+    Flaming fists allows the user to set enemies on fire using their unarmed
+    strikes. This increases damage dealt by 1d6 and may destroy potions in the
+    defender's inventory.
+
+    The chance of this effect activating on a given attack is skill_level / 20.
+Freezing Fists
+    Flaming fists allows the user to  deal cold damage to enemies using their 
+    unarmed strikes. This increases damage dealt by 1d6 and may destroy potions
+    in the defender's inventory.
+
+    The chance of this effect activating on a given attack is skill_level / 25.
+Shocking Fists
+    Shocking fists allows the user to  deal electric damage to enemies using their 
+    unarmed strikes. This increases damage dealt by 1d20 and may destroy wands
+    in the defender's inventory.
+
+    The chance of this effect activating on a given attack is skill_level / 100.
+Sneak Attack
+    Sneak attack increases the damage the user deals when attacking from behind,
+    or, if the user is not a rogue, gives them the ability to backstab. Maximum
+    backstab damage is multiplied by one plus the skill level.
+Stunning Fist
+    Stunning fist increases the chances of stunning a monster with unarmed
+    attacks, provided the user already had the ability to do so.
+
+
+IDEAS
+- Healer: Chance to probe monster when attacking.
+- Healer: Heal enemies with unarmed strikes.
+- Ranger: Favored enemy (gain bonus damage).
+- Ranger: Beastmaster (tame animals).
+- Knight/Samurai: Code of Law. Increases penalty for breaking code, in exchange for... something?
+- Knight: Demon hunter. Like favored enemy, but for demons. Possibly know all demons?
+- Knight: Armored mage. Decreases spellcasting penalty, in exchange for... something?
+- Wizard/Cleric: Blood Magic. Cast from HP.
+- Humans get no skills. Instead, they get extra skill slots.
+- Potentially being in the dark is the same as being blind? That would make elves more interesting,
+  certainly, and also turn light sources into a time limit...
+
+ARCHEOLOGIST IDEAS
+- Panache: Provides a passive bonus to luck.
+- Dueling: Provides an attack bonus as long as the player is attacking with a one-handed weapon and
+           wielding no shield.
+
+ELF IDEAS
+- Night Sight: Increases night vision range.

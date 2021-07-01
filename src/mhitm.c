@@ -773,7 +773,7 @@ gulpmm(register struct monst *magr, register struct monst *mdef,
     for (obj = mdef->minvent; obj; obj = obj->nobj)
         (void) snuff_lit(obj);
 
-    if (is_vampshifter(mdef) && is_shapeshifter(mdef->data)
+    if (is_vampshifter(mdef) && !templated(mdef, MT_VAMPIRIC)
         && newcham(mdef, &mons[mdef->cham], FALSE, FALSE)) {
         if (g.vis) {
             /* 'it' -- previous form is no longer available and

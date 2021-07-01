@@ -2479,7 +2479,7 @@ mondead(register struct monst* mtmp)
         }
     }
 
-    if (is_vampshifter(mtmp) && is_shapeshifter(mtmp->data)) {
+    if (is_vampshifter(mtmp) && !templated(mtmp, MT_VAMPIRIC)) {
         int mndx = mtmp->cham;
         int x = mtmp->mx, y = mtmp->my;
 

@@ -65,7 +65,21 @@ enum p_skills {
     P_TWO_WEAPON_COMBAT  = 38, /* pair of weapons, one in each hand */
     P_RIDING             = 39, /* How well you control your steed */
 
-    P_NUM_SKILLS         = 40
+    /* Role-Based Skills by Kestrel Gregorich-Trevor */
+    /* Monk */
+    P_FLAMING_FISTS      = 40,
+    P_FREEZING_FISTS     = 41,
+    P_SHOCKING_FISTS     = 42,
+    P_STUNNING_FIST      = 43,
+
+    /* Rogue */
+    P_BACKSTAB           = 44,
+
+    /* Racial Skills by Kestrel Gregorich-Trevor */
+    P_SPIDER_FRIEND      = 45,
+
+
+    P_NUM_SKILLS         = 46
 };
 
 #define P_MARTIAL_ARTS P_BARE_HANDED_COMBAT /* Role distinguishes */
@@ -78,6 +92,12 @@ enum p_skills {
 
 #define P_LAST_H_TO_H P_RIDING
 #define P_FIRST_H_TO_H P_BARE_HANDED_COMBAT
+
+#define P_FIRST_ROLE P_FLAMING_FISTS
+#define P_LAST_ROLE P_STUNNING_FIST
+
+#define P_FIRST_RACE P_SPIDER_FRIEND
+#define P_LAST_RACE P_SPIDER_FRIEND
 
 /* These roles qualify for a martial arts bonus */
 #define martial_bonus() (Role_if(PM_SAMURAI) || Role_if(PM_MONK))

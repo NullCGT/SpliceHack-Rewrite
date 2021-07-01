@@ -35,6 +35,14 @@ static void skill_advance(int);
 #define PN_ESCAPE_SPELL (-14)
 #define PN_MATTER_SPELL (-15)
 
+#define PN_FLAMING_FISTS (-16)
+#define PN_FREEZING_FISTS (-17)
+#define PN_SHOCKING_FISTS (-18)
+#define PN_STUNNING_FIST (-19)
+#define PN_BACKSTAB (-20)
+
+#define PN_SPIDER_FRIEND (-21)
+
 static NEARDATA const short skill_names_indices[P_NUM_SKILLS] = {
     0, DAGGER, KNIFE, AXE, PICK_AXE, SHORT_SWORD, BROADSWORD, LONG_SWORD,
     TWO_HANDED_SWORD, SCIMITAR, PN_SABER, CLUB, MACE, MORNING_STAR, FLAIL,
@@ -43,7 +51,13 @@ static NEARDATA const short skill_names_indices[P_NUM_SKILLS] = {
     CROSSBOW, DART, SHURIKEN, BOOMERANG, PN_WHIP, UNICORN_HORN,
     PN_ATTACK_SPELL, PN_HEALING_SPELL, PN_DIVINATION_SPELL,
     PN_ENCHANTMENT_SPELL, PN_CLERIC_SPELL, PN_ESCAPE_SPELL, PN_MATTER_SPELL,
-    PN_BARE_HANDED, PN_TWO_WEAPONS, PN_RIDING
+    PN_BARE_HANDED, PN_TWO_WEAPONS, PN_RIDING,
+
+    PN_FLAMING_FISTS, PN_FREEZING_FISTS, PN_SHOCKING_FISTS, PN_STUNNING_FIST,
+
+    PN_BACKSTAB,
+
+    PN_SPIDER_FRIEND
 };
 
 /* note: entry [0] isn't used */
@@ -52,6 +66,11 @@ static NEARDATA const char *const odd_skill_names[] = {
     "two weapon combat", "riding", "polearms", "saber", "hammer", "firearms",
     "whip", "attack spells", "healing spells", "divination spells",
     "enchantment spells", "clerical spells", "escape spells", "matter spells",
+
+    "flaming fists", "freezing fists", "shocking fists", "stunning fist",
+    "sneak attack",
+
+    "spider friend"
 };
 /* indexed via is_martial() */
 static NEARDATA const char *const barehands_or_martial[] = {
@@ -1056,7 +1075,10 @@ skill_training_percent(int skill)
     int i;
 
     if (P_RESTRICTED(skill))
-	return 0;
+	    return 0;
+
+    if (skill >= P_FIRST_ROLE)
+        return 100;
 
     for (i = P_SKILL(skill); i < P_MAX_SKILL(skill); i++) {
         if (P_ADVANCE(skill) >= practice_needed_to_advance(i)) {
@@ -1149,6 +1171,10 @@ can_advance(int skill, boolean speedy)
 
     if (wizard && speedy)
         return TRUE;
+    
+    if (skill >= P_FIRST_ROLE && skill <= P_LAST_ROLE
+        && u.weapon_slots >= slots_required(skill))
+        return TRUE;
 
     return (boolean) ((int) P_ADVANCE(skill)
                       >= practice_needed_to_advance(P_SKILL(skill))
@@ -1200,6 +1226,8 @@ static const struct skill_range {
     { P_FIRST_H_TO_H, P_LAST_H_TO_H, "Fighting Skills" },
     { P_FIRST_WEAPON, P_LAST_WEAPON, "Weapon Skills" },
     { P_FIRST_SPELL, P_LAST_SPELL, "Spellcasting Skills" },
+    { P_FIRST_ROLE, P_LAST_ROLE, "Role-Specific Skills" },
+    { P_FIRST_RACE, P_LAST_RACE, "Racial Skills" }
 };
 
 /*
@@ -1341,7 +1369,7 @@ enhance_weapon_skill(void)
 
         Strcpy(buf, (to_advance > 0) ? "Pick a skill to advance:"
                                      : "Current skills:");
-        if (wizard && !speedy)
+        if (!speedy)
             Sprintf(eos(buf), "  (%d slot%s available)", u.weapon_slots,
                     plur(u.weapon_slots));
         end_menu(win, buf);
