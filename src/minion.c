@@ -1,9 +1,17 @@
-/* NetHack 3.7	minion.c	$NHDT-Date: 1596498180 2020/08/03 23:43:00 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.55 $ */
+/* NetHack 3.7	minion.c	$NHDT-Date: 1624322864 2021/06/22 00:47:44 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.60 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2008. */
 /* NetHack may be freely redistributed.  See license for details. */
 
 #include "hack.h"
+
+/* used to pick among the four basic elementals without worrying whether
+   they've been reordered (difficulty reassessment?) or any new ones have
+   been introduced (hybrid types added to 'E'-class?) */
+static const int elementals[4] = {
+    PM_AIR_ELEMENTAL, PM_FIRE_ELEMENTAL,
+    PM_EARTH_ELEMENTAL, PM_WATER_ELEMENTAL
+};
 
 void
 newemin(struct monst *mtmp)
@@ -51,6 +59,7 @@ msummon(struct monst *mon)
 {
     struct permonst *ptr;
     int dtype = NON_PM, cnt = 0, result = 0, census;
+    boolean xlight;
     aligntyp atyp;
     struct monst *mtmp;
 
@@ -64,10 +73,9 @@ msummon(struct monst *mon)
         }
 
         atyp = mon->ispriest ? EPRI(mon)->shralign
-                             : mon->isminion ? EMIN(mon)->min_align
-                                             : (ptr->maligntyp == A_NONE)
-                                                   ? A_NONE
-                                                   : sgn(ptr->maligntyp);
+               : mon->isminion ? EMIN(mon)->min_align
+                 : (ptr->maligntyp == A_NONE) ? A_NONE
+                   : sgn(ptr->maligntyp);
     } else {
         ptr = &mons[PM_WIZARD_OF_YENDOR];
         atyp = (ptr->maligntyp == A_NONE) ? A_NONE : sgn(ptr->maligntyp);
@@ -98,7 +106,7 @@ msummon(struct monst *mon)
         if (!rn2(6)) {
             switch (atyp) { /* see summon_minion */
             case A_NEUTRAL:
-                dtype = PM_AIR_ELEMENTAL + rn2(4);
+                dtype = elementals[rn2(SIZE(elementals))];
                 break;
             case A_CHAOTIC:
             case A_NONE:
@@ -116,13 +124,13 @@ msummon(struct monst *mon)
         return 0;
 
     /* sanity checks */
-    if (cnt > 1 && (mons[dtype].geno & G_UNIQ))
+    if (cnt > 1 && (mons[dtype].geno & G_UNIQ) != 0)
         cnt = 1;
     /*
      * If this daemon is unique and being re-summoned (the only way we
      * could get this far with an extinct dtype), try another.
      */
-    if (g.mvitals[dtype].mvflags & G_GONE) {
+    if ((g.mvitals[dtype].mvflags & G_GONE) != 0) {
         dtype = ndemon(atyp);
         if (dtype == NON_PM)
             return 0;
@@ -131,6 +139,7 @@ msummon(struct monst *mon)
     /* some candidates can generate a group of monsters, so simple
        count of non-null makemon() result is not sufficient */
     census = monster_census(FALSE);
+    xlight = FALSE;
 
     while (cnt > 0) {
         mtmp = makemon(&mons[dtype], u.ux, u.uy, MM_EMIN);
@@ -145,10 +154,33 @@ msummon(struct monst *mon)
                 EMIN(mtmp)->renegade =
                     (atyp != u.ualign.type) ^ !mtmp->mpeaceful;
             }
-            if (is_demon(ptr) && canseemon(mtmp))
-                pline("%s appears in a cloud of smoke!", Amonnam(mtmp));
+
+            if (mtmp->data->mlet == S_ANGEL && !Blind) {
+                /* for any 'A', 'cloud of smoke' will be 'flash of light';
+                   if more than one monster is being created, that message
+                   might be skipped for this monster but show 'mtmp' anyway */
+                show_transient_light((struct obj *) 0, mtmp->mx, mtmp->my);
+                xlight = TRUE;
+                /* we don't do this for 'burst of flame' (fire elemental)
+                   because those monsters become their own light source */
+            }
+
+            if (cnt == 1 && canseemon(mtmp)) {
+                const char *cloud = 0,
+                           *what = msummon_environ(mtmp->data, &cloud);
+
+                pline("%s appears in a %s of %s!", Amonnam(mtmp),
+                      cloud, what);
+            }
         }
         cnt--;
+    }
+
+    if (xlight) {
+        /* Note: if we forced --More-- here, the 'A's would be visible for
+           long enough to be seen, but like with clairvoyance, some players
+           would be annoyed at the disruption of having to acknowledge it */
+        transient_light_cleanup();
     }
 
     /* how many monsters exist now compared to before? */
@@ -169,7 +201,7 @@ summon_minion(aligntyp alignment, boolean talk)
         mnum = lminion();
         break;
     case A_NEUTRAL:
-        mnum = PM_AIR_ELEMENTAL + rn2(4);
+        mnum = elementals[rn2(SIZE(elementals))];
         break;
     case A_CHAOTIC:
     case A_NONE:

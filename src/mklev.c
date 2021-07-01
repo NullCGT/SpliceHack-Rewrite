@@ -73,11 +73,11 @@ mkroom_cmp(const genericptr vx, const genericptr vy)
 static boolean
 door_into_nonjoined(xchar x, xchar y)
 {
-    xchar tx, ty, diridx;
+    xchar tx, ty, i;
 
-    for (diridx = 0; diridx <= 6; diridx += 2) {
-        tx = x + xdir[diridx];
-        ty = y + ydir[diridx];
+    for (i = 0; i < 4; i++) {
+        tx = x + xdir[dirs_ord[i]];
+        ty = y + ydir[dirs_ord[i]];
         if (!isok(tx, ty) || IS_ROCK(levl[tx][ty].typ))
             continue;
 
@@ -375,7 +375,7 @@ join(register int a, register int b, boolean nxcor)
     yy = cc.y;
     tx = tt.x - dx;
     ty = tt.y - dy;
-    if (nxcor && levl[xx + dx][yy + dy].typ)
+    if (nxcor && levl[xx + dx][yy + dy].typ != STONE)
         return;
     if (okdoor(xx, yy) || !nxcor)
         dodoor(xx, yy, croom);

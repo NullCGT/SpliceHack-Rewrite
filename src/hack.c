@@ -1024,14 +1024,13 @@ findtravelpath(int mode)
                 int dir;
                 int x = travelstepx[set][i];
                 int y = travelstepy[set][i];
-                static int ordered[] = { 0, 2, 4, 6, 1, 3, 5, 7 };
                 /* no diagonal movement for grid bugs */
-                int dirmax = NODIAG(u.umonnum) ? 4 : 8;
+                int dirmax = NODIAG(u.umonnum) ? 4 : N_DIRS;
                 boolean alreadyrepeated = FALSE;
 
                 for (dir = 0; dir < dirmax; ++dir) {
-                    int nx = x + xdir[ordered[dir]];
-                    int ny = y + ydir[ordered[dir]];
+                    int nx = x + xdir[dirs_ord[dir]];
+                    int ny = y + ydir[dirs_ord[dir]];
 
                     /*
                      * When guessing and trying to travel as close as possible
@@ -2666,7 +2665,7 @@ check_special_room(boolean newlev)
                     if (DEADMONSTER(mtmp))
                         continue;
                     if (!isok(mtmp->mx,mtmp->my)
-                        || roomno != levl[mtmp->mx][mtmp->my].roomno)
+                        || roomno != (int) levl[mtmp->mx][mtmp->my].roomno)
                         continue;
                     if (!Stealth && !rn2(3))
                         mtmp->msleeping = 0;
@@ -3040,6 +3039,7 @@ nomul(int nval)
     if (nval == 0)
         g.multi_reason = NULL, g.multireasonbuf[0] = '\0';
     end_running(TRUE);
+    cmdq_clear();
 }
 
 /* called when a non-movement, multi-turn action has completed */

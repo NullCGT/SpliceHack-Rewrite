@@ -1,4 +1,4 @@
-NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.555 $ $NHDT-Date: 1622421099 2021/05/31 00:31:39 $
+NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.578 $ $NHDT-Date: 1624656533 2021/06/25 21:28:53 $
 
 General Fixes and Modified Features
 -----------------------------------
@@ -122,7 +122,7 @@ tribute (Discworld snippets) typos, in book order rather than fix order:
 	Men at Arms passage #1, italicize /for/, passage #2, insert omitted
 	 word "had": 'it was /fate/ that _had_ let Edward'
 	Interesting Times passage #1, italicize several words
-	Feet of Clay passage #1, "does not need" -> "doesn't even need"
+	Feet of Clay passage #1, second "does not need" -> "doesn't even need"
 	Hogfather passage #7 missing initial double quote for "Oh, just ...",
 	 also #7 insert missing "you" into "Why are you feeling [...]"
 	Soul Music passage #1, italicize /feel/, #8, "fossile" -> "fossil"
@@ -537,6 +537,19 @@ allow killing your quest leader to open the quest
 give King Arthur Excalibur
 when moving the cursor to examine the map, have '^' move to next trap even if
 	that trap is displayed with some other symbol (web, vibrating square)
+change valkyrie and warrior (valk quest) monsters from chaotic to lawful
+change attendant (healer quest) monster from lawful to neutral
+quit is not longer bound to M-q
+change default value of autopickup to off and color to on
+resurrected corpse of mon could end up with different gender from original mon
+using a bullwhip to snatch a wielded cockatrice corpse from a monster when not
+	wearing gloves and without life-saving could trigger "obj_is_local"
+	panic during final cleanup
+make fire-command autowield an appropriate launcher and add fireassist boolean
+	option to toggle the assistance off
+Angels and priests were always described as "the {Angel,priest,high priest} of
+	<deity>" when first two should have been "{an Angel,a high priest}..."
+shopkeepers can remove pits and webs
 
 
 Fixes to 3.7.0-x Problems that Were Exposed Via git Repository
@@ -699,6 +712,19 @@ applying a book to check readability treated novels as if they were spellbooks
 	error (example was an attempt to interactively set bouldersym to an
 	invalid value), the error reporting routine crashed via segfault
 lighting for baalz level defaulted to random and could end up being lit
+when using 'O' to set menu color patterns, the reminder message that the
+	boolean menucolors option needs to be set to True for them to work
+	was sometimes given even when already True
+stair revamp unintentionally resulted in cursed potion of levitation no longer
+	causing hero to hit head on ceiling
+enlightenment/disclosure when wielding two weapons with two-weap skill higher
+	than secondary weapon's skill had "with" duplicated in the feedback
+corpse of monster with gender specific names (king vs queen and so forth)
+	was always described by the neutral name (ruler and such)
+prevent obj_pmname() from calling mon_pmname(monst) when monst->data is null
+	to prevent a null pointer dereference
+correct the pluralization of monarch to monarchs, rather than monarches
+don't allow web spun by spider to interfere with solving Soloban
 
 curses: 'msg_window' option wasn't functional for curses unless the binary
 	also included tty support
@@ -744,6 +770,13 @@ curses: for vertical status, line up conditions in columns; usually two but
 	[at present, highlighting with inverse video includes trailing spaces
 	used to align entries in their columns--that's a feature...]
 curses: indent items in perm_invent window by one space
+curses: don't change the terminal's default colors
+curses: remove unnecessary special handling for dark gray
+curses: sometimes entering a count during menu selection caused the menu to
+	disappear (example was apply/loot in-out container menu with two or
+	more digits typed followed by non-digit); in-out menu was still active
+	but no longer displayed
+curses: support backspace/delete when entering a count during menu selection
 macOS: Xcode project was failing to build if the path to the NetHack source
 	tree contained a space; the issue was within some shell script code
 	contained within the project
@@ -1013,11 +1046,13 @@ using 'f' while quiver is empty and 'autoquiver' is Off when wielding a
 	the quiver (inspired by xNetHack)
 3.6's tribute: add one new passage to Sourcery, three to Small Gods, one to
 	Lords and Ladies, two to Soul Music, three to Interesting Times, four
-	to Maskerade
+	to Maskerade, three to Hogfather, two to Jingo, four to The Last
+	Continent
 monsters can see and remember hero resistances
 monsters can gain resistances by eating corpses
 menu for what-is command supports /^ and /" to view a list of nearby or whole
 	level visible and remembered traps
+spiders will occasionally spin webs when moving around
 
 
 Platform- and/or Interface-Specific New Features

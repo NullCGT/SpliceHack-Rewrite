@@ -1,4 +1,4 @@
-/* NetHack 3.7	do_name.c	$NHDT-Date: 1622363509 2021/05/30 08:31:49 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.202 $ */
+/* NetHack 3.7	do_name.c	$NHDT-Date: 1624322669 2021/06/22 00:44:29 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.208 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Pasi Kallinen, 2018. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -110,7 +110,8 @@ getpos_help(boolean force, const char *goal)
 
     Sprintf(sbuf,
             "Use '%c', '%c', '%c', '%c' to move the cursor to %s.", /* hjkl */
-            g.Cmd.move_W, g.Cmd.move_S, g.Cmd.move_N, g.Cmd.move_E, goal);
+            g.Cmd.move[DIR_W], g.Cmd.move[DIR_S],
+            g.Cmd.move[DIR_N], g.Cmd.move[DIR_E], goal);
     putstr(tmpwin, 0, sbuf);
     Sprintf(sbuf,
             "Use 'H', 'J', 'K', 'L' to fast-move the cursor, %s.",
@@ -726,7 +727,7 @@ getpos(coord *ccp, boolean force, const char *goal)
             result = pick_chars_def[(int) (cp - pick_chars)].ret;
             break;
         }
-        for (i = 0; i < 8; i++) {
+        for (i = 0; i < N_DIRS; i++) {
             int dx, dy;
 
             if (g.Cmd.dirchars[i] == c) {
@@ -948,7 +949,8 @@ getpos(coord *ccp, boolean force, const char *goal)
                         Strcpy(note, "aborted");
                     else /* hjkl */
                         Sprintf(note, "use '%c', '%c', '%c', '%c' or '%s'",
-                                g.Cmd.move_W, g.Cmd.move_S, g.Cmd.move_N, g.Cmd.move_E,
+                                g.Cmd.move[DIR_W], g.Cmd.move[DIR_S],
+                                g.Cmd.move[DIR_N], g.Cmd.move[DIR_E],
                                 visctrl(g.Cmd.spkeys[NHKF_GETPOS_PICK]));
                     pline("Unknown direction: '%s' (%s).", visctrl((char) c),
                           note);
@@ -1675,14 +1677,19 @@ rndghostname(void)
  * options works, since those are special cases.
  */
 char *
-x_monnam(register struct monst *mtmp, int article,
-         const char *adjective, int suppress, boolean called)
+x_monnam(
+    struct monst *mtmp,
+    int article,
+    const char *adjective,
+    int suppress,
+    boolean called)
 {
     char *buf = nextmbuf();
     struct permonst *mdat = mtmp->data;
-    const char *pm_name = pmname(mdat, Mgender(mtmp));
+    const char *pm_name = mon_pmname(mtmp);
     boolean do_hallu, do_invis, do_it, do_saddle, do_name;
-    boolean name_at_start, has_adjectives;
+    boolean name_at_start, has_adjectives,
+            falseCap = (*pm_name != lowc(*pm_name));
     char *bp;
 
     if (g.program_state.gameover)
@@ -1718,7 +1725,7 @@ x_monnam(register struct monst *mtmp, int article,
             EHalluc_resistance = 1L;
         if (!do_invis)
             mtmp->minvis = 0;
-        name = priestname(mtmp, priestnambuf);
+        name = priestname(mtmp, article, priestnambuf);
         EHalluc_resistance = save_prop;
         mtmp->minvis = save_invis;
         if (article == ARTICLE_NONE && !strncmp(name, "the ", 4))
@@ -1823,11 +1830,21 @@ x_monnam(register struct monst *mtmp, int article,
             article = ARTICLE_THE;
         else
             article = ARTICLE_NONE;
-    } else if ((mdat->geno & G_UNIQ) && article == ARTICLE_A) {
+    } else if ((mdat->geno & G_UNIQ) != 0 && article == ARTICLE_A) {
         article = ARTICLE_THE;
     }
 
-    {
+    if (article == ARTICLE_A && falseCap && !name_at_start) {
+        char buf2[BUFSZ], buf3[BUFSZ];
+
+        /* some type names like "Archon", "Green-elf", and "Uruk-hai" fool
+           an() because of the capitalization and would result in "the " */
+        Strcpy(buf3, buf);
+        *buf3 = lowc(*buf3);
+        (void) just_an(buf2, buf3);
+        Strcat(buf2, buf);
+        return strcpy(buf, buf2);
+    } else {
         char buf2[BUFSZ];
 
         switch (article) {
@@ -2062,7 +2079,7 @@ minimal_monnam(struct monst *mon, boolean ckloc)
     } else {
         Sprintf(outbuf, "%s%s <%d,%d>",
                 mon->mtame ? "tame " : mon->mpeaceful ? "peaceful " : "",
-                pmname(mon->data, Mgender(mon)), mon->mx, mon->my);
+                mon_pmname(mon), mon->mx, mon->my);
         if (mon->cham != NON_PM)
             Sprintf(eos(outbuf), "{%s}",
                     pmname(&mons[mon->cham], Mgender(mon)));
@@ -2088,12 +2105,47 @@ Mgender(struct monst *mtmp)
 const char *
 pmname(struct permonst *pm, int mgender)
 {
-    if ((mgender >= MALE && mgender < NUM_MGENDERS) && pm->pmnames[mgender])
-        return pm->pmnames[mgender];
-    else
-        return pm->pmnames[NEUTRAL];
+    if (mgender < MALE || mgender >= NUM_MGENDERS || !pm->pmnames[mgender])
+        mgender = NEUTRAL;
+    return pm->pmnames[mgender];
 }
 #endif /* PMNAME_MACROS */
+
+/* mons[]->pmname for a monster */
+const char *
+mon_pmname(struct monst *mon)
+{
+    /* for neuter, mon->data->pmnames[MALE] will be Null and use [NEUTRAL] */
+    return pmname(mon->data, mon->female ? FEMALE : MALE);
+}
+
+/* mons[]->pmname for a corpse or statue or figurine */
+const char *
+obj_pmname(struct obj *obj)
+{
+#if 0   /* ignore saved montraits even when they're available; they determine
+         * what a corpse would revive as if resurrected (human corpse from
+         * slain vampire revives as vampire rather than as human, for example)
+         * and don't necessarily reflect the state of the corpse itself */
+    if (has_omonst(obj)) {
+        struct monst *m = OMONST(obj);
+
+        /* obj->oextra->omonst->data is Null but ...->mnum is set */
+        if (m->mnum >= LOW_PM)
+            return pmname(&mons[m->mnum], m->female ? FEMALE : MALE);
+    }
+#endif
+    if ((obj->otyp == CORPSE || obj->otyp == STATUE || obj->otyp == FIGURINE)
+        && obj->corpsenm >= LOW_PM) {
+        int cgend = (obj->spe & CORPSTAT_GENDER),
+            mgend = ((cgend == CORPSTAT_MALE) ? MALE
+                     : (cgend == CORPSTAT_FEMALE) ? FEMALE
+                       : NEUTRAL);
+
+        return pmname(&mons[obj->corpsenm], mgend);
+    }
+    return "two-legged glorkum-seeker";
+}
 
 /* fake monsters used to be in a hard-coded array, now in a data file */
 char *

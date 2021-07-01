@@ -228,6 +228,76 @@ set_occupation(int (*fn)(void), const char *txt, int xtime)
     return;
 }
 
+/* add extended command function to the command queue */
+void
+cmdq_add_ec(int (*fn)(void))
+{
+    struct _cmd_queue *tmp = (struct _cmd_queue *)alloc(sizeof(struct _cmd_queue));
+    struct _cmd_queue *cq = g.command_queue;
+
+    tmp->typ = CMDQ_EXTCMD;
+    tmp->ec_entry = ext_func_tab_from_func(fn);
+    tmp->next = NULL;
+
+    while (cq && cq->next)
+        cq = cq->next;
+
+    if (cq)
+        cq->next = tmp;
+    else
+        g.command_queue = tmp;
+}
+
+/* add a key to the command queue */
+void
+cmdq_add_key(char key)
+{
+    struct _cmd_queue *tmp = (struct _cmd_queue *)alloc(sizeof(struct _cmd_queue));
+    struct _cmd_queue *cq = g.command_queue;
+
+    tmp->typ = CMDQ_KEY;
+    tmp->key = key;
+    tmp->next = NULL;
+
+    while (cq && cq->next)
+        cq = cq->next;
+
+    if (cq)
+        cq->next = tmp;
+    else
+        g.command_queue = tmp;
+}
+
+/* pop off the topmost command from the command queue.
+ * caller is responsible for freeing the returned _cmd_queue.
+ */
+struct _cmd_queue *
+cmdq_pop(void)
+{
+    struct _cmd_queue *tmp = g.command_queue;
+
+    if (tmp) {
+        g.command_queue = tmp->next;
+        tmp->next = NULL;
+    }
+    return tmp;
+}
+
+/* clear all commands from the command queue */
+void
+cmdq_clear(void)
+{
+    struct _cmd_queue *tmp = g.command_queue;
+    struct _cmd_queue *tmp2;
+
+    while (tmp) {
+        tmp2 = tmp->next;
+        free(tmp);
+        tmp = tmp2;
+    }
+    g.command_queue = NULL;
+}
+
 static char popch(void);
 
 static char
@@ -1908,7 +1978,7 @@ struct ext_func_tab extcmdlist[] = {
               doputon, 0, NULL },
     { 'q',    "quaff", "quaff (drink) something",
               dodrink, 0, NULL },
-    { M('q'), "quit", "exit without saving current game",
+    { '\0', "quit", "exit without saving current game",
               done2, IFBURIED | AUTOCOMPLETE | GENERALCMD, NULL },
     { 'Q',    "quiver", "select ammunition for quiver",
               dowieldquiver, 0, NULL },
@@ -2321,28 +2391,13 @@ dokeylist(void)
     (void) memset((genericptr_t) keys_used, 0, sizeof keys_used);
     (void) memset((genericptr_t) pfx_seen, 0, sizeof pfx_seen);
 
-    keys_used[(uchar) g.Cmd.move_NW] = keys_used[(uchar) g.Cmd.move_N]
-        = keys_used[(uchar) g.Cmd.move_NE] = keys_used[(uchar) g.Cmd.move_W]
-        = keys_used[(uchar) g.Cmd.move_E] = keys_used[(uchar) g.Cmd.move_SW]
-        = keys_used[(uchar) g.Cmd.move_S] = keys_used[(uchar) g.Cmd.move_SE]
-        = TRUE;
+    for (i = 0; i < N_DIRS; i++)
+        keys_used[(uchar) g.Cmd.move[i]] = TRUE;
     if (!iflags.num_pad) {
-        keys_used[(uchar) highc(g.Cmd.move_NW)]
-            = keys_used[(uchar) highc(g.Cmd.move_N)]
-            = keys_used[(uchar) highc(g.Cmd.move_NE)]
-            = keys_used[(uchar) highc(g.Cmd.move_W)]
-            = keys_used[(uchar) highc(g.Cmd.move_E)]
-            = keys_used[(uchar) highc(g.Cmd.move_SW)]
-            = keys_used[(uchar) highc(g.Cmd.move_S)]
-            = keys_used[(uchar) highc(g.Cmd.move_SE)] = TRUE;
-        keys_used[(uchar) C(g.Cmd.move_NW)]
-            = keys_used[(uchar) C(g.Cmd.move_N)]
-            = keys_used[(uchar) C(g.Cmd.move_NE)]
-            = keys_used[(uchar) C(g.Cmd.move_W)]
-            = keys_used[(uchar) C(g.Cmd.move_E)]
-            = keys_used[(uchar) C(g.Cmd.move_SW)]
-            = keys_used[(uchar) C(g.Cmd.move_S)]
-            = keys_used[(uchar) C(g.Cmd.move_SE)] = TRUE;
+        for (i = 0; i < N_DIRS; i++) {
+            keys_used[(uchar) highc(g.Cmd.move[i])] = TRUE;
+            keys_used[(uchar) C(g.Cmd.move[i])] = TRUE;
+        }
     } else {
         /* num_pad */
         keys_used[(uchar) M('1')] = keys_used[(uchar) M('2')]
@@ -2480,6 +2535,18 @@ dokeylist(void)
 
     display_nhwindow(datawin, FALSE);
     destroy_nhwindow(datawin);
+}
+
+const struct ext_func_tab *
+ext_func_tab_from_func(int (*fn)(void))
+{
+    const struct ext_func_tab *extcmd;
+
+    for (extcmd = extcmdlist; extcmd->ef_txt; ++extcmd)
+        if (extcmd->ef_funct == fn)
+            return extcmd;
+
+    return NULL;
 }
 
 char
@@ -3119,7 +3186,7 @@ reset_commands(boolean initial)
     static const int ylist[] = {
         'y', 'Y', C('y'), M('y'), M('Y'), M(C('y'))
     };
-    static struct ext_func_tab *back_dir_cmd[8];
+    static struct ext_func_tab *back_dir_cmd[N_DIRS];
     static boolean backed_dir_cmd = FALSE;
     const struct ext_func_tab *cmdtmp;
     boolean flagtemp;
@@ -3134,7 +3201,7 @@ reset_commands(boolean initial)
         commands_init();
     } else {
         if (backed_dir_cmd) {
-            for (i = 0; i < 8; i++) {
+            for (i = 0; i < N_DIRS; i++) {
                 g.Cmd.commands[(uchar) g.Cmd.dirchars[i]] = back_dir_cmd[i];
             }
         }
@@ -3207,24 +3274,18 @@ reset_commands(boolean initial)
                        : (!g.Cmd.phone_layout ? ndir : ndir_phone_layout);
     g.Cmd.alphadirchars = !g.Cmd.num_pad ? g.Cmd.dirchars : sdir;
 
-    g.Cmd.move_W = g.Cmd.dirchars[0];
-    g.Cmd.move_NW = g.Cmd.dirchars[1];
-    g.Cmd.move_N = g.Cmd.dirchars[2];
-    g.Cmd.move_NE = g.Cmd.dirchars[3];
-    g.Cmd.move_E = g.Cmd.dirchars[4];
-    g.Cmd.move_SE = g.Cmd.dirchars[5];
-    g.Cmd.move_S = g.Cmd.dirchars[6];
-    g.Cmd.move_SW = g.Cmd.dirchars[7];
+    for (i = 0; i < N_DIRS; i++)
+        g.Cmd.move[i] = g.Cmd.dirchars[i];
 
     if (!initial) {
-        for (i = 0; i < 8; i++) {
+        for (i = 0; i < N_DIRS; i++) {
             uchar di = (uchar) g.Cmd.dirchars[i];
 
             back_dir_cmd[i] = (struct ext_func_tab *) g.Cmd.commands[di];
             g.Cmd.commands[di] = (struct ext_func_tab *) 0;
         }
         backed_dir_cmd = TRUE;
-        for (i = 0; i < 8; i++)
+        for (i = 0; i < N_DIRS; i++)
             (void) bind_key(g.Cmd.dirchars[i], "nothing");
     }
 }
@@ -3292,7 +3353,7 @@ randomkey(void)
     case 10:
     case 11:
     case 12:
-        c = g.Cmd.dirchars[rn2(8)];
+        c = g.Cmd.dirchars[rn2(N_DIRS)];
         if (!rn2(7))
             c = !g.Cmd.num_pad ? (!rn2(3) ? C(c) : (c + 'A' - 'a')) : M(c);
         break;
@@ -3347,16 +3408,33 @@ ch2spkeys(char c, int start, int end)
 void
 rhack(char *cmd)
 {
-    int spkey;
-    boolean prefix_seen, bad_command,
+    int spkey = NHKF_ESC;
+    boolean prefix_seen = FALSE, bad_command,
         firsttime = (cmd == 0);
+    struct _cmd_queue *cmdq = NULL;
+    const struct ext_func_tab *cmdq_ec = NULL;
 
     iflags.menu_requested = FALSE;
 #ifdef SAFERHANGUP
     if (g.program_state.done_hup)
         end_of_input();
 #endif
-    if (firsttime) {
+    if ((cmdq = cmdq_pop()) != 0) {
+        /* doing queued commands */
+        if (cmdq->typ == CMDQ_KEY) {
+            static char commandline[2];
+
+            if (!cmd)
+                cmd = commandline;
+            cmd[0] = cmdq->key;
+            cmd[1] = '\0';
+        } else if (cmdq->typ == CMDQ_EXTCMD) {
+            cmdq_ec = cmdq->ec_entry;
+        }
+        free(cmdq);
+        if (cmdq_ec)
+            goto do_cmdq_extcmd;
+    } else if (firsttime) {
         g.context.nopick = 0;
         cmd = parse();
     }
@@ -3539,14 +3617,22 @@ rhack(char *cmd)
         register const struct ext_func_tab *tlist;
         int res, (*func)(void);
 
+do_cmdq_extcmd:
+        if (cmdq_ec)
+            tlist = cmdq_ec;
+        else
+            tlist = g.Cmd.commands[*cmd & 0xff];
+
         /* current - use *cmd to directly index cmdlist array */
-        if ((tlist = g.Cmd.commands[*cmd & 0xff]) != 0) {
+        if (tlist != 0) {
             if (!wizard && (tlist->flags & WIZMODECMD)) {
                 You_cant("do that!");
                 res = 0;
+                cmdq_clear();
             } else if (u.uburied && !(tlist->flags & IFBURIED)) {
                 You_cant("do that while you are buried!");
                 res = 0;
+                cmdq_clear();
             } else {
                 /* we discard 'const' because some compilers seem to have
                    trouble with the pointer passed to set_occupation() */
@@ -3575,6 +3661,7 @@ rhack(char *cmd)
 
         if (!prefix_seen || !help_dir(c1, spkey, "Invalid direction key!"))
             Norep("Unknown command '%s'.", expcmd);
+        cmdq_clear();
     }
     /* didn't move */
     g.context.move = FALSE;
@@ -3588,19 +3675,20 @@ xytod(schar x, schar y)
 {
     register int dd;
 
-    for (dd = 0; dd < 8; dd++)
+    for (dd = 0; dd < N_DIRS; dd++)
         if (x == xdir[dd] && y == ydir[dd])
             return dd;
-    return -1;
+    return DIR_ERR;
 }
 
 /* convert a direction code into an x,y pair */
 void
 dtoxy(coord *cc, int dd)
 {
-    cc->x = xdir[dd];
-    cc->y = ydir[dd];
-    return;
+    if (dd > DIR_ERR && dd < N_DIRS_Z) {
+        cc->x = xdir[dd];
+        cc->y = ydir[dd];
+    }
 }
 
 /* also sets u.dz, but returns false for <> */
@@ -3749,26 +3837,26 @@ show_direction_keys(winid win, /* should specify a window which is
         centerchar = ' ';
 
     if (nodiag) {
-        Sprintf(buf, "             %c   ", g.Cmd.move_N);
+        Sprintf(buf, "             %c   ", g.Cmd.move[DIR_N]);
         putstr(win, 0, buf);
         putstr(win, 0, "             |   ");
         Sprintf(buf, "          %c- %c -%c",
-                g.Cmd.move_W, centerchar, g.Cmd.move_E);
+                g.Cmd.move[DIR_W], centerchar, g.Cmd.move[DIR_E]);
         putstr(win, 0, buf);
         putstr(win, 0, "             |   ");
-        Sprintf(buf, "             %c   ", g.Cmd.move_S);
+        Sprintf(buf, "             %c   ", g.Cmd.move[DIR_S]);
         putstr(win, 0, buf);
     } else {
         Sprintf(buf, "          %c  %c  %c",
-                g.Cmd.move_NW, g.Cmd.move_N, g.Cmd.move_NE);
+                g.Cmd.move[DIR_NW], g.Cmd.move[DIR_N], g.Cmd.move[DIR_NE]);
         putstr(win, 0, buf);
         putstr(win, 0, "           \\ | / ");
         Sprintf(buf, "          %c- %c -%c",
-                g.Cmd.move_W, centerchar, g.Cmd.move_E);
+                g.Cmd.move[DIR_W], centerchar, g.Cmd.move[DIR_E]);
         putstr(win, 0, buf);
         putstr(win, 0, "           / | \\ ");
         Sprintf(buf, "          %c  %c  %c",
-                g.Cmd.move_SW, g.Cmd.move_S, g.Cmd.move_SE);
+                g.Cmd.move[DIR_SW], g.Cmd.move[DIR_S], g.Cmd.move[DIR_SE]);
         putstr(win, 0, buf);
     };
 }
@@ -3931,7 +4019,7 @@ help_dir(char sym,
 void
 confdir(void)
 {
-    register int x = NODIAG(u.umonnum) ? 2 * rn2(4) : rn2(8);
+    register int x = NODIAG(u.umonnum) ? dirs_ord[rn2(4)] : rn2(N_DIRS);
 
     u.dx = xdir[x];
     u.dy = ydir[x];
@@ -3941,12 +4029,12 @@ confdir(void)
 const char *
 directionname(int dir)
 {
-    static NEARDATA const char *const dirnames[] = {
+    static NEARDATA const char *const dirnames[N_DIRS_Z] = {
         "west",      "northwest", "north",     "northeast", "east",
         "southeast", "south",     "southwest", "down",      "up",
     };
 
-    if (dir < 0 || dir >= SIZE(dirnames))
+    if (dir < 0 || dir >= N_DIRS_Z)
         return "invalid";
     return dirnames[dir];
 }
@@ -4340,6 +4428,7 @@ click_to_cmd(int x, int y, int mod)
     return cmd;
 }
 
+/* gather typed digits into a number in *count; return the next non-digit */
 char
 get_count(char *allowchars, char inkey,
           long maxcount, long *count,
@@ -4363,12 +4452,12 @@ get_count(char *allowchars, char inkey,
 
         if (digit(key)) {
             cnt = 10L * cnt + (long) (key - '0');
-            if (cnt < 0)
-                cnt = 0;
-            else if (maxcount > 0 && cnt > maxcount)
+            if (cnt < 0L)
+                cnt = 0L;
+            else if (maxcount > 0L && cnt > maxcount)
                 cnt = maxcount;
         } else if (cnt && (key == '\b' || key == STANDBY_erase_char)) {
-            cnt = cnt / 10;
+            cnt = cnt / 10L;
             backspaced = TRUE;
         } else if (key == g.Cmd.spkeys[NHKF_ESC]) {
             break;

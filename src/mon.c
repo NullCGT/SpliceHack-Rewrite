@@ -487,7 +487,7 @@ pm_to_cham(int mndx)
  * etc....
  */
 static struct obj *
-make_corpse(register struct monst* mtmp, unsigned int corpseflags)
+make_corpse(struct monst *mtmp, unsigned int corpseflags)
 {
     register struct permonst *mdat = mtmp->data;
     int num;
@@ -497,6 +497,11 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
     int mndx = monsndx(mdat);
     unsigned corpstatflags = corpseflags;
     boolean burythem = ((corpstatflags & CORPSTAT_BURIED) != 0);
+
+    if (mtmp->female)
+        corpstatflags |= CORPSTAT_FEMALE;
+    else if (!is_neuter(mtmp->data))
+        corpstatflags |= CORPSTAT_MALE;
 
     switch (mndx) {
     case PM_GRAY_DRAGON:
@@ -574,7 +579,8 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
     case PM_GLASS_GOLEM:
         num = d(2, 4); /* very low chance of creating all glass gems */
         while (num--)
-            obj = mksobj_at((LAST_GEM + rnd(9)), x, y, TRUE, FALSE);
+            obj = mksobj_at((LAST_GEM + rnd(NUM_GLASS_GEMS)),
+                            x, y, TRUE, FALSE);
         free_mgivenname(mtmp);
         break;
     case PM_CLAY_GOLEM:
@@ -585,8 +591,8 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
         break;
     case PM_STONE_GOLEM:
         corpstatflags &= ~CORPSTAT_INIT;
-        obj =
-            mkcorpstat(STATUE, (struct monst *) 0, mdat, x, y, corpstatflags);
+        obj = mkcorpstat(STATUE, (struct monst *) 0, mdat, x, y,
+                         corpstatflags);
         break;
     case PM_WOOD_GOLEM:
         num = d(2, 4);
