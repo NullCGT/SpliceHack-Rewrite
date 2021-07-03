@@ -43,7 +43,7 @@ static const struct innate {
                  { 0, 0, 0, 0 } },
 
   dra_abil[] = { { 7, &(HFast), "quick", "slow" },
-                 { 15, &(HPoison_resistance), "as hardy as a green dragon", "" },
+                 { 15, &(HPoison_resistance), "as hardy as a green dragon", "less healthy" },
                  { 16, &(HSleep_resistance), "as watchful as an orange dragon", "tired" },
                  { 18, &(HFire_resistance), "full of the fire of a red dragon", "warmer" },
                  { 19, &(HCold_resistance), "full of the chill of a white dragon", "cooler" },
@@ -114,6 +114,10 @@ static const struct innate {
                  { 0, 0, 0, 0 } },
 
   gno_abil[] = { { 1, &HInfravision, "", "" },
+                 { 0, 0, 0, 0 } },
+
+  inf_abil[] = { { 1, &HInfravision, "", "" },
+                 { 1, &HFire_resistance, "", ""},
                  { 0, 0, 0, 0 } },
 
   orc_abil[] = { { 1, &HInfravision, "", "" },
@@ -759,6 +763,9 @@ check_innate_abil(long *ability, long frommask)
         abil = role_abil(Role_switch);
     else if (frommask == FROMRACE)
         switch (Race_switch) {
+        case PM_INFERNAL:
+            abil = inf_abil;
+            break;
         case PM_DWARF:
             abil = dwa_abil;
             break;
@@ -944,6 +951,9 @@ adjabil(int oldlevel, int newlevel)
     abil = role_abil(Role_switch);
 
     switch (Race_switch) {
+    case PM_INFERNAL:
+        rabil = inf_abil;
+        break;
     case PM_DROW:
     case PM_ELF:
         rabil = elf_abil;

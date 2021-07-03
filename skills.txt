@@ -38,7 +38,8 @@ IDEAS
 - Potentially being in the dark is the same as being blind? That would make elves more interesting,
   certainly, and also turn light sources into a time limit...
 - Wizard: Wild Magic. Spells have a chance of doing random things.
-- Wizard: Blood Magic. Can cast from hp.
+- Orc: Blood Rage. Gain bonuses to attack when below half health.
+- Orc: Raging Clarity. Gain bonuses to spellcasting when below half health.
 
 ARCHEOLOGIST IDEAS
 - Panache: Provides a passive bonus to luck.

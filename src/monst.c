@@ -2676,6 +2676,13 @@ struct permonst _mons2[] = {
         M3_INFRAVISIBLE | M3_INFRAVISION, 15, CLR_RED),
     /* standard demons & devils
      */
+    MON("infernal", S_DEMON, LVL(0, 12, 10, 0, 0), G_NOGEN, /* for corpses */
+        A(ATTK(AT_WEAP, AD_PHYS, 1, 6), NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
+          NO_ATTK),
+        SIZ(WT_HUMAN, 400, MS_HUMANOID, MZ_HUMAN), MR_FIRE, MR_FIRE,
+        M1_HUMANOID | M1_OMNIVORE, M2_NOPOLY | M2_STRONG |
+        M2_COLLECT | M2_HUMAN | M2_DEMON, M3_INFRAVISIBLE | M3_INFRAVISION,
+        2, HI_DOMESTIC),
 #define SEDUCTION_ATTACKS_YES                                     \
     A(ATTK(AT_BITE, AD_SSEX, 0, 0), ATTK(AT_CLAW, AD_PHYS, 1, 3), \
       ATTK(AT_CLAW, AD_PHYS, 1, 3), NO_ATTK, NO_ATTK, NO_ATTK)

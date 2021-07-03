@@ -2373,7 +2373,7 @@ peace_minded(register struct permonst *ptr)
 
     if (race_peaceful(ptr))
         return TRUE;
-    if (race_hostile(ptr))
+    if (race_hostile(ptr) && ptr->msound != MS_LEADER && ptr->msound != MS_GUARDIAN)
         return FALSE;
 
     /* the monster is hostile if its alignment is different from the

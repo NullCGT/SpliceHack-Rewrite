@@ -127,6 +127,11 @@ Race Changes
   - The unarmed attacks of drow no longer inflict sleep.
   - All weapons in the starting inventory of drow are automatically drugged.
   - Drow automatically worship the goddess Lolth.
+- Infernal
+  - Infernals no longer receive hungerless regeneration.
+  - Infernals are automatically hated by all humans (aside from quest
+    monsters).
+  - Infernals automatically recognize all demons.
 - Different races have different night vision ranges.
 
 Role Changes

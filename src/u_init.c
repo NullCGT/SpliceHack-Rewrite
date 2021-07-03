@@ -1108,6 +1108,13 @@ u_init(void)
         /* Nothing special */
         break;
 
+    case PM_INFERNAL:
+        /* All demons are known to infernals */
+        for (i = PM_INFERNAL; i < PM_JUIBLEX; i++) {
+            g.mvitals[i].mvflags |= G_KNOWN;
+        }
+        break;
+
     case PM_ELF:
         /*
          * Elves are people of music and song, or they are warriors.
@@ -1327,6 +1334,9 @@ ini_inv(struct trobj *trop)
                    || (otyp == RIN_POISON_RESISTANCE && Race_if(PM_ORC))
                    /* Monks don't use weapons */
                    || (otyp == SCR_ENCHANT_WEAPON && Role_if(PM_MONK))
+                   /* Infernals already resist fire and hate silver */
+                   || (otyp == RIN_FIRE_RESISTANCE && Race_if(PM_INFERNAL))
+                   || (objects[obj->otyp].oc_material == SILVER && Race_if(PM_INFERNAL))
                    /* wizard patch -- they already have one */
                    || (otyp == SPE_FORCE_BOLT && Role_if(PM_WIZARD))
                    /* powerful spells are either useless to

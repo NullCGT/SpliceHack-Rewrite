@@ -163,7 +163,8 @@
 #define is_wanderer(ptr) (((ptr)->mflags2 & M2_WANDER) != 0L)
 #define always_hostile(ptr) (((ptr)->mflags2 & M2_HOSTILE) != 0L)
 #define always_peaceful(ptr) (((ptr)->mflags2 & M2_PEACEFUL) != 0L)
-#define race_hostile(ptr) (((ptr)->mflags2 & g.urace.hatemask) != 0L)
+#define race_hostile(ptr) (((ptr)->mflags2 & g.urace.hatemask) != 0L \
+                            || (Race_if(PM_INFERNAL) && (ptr)->mlet == S_ANGEL))
 #define race_peaceful(ptr) (((ptr)->mflags2 & g.urace.lovemask) != 0L)
 #define extra_nasty(ptr) (((ptr)->mflags2 & M2_NASTY) != 0L)
 #define strongmonst(ptr) (((ptr)->mflags2 & M2_STRONG) != 0L)
@@ -222,7 +223,8 @@
      || (ptr) == &mons[PM_PESTILENCE])
 #define is_placeholder(ptr)                             \
     ((ptr) == &mons[PM_ORC] || (ptr) == &mons[PM_GIANT] \
-     || (ptr) == &mons[PM_ELF] || (ptr) == &mons[PM_HUMAN])
+     || (ptr) == &mons[PM_ELF] || (ptr) == &mons[PM_HUMAN] \
+     || (ptr) == &mons[PM_INFERNAL])
 /* return TRUE if the monster tends to revive */
 #define is_reviver(ptr) (is_rider(ptr) || (ptr)->mlet == S_TROLL)
 /* monsters whose corpses and statues need special handling;
