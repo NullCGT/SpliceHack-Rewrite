@@ -3037,8 +3037,8 @@ interesting_room(void)
     do {
         name2 = rn2(NUMMONS);
     } while ((type_is_pname(&mons[name2]) || (mons[name2].geno & G_UNIQ)));
-    const char* carvemon = mons[name].pmnames[rn2(NEUTRAL + 1)];
-    const char* carvemon2 = mons[name2].pmnames[rn2(NEUTRAL + 1)];
+    const char* carvemon = pmname(&mons[name], rn2(NEUTRAL + 1));
+    const char* carvemon2 = pmname(&mons[name2], rn2(NEUTRAL + 1));
     /* Carving message */
     switch(rn2(5)) {
     case 0:

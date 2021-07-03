@@ -2151,6 +2151,14 @@ bhito(struct obj *obj, struct obj *otmp)
             scatter(obj->ox, obj->oy, 4, MAY_HIT | MAY_DESTROY | VIS_EFFECTS,
                 obj);
             break;
+        case WAN_WATER:
+            if (obj->lamplit) {
+                end_burn(obj, TRUE);
+                if (cansee(obj->ox, obj->oy)) {
+                    You_see("%s go out.", an(xname(obj)));
+                }
+            }
+            break;
         case WAN_CANCELLATION:
         case SPE_CANCELLATION:
             cancel_item(obj);
@@ -2245,7 +2253,6 @@ bhito(struct obj *obj, struct obj *otmp)
         case WAN_NOTHING:
         case SPE_HEALING:
         case SPE_EXTRA_HEALING:
-        case WAN_WATER:
         case WAN_HEALING:
             res = 0;
             break;

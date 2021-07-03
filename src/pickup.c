@@ -3208,6 +3208,8 @@ dotip(void)
     if (Is_candle(cobj) && cobj->lamplit) {
         /* note "wax" even for tallow candles to avoid giving away info */
         spillage = "wax";
+    } else if (cobj->otyp == SCONCE) {
+        spillage = "tar";
     } else if ((cobj->otyp == POT_OIL && cobj->lamplit)
                || (cobj->otyp == OIL_LAMP && cobj->age != 0L)
                || (cobj->otyp == MAGIC_LAMP && cobj->spe != 0)) {

@@ -359,7 +359,8 @@ struct obj {
      || ((otmp)->otyp == MAGIC_LAMP && (otmp)->spe > 0)             \
      || (otmp)->otyp == CANDELABRUM_OF_INVOCATION                   \
      || (otmp)->otyp == TALLOW_CANDLE || (otmp)->otyp == WAX_CANDLE \
-     || (otmp)->otyp == POT_OIL)
+     || (otmp)->otyp == POT_OIL \
+     || (otmp)->otyp == SCONCE)
 
 /* things that can be read */
 #define is_readable(otmp) \

@@ -902,10 +902,22 @@ u_init(void)
 #endif
 
     /*
-     *  For now, everyone starts out with a night vision range of 1 and
-     *  their xray range disabled.
+     *  For now, everyone starts out with their xray range disabled.
      */
-    u.nv_range = 1;
+    switch (Race_switch) {
+    case PM_ELF:
+    case PM_DROW:
+        u.nv_range = 2;
+        break;
+    case PM_DWARF:
+    case PM_ORC:
+    case PM_GNOME:
+        u.nv_range = 1;
+        break;
+    default:
+        u.nv_range = 1;
+        break;
+    }
     u.xray_range = -1;
 
     /*** Role-specific initializations ***/

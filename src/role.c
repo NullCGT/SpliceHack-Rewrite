@@ -92,7 +92,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_OGRE,
       S_TROLL,
       ART_HEART_OF_AHRIMAN,
-      MH_HUMAN | MH_ORC | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_NEUTRAL
+      MH_HUMAN | MH_DWARF | MH_ORC | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_NEUTRAL
           | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
       { 16, 7, 7, 15, 16, 6 },
@@ -251,7 +251,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_RODENT,
       S_YETI,
       ART_STAFF_OF_AESCULAPIUS,
-      MH_HUMAN | MH_GNOME | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_NEUTRAL,
+      MH_HUMAN | MH_GNOME | MH_ELF | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_NEUTRAL,
       /* Str Int Wis Dex Con Cha */
       { 7, 7, 13, 7, 11, 16 },
       { 15, 20, 20, 15, 25, 5 },
@@ -292,7 +292,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_IMP,
       S_JELLY,
       ART_MAGIC_MIRROR_OF_MERLIN,
-      MH_HUMAN | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL,
+      MH_HUMAN | MH_DWARF | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL,
       /* Str Int Wis Dex Con Cha */
       { 13, 7, 14, 8, 10, 17 },
       { 30, 15, 15, 10, 20, 10 },
@@ -333,7 +333,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_ELEMENTAL,
       S_XORN,
       ART_EYES_OF_THE_OVERWORLD,
-      MH_HUMAN | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL | ROLE_NEUTRAL
+      MH_HUMAN | MH_DWARF | MH_ORC | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL | ROLE_NEUTRAL
           | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
       { 10, 7, 8, 8, 7, 7 },
@@ -375,8 +375,8 @@ const struct Role roles[NUM_ROLES+1] = {
       S_ZOMBIE,
       S_WRAITH,
       ART_MITRE_OF_HOLINESS,
-      MH_HUMAN | MH_ELF | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL | ROLE_NEUTRAL
-          | ROLE_CHAOTIC,
+      MH_HUMAN | MH_DWARF | MH_ELF | MH_GNOME | MH_ORC
+          | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL | ROLE_NEUTRAL | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
       { 7, 7, 10, 7, 7, 7 },
       { 15, 10, 30, 15, 20, 10 },
@@ -461,7 +461,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_NYMPH,
       S_NAGA,
       ART_MASTER_KEY_OF_THIEVERY,
-      MH_HUMAN | MH_ORC | ROLE_MALE | ROLE_NEUTER | ROLE_FEMALE | ROLE_CHAOTIC,
+      MH_HUMAN | MH_ELF | MH_GNOME | MH_ORC | ROLE_MALE | ROLE_NEUTER | ROLE_FEMALE | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
       { 7, 7, 7, 10, 7, 6 },
       { 20, 10, 10, 30, 20, 10 },
@@ -516,7 +516,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_CENTAUR,
       S_SPIDER,
       ART_LONGBOW_OF_DIANA,
-      MH_HUMAN | MH_ELF | MH_GNOME | MH_ORC | ROLE_MALE | ROLE_FEMALE
+      MH_HUMAN | MH_ELF | MH_DWARF | MH_GNOME | MH_ORC | ROLE_MALE | ROLE_FEMALE
         | ROLE_NEUTER | ROLE_NEUTRAL | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
       { 13, 13, 13, 9, 13, 7 },
@@ -558,7 +558,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_DOG,
       S_ELEMENTAL,
       ART_TSURUGI_OF_MURAMASA,
-      MH_HUMAN | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL,
+      MH_HUMAN | MH_GNOME | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL,
       /* Str Int Wis Dex Con Cha */
       { 10, 8, 7, 10, 17, 6 },
       { 30, 10, 8, 30, 14, 8 },
@@ -599,7 +599,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_SPIDER,
       S_CENTAUR,
       ART_YENDORIAN_EXPRESS_CARD,
-      MH_HUMAN | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_NEUTRAL,
+      MH_HUMAN | MH_GNOME | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_NEUTRAL,
       /* Str Int Wis Dex Con Cha */
       { 7, 10, 6, 7, 7, 10 },
       { 15, 10, 10, 15, 30, 20 },
@@ -681,7 +681,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_BAT,
       S_WRAITH,
       ART_EYE_OF_THE_AETHIOPICA,
-      MH_HUMAN | MH_ELF | MH_GNOME | MH_ORC | ROLE_MALE | ROLE_FEMALE
+      MH_HUMAN | MH_DWARF | MH_ELF | MH_GNOME | MH_ORC | ROLE_MALE | ROLE_FEMALE
           | ROLE_NEUTER | ROLE_NEUTRAL | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
       { 7, 10, 7, 7, 7, 7 },
@@ -2161,6 +2161,10 @@ role_init(void)
         g.urole.lgod = roles[flags.pantheon].lgod;
         g.urole.ngod = roles[flags.pantheon].ngod;
         g.urole.cgod = roles[flags.pantheon].cgod;
+    }
+    /* ALl Drow worship Lolth */
+    if (Race_if(PM_DROW)) {
+        g.urole.cgod = "Lolth";
     }
     /* 0 or 1; no gods are neuter, nor is gender randomized */
     g.quest_status.godgend = !strcmpi(align_gtitle(alignmnt), "goddess");

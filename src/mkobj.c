@@ -1043,6 +1043,10 @@ mksobj(int otyp, boolean init, boolean artif)
                     && rn2(level_difficulty() / 2 + 10) > 10)
                     (void) add_to_container(otmp,
                                             mkobj(SPBOOK_no_NOVEL, FALSE));
+                break;
+            case SCONCE:
+                otmp->lamplit = 0;
+                break;
             }
             break;
         case COIN_CLASS:

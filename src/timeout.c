@@ -1619,11 +1619,12 @@ begin_burn(struct obj* obj, boolean already_lit)
     long turns = 0;
     boolean do_timer = TRUE;
 
-    if (obj->age == 0 && obj->otyp != MAGIC_LAMP && !artifact_light(obj))
+    if (obj->age == 0 && obj->otyp != MAGIC_LAMP && obj->otyp != SCONCE && !artifact_light(obj))
         return;
 
     switch (obj->otyp) {
     case MAGIC_LAMP:
+    case SCONCE:
     case GOLD_DRAGON_SCALE_MAIL:
     case GOLD_DRAGON_SCALES:
         obj->lamplit = 1;
@@ -1692,6 +1693,8 @@ begin_burn(struct obj* obj, boolean already_lit)
             update_inventory();
     }
 
+    radius = radius * ((u.nv_range > 1) ? 2 : 1);
+
     if (obj->lamplit && !already_lit) {
         xchar x, y;
 
@@ -1714,7 +1717,7 @@ end_burn(struct obj* obj, boolean timer_attached)
         return;
     }
 
-    if (obj->otyp == MAGIC_LAMP || artifact_light(obj))
+    if (obj->otyp == MAGIC_LAMP || obj->otyp == SCONCE || artifact_light(obj))
         timer_attached = FALSE;
 
     if (!timer_attached) {

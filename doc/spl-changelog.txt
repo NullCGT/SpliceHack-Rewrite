@@ -78,6 +78,8 @@ in its own way.
     tiles. When this countdown ends, that tile will collapse as well.
 - Many levels generate with pools of water or lava bridged by rope bridges. This replaces the
   underground rivers patch.
+- All rooms are dark by default, but generate with a torch sconce that helps to light them up.
+  As depth increases, sconces become less and less common.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
@@ -114,7 +116,9 @@ Monster Changes
   - Your starting pet can rarely spawn with a template applied to it.
   - Many traditionally human monsters can have their race randomly altered.
   - TODO: Update visual indicator for templated mons in windows ports using certain files.
-  - KNOWN BUG: Werecreature corpses???
+
+Object Changes
+- Zapping a wand of water at an item will extinguish it.
 
 Race Changes
 - Drow
@@ -122,12 +126,16 @@ Race Changes
   - Potions of sickness in the starting inventories of drow are replaced by potions of sleeping.
   - The unarmed attacks of drow no longer inflict sleep.
   - All weapons in the starting inventory of drow are automatically drugged.
+  - Drow automatically worship the goddess Lolth.
+- Different races have different night vision ranges.
 
 Role Changes
 - Dragon Rider
   - Rename dragonmasters to dragon riders. This name change puts greater emphasis on the bond the
     character has with dragons.
   - Allow baby black dragons as starting pets.
+- Priest
+  - Priests can be of any race.
 
 Display Changes
 - Ridden monsters are highlighted in bright magenta.

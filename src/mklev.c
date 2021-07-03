@@ -806,6 +806,7 @@ fill_ordinary_room(struct mkroom *croom)
     int trycnt = 0;
     coord pos;
     struct monst *tmonst; /* always put a web with a spider */
+    struct obj *otmp; /* sconces need to begin burning */
     int x, y;
 
     if (croom->rtype != OROOM && croom->rtype != THEMEROOM)
@@ -864,6 +865,12 @@ fill_ordinary_room(struct mkroom *croom)
         (void) mkcorpstat(STATUE, (struct monst *) 0,
                             (struct permonst *) 0, pos.x,
                             pos.y, CORPSTAT_INIT);
+    /* light it up with some sconces */
+    if ((rn2(max(2, depth(&u.uz) - 4)) <= 3)
+        && somexyspace(croom, &pos)) {
+        otmp = mksobj_at(SCONCE , pos.x, pos.y, FALSE, FALSE);
+        begin_burn(otmp, FALSE);
+    }
     /* put box/chest inside;
      *  40% chance for at least 1 box, regardless of number
      *  of rooms; about 5 - 7.5% for 2 boxes, least likely

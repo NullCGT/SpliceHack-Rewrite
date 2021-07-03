@@ -1180,6 +1180,7 @@ doname_base(struct obj* obj, unsigned int doname_flags)
                     !obj->lamplit ? " attached" : ", lit");
             break;
         } else if (obj->otyp == OIL_LAMP || obj->otyp == MAGIC_LAMP
+                   || obj->otyp == SCONCE
                    || obj->otyp == BRASS_LANTERN || Is_candle(obj)) {
             if (Is_candle(obj)
                 && obj->age < 20L * (long) objects[obj->otyp].oc_cost)
@@ -1190,6 +1191,10 @@ doname_base(struct obj* obj, unsigned int doname_flags)
         }
         if (objects[obj->otyp].oc_charged)
             goto charges;
+        break;
+    case ROCK_CLASS:
+        if (obj->lamplit)
+            Strcat(bp, " (lit)");
         break;
     case WAND_CLASS:
  charges:
@@ -4354,6 +4359,7 @@ readobjnam(char* bp, struct obj* no_wish)
     d.typ = d.otmp->otyp, d.oclass = d.otmp->oclass; /* what we actually got */
 
     if (d.islit && (d.typ == OIL_LAMP || d.typ == MAGIC_LAMP
+                    || d.typ == SCONCE
                     || d.typ == BRASS_LANTERN
                     || Is_candle(d.otmp) || d.typ == POT_OIL)) {
         place_object(d.otmp, u.ux, u.uy); /* make it viable light source */

@@ -37,11 +37,10 @@ IDEAS
 - Humans get no skills. Instead, they get extra skill slots.
 - Potentially being in the dark is the same as being blind? That would make elves more interesting,
   certainly, and also turn light sources into a time limit...
+- Wizard: Wild Magic. Spells have a chance of doing random things.
+- Wizard: Blood Magic. Can cast from hp.
 
 ARCHEOLOGIST IDEAS
 - Panache: Provides a passive bonus to luck.
 - Dueling: Provides an attack bonus as long as the player is attacking with a one-handed weapon and
            wielding no shield.
-
-ELF IDEAS
-- Night Sight: Increases night vision range.

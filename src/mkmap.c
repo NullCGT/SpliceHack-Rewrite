@@ -421,7 +421,8 @@ boolean
 litstate_rnd(int litstate)
 {
     if (litstate < 0)
-        return (rnd(1 + abs(depth(&u.uz))) < 11 && rn2(77)) ? TRUE : FALSE;
+        /* return (rnd(1 + abs(depth(&u.uz))) < 11 && rn2(77)) ? TRUE : FALSE; */
+        return FALSE;
     return (boolean) litstate;
 }
 

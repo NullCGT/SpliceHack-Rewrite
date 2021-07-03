@@ -1315,7 +1315,8 @@ snuff_lit(struct obj *obj)
 
     if (obj->lamplit) {
         if (obj->otyp == OIL_LAMP || obj->otyp == MAGIC_LAMP
-            || obj->otyp == BRASS_LANTERN || obj->otyp == POT_OIL) {
+            || obj->otyp == BRASS_LANTERN || obj->otyp == POT_OIL
+            || obj->otyp == SCONCE) {
             (void) get_obj_location(obj, &x, &y, 0);
             if (obj->where == OBJ_MINVENT ? cansee(x, y) : !Blind)
                 pline("%s %s out!", Yname2(obj), otense(obj, "go"));
