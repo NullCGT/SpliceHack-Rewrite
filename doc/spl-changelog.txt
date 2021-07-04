@@ -146,6 +146,7 @@ Role Changes
   - Allow baby black dragons as starting pets.
 - Priest
   - Priests can be of any race.
+- Added a few new role/race/alignment combinations.
 
 Display Changes
 - Ridden monsters are highlighted in bright magenta.
