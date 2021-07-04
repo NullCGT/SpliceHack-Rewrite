@@ -44,6 +44,7 @@ extern const char *beautiful(void);
 extern void check_leash(xchar, xchar);
 extern boolean um_dist(xchar, xchar, xchar);
 extern boolean snuff_candle(struct obj *);
+extern boolean use_mask(struct obj **);
 extern boolean snuff_lit(struct obj *);
 extern boolean splash_lit(struct obj *);
 extern boolean catch_lit(struct obj *);

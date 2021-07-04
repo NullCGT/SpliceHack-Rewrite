@@ -78,10 +78,11 @@ enum roomtype_types {
     TOOLSHOP   = 27,
     BOOKSHOP   = 28,
     ARCHERYSHOP = 29,
-    JUNKSHOP   = 30,
-    FODDERSHOP = 31, /* health food store */
-    CANDLESHOP = 32,
-    BLACKSHOP  = 33
+    MASKSHOP   = 30,
+    JUNKSHOP   = 31,
+    FODDERSHOP = 32, /* health food store */
+    CANDLESHOP = 33,
+    BLACKSHOP  = 34
 };
 
 #define MAXRTYPE (BLACKSHOP) /* maximum valid room type */

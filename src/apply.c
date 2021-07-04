@@ -125,8 +125,10 @@ use_towel(struct obj *obj)
 
                 what = (ublindf->otyp == LENSES)
                            ? "lenses"
-                           : (obj->otyp == ublindf->otyp) ? "other towel"
-                                                          : "blindfold";
+                           :(ublindf->otyp == MASK)
+                             ? "mask"
+                             : (obj->otyp == ublindf->otyp) ? "other towel"
+                                                            : "blindfold";
                 if (ublindf->cursed) {
                     You("push your %s %s.", what,
                         rn2(2) ? "cock-eyed" : "crooked");
@@ -2275,6 +2277,31 @@ figurine_location_checks(struct obj *obj, coord *cc, boolean quietly)
     return TRUE;
 }
 
+boolean
+use_mask(optr)
+struct obj **optr;
+{
+    register struct obj *obj = *optr;
+    if (!polyok(&mons[obj->corpsenm])) {
+        pline("%s violently, then splits in two!", Tobjnam(obj, "shudder"));
+        useup(obj);
+        return TRUE;
+    }
+    if (!Unchanging) {
+        polymon(obj->corpsenm);
+        if (obj->cursed) {
+            You1(shudder_for_moment);
+            losehp(rnd(30), "system shock", KILLED_BY_AN);
+            pline("%s, then splits in two!", Tobjnam(obj, "shudder"));
+            useup(obj);
+            return TRUE;
+        }
+    } else {
+        pline("Unfortunately, no mask will hide what you truly are.");
+    }
+    return FALSE;
+}
+
 static void
 use_figurine(struct obj **optr)
 {
@@ -3762,16 +3789,20 @@ doapply(void)
     switch (obj->otyp) {
     case BLINDFOLD:
     case LENSES:
+    case MASK:
         if (obj == ublindf) {
             if (!cursed(obj))
                 Blindf_off(obj);
         } else if (!ublindf) {
             Blindf_on(obj);
         } else {
-            You("are already %s.",
-                (ublindf->otyp == TOWEL) ? "covered by a towel"
-                : (ublindf->otyp == BLINDFOLD) ? "wearing a blindfold"
-                  : "wearing lenses");
+            You("are already %s.", (ublindf->otyp == TOWEL)
+                                       ? "covered by a towel"
+                                       : (ublindf->otyp == BLINDFOLD)
+                                             ? "wearing a blindfold"
+                                             : (ublindf->otyp == LENSES)
+                                             ? "wearing lenses"
+                                             : "wearing a mask");
         }
         break;
     case CREAM_PIE:

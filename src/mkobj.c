@@ -943,6 +943,11 @@ mksobj(int otyp, boolean init, boolean artif)
                 while (is_human(&mons[otmp->corpsenm]) && tryct++ < 30);
                 blessorcurse(otmp, 4);
                 break;
+            case MASK:
+                tryct = 0;
+                otmp->corpsenm = pick_nasty(50);
+                blessorcurse(otmp, 4);
+                break;
             case BELL_OF_OPENING:
                 otmp->spe = 3;
                 break;
@@ -1078,6 +1083,7 @@ mksobj(int otyp, boolean init, boolean artif)
         /*FALLTHRU*/
     case STATUE:
     case FIGURINE:
+    case MASK:
         if (otmp->corpsenm == NON_PM)
             otmp->corpsenm = rndmonnum();
         /*FALLTHRU*/
@@ -2829,7 +2835,7 @@ sanity_check_worn(struct obj* obj)
                 what = "ring";
         } else if (owornmask & W_TOOL) {
             if (obj->otyp != BLINDFOLD && obj->otyp != TOWEL
-                && obj->otyp != LENSES)
+                && obj->otyp != LENSES && obj->otyp != MASK)
                 what = "blindfold";
         } else if (owornmask & W_BALL) {
             if (obj->oclass != BALL_CLASS)
@@ -3230,6 +3236,7 @@ struct obj* obj;
             return elvenhelm_materials;
         case CHEST:
         case LARGE_BOX:
+        case MASK:
             return wood_materials;
         case SKELETON_KEY:
         case LOCK_PICK:

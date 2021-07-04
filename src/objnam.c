@@ -552,7 +552,7 @@ xname_flags(
         } else
             Strcat(buf, dn);
 
-        if (typ == FIGURINE && omndx != NON_PM) {
+        if ((typ == FIGURINE || typ == MASK) && omndx != NON_PM) {
             char anbuf[10]; /* [4] would be enough: 'a','n',' ','\0' */
 
             Sprintf(eos(buf), " of %s%s",
@@ -4555,6 +4555,7 @@ readobjnam(char* bp, struct obj* no_wish)
             set_corpsenm(d.otmp, d.mntmp);
             break;
         case FIGURINE:
+        case MASK:
             if (!(mons[d.mntmp].geno & G_UNIQ)
                 && (!is_human(&mons[d.mntmp]) || is_were(&mons[d.mntmp]))
 #ifdef MAIL_STRUCTURES

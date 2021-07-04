@@ -2613,7 +2613,8 @@ set_mimic_sym(register struct monst *mtmp)
     /* when appearing as an object based on a monster type, pick a shape */
     if (ap_type == M_AP_OBJECT
         && (appear == STATUE || appear == FIGURINE
-            || appear == CORPSE || appear == EGG || appear == TIN)) {
+            || appear == CORPSE || appear == EGG || appear == TIN
+            || appear == MASK)) {
         int mndx = rndmonnum(),
             nocorpse_ndx = (g.mvitals[mndx].mvflags & G_NOCORPSE) != 0;
 

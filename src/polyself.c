@@ -418,6 +418,11 @@ polyself(int psflags)
         pline("You fail to transform!");
         return;
     }
+    if (ublindf && ublindf->otyp == MASK &&
+        ublindf->corpsenm == monsndx(g.youmonst.data)) {
+        pline("Your mask prevents you from transforming.");
+        return;
+    }
     /* being Stunned|Unaware doesn't negate this aspect of Poly_control */
     if (!Polymorph_control && !forcecontrol && !draconian && !iswere
         && !isvamp && !ismolydeus) {
@@ -1063,7 +1068,7 @@ break_armor(void)
        it/them on (should also come off if head is too tiny or too huge,
        but putting accessories on doesn't reject those cases [yet?]);
        amulet stays worn */
-    if ((otmp = ublindf) != 0 && !has_head(g.youmonst.data)) {
+    if ((otmp = ublindf) != 0 && !has_head(g.youmonst.data) && otmp->otyp != MASK) {
         int l;
         const char *eyewear = simpleonames(otmp); /* blindfold|towel|lenses */
 
@@ -1184,6 +1189,9 @@ rehumanize(void)
     retouch_equipment(2);
     if (!uarmg)
         selftouch(no_longer_petrify_resistant);
+    if (ublindf && ublindf->otyp == MASK) {
+        remove_worn_item(ublindf, FALSE);
+    }
 }
 
 int

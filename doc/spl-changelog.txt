@@ -28,11 +28,6 @@ or outright removed. Rationale will be provided for all removed content upon req
 - Removed the statuary level. Overtaken by theme rooms.
 - Removed aligned glyph traps. They were more dangerous and less interesting than hoped.
 
-New Features
-- Gods can rarely grant the player a minion. This feature is similar to the one in SLASH'EM, but
-  much more balanced.
-- Added Heaven or Hell mode from AceHack. Enable it by adding "heaven_or_hell" to your config file.
-
 QOL
 - Added a number of QOL fixes to the wish parser. Many of these were pulled from the NetHack YANI
   archive.
@@ -53,6 +48,9 @@ QOL
   name.
 - Sabers always display the material they are made from, in order to prevent confusion for new
   players.
+- Gods can rarely grant the player a minion. This feature is similar to the one in SLASH'EM, but
+  much more balanced.
+- Added Heaven or Hell mode from AceHack. Enable it by adding "heaven_or_hell" to your config file.
 
 Skill System
 - Rather than techniques, SpliceHack uses a skill system.
@@ -124,6 +122,7 @@ Monster Changes
 
 Object Changes
 - Zapping a wand of water at an item will extinguish it.
+- Masks last longer and give an indication that they are wearing out.
 
 Race Changes
 - Drow
@@ -170,6 +169,10 @@ Bug Fixes
 - Fixed parrots not using the birdname option from a config file.
 - Fixed grenade explosions being treated as if they were caused by the player, even when they
   were not.
+
+Known Bugs
+- Rare failed sanity check for improper mon data, possibly due to vampiric monsters shapeshifting.
+- Removing a mask that transformed you into a light-emitting monster will cause a program in disorder.
 
                             Version 0.8.3
 

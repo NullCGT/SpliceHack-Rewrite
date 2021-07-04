@@ -201,6 +201,10 @@ static const char *const shkarchery[] = {
     "+Teleporno", "+Feano", 0
 };
 
+static const char *const shkmasks[] = {
+    "Happy", 0
+};
+
 static const char *const shkjunk[] = {
     /* Silly names, clown names */
     "=Spiffy", "=Bonko", "=Binky", "=Tubby", "=Zippy", "=Jumbo"
@@ -334,7 +338,7 @@ const struct shclass shtypes[] = {
       shkbooks },
     { "archery emporium",
       WEAPON_CLASS,
-      3,
+      2,
       D_SHOP,
       { { 30, -BOW },
         { 35, -ELVEN_ARROW },
@@ -342,9 +346,19 @@ const struct shclass shtypes[] = {
         { 10, -LIGHT_ARROW },
         { 5, WEAPON_CLASS } },
       shkarchery },
+    { "mask shop",
+      RANDOM_CLASS,
+      2,
+      D_SHOP,
+      { { 90, -MASK },
+        { 5, -LENSES },
+        { 5, -BLINDFOLD },
+        { 0, 0 },
+        { 0, 0} },
+      shkmasks },
     { "junk shop",
       RANDOM_CLASS,
-      3,
+      2,
       D_SHOP,
       { { 65, RANDOM_CLASS },
         { 10, -IRON_CHAIN },
