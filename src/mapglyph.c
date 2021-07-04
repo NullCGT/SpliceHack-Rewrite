@@ -277,6 +277,20 @@ unsigned mgflags;
                 break;
             }
         } else
+#ifdef TEXTCOLOR
+        if (iflags.use_color && otmp && otmp->otyp == offset
+            && otmp->material != objects[offset].oc_material) {
+            /* Externify this array if it's ever needed anywhere else. */
+            const int materialclr[] = {
+                CLR_BLACK, HI_ORGANIC, CLR_WHITE, HI_ORGANIC, CLR_RED,
+                CLR_WHITE, HI_CLOTH, HI_LEATHER, HI_WOOD, CLR_WHITE, CLR_BLACK,
+                HI_METAL, HI_METAL, HI_COPPER, HI_SILVER, HI_GOLD, CLR_WHITE,
+                CLR_GREEN, CLR_WHITE,
+                HI_SILVER, CLR_WHITE, CLR_BRIGHT_GREEN, HI_GLASS, CLR_RED, CLR_BLACK, CLR_GRAY
+            };
+            color = materialclr[otmp->material];
+        } else
+#endif
             obj_color(offset);
         if (offset != BOULDER && is_objpile(x,y))
             special |= MG_OBJPILE;

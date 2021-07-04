@@ -311,8 +311,8 @@
         (is_rat(ptr) && (Role_if(PM_CONVICT) || (obj)->otyp == CHEESE))) \
         && (obj)->oclass == FOOD_CLASS                  \
         && ((ptr)->mlet != S_UNICORN                                     \
-            || objects[(obj)->otyp].oc_material == VEGGY                 \
-            || ((obj)->otyp == CORPSE && (obj)->corpsenm == PM_LICHEN))))
+            || obj->material == VEGGY                                  \
+            || ((obj)->otyp == CORPSE && ((obj)->corpsenm == PM_LICHEN)))))
 
 #define is_blkmktstaff(ptr)	(Is_blackmarket(&u.uz) && \
 				  (ptr) == &mons[PM_ARMS_DEALER])
@@ -320,4 +320,11 @@
 #define is_bones_monster(ptr) ((ptr) == &mons[PM_GHOST] || (ptr) == &mons[PM_GHOUL]        \
                                || (ptr) == &mons[PM_VAMPIRE] || (ptr) == &mons[PM_WRAITH]  \
                                || (ptr) == &mons[PM_GREEN_SLIME] || (ptr)->mlet == S_MUMMY)
+/* Noise that a monster makes when engaged in combat. Assume that vocalizations
+ * account for some noise, so monsters capable of vocalizing make more.
+ * This gets used as an argument to wake_nearto, which expects a squared value,
+ * so we square the result. */
+#define combat_noise(ptr) \
+    ((ptr)->msound ? ((ptr)->msize*2 + 1) * ((ptr)->msize*2 + 1) \
+                   : ((ptr)->msize + 1)   * ((ptr)->msize + 1))
 #endif /* MONDATA_H */

@@ -561,11 +561,13 @@ extern int hero_breaks(struct obj *, xchar, xchar, boolean);
 extern int breaks(struct obj *, xchar, xchar);
 extern void release_camera_demon(struct obj *, xchar, xchar);
 extern void breakobj(struct obj *, xchar, xchar, boolean, boolean);
+extern void breakmsg(struct obj *, boolean);
 extern boolean breaktest(struct obj *);
 extern boolean walk_path(coord *, coord *, boolean(*)(void *, int, int),
                          genericptr_t);
 extern boolean hurtle_jump(genericptr_t, int, int);
 extern boolean hurtle_step(genericptr_t, int, int);
+extern boolean break_glass_obj(struct obj *);
 extern int firearm_range(int);
 extern int firearm_rof(int);
 
@@ -1249,6 +1251,7 @@ extern int gazemu(struct monst *, struct attack *);
 extern void mdamageu(struct monst *, int);
 extern int could_seduce(struct monst *, struct monst *, struct attack *);
 extern int doseduce(struct monst *);
+extern long attack_contact_slots(struct monst *, int);
 
 /* ### minion.c ### */
 
@@ -1361,6 +1364,7 @@ extern struct monst *get_mtraits(struct obj *, boolean);
 extern struct obj *mk_tt_object(int, int, int);
 extern struct obj *mk_named_object(int, struct permonst *, int, int,
                                    const char *);
+extern int material_bonus(struct obj *);
 extern struct obj *rnd_treefruit_at(int, int);
 extern void set_corpsenm(struct obj *, int);
 extern long rider_revival_time(struct obj *, boolean);
@@ -1393,6 +1397,8 @@ extern struct obj *obj_nexto_xy(struct obj *, int, int, boolean);
 extern struct obj *obj_absorb(struct obj **, struct obj **);
 extern struct obj *obj_meld(struct obj **, struct obj **);
 extern void pudding_merge_message(struct obj *, struct obj *);
+extern boolean valid_obj_material(struct obj *, int);
+extern boolean warp_material(struct obj *, boolean);
 extern struct obj *init_dummyobj(struct obj *, short, long);
 
 /* ### mkroom.c ### */
@@ -1502,8 +1508,9 @@ extern boolean resists_magm(struct monst *);
 extern boolean resists_blnd(struct monst *);
 extern boolean can_blnd(struct monst *, struct monst *, uchar, struct obj *);
 extern boolean ranged_attk(struct permonst *);
-extern boolean hates_silver(struct permonst *);
-extern boolean mon_hates_silver(struct monst *);
+extern boolean hates_material(struct permonst *, int);
+extern boolean mon_hates_material(struct monst *, int);
+extern int sear_damage(int);
 extern boolean mon_hates_light(struct monst *);
 extern boolean passes_bars(struct permonst *);
 extern boolean can_blow(struct monst *);
@@ -1534,6 +1541,7 @@ extern const char *stagger(const struct permonst *, const char *);
 extern const char *on_fire(struct permonst *, struct attack *);
 extern const struct permonst *raceptr(struct monst *);
 extern boolean olfaction(struct permonst *);
+extern int monmaterial(int);
 unsigned long cvt_adtyp_to_mseenres(uchar);
 extern void monstseesu(unsigned long);
 extern boolean resist_conflict(struct monst *);
@@ -2514,7 +2522,7 @@ extern void maybe_absorb_item(struct monst *, struct obj *, int, int);
 extern void mdrop_obj(struct monst *, struct obj *, boolean);
 extern void mdrop_special_objs(struct monst *);
 extern void relobj(struct monst *, int, boolean);
-extern struct obj *findgold(struct obj *);
+extern struct obj *findgold(struct obj *, boolean);
 
 /* ### steed.c ### */
 
@@ -2811,6 +2819,7 @@ extern void missum(struct monst *, struct attack *, boolean);
 extern int passive(struct monst *, struct obj *, boolean, boolean, uchar,
                    boolean);
 extern void passive_obj(struct monst *, struct obj *, struct attack *);
+extern boolean item_catches_drain(struct monst *);
 extern void stumble_onto_mimic(struct monst *);
 extern int flash_hits_mon(struct monst *, struct obj *);
 extern void light_hits_gremlin(struct monst *, int);
@@ -3024,7 +3033,9 @@ extern int vms_get_saved_games(const char *, char ***);
 extern const char *weapon_descr(struct obj *);
 extern int hitval(struct obj *, struct monst *);
 extern int dmgval(struct obj *, struct monst *);
-extern int special_dmgval(struct monst *, struct monst *, long, long *);
+extern int special_dmgval(struct monst *, struct monst *, long, struct obj **);
+extern void searmsg(struct monst *, struct monst *, const struct obj *,
+                       boolean);
 extern void silver_sears(struct monst *, struct monst *, long);
 extern struct obj *select_rwep(struct monst *);
 extern boolean monmightthrowwep(struct obj *);

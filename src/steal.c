@@ -50,17 +50,21 @@ somegold(long lmoney)
 }
 
 /*
- * Find the first (and hopefully only) gold object in a chain.
+ * Find the first gold object in a chain.
  * Used when leprechaun (or you as leprechaun) looks for
  * someone else's gold.  Returns a pointer so the gold may
  * be seized without further searching.
  * May search containers too.
- * Deals in gold only, as leprechauns don't care for lesser coins.
+ * Deals in gold only, as leprechauns don't care for lesser materials.
+ * If only_coins is FALSE, it will return the first actual gold object in this
+ * chain, not just gold pieces. If it's TRUE, it will only look for gold
+ * pieces.
 */
 struct obj *
-findgold(register struct obj* chain)
+findgold(register struct obj *chain, boolean only_coins)
 {
-    while (chain && chain->otyp != GOLD_PIECE)
+    while (chain && (chain->material != GOLD
+        || (only_coins && chain->otyp != GOLD_PIECE)))
         chain = chain->nobj;
     return chain;
 }
@@ -71,18 +75,19 @@ findgold(register struct obj* chain)
 void
 stealgold(register struct monst* mtmp)
 {
-    register struct obj *fgold = g_at(u.ux, u.uy);
+    register struct obj *fgold;
     register struct obj *ygold;
     register long tmp;
     struct monst *who;
     const char *whose, *what;
 
-    /* skip lesser coins on the floor */
-    while (fgold && fgold->otyp != GOLD_PIECE)
+    /* look for gold on the floor */
+    fgold = g.level.objects[u.ux][u.uy];
+    while (fgold && fgold->material != GOLD)
         fgold = fgold->nexthere;
 
     /* Do you have real gold? */
-    ygold = findgold(g.invent);
+    ygold = findgold(g.invent, FALSE);
 
     if (fgold && (!ygold || fgold->quan > ygold->quan || !rn2(5))) {
         obj_extract_self(fgold);
@@ -111,17 +116,23 @@ stealgold(register struct monst* mtmp)
             monflee(mtmp, 0, FALSE, FALSE);
         }
     } else if (ygold) {
-        const int gold_price = objects[GOLD_PIECE].oc_cost;
+        if (ygold->otyp == GOLD_PIECE) {
+            const int gold_price = objects[GOLD_PIECE].oc_cost;
 
-        tmp = (somegold(money_cnt(g.invent)) + gold_price - 1) / gold_price;
-        tmp = min(tmp, ygold->quan);
-        if (tmp < ygold->quan)
-            ygold = splitobj(ygold, tmp);
-        else
-            setnotworn(ygold);
+            tmp = (somegold(money_cnt(g.invent)) + gold_price - 1) / gold_price;
+            tmp = min(tmp, ygold->quan);
+            if (tmp < ygold->quan)
+                ygold = splitobj(ygold, tmp);
+            else
+                setnotworn(ygold);
+            Your("purse feels lighter.");
+        }
+        else {
+            pline("%s steals %s!", Monnam(mtmp), yname(ygold));
+            remove_worn_item(ygold, TRUE);
+        }
         freeinv(ygold);
         add_to_minv(mtmp, ygold);
-        Your("purse feels lighter.");
         if (!tele_restrict(mtmp))
             (void) rloc(mtmp, TRUE);
         monflee(mtmp, 0, FALSE, FALSE);
@@ -739,7 +750,7 @@ relobj(
     int omx = mtmp->mx, omy = mtmp->my;
 
     /* vault guard's gold goes away rather than be dropped... */
-    if (mtmp->isgd && (otmp = findgold(mtmp->minvent)) != 0) {
+    if (mtmp->isgd && (otmp = findgold(mtmp->minvent, TRUE)) != 0) {
         if (canspotmon(mtmp))
             pline("%s gold %s.", s_suffix(Monnam(mtmp)),
                   canseemon(mtmp) ? "vanishes" : "seems to vanish");

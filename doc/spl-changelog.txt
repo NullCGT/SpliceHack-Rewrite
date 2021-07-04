@@ -51,6 +51,8 @@ QOL
   monkey.
 - Added a number of small easter egg pet names for players who have not set a default pet
   name.
+- Sabers always display the material they are made from, in order to prevent confusion for new
+  players.
 
 Skill System
 - Rather than techniques, SpliceHack uses a skill system.
@@ -153,6 +155,7 @@ Balancing
 - Increased generation of items that have been dipped in random potions from one in 10000 to one
   in 800 poisonable objects.
 - Converting an altar will ALWAYS result in a minion of that deity being summoned.
+- *Very* rarely, objects in the player's starting inventory may be of an odd material.
 
 Bug Fixes
 - While porting the previous SpliceHack code, numerous bugs were discovered and fixed. The full

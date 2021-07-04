@@ -1521,7 +1521,6 @@ start_tin(struct obj *otmp)
             tmp = rn2(uwep->cursed ? 3 : !uwep->blessed ? 2 : 1);
             break;
         case DAGGER:
-        case SILVER_DAGGER:
         case ELVEN_DAGGER:
         case ORCISH_DAGGER:
         case ATHAME:
@@ -2158,7 +2157,7 @@ eatspecial(void)
         vault_gd_watching(GD_EATGOLD);
         return;
     }
-    if (objects[otmp->otyp].oc_material == PAPER) {
+    if (otmp->material == PAPER) {
 #ifdef MAIL_STRUCTURES
         if (otmp->otyp == SCR_MAIL)
             /* no nutrition */
@@ -2219,8 +2218,9 @@ eatspecial(void)
 static const char *foodwords[] = {
     "meal",    "liquid",  "wax",       "food", "meat",     "paper",
     "cloth",   "leather", "wood",      "bone", "scale",    "metal",
-    "metal",   "metal",   "silver",    "gold", "platinum", "mithril",
-    "plastic", "glass",   "rich food", "stone"
+    "metal",   "metal",   "silver",    "gold", "platinum", "adamantine", 
+    "chilled metal",      "mithril",   "plastic", "slime", "glass",
+    "rich food",          "shadow",    "stone",
 };
 
 static const char *
@@ -2231,7 +2231,7 @@ foodword(struct obj *otmp)
     if (otmp->oclass == GEM_CLASS && objects[otmp->otyp].oc_material == GLASS
         && otmp->dknown)
         makeknown(otmp->otyp);
-    return foodwords[objects[otmp->otyp].oc_material];
+    return foodwords[otmp->material];
 }
 
 /* called after consuming (non-corpse) food */
@@ -2354,7 +2354,7 @@ edibility_prompts(struct obj *otmp)
          it_or_they[QBUFSZ], eat_it_anyway[QBUFSZ];
     boolean cadaver = (otmp->otyp == CORPSE || otmp->globby),
             stoneorslime = FALSE;
-    int material = objects[otmp->otyp].oc_material, mnum = otmp->corpsenm;
+    int material = otmp->material, mnum = otmp->corpsenm;
     long rotted = 0L;
 
     Strcpy(foodsmell, Tobjnam(otmp, "smell"));
@@ -2463,8 +2463,8 @@ edibility_prompts(struct obj *otmp)
         && ((material == LEATHER || material == BONE
              || material == DRAGON_HIDE || material == WAX)
             || (cadaver && !vegan(&mons[mnum])))) {
-        Snprintf(buf, sizeof(buf), "%s foul and unfamiliar to you.  %s",
-                 foodsmell, eat_it_anyway);
+        Snprintf(buf, sizeof(buf), "%s foul and unfamiliar to you.  %s", foodsmell,
+                eat_it_anyway);
         if (yn_function(buf, ynchars, 'n') == 'n')
             return 1;
         else
@@ -2474,8 +2474,7 @@ edibility_prompts(struct obj *otmp)
         && ((material == LEATHER || material == BONE
              || material == DRAGON_HIDE)
             || (cadaver && !vegetarian(&mons[mnum])))) {
-        Snprintf(buf, sizeof(buf), "%s unfamiliar to you.  %s",
-                 foodsmell, eat_it_anyway);
+        Snprintf(buf, sizeof(buf), "%s unfamiliar to you.  %s", foodsmell, eat_it_anyway);
         if (yn_function(buf, ynchars, 'n') == 'n')
             return 1;
         else
@@ -2633,7 +2632,7 @@ doeat(void)
             livelog_printf(LL_CONDUCT, "ate for the first time (%s)",
                            food_xname(otmp, FALSE));
         }
-        material = objects[otmp->otyp].oc_material;
+        material = otmp->material;
         if (material == LEATHER || material == BONE
             || material == DRAGON_HIDE) {
             if (!u.uconduct.unvegan++ && !ll_conduct) {
@@ -2748,7 +2747,7 @@ doeat(void)
         /* No checks for WAX, LEATHER, BONE, DRAGON_HIDE.  These are
          * all handled in the != FOOD_CLASS case, above.
          */
-        switch (objects[otmp->otyp].oc_material) {
+        switch (otmp->material) {
         case FLESH:
             if (!u.uconduct.unvegan++ && !ll_conduct) {
                 ll_conduct++;

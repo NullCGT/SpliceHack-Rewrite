@@ -581,14 +581,27 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
         break;
     case PM_IRON_GOLEM:
         num = d(2, 6);
-        while (num--)
-            obj = mksobj_at(IRON_CHAIN, x, y, TRUE, FALSE);
+        while (num--) {
+            obj = mkobj_at(RANDOM_CLASS, x, y, FALSE);
+            if (!valid_obj_material(obj, IRON)) {
+                delobj(obj);
+                obj = mksobj_at(IRON_CHAIN, x, y, TRUE, FALSE);
+            }
+            obj->material = IRON;
+        }
         free_mgivenname(mtmp); /* don't christen obj */
         break;
     case PM_GLASS_GOLEM:
         num = d(2, 4); /* very low chance of creating all glass gems */
-        while (num--)
-            obj = mksobj_at((LAST_GEM + rnd(9)), x, y, TRUE, FALSE);
+        while (num--) {
+            obj = mkobj_at(RANDOM_CLASS, x, y, FALSE);
+            if (!valid_obj_material(obj, GLASS)
+                || obj->oclass == POTION_CLASS) {
+                delobj(obj);
+                obj = mksobj_at((LAST_GEM + rnd(9)), x, y, TRUE, FALSE);
+            }
+            obj->material = GLASS;
+        }
         free_mgivenname(mtmp);
         break;
     case PM_CLAY_GOLEM:
@@ -611,19 +624,40 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
         break;
     case PM_LEATHER_GOLEM:
         num = d(2, 4);
-        while (num--)
-            obj = mksobj_at(LEATHER_ARMOR, x, y, TRUE, FALSE);
+        while (num--) {
+            obj = mkobj_at(RANDOM_CLASS, x, y, FALSE);
+            if (!valid_obj_material(obj, LEATHER)) {
+                delobj(obj);
+                obj = mksobj_at(LIGHT_ARMOR, x, y, TRUE, FALSE);
+            }
+            obj->material = LEATHER;
+        }
         free_mgivenname(mtmp);
         break;
     case PM_GOLD_GOLEM:
         /* Good luck gives more coins */
-        obj = mkgold((long) (200 - rnl(101)), x, y);
+        num = d(2, 4);
+        while (num--) {
+            obj = mkobj_at(RANDOM_CLASS, x, y, FALSE);
+            if (!valid_obj_material(obj, GOLD)) {
+                delobj(obj);
+                obj = mkgold(50 + rnd(100), x, y);
+            }
+            obj->material = GOLD;
+        }
         free_mgivenname(mtmp);
         break;
     case PM_PAPER_GOLEM:
         num = rnd(4);
-        while (num--)
-            obj = mksobj_at(SCR_BLANK_PAPER, x, y, TRUE, FALSE);
+        while (num--) {
+            obj = mkobj_at(RANDOM_CLASS, x, y, FALSE);
+            if (!valid_obj_material(obj, PAPER) || obj->oclass == SCROLL_CLASS
+                || obj->oclass == SPBOOK_CLASS) {
+                delobj(obj);
+                obj = mksobj_at(SCR_BLANK_PAPER, x, y, TRUE, FALSE);
+            }
+            obj->material = PAPER;
+        }
         free_mgivenname(mtmp);
         break;
     /* expired puddings will congeal into a large blob;
@@ -1488,7 +1522,7 @@ mpickgold(register struct monst* mtmp)
     int mat_idx;
 
     if ((gold = g_at(mtmp->mx, mtmp->my)) != 0) {
-        mat_idx = objects[gold->otyp].oc_material;
+        mat_idx = gold->material;
         obj_extract_self(gold);
         add_to_minv(mtmp, gold);
         if (cansee(mtmp->mx, mtmp->my)) {
@@ -1620,7 +1654,7 @@ can_carry(struct monst* mtmp, struct obj* otmp)
         return 0;
     if (otyp == CORPSE && is_rider(&mons[otmp->corpsenm]))
         return 0;
-    if (objects[otyp].oc_material == SILVER && mon_hates_silver(mtmp)
+    if (mon_hates_material(mtmp, otmp->material)
         && (otyp != BELL_OF_OPENING || !is_covetous(mdat)))
         return 0;
 
@@ -2915,7 +2949,7 @@ monkilled(
     /* no corpse if digested or disintegrated or flammable golem burnt up;
        no corpse for a paper golem means no scrolls; golems that rust or
        rot completely are described as "falling to pieces" so they do
-       leave a corpse (which means staves for wood golem, leather armor for
+       leave a corpse (which means staves for wood golem, light armor for
        leather golem, iron chains for iron golem, not a regular corpse) */
     g.disintegested = (how == AD_DGST || how == -AD_RBRE
                        || (how == AD_FIRE && completelyburns(mptr)));

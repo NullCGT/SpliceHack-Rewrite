@@ -202,7 +202,7 @@ losexp(const char *drainer) /* cause of death, if drain should be fatal */
        wizard mode request to reduce level; never fatal though */
     if (drainer && !strcmp(drainer, "#levelchange"))
         drainer = 0;
-    else if (resists_drli(&g.youmonst))
+    else if (resists_drli(&g.youmonst) || item_catches_drain(&g.youmonst))
         return;
 
     /* level-loss message; "Goodbye level 1." is fatal; divine anger

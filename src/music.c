@@ -588,7 +588,7 @@ do_improvisation(struct obj* instr)
         put_monsters_to_sleep(u.ulevel * 5);
         exercise(A_DEX, TRUE);
         break;
-    case WOODEN_FLUTE: /* May charm snakes */
+    case FLUTE: /* May charm snakes */
         do_spec &= (rn2(ACURR(A_DEX)) + u.ulevel > 25);
         if (!Deaf)
             pline("%s.", Tobjnam(instr, do_spec ? "trill" : "toot"));
@@ -644,7 +644,7 @@ do_improvisation(struct obj* instr)
         charm_monsters((u.ulevel - 1) / 3 + 1);
         exercise(A_DEX, TRUE);
         break;
-    case WOODEN_HARP: /* May calm Nymph */
+    case HARP: /* May calm Nymph */
         do_spec &= (rn2(ACURR(A_DEX)) + u.ulevel > 25);
         if (!Deaf)
             pline("%s %s.", Yname2(instr),
@@ -706,7 +706,7 @@ do_play_instrument(struct obj* instr)
     if (Underwater) {
         You_cant("play music underwater!");
         return 0;
-    } else if ((instr->otyp == WOODEN_FLUTE || instr->otyp == MAGIC_FLUTE
+    } else if ((instr->otyp == FLUTE || instr->otyp == MAGIC_FLUTE
                 || instr->otyp == TOOLED_HORN || instr->otyp == FROST_HORN
                 || instr->otyp == FIRE_HORN || instr->otyp == BUGLE)
                && !can_blow(&g.youmonst)) {

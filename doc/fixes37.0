@@ -300,7 +300,7 @@ fire sources can ignite candles, lamps, and potions of oil
 for multiple drop ('D') with menustyle traditional or combination, if the only
 	object class player picked was '$' then it operated on all classes
 small monsters could seep through their shirt
-don't snuff brass lantern when it's hit by water unless it is submerged
+don't snuff lantern when it's hit by water unless it is submerged
 when reporting that hero can't repair a chest's broken lock with key/pick/card
 	just describe the base item without BUC, user assigned name, &c since
 	"You can't repair a chest's lock with an uncursed key." implicitly
@@ -485,7 +485,7 @@ allow 'scores:none' as shorthand for 'scores:0 t/0 a/!o' (player will be told
 contents of chests, large boxes, and ice boxes are now immune to water damage
 	unless the container is cursed, same as for oilskin sacks (previously,
 	chests+large boxes were always immune and ice boxes always vulnerable)
-applying an empty brass lantern in an attempt to light it reported "your lamp
+applying an empty lantern in an attempt to light it reported "your lamp
 	has run out of power"; change to "your lantern is out of power"
 when swallowed or underwater, player could be told about events (such as a
 	shapechanger taking on a new form) that the hero sensed but which

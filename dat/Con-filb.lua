@@ -58,7 +58,7 @@ if math.random(0,99) < 50 then
   des.object("pick-axe")
 end
 if math.random(0,99) < 75 then
-  des.object("brass lantern")
+  des.object("lantern")
 end
 if math.random(0,99) < 50 then
   des.object("(")

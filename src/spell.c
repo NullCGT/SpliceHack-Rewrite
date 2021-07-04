@@ -546,7 +546,7 @@ study_book(register struct obj* spellbook)
                         rn2(1 + CLOAK_OF_DISPLACEMENT - CLOAK_OF_PROTECTION);
                     break;
                 case 2:
-                    otyp = LEATHER_GLOVES + rn2(1 + GAUNTLETS_OF_DEXTERITY - LEATHER_GLOVES);
+                    otyp = GLOVES + rn2(1 + GAUNTLETS_OF_DEXTERITY - GLOVES);
                     break;
                 case 3:
                     otyp = SPEED_BOOTS + rn2(1 + LEVITATION_BOOTS - SPEED_BOOTS);

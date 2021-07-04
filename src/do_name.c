@@ -1381,6 +1381,43 @@ oname(struct obj *obj, const char *name)
             else
                 livelog_printf(LL_ARTIFACT, "chose %s to be named \"%s\"", ansimpleoname(obj), bare_artifactname(obj));
         }
+        /* set up specific materials for the artifact */
+        switch(obj->oartifact) {
+        case ART_END:
+        case ART_WAR_S_SWORD:
+            obj->material = BONE;
+            break;
+        case ART_CIRCE_S_WITCHSTAFF:
+            obj->material = COPPER;
+            break;
+        case ART_TROLLSBANE:
+            obj->material = COLD_IRON;
+            break;
+        case ART_SUNSWORD:
+            obj->material = GEMSTONE;
+            break;
+        case ART_SHARUR:
+        case ART_DRAGONBANE:
+            obj->material = GOLD;
+            break;
+        case ART_LONGBOW_OF_DIANA:
+        case ART_WEREBANE:
+        case ART_DEMONBANE:
+        case ART_GRAYSWANDIR:
+        case ART_SWORD_OF_BALANCE:
+        case ART_MITRE_OF_HOLINESS:
+            obj->material = SILVER;
+            break;
+        case ART_YENDORIAN_EXPRESS_CARD:
+            obj->material = PLATINUM;
+            break;
+        case ART_IRON_BALL_OF_LIBERATION:
+            obj->material = IRON;
+            break;
+        default:
+            /* prevent any wishes for materials on an artifact */
+            obj->material = objects[obj->otyp].oc_material;
+        }
     }
     if (carried(obj))
         update_inventory();

@@ -115,6 +115,7 @@ enum cost_alteration_types {
 #define CXN_PFX_THE 4   /* prefix with "the " (unless pname) */
 #define CXN_ARTICLE 8   /* include a/an/the prefix */
 #define CXN_NOCORPSE 16 /* suppress " corpse" suffix */
+#define CXN_FORCEMAT 32 /* force the material name */
 
 /* flags for look_here() */
 #define LOOKHERE_PICKED_SOME   1
@@ -572,8 +573,9 @@ enum optset_restrictions {
 #define plur(x) (((x) == 1) ? "" : "s")
 
 #define ARM_BONUS(obj)                      \
-    (objects[(obj)->otyp].a_ac + (obj)->spe \
-     - min((int) greatest_erosion(obj), objects[(obj)->otyp].a_ac))
+    (objects[(obj)->otyp].a_ac + (obj)->spe + material_bonus(obj) \
+     - min((int) greatest_erosion(obj), \
+          objects[(obj)->otyp].a_ac + material_bonus(obj)))
 
 #define makeknown(x) discover_object((x), TRUE, TRUE)
 #define distu(xx, yy) dist2((int)(xx), (int)(yy), (int) u.ux, (int) u.uy)

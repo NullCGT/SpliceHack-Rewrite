@@ -247,6 +247,8 @@ struct monst {
 #define montoostrong(monindx, lev) (mons[monindx].difficulty > lev)
 #define montooweak(monindx, lev) (mons[monindx].difficulty < lev)
 
+#define helpless(mon) ((mon)->msleeping || !(mon)->mcanmove)
+
 /* Unknown demons */
 #define unknown_demon(monnum) ((g.mvitals[monnum].mvflags & G_KNOWN) == 0 && is_unkdemon(&mons[monnum]))
 

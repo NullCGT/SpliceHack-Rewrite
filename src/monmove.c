@@ -692,8 +692,8 @@ dochug(register struct monst* mtmp)
 
     if (!nearby || mtmp->mflee || scared || mtmp->mconf || mtmp->mstun
         || (mtmp->minvis && !rn2(3))
-        || (mdat->mlet == S_LEPRECHAUN && !findgold(g.invent)
-            && (findgold(mtmp->minvent) || rn2(2)))
+        || (mdat->mlet == S_LEPRECHAUN && !findgold(g.invent, FALSE)
+            && (findgold(mtmp->minvent, FALSE) || rn2(2)))
         || (is_wanderer(mdat) && !rn2(4)) || (Conflict && !mtmp->iswiz)
         || (!mtmp->mcansee && !rn2(4)) || mtmp->mpeaceful) {
         /* Possibly cast an undirected spell if not attacking you */
@@ -1082,9 +1082,9 @@ m_move(register struct monst* mtmp, register int after)
             appr = 0;
 
         if (monsndx(ptr) == PM_LEPRECHAUN && (appr == 1)
-            && ((lepgold = findgold(mtmp->minvent))
+            && ((lepgold = findgold(mtmp->minvent, TRUE))
                 && (lepgold->quan
-                    > ((ygold = findgold(g.invent)) ? ygold->quan : 0L))))
+                    > ((ygold = findgold(g.invent, TRUE)) ? ygold->quan : 0L))))
             appr = -1;
 
         /* hostiles with ranged weapon or attack try to stay away */
@@ -1191,7 +1191,7 @@ m_move(register struct monst* mtmp, register int after)
                          || (uses_items && searches_for_item(mtmp, otmp))
                          || (likerock && otmp->otyp == BOULDER)
                          || (likegems && otmp->oclass == GEM_CLASS
-                             && objects[otmp->otyp].oc_material != MINERAL)
+                             && otmp->material != MINERAL)
                          || (conceals && !cansee(otmp->ox, otmp->oy))
                          || (ptr == &mons[PM_GELATINOUS_CUBE]
                              && !index(indigestion, otmp->oclass)
@@ -1201,7 +1201,7 @@ m_move(register struct monst* mtmp, register int after)
                         if (can_carry(mtmp, otmp) > 0
                             && (throws_rocks(ptr) || !sobj_at(BOULDER, xx, yy))
                             && (!is_unicorn(ptr)
-                                || objects[otmp->otyp].oc_material == GEMSTONE)
+                                || otmp->material == GEMSTONE)
                             /* Don't get stuck circling an Elbereth */
                             && !onscary(xx, yy, mtmp)) {
                             minr = distmin(omx, omy, xx, yy);
@@ -1834,7 +1834,7 @@ stuff_prevents_passage(struct monst* mtmp)
         if (obj->oclass != GEM_CLASS && !(typ >= ARROW && typ <= CHAKRAM)
             && !(typ >= DAGGER && typ <= CRYSKNIFE) && typ != SLING
             && !is_cloak(obj) && typ != FEDORA && !is_gloves(obj)
-            && typ != LEATHER_JACKET && typ != CREDIT_CARD && !is_shirt(obj)
+            && typ != JACKET && typ != CREDIT_CARD && !is_shirt(obj)
             && !(typ == CORPSE && verysmall(&mons[obj->corpsenm]))
             && typ != FORTUNE_COOKIE && typ != CANDY_BAR && typ != PANCAKE
             && typ != LEMBAS_WAFER && typ != LUMP_OF_ROYAL_JELLY
@@ -1843,7 +1843,7 @@ stuff_prevents_passage(struct monst* mtmp)
             && typ != BAG_OF_HOLDING && typ != BAG_OF_TRICKS
             && !Is_candle(obj) && typ != OILSKIN_SACK && typ != LEASH
             && typ != STETHOSCOPE && typ != BLINDFOLD && typ != TOWEL
-            && typ != TIN_WHISTLE && typ != MAGIC_WHISTLE
+            && typ != PEA_WHISTLE && typ != MAGIC_WHISTLE
             && typ != MAGIC_MARKER && typ != TIN_OPENER && typ != SKELETON_KEY
             && typ != LOCK_PICK)
             return TRUE;

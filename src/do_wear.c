@@ -40,6 +40,7 @@ static int menu_remarm(int);
 static void count_worn_stuff(struct obj **, boolean);
 static int armor_or_accessory_off(struct obj *);
 static int accessory_or_armor_on(struct obj *);
+static boolean will_touch_skin(long);
 static void already_wearing(const char *);
 static void already_wearing2(const char *, const char *);
 static int equip_ok(struct obj *, boolean, boolean);
@@ -166,7 +167,7 @@ Boots_on(void)
 
     switch (uarmf->otyp) {
     case LOW_BOOTS:
-    case IRON_SHOES:
+    case DWARVISH_BOOTS:
     case HIGH_BOOTS:
     case JUMPING_BOOTS:
     case KICKING_BOOTS:
@@ -264,7 +265,7 @@ Boots_off(void)
         }
         break;
     case LOW_BOOTS:
-    case IRON_SHOES:
+    case DWARVISH_BOOTS:
     case HIGH_BOOTS:
     case JUMPING_BOOTS:
     case KICKING_BOOTS:
@@ -287,7 +288,7 @@ Cloak_on(void)
     case DWARVISH_CLOAK:
     case CLOAK_OF_MAGIC_RESISTANCE:
     case ROBE:
-    case LEATHER_CLOAK:
+    case PLAIN_CLOAK:
         break;
     case CLOAK_OF_PROTECTION:
         makeknown(uarmc->otyp);
@@ -348,7 +349,7 @@ Cloak_off(void)
     case CLOAK_OF_MAGIC_RESISTANCE:
     case OILSKIN_CLOAK:
     case ROBE:
-    case LEATHER_CLOAK:
+    case PLAIN_CLOAK:
         break;
     case ELVEN_CLOAK:
         toggle_stealth(otmp, oldprop, FALSE);
@@ -389,8 +390,8 @@ Helmet_on(void)
     case FEDORA:
     case HELMET:
     case DENTED_POT:
-    case ELVEN_LEATHER_HELM:
-    case DWARVISH_IRON_HELM:
+    case ELVEN_HELM:
+    case DWARVISH_HELM:
     case ORCISH_HELM:
     case HELM_OF_TELEPATHY:
         break;
@@ -466,8 +467,8 @@ Helmet_off(void)
     case FEDORA:
     case HELMET:
     case DENTED_POT:
-    case ELVEN_LEATHER_HELM:
-    case DWARVISH_IRON_HELM:
+    case ELVEN_HELM:
+    case DWARVISH_HELM:
     case ORCISH_HELM:
         break;
     case DUNCE_CAP:
@@ -509,7 +510,7 @@ Gloves_on(void)
         u.uprops[objects[uarmg->otyp].oc_oprop].extrinsic & ~WORN_GLOVES;
 
     switch (uarmg->otyp) {
-    case LEATHER_GLOVES:
+    case GLOVES:
         break;
     case GAUNTLETS_OF_FUMBLING:
         if (!oldprop && !(HFumbling & ~TIMEOUT))
@@ -563,7 +564,7 @@ Gloves_off(void)
     g.context.takeoff.mask &= ~W_ARMG;
 
     switch (uarmg->otyp) {
-    case LEATHER_GLOVES:
+    case GLOVES:
         break;
     case GAUNTLETS_OF_FUMBLING:
         if (!oldprop && !(HFumbling & ~TIMEOUT))
@@ -595,6 +596,10 @@ Gloves_off(void)
     /* prevent wielding cockatrice when not wearing gloves */
     if (uwep && uwep->otyp == CORPSE)
         wielding_corpse(uwep, on_purpose);
+
+    /* you may now be touching some material you hate */
+    if (uwep)
+        retouch_object(&uwep, FALSE);
 
     /* KMH -- ...or your secondary weapon when you're wielding it
        [This case can't actually happen; twoweapon mode won't
@@ -1916,6 +1921,19 @@ canwearobj(struct obj *otmp, long *mask, boolean noisy)
     return !err;
 }
 
+/* Return TRUE iff wearing a potential new piece of armor with the given mask
+ * will touch the hero's skin. */
+static boolean
+will_touch_skin(mask)
+long mask;
+{
+    if (mask == W_ARMC && (uarm || uarmu))
+        return FALSE;
+    else if (mask == W_ARM && uarmu)
+        return FALSE;
+    return TRUE;
+}
+
 static int
 accessory_or_armor_on(struct obj *obj)
 {
@@ -2058,7 +2076,9 @@ accessory_or_armor_on(struct obj *obj)
         }
     }
 
-    if (!retouch_object(&obj, FALSE))
+    /* don't retouch and take material damage if it's a non-artifact object and
+     * your skin is covered */
+    if ((obj->oartifact || will_touch_skin(mask)) && !retouch_object(&obj, FALSE))
         return 1; /* costs a turn even though it didn't get worn */
 
     if (armor) {

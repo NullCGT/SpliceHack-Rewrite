@@ -197,10 +197,10 @@ des.object({id="scare monster", x=52, y=14, buc="cursed"})
 -- Dread Pirate (ret.)
 des.monster({id="Mayor Cummerbund", x=51, y=10, inventory = function()
   des.object({ id = "scimitar", spe = 4, buc = "cursed"});
-  des.object({ id = "leather jacket", spe = 2 });
+  des.object({ id = "jacket", spe = 2 });
   des.object({ id = "small shield", spe = 2 });
   des.object({ id = "high boots", spe = 2 });
-  des.object({ id = "leather gloves", spe = 2 });
+  des.object({ id = "gloves", spe = 2 });
 end })
 -- The treasure of the Dread Pirate
 des.object("chest", 52, 10)
