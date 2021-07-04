@@ -56,7 +56,8 @@ sanity_check_single_mon(
     struct permonst *mptr = mtmp->data;
     int mx = mtmp->mx, my = mtmp->my;
 
-    if (!mptr || mptr < &mons[LOW_PM] || mptr >= &mons[NUMMONS]) {
+    if ((!mptr || mptr < &mons[LOW_PM] || mptr >= &mons[NUMMONS])
+        && !has_etemplate(mtmp)) {
         /* most sanity checks issue warnings if they detect a problem,
            but this would be too extreme to keep going */
         panic("illegal mon data %s; mnum=%d (%s)",
