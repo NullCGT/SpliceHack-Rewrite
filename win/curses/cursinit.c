@@ -58,6 +58,24 @@ nhrgb orig_hiwhite;
 "|_| \\_| \\___| \\__||_|  |_| \\__,_| \\___||_|\\_\\"
 
 
+#define SPLICEHACK_SPLASH_A \
+" _____       __           __   __           __"
+#define SPLICEHACK_SPLASH_B \
+"/ ____|      | (_)        | |  | |          | |"
+#define SPLICEHACK_SPLASH_C \
+"| (___  _ __ | |_  ___ ___| |__| | __ _  ___| | __"
+#define SPLICEHACK_SPLASH_D \
+" \\___ \\| `_ \\| | |/ __/ _ \\  __  |/ _` |/ __| |/ /"
+#define SPLICEHACK_SPLASH_E \
+" ____) | |_) | | | (_|  __/ |  | | (_| | (__|   <"
+#define SPLICEHACK_SPLASH_F \
+"|_____/| .__/|_|_|\\___\\___|_|  |_|\\__,_|\\___|_|\\_\\"
+#define SPLICEHACK_SPLASH_G \
+"       | |"
+#define SPLICEHACK_SPLASH_H \
+"       |_|"
+
+
 /* win* is size and placement of window to change, x/y/w/h is baseline
    which can decrease depending on alignment of win* in orientation.
    Negative minh/minw: as much as possible, but at least as much as
@@ -871,15 +889,21 @@ curses_display_splash_window(void)
     }
 
     if (iflags.wc_splash_screen) {
-         if (iflags.wc2_guicolor)
-              curses_toggle_color_attr(stdscr, CLR_WHITE, A_NORMAL, ON);
-        mvaddstr(y_start, x_start, NETHACK_SPLASH_A);
-        mvaddstr(y_start + 1, x_start, NETHACK_SPLASH_B);
-        mvaddstr(y_start + 2, x_start, NETHACK_SPLASH_C);
-        mvaddstr(y_start + 3, x_start, NETHACK_SPLASH_D);
-        mvaddstr(y_start + 4, x_start, NETHACK_SPLASH_E);
-        mvaddstr(y_start + 5, x_start, NETHACK_SPLASH_F);
-        y_start += 7;
+        if (iflags.wc2_guicolor) curses_toggle_color_attr(stdscr, CLR_RED, A_NORMAL, ON);
+        mvaddstr(y_start, x_start, SPLICEHACK_SPLASH_A);
+        mvaddstr(y_start + 1, x_start, SPLICEHACK_SPLASH_B);
+        if (iflags.wc2_guicolor) curses_toggle_color_attr(stdscr, CLR_ORANGE, A_NORMAL, ON);
+        mvaddstr(y_start + 2, x_start, SPLICEHACK_SPLASH_C);
+        if (iflags.wc2_guicolor) curses_toggle_color_attr(stdscr, CLR_YELLOW, A_NORMAL, ON);
+        mvaddstr(y_start + 3, x_start, SPLICEHACK_SPLASH_D);
+        if (iflags.wc2_guicolor) curses_toggle_color_attr(stdscr, CLR_GREEN, A_NORMAL, ON);
+        mvaddstr(y_start + 4, x_start, SPLICEHACK_SPLASH_E);
+        if (iflags.wc2_guicolor) curses_toggle_color_attr(stdscr, CLR_BLUE, A_NORMAL, ON);
+        mvaddstr(y_start + 5, x_start, SPLICEHACK_SPLASH_F);
+        if (iflags.wc2_guicolor) curses_toggle_color_attr(stdscr, CLR_MAGENTA, A_NORMAL, ON);
+        mvaddstr(y_start + 6, x_start, SPLICEHACK_SPLASH_G);
+        mvaddstr(y_start + 7, x_start, SPLICEHACK_SPLASH_H);
+        y_start += 9;
     }
     if (iflags.wc2_guicolor)
          curses_toggle_color_attr(stdscr, CLR_WHITE, A_NORMAL, OFF);
