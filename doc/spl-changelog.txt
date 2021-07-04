@@ -93,6 +93,9 @@ Monster Changes
   - A hulk that puts people to sleep with its gaze.
   - Very low AC.
   - Falls asleep randomly.
+- New Monseter: Eye of Fear and Flame
+  - L-class monster.
+  - Two gaze attacks: One deals fire damage, and the other inflicts fear.
 - Ported UnnetHack Aleaxes: Aleaxes are generated with copies of the player's items.
 - Purple dragons have been renamed to violet dragons.
 - Dragons have been significantly altered.

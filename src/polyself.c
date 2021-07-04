@@ -1416,7 +1416,7 @@ dogaze(void)
 
     if (adtyp == AD_HNGY || adtyp == AD_LUCK) adtyp = AD_CONF;
 
-    if (adtyp != AD_CONF && adtyp != AD_FIRE && adtyp != AD_SLEE) {
+    if (adtyp != AD_CONF && adtyp != AD_FIRE && adtyp != AD_SLEE && adtyp != AD_FEAR) {
         impossible("gaze attack %d?", adtyp);
         return 0;
     }
@@ -1474,6 +1474,8 @@ dogaze(void)
                         pline("%s is getting more and more confused.",
                               Monnam(mtmp));
                     mtmp->mconf = 1;
+                } else if (adtyp == AD_FEAR) {
+                    monflee(mtmp, rnd(10), FALSE, TRUE);
                 } else if (adtyp == AD_FIRE) {
                     int dmg = d(2, 6), lev = (int) u.ulevel;
 

@@ -1744,6 +1744,14 @@ gazemu(struct monst *mtmp, struct attack *mattk)
             }
         }
         break;
+    case AD_FEAR:
+        if (canseemon(mtmp) && couldsee(mtmp->mx, mtmp->my) && mtmp->mcansee
+            && !mtmp->mspec_used && (ACURR(A_CHA) - mtmp->m_lev + u.ulevel < rn2(25))) {
+            You("are struck with a terrible fear of %s!", mon_nam(mtmp));
+            make_afraid((HAfraid & TIMEOUT) + (long) rn1(10, 5), TRUE);
+            u.fearedmon = mtmp;
+        }
+        break;
 #ifdef PM_BEHOLDER /* work in progress */
     case AD_SLOW:
         if (canseemon(mtmp) && couldsee(mtmp->mx, mtmp->my) && mtmp->mcansee

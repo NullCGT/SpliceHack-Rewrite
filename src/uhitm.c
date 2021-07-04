@@ -4262,6 +4262,7 @@ mhitm_adtyping(struct monst *magr, struct attack *mattk, struct monst *mdef,
     /* Todo */
     case AD_HNGY:  mhitm_ad_hngy(magr, mattk, mdef, mhm); break;
     case AD_VORP: mhitm_ad_vorp(magr, mattk, mdef, mhm); break;
+    /* case AD_FEAR: mhtim_ad_fear(magr, mattkm mdef, mhm); break; */
     default:
         mhm->damage = 0;
     }

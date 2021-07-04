@@ -104,13 +104,14 @@
 #define AD_WTHR 64 /* withering (mummies) */
 #define AD_LAWS 65 /* laws (lawyer) */
 #define AD_VORP 66 /* beheading (vorpal jabberwock) */
+#define AD_FEAR 67 /* inflict fear (eye of fear and flame) */
 
-#define AD_CLRC 67 /* random clerical spell */
-#define AD_SPEL 68 /* random magic spell */
-#define AD_RBRE 69 /* random breath weapon */
+#define AD_CLRC 68 /* random clerical spell */
+#define AD_SPEL 69 /* random magic spell */
+#define AD_RBRE 70 /* random breath weapon */
 
-#define AD_SAMU 70 /* hits, may steal Amulet (Wizard) */
-#define AD_CURS 71 /* random curse (ex. gremlin) */
+#define AD_SAMU 71 /* hits, may steal Amulet (Wizard) */
+#define AD_CURS 72 /* random curse (ex. gremlin) */
 #define LAST_AD AD_CURS
 
 struct mhitm_data {
