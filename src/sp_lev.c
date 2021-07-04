@@ -3645,6 +3645,8 @@ static const struct {
     { "wand shop", WANDSHOP },
     { "tool shop", TOOLSHOP },
     { "book shop", BOOKSHOP },
+    { "archery shop", ARCHERYSHOP },
+    { "junk shop", JUNKSHOP },
     { "health food shop", FODDERSHOP },
     { "candle shop", CANDLESHOP },
     { "black market", BLACKSHOP },

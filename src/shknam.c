@@ -192,6 +192,22 @@ static const char *const shkblackmarket[] = {
     "One-Eyed Sam", 0
 };
 
+static const char *const shkarchery[] = {
+    /* Famous Archers, perhaps? */
+    "Robin",      "+William",  "Paris",  "Skadi",
+    "Cupid",      "Ullr",      "-Artemis",
+    "-Meduka",
+    /* Elven names from Tolkien's canon. */
+    "+Teleporno", "+Feano", 0
+};
+
+static const char *const shkjunk[] = {
+    /* Silly names, clown names */
+    "=Spiffy", "=Bonko", "=Binky", "=Tubby", "=Zippy", "=Jumbo"
+    "=Mittens", "=Chuckles", "=Bam Bam", "=Larry", "=Curly",
+    "=Moe", "=Zaff", "=Punky", 0
+};
+
 /*
  * To add new shop types, all that is necessary is to edit the shtypes[]
  * array.  See mkroom.h for the structure definition.  Typically, you'll
@@ -210,7 +226,7 @@ static const char *const shkblackmarket[] = {
 const struct shclass shtypes[] = {
     { "general store",
       RANDOM_CLASS,
-      42,
+      36,
       D_SHOP,
       { { 100, RANDOM_CLASS },
         { 0, 0 },
@@ -316,6 +332,27 @@ const struct shclass shtypes[] = {
         { 0, 0 },
         { 0, 0 } },
       shkbooks },
+    { "archery emporium",
+      WEAPON_CLASS,
+      3,
+      D_SHOP,
+      { { 30, -BOW },
+        { 35, -ELVEN_ARROW },
+        { 20, -ELVEN_BOW },
+        { 10, -LIGHT_ARROW },
+        { 5, WEAPON_CLASS } },
+      shkarchery },
+    { "junk shop",
+      RANDOM_CLASS,
+      3,
+      D_SHOP,
+      { { 65, RANDOM_CLASS },
+        { 10, -IRON_CHAIN },
+        { 10, -BASEBALL_BAT },
+        { 2,  -WAN_WONDER },
+        { 8, -FOOTBOW },
+        { 5, -WAN_NOTHING } },
+      shkjunk },
     { "health food store",
       FOOD_CLASS,
       2,
