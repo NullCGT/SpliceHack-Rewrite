@@ -33,22 +33,6 @@ dungeon = {
             branchtype = "portal"
          },
          {
-            name = "The Icy Wastes",
-            base = 15,
-            range = 8,
-            branchtype = "portal"
-         },
-         {
-            name = "The Dark Forest",
-            base = 15,
-            range = 8
-         },
-         {
-            name = "Mysterious Laboratory",
-            base = 20,
-            range = 5
-         },
-         {
             name = "One-eyed Sam's Market",
             base = 20,
             range = 5,
@@ -313,48 +297,6 @@ dungeon = {
          {
             name = "banquet",
             bonetag = "b",
-            base = -1
-         }
-      }
-   },
-   {
-      name = "The Icy Wastes",
-      base = 1,
-      bonetag = "I",
-      flags = { "mazelike" },
-      alignment = "unaligned",
-      levels = {
-         {
-            name = "icewaste",
-            bonetag = "I",
-            base = -1
-         }
-      }
-   },
-   {
-      name = "The Dark Forest",
-      base = 1,
-      bonetag = "f",
-      flags = { "mazelike" },
-      alignment = "neutral",
-      levels = {
-         {
-            name = "darkforest",
-            bonetag = "f",
-            base = -1
-         }
-      }
-   },
-   {
-      name = "Mysterious Laboratory",
-      base = 1,
-      bonetag = "L",
-      flags = { "mazelike" },
-      alignment = "lawful",
-      levels = {
-         {
-            name = "laboratory",
-            bonetag = "L",
             base = -1
          }
       }
