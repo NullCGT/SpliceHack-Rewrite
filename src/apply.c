@@ -3925,9 +3925,12 @@ doapply(void)
     case TOOLED_HORN:
     case FROST_HORN:
     case FIRE_HORN:
+    case HORN_OF_BLASTING:
     case HARP:
     case MAGIC_HARP:
     case BUGLE:
+    case BAGPIPE:
+    case LUTE:
     case LEATHER_DRUM:
     case DRUM_OF_EARTHQUAKE:
         res = do_play_instrument(obj);

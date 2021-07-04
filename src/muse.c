@@ -1179,6 +1179,7 @@ rnd_defensive_item(struct monst* mtmp)
 #define MUSE_WAN_POISON_GAS 24
 #define MUSE_WAN_SONICS 25
 #define MUSE_WAN_PSIONICS 26
+#define MUSE_HORN_OF_BLASTING 27
 
 static boolean
 linedup_chk_corpse(int x, int y)
@@ -1313,6 +1314,11 @@ find_offensive(struct monst* mtmp)
                 && !m_seenres(mtmp, M_SEEN_COLD)) {
                 g.m.offensive = obj;
                 g.m.has_offense = MUSE_FROST_HORN;
+            }
+            nomore(MUSE_HORN_OF_BLASTING);
+            if (obj->otyp == HORN_OF_BLASTING && obj->spe > 0 && can_blow(mtmp)) {
+                g.m.offensive = obj;
+                g.m.has_offense = MUSE_HORN_OF_BLASTING;
             }
             nomore(MUSE_WAN_LIGHTNING);
             if (obj->otyp == WAN_LIGHTNING && obj->spe > 0
@@ -1695,9 +1701,11 @@ use_offensive(struct monst* mtmp)
         return (DEADMONSTER(mtmp)) ? 1 : 2;
     case MUSE_FIRE_HORN:
     case MUSE_FROST_HORN:
+    case MUSE_HORN_OF_BLASTING:
         mplayhorn(mtmp, otmp, FALSE);
         g.m_using = TRUE;
-        buzz(-30 - ((otmp->otyp == FROST_HORN) ? AD_COLD - 1 : AD_FIRE - 1),
+        buzz(-30 - ((otmp->otyp == FROST_HORN) ? AD_COLD - 1 : 
+                (otmp->otyp == HORN_OF_BLASTING) ? AD_LOUD - 1 : AD_FIRE - 1),
              rn1(6, 6), mtmp->mx, mtmp->my, sgn(mtmp->mux - mtmp->mx),
              sgn(mtmp->muy - mtmp->my));
         g.m_using = FALSE;
@@ -2528,7 +2536,7 @@ searches_for_item(struct monst* mon, struct obj* obj)
         if (typ == UNICORN_HORN)
             return (boolean) (!obj->cursed && !is_unicorn(mon->data)
                               && mon->data != &mons[PM_KI_RIN]);
-        if (typ == FROST_HORN || typ == FIRE_HORN)
+        if (typ == FROST_HORN || typ == FIRE_HORN || typ == HORN_OF_BLASTING)
             return (obj->spe > 0 && can_blow(mon));
         if (Is_container(obj) && !(Is_mbag(obj) && obj->cursed)
             && !obj->olocked)

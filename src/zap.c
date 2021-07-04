@@ -2673,6 +2673,7 @@ zapyourself(struct obj *obj, boolean ordinary)
         break;
     
     case WAN_SONICS:
+    case HORN_OF_BLASTING:
         learn_it = TRUE;
         /* FALLTHRU */
     case SPE_SONICBOOM:

@@ -441,8 +441,8 @@ done_in_by(struct monst *mtmp, int how)
         Strcat(buf, "invisible ");
     if (distorted)
         Strcat(buf, "hallucinogen-distorted ");
-    if (has_etemplate(mtmp))
-        Strcat(buf, montemplates[ETEMPLATE(mtmp)->template_index].pmnames[NEUTRAL]);
+    if (has_etemplate(mtmp) && !mtmp->isshk)
+        Sprintf(eos(buf), "%s ", montemplates[ETEMPLATE(mtmp)->template_index].pmnames[NEUTRAL]);
 
     if (imitator) {
         char shape[BUFSZ];
@@ -486,7 +486,8 @@ done_in_by(struct monst *mtmp, int how)
                    *honorific = shkname_is_pname(mtmp) ? ""
                                    : mtmp->female ? "Ms. " : "Mr. ";
 
-        Sprintf(eos(buf), "%s%s, the shopkeeper", honorific, shknm);
+        Sprintf(eos(buf), "%s%s, the %s shopkeeper", honorific, shknm,
+            has_etemplate(mtmp) ? montemplates[ETEMPLATE(mtmp)->template_index].pmnames[NEUTRAL] : "");
         g.killer.format = KILLED_BY;
     } else if (mtmp->ispriest || mtmp->isminion) {
         /* m_monnam() suppresses "the" prefix plus "invisible", and

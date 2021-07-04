@@ -735,7 +735,7 @@ topten(int how, time_t when)
 
                 topten_print("");
                 Sprintf(pbuf,
-             "Since you were in %s mode, the score list will not be checked.",
+             "Since you were in %s mode, your score will not be submitted.",
                         wizard ? "wizard" : discover ? "discover" :
                             u.uroleplay.heaven_or_hell ? "heaven or hell" : "marathon");
                 topten_print(pbuf);

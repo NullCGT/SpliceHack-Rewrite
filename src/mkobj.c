@@ -955,6 +955,7 @@ mksobj(int otyp, boolean init, boolean artif)
             case MAGIC_HARP:
             case FROST_HORN:
             case FIRE_HORN:
+            case HORN_OF_BLASTING:
             case DRUM_OF_EARTHQUAKE:
                 otmp->spe = rn1(5, 4);
                 break;
@@ -3252,10 +3253,12 @@ struct obj* obj;
         case MAGIC_FLUTE:
         case HARP:
         case MAGIC_HARP:
+        case LUTE:
             return resonant_materials;
         case TOOLED_HORN:
         case FIRE_HORN:
         case FROST_HORN:
+        case HORN_OF_BLASTING:
         case HORN_OF_PLENTY:
             return horn_materials;
         default:
