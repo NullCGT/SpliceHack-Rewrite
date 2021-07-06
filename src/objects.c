@@ -102,10 +102,10 @@ OBJECT(OBJ("strange object", None),
            0, WEAPON_CLASS, prob, 0, wt,                            \
            cost, 2, 2, hitbon, 0, wt, color)
 #define BULLET(name,app,kn,prob,wt,cost,sdam,ldam,hitbon,ammotyp,typ,metal,sub,color) \
-	OBJECT( \
-		OBJ(name,app), BITS(kn,1,1,0,0,1,0,0,0,0,typ,sub,metal), 0, \
-		WEAPON_CLASS, prob, 0, \
-		wt, cost, sdam, ldam, hitbon, ammotyp, wt, color )
+    OBJECT( \
+           OBJ(name,app), BITS(kn,1,1,0,0,1,0,0,0,0,typ,sub,metal), 0, \
+           WEAPON_CLASS, prob, 0, \
+           wt, cost, sdam, ldam, hitbon, ammotyp, wt, color )
 #define GUN(name,app,kn,bi,prob,wt,cost,hitbon,ammotyp,metal,sub,color) \
 	OBJECT( \
 		OBJ(name,app), BITS(kn,0,1,0,0,1,0,0,bi,0,0,sub,metal), 0, \
@@ -127,7 +127,7 @@ PROJECTILE("elven arrow", "runed arrow",
 PROJECTILE("orcish arrow", "crude arrow",
            0, 20, 1, 2, 5, 6, 0,        IRON, -P_BOW, CLR_BLACK),
 PROJECTILE("dark elven arrow", "black runed arrow",
-	         0,  0, 1, 2, 7, 6, 0,        WOOD, -P_BOW, CLR_BLACK),
+           0,  0, 1, 2, 7, 6, 0,        WOOD, -P_BOW, CLR_BLACK),
 PROJECTILE("ya", "long arrow",
            0, 15, 1, 4, 7, 7, 1,        METAL, -P_BOW, HI_METAL),
 PROJECTILE("light arrow", None,
@@ -171,7 +171,7 @@ WEAPON("dagger", None,
 WEAPON("elven dagger", "runed dagger",
        0, 1, 0, 10,  10,   4,  5,  3, 2, P,   P_DAGGER, WOOD, HI_WOOD),
 WEAPON("dark elven dagger", "black runed dagger",
-	     0, 1, 0,  0, 10,    4,  5,  3, 2, P,   P_DAGGER, WOOD, CLR_BLACK),
+       0, 1, 0,  0, 10,    4,  5,  3, 2, P,   P_DAGGER, WOOD, CLR_BLACK),
 WEAPON("sacrificial knife", None,
        1, 1, 0, 3,   5,   4,  3,  2, 0, P|S, P_KNIFE, BONE, CLR_WHITE),
 WEAPON("orcish dagger", "crude dagger",
@@ -207,7 +207,7 @@ WEAPON("short sword", None,
 WEAPON("elven short sword", "runed short sword",
        0, 0, 0,  2,  30,  10,  8,  8, 0, P,   P_SHORT_SWORD, WOOD, HI_WOOD),
 WEAPON("dark elven short sword", "black runed short sword",
-	     0, 0, 0,  2,  30, 10,   8,  8, 0, P,   P_SHORT_SWORD, WOOD, CLR_BLACK),
+       0, 0, 0,  2,  30, 10,   8,  8, 0, P,   P_SHORT_SWORD, WOOD, CLR_BLACK),
 WEAPON("orcish short sword", "crude short sword",
        0, 0, 0,  3,  30,  10,  5,  8, 0, P,   P_SHORT_SWORD, IRON, CLR_BLACK),
 WEAPON("dwarvish short sword", "broad short sword",
@@ -344,13 +344,13 @@ GUN("sniper rifle", None,	   1,  1, 0,  50, 4000,  4, WP_BULLET, IRON, P_FIREARM
 GUN("shotgun", None,	   1,  0, 0,  35,  200,  3,  WP_SHELL, IRON, P_FIREARM, HI_METAL),
 GUN("auto shotgun", None,	   1,  1, 0,  60, 1500,  0,  WP_SHELL, IRON, P_FIREARM, HI_METAL),
 BULLET("bullet", None,
-	1,  0,   1,   5, 20, 30, 0, WP_BULLET,   P,   IRON, -P_FIREARM, HI_METAL),
+        1,  0,   1,   5, 20, 30, 0, WP_BULLET,   P,   IRON, -P_FIREARM, HI_METAL),
 BULLET("shotgun shell", None,
-	1,  0,   1,  10, 30, 45, 0,  WP_SHELL,   P,   IRON, -P_FIREARM, CLR_RED),
+        1,  0,   1,  10, 30, 45, 0,  WP_SHELL,   P,   IRON, -P_FIREARM, CLR_RED),
 BULLET("frag grenade", None,
-	1,  0,  10, 20, 0, 0, 0, WP_GRENADE,   B,   IRON,    P_NONE, CLR_GREEN),
+        1,  0,  10, 20, 0, 0, 0, WP_GRENADE,   B,   IRON,    P_NONE, CLR_GREEN),
 BULLET("gas grenade", None,
-	1,  0,  10, 20, 0, 0, 0, WP_GRENADE,   B,   IRON,    P_NONE, CLR_ORANGE),
+        1,  0,  10, 20, 0, 0, 0, WP_GRENADE,   B,   IRON,    P_NONE, CLR_ORANGE),
 
 #undef P
 #undef S
@@ -482,7 +482,7 @@ ARMOR("studded armor", None,
 ARMOR("ring mail", None,
       1, 0, 0,  0, 72, 5, 250, 100,  7, 1,  ARM_SUIT, IRON, HI_METAL),
 ARMOR("dark elven ring mail", None,
-	    1, 0, 0, 0,  0,  1, 150, 240,  4, 1,  ARM_SUIT, SILVER, CLR_BLACK),
+      1, 0, 0, 0,  0,  1, 150, 240,  4, 1,  ARM_SUIT, SILVER, CLR_BLACK),
 ARMOR("orcish ring mail", "crude ring mail",
       0, 0, 0,  0, 20, 5, 250,  80,  8, 1,  ARM_SUIT, IRON, CLR_BLACK),
 ARMOR("light armor", None,
@@ -494,7 +494,7 @@ ARMOR("jacket", None,
 ARMOR("Hawaiian shirt", None,
       1, 0, 0,  0,  8, 0,   5,   3, 10, 0,  ARM_SHIRT, CLOTH, CLR_MAGENTA),
 ARMOR("striped shirt", None,
-	1, 0, 0,  0,  0, 0,   5,   2, 10, 0,  ARM_SHIRT, CLOTH, CLR_GRAY),
+      1, 0, 0,  0,  0, 0,   5,   2, 10, 0,  ARM_SHIRT, CLOTH, CLR_GRAY),
 ARMOR("T-shirt", None,
       1, 0, 0,  0,  2, 0,   5,   2, 10, 0,  ARM_SHIRT, CLOTH, CLR_WHITE),
 
@@ -1000,15 +1000,15 @@ SPELL("sleep",           "mottled",
       P_ENCHANTMENT_SPELL, 49,  1, 1, 1, RAY, HI_PAPER),
 SPELL("finger of death", "stained",
       P_ATTACK_SPELL,       5, 10, 7, 1, RAY, HI_PAPER),
-SPELL("lightning",       "rainbow",     
+SPELL("lightning",       "rainbow",
       P_MATTER_SPELL,       5,  7, 4, 1, RAY, HI_PAPER),
-SPELL("poison blast",    "tattered",    
+SPELL("poison blast",    "tattered",
       P_ATTACK_SPELL,      10,  7, 4, 1, RAY, HI_PAPER),
-SPELL("acid stream",     "colorful",    
+SPELL("acid stream",     "colorful",
       P_MATTER_SPELL,       5,  7, 4, 1, RAY, HI_PAPER),
-SPELL("sonicboom",       "ghostly",    
+SPELL("sonicboom",       "ghostly",
       P_MATTER_SPELL,       5,  7, 4, 1, RAY, CLR_BLACK),
-SPELL("psystrike",       "worn out",     
+SPELL("psystrike",       "worn out",
       P_ATTACK_SPELL,       5,  7, 4, 1, RAY, HI_PAPER),
 SPELL("light",           "cloth",
       P_DIVINATION_SPELL,  45,  1, 1, 1, NODIR, HI_CLOTH),
