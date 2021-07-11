@@ -1,4 +1,4 @@
-NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.588 $ $NHDT-Date: 1625884843 2021/07/10 02:40:43 $
+NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.592 $ $NHDT-Date: 1625969349 2021/07/11 02:09:09 $
 
 General Fixes and Modified Features
 -----------------------------------
@@ -562,6 +562,7 @@ avoid "it" in messages "Wait!  There's an it hiding under <an object>!" (hero
 don't extinguish burning objects when engulfed by a fire vortex
 allow wishing for a novel via description "paperback book" (previously only
 	worked when specifying "paperback spellbook")
+deal with gold leaving a shop via scatter()
 
 
 Fixes to 3.7.0-x Problems that Were Exposed Via git Repository
@@ -737,6 +738,10 @@ prevent obj_pmname() from calling mon_pmname(monst) when monst->data is null
 	to prevent a null pointer dereference
 correct the pluralization of monarch to monarchs, rather than monarches
 don't allow web spun by spider to interfere with solving Soloban
+fix parsing of wish adjectives (return value broken by changes accompanying
+	figurine gender patch)
+when picking up a thrown weapon while quiver is empty, don't put it into the
+	quiver slot if it needs to be wielded for throw-and-return action
 
 curses: 'msg_window' option wasn't functional for curses unless the binary
 	also included tty support
