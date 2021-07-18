@@ -232,6 +232,8 @@ int
 demon_talk(register struct monst *mtmp)
 {
     long cash, demand, offer;
+    struct obj *otmp = 0, *obj = 0;
+    int n = 0;
 
     if (uwep && (uwep->oartifact == ART_EXCALIBUR
                  || uwep->oartifact == ART_DEMONBANE)) {
@@ -273,6 +275,104 @@ demon_talk(register struct monst *mtmp)
             (void) rloc(mtmp, TRUE);
         return 1;
     }
+
+    /* based off steal.c code */
+    for (n = 0, obj = g.invent; obj; obj = obj->nobj){
+        if ((obj->oartifact &&
+            obj->oartifact != ART_STING && obj->oartifact != ART_ORCRIST
+            && obj->otyp != AMULET_OF_YENDOR && obj->otyp != BELL_OF_OPENING
+            && obj->otyp != CANDELABRUM_OF_INVOCATION &&
+            obj->otyp != SPE_BOOK_OF_THE_DEAD) || obj->otyp == WAN_WISHING
+            || obj->otyp == BAG_OF_HOLDING || obj->otyp == PLAYING_CARD_DECK
+            || obj->otyp == DECK_OF_FATE)
+            ++n, otmp = obj;
+    }
+    if (n > 1) {
+        n = rnd(n);
+        for (otmp = g.invent; otmp; otmp = otmp->nobj)
+            if ((otmp->oartifact || otmp->otyp == WAN_WISHING ||
+                otmp->otyp == BAG_OF_HOLDING || otmp->otyp == PLAYING_CARD_DECK ||
+                otmp->otyp == DECK_OF_FATE) && !--n)
+                break;
+    }
+    if ((otmp && otmp->otyp == DECK_OF_FATE) ||
+        (otmp && otmp->otyp == PLAYING_CARD_DECK)) {
+        pline("%s notes you have a deck of cards in your possession.",
+              Amonnam(mtmp));
+        pline("%s offers to play you for dominion of your soul.",
+              Amonnam(mtmp));
+        if (yn("Play cards with the demon?") == 'n') {
+            pline("%s gets angry...", Amonnam(mtmp));
+            mtmp->mpeaceful = 0;
+            set_malign(mtmp);
+            return 0;
+        } else {
+            use_deck(otmp);
+            if (otmp->otyp == DECK_OF_FATE) {
+                /* expand in the future to allow demon drawing :) */
+                pline("%s realizes what deck you are playing with and vanishes with a panicked look!",
+                      Amonnam(mtmp));
+                mongone(mtmp);
+                return (1);
+            } else {
+                if (rnd(13) > Luck) {
+                    pline("Unfortunately, %s beats you.", Amonnam(mtmp));
+                    pline("%s laughs and crushes the deck of cards.",
+                          Amonnam(mtmp));
+                    mtmp->mpeaceful = 0;
+                    set_malign(mtmp);
+                    useup(otmp);
+                    return 0;
+                } else {
+                    pline("You hand beats %s!", Amonnam(mtmp));
+                    pline("%s vanishes, congratulating you on a game well played.",
+                          Amonnam(mtmp));
+                    mongone(mtmp);
+                    livelog_printf(LL_UMONST, "beat %s in a game of chance",
+                                Amonnam(mtmp));
+                    useup(otmp);
+                    return (1);
+                }
+            }
+        }
+    } else if (otmp) {
+        pline("%s speaks to you. \"I see you have %s in your possession...\"",
+              Amonnam(mtmp), the(xname(otmp)));
+        /* copied from steal.c */
+        if (yn("Give up your item?") == 'y') {
+            if ((otmp == uarm || otmp == uarmu) && uarmc)
+                remove_worn_item(uarmc, FALSE);
+            if (otmp == uarmu && uarm)
+                remove_worn_item(uarm, FALSE);
+            if ((otmp == uarmg || ((otmp == uright || otmp == uleft) && uarmg))
+                && uwep) {
+                /* gloves are about to be unworn; unwield weapon(s) first */
+                if (u.twoweap)    /* remove_worn_item(uswapwep) indirectly */
+                    remove_worn_item(uswapwep, FALSE); /* clears u.twoweap */
+                remove_worn_item(uwep, FALSE);
+            }
+            if ((otmp == uright || otmp == uleft) && uarmg)
+                /* calls Gloves_off() to handle wielded cockatrice corpse */
+                remove_worn_item(uarmg, FALSE);
+
+            /* finally, steal the target item */
+            if (otmp->owornmask)
+                remove_worn_item(otmp, TRUE);
+            /* I shudder to think of the situation where this would happen. */
+            if (otmp->unpaid)
+                subfrombill(otmp, shop_keeper(*u.ushops));
+            freeinv(otmp);
+            (void) mpickobj(mtmp, otmp);
+            pline("%s takes %s from you!", Monnam(mtmp), the(xname(otmp)));
+            pline("%s laughs and vanishes. \"I look forward to seeing what becomes of your little quest.\"",
+                  Amonnam(mtmp));
+            livelog_printf(LL_UMONST, "bribed %s with %s for safe passage",
+                        Amonnam(mtmp), xname(otmp));
+            mongone(mtmp);
+            return (1);
+        }
+    }
+
     cash = money_cnt(g.invent);
     demand =
         (cash * (rnd(80) + 20 * Athome))

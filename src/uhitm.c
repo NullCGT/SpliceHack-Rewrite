@@ -4797,8 +4797,17 @@ hmonas(struct monst *mon)
             if (uwep && g.youmonst.data->mlet == S_LICH && !weapon_used)
                 goto use_weapon;
             /*FALLTHRU*/
-        case AT_KICK:
         case AT_BITE:
+            /* [ALI] Vampires are also smart. They avoid biting
+			   monsters if doing so would be fatal */
+			if ((uwep || (u.twoweap && uswapwep)) &&
+				maybe_polyd(is_vampire(g.youmonst.data), Race_if(PM_VAMPIRE)) &&
+				(is_rider(mon->data) ||
+                 mon->data == &mons[PM_GRIM_REAPER] ||
+				 mon->data == &mons[PM_GREEN_SLIME] ||
+                 touch_petrifies(mon->data)))
+			    break;
+        case AT_KICK:
         case AT_STNG:
         case AT_BUTT:
         case AT_TENT:

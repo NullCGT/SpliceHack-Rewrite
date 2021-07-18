@@ -2655,7 +2655,7 @@ use_container(struct obj **objp,
         if (held)
             You("must put it down to unlock.");
         return 0;
-    } else if (obj->otrapped) {
+    } else if (obj->otrapped && obj->otyp != COFFIN) {
         if (held)
             You("open %s...", the(xname(obj)));
         (void) chest_trap(obj, HAND, FALSE);
@@ -2782,6 +2782,15 @@ use_container(struct obj **objp,
     loot_in = (c == 'i' || c == 'b' || c == 'r');
     loot_in_first = (c == 'r'); /* both, reversed */
     stash_one = (c == 's');
+
+    /* A coffin might contain a vampire. */
+    if (g.current_container->otyp == COFFIN && g.current_container->otrapped) {
+        makemon(mkclass(S_VAMPIRE, 0), u.ux, u.uy, NO_MM_FLAGS);
+        You("disturb the coffin's occupant!");
+        g.current_container->otrapped = 0;
+        g.abort_looting = TRUE;
+        goto containerdone;
+    }
 
     /* out-only or out before in */
     if (loot_out && !loot_in_first) {

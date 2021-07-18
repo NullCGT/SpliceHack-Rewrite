@@ -45,6 +45,7 @@ extern void check_leash(xchar, xchar);
 extern boolean um_dist(xchar, xchar, xchar);
 extern boolean snuff_candle(struct obj *);
 extern boolean use_mask(struct obj **);
+extern void use_deck(struct obj *);
 extern boolean snuff_lit(struct obj *);
 extern boolean splash_lit(struct obj *);
 extern boolean catch_lit(struct obj *);
@@ -2173,6 +2174,7 @@ extern void punish(struct obj *);
 extern void unpunish(void);
 extern boolean cant_revive(int *, boolean, struct obj *);
 extern boolean create_particular(void);
+extern void forget(int);
 
 /* ### rect.c ### */
 

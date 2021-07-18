@@ -5239,6 +5239,10 @@ chest_trap(
     if (get_obj_location(obj, &cc.x, &cc.y, 0)) /* might be carried */
         obj->ox = cc.x, obj->oy = cc.y;
 
+    /* Perhaps the coffin contained a vampire... */
+    if (otmp->otyp == COFFIN && !rn2(3))
+        return FALSE;
+
     otmp->otrapped = 0; /* trap is one-shot; clear flag first in case
                            chest kills you and ends up in bones file */
     You(disarm ? "set it off!" : "trigger a trap!");

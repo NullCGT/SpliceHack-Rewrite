@@ -41,7 +41,7 @@
 
 #define resists_drain(ptr) \
     (is_undead(ptr) || is_demon(ptr) || is_were(ptr) \
-     || ptr == &mons[PM_DEATH])
+     || ptr == &mons[PM_DEATH] || ptr == &mons[PM_GRIM_REAPER])
 
 #define resists_sickness(ptr) \
     (is_undead(ptr) || amorphous(ptr) || is_rider(ptr) \

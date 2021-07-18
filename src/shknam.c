@@ -209,7 +209,7 @@ static const char *const shkjunk[] = {
     /* Silly names, clown names */
     "=Spiffy", "=Bonko", "=Binky", "=Tubby", "=Zippy", "=Jumbo"
     "=Mittens", "=Chuckles", "=Bam Bam", "=Larry", "=Curly",
-    "=Moe", "=Zaff", "=Punky", 0
+    "=Moe", "=Zaff", "=Punky", "=Zonko", 0
 };
 
 /*
@@ -361,9 +361,9 @@ const struct shclass shtypes[] = {
       2,
       D_SHOP,
       { { 65, RANDOM_CLASS },
-        { 10, -IRON_CHAIN },
+        {  2, -DECK_OF_FATE },
         { 10, -BASEBALL_BAT },
-        { 2,  -WAN_WONDER },
+        { 10,  -WAN_WONDER },
         { 8, -FOOTBOW },
         { 5, -WAN_NOTHING } },
       shkjunk },

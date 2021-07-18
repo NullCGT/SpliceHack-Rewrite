@@ -2953,6 +2953,7 @@ static const struct alt_spellings {
     { "grapple", GRAPPLING_HOOK },
     { "protection from shape shifters", RIN_PROTECTION_FROM_SHAPE_CHAN },
     { "scroll of recharging", SCR_CHARGING },
+    { "casket", COFFIN },
     /* if we ever add other sizes, move this to o_ranges[] with "bag" */
     { "box", LARGE_BOX },
     /* normally we wouldn't have to worry about unnecessary <space>, but
@@ -4486,6 +4487,7 @@ readobjnam(char* bp, struct obj* no_wish)
     /* Fall through */
     case SKELETON_KEY:
     case CHEST:
+    case COFFIN:
     case LARGE_BOX:
     case HEAVY_IRON_BALL:
     case IRON_CHAIN:

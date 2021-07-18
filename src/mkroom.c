@@ -391,7 +391,7 @@ fill_zoo(struct mkroom* sroom)
                 if (!rn2(5))
                     (void) mk_tt_object(CORPSE, sx, sy);
                 if (!rn2(10)) /* lots of treasure buried with dead */
-                    (void) mksobj_at((rn2(3)) ? LARGE_BOX : CHEST, sx, sy,
+                    (void) mksobj_at((rn2(3)) ? COFFIN : CHEST, sx, sy,
                                      TRUE, FALSE);
                 if (!rn2(5))
                     make_grave(sx, sy, (char *) 0);
@@ -405,6 +405,9 @@ fill_zoo(struct mkroom* sroom)
                 if (!rn2(20)) /* the payroll and some loot */
                     (void) mksobj_at((rn2(3)) ? LARGE_BOX : CHEST, sx, sy,
                                      TRUE, FALSE);
+                if (!rn2(25)) /* the cure for boredom */
+                    (void) mksobj_at((rn2(10)) ? DECK_OF_FATE :
+                                     PLAYING_CARD_DECK, sx, sy, TRUE, FALSE);
                 break;
             case COCKNEST:
                 if (!rn2(3)) {

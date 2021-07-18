@@ -20,7 +20,6 @@ static void stripspe(struct obj *);
 static void p_glow1(struct obj *);
 static void p_glow2(struct obj *, const char *);
 static void set_dark(int,int,genericptr_t);
-static void forget(int);
 static int maybe_tame(struct monst *, struct obj *);
 static boolean get_valid_stinking_cloud_pos(int, int);
 static boolean is_valid_stinking_cloud_pos(int, int, boolean);
@@ -930,7 +929,7 @@ set_dark(int x, int y, genericptr_t val)
  * Other things are subject to flags:
  *      howmuch & ALL_SPELLS    = forget all spells
  */
-static void
+void
 forget(int howmuch)
 {
     if (Punished)

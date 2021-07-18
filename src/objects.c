@@ -707,6 +707,7 @@ OBJECT(OBJ("Amulet of Yendor", /* note: description == name */
            0, TOOL_CLASS, prob, 0, wt, cost, sdam, ldam, hitbon, 0, wt, clr)
 /* containers */
 CONTAINER("large box",       None, 1, 0, 0, 40, 350,   8, WOOD, HI_WOOD),
+CONTAINER("coffin",          None, 1, 0, 0,  5, 350,   8, WOOD, HI_WOOD),
 CONTAINER("chest",           None, 1, 0, 0, 35, 600,  16, WOOD, HI_WOOD),
 CONTAINER("ice box",         None, 1, 0, 0,  5, 900,  42, PLASTIC, CLR_WHITE),
 CONTAINER("sack",           "bag", 0, 0, 0, 35,  15,   2, CLOTH, HI_CLOTH),
@@ -728,6 +729,10 @@ TOOL("magic lamp",        "lamp", 0, 0, 1, 0, 15, 20, 50, COPPER, CLR_YELLOW),
 /* other tools */
 TOOL("expensive camera",    None, 1, 0, 0, 1, 15, 12,200, PLASTIC, CLR_BLACK),
 TOOL("mirror",   "looking glass", 0, 0, 0, 0, 45, 13, 10, GLASS, HI_SILVER),
+TOOL("playing card deck",
+                 "pack of cards", 0, 0, 0, 0, 20, 10, 80, LEATHER, HI_LEATHER),
+TOOL("deck of fate",
+                 "pack of cards", 0, 0, 1, 0,  5, 10,300, LEATHER, HI_LEATHER),
 TOOL("scabbard",            None, 1, 0, 0, 0,  0, 13, 20, IRON, HI_METAL),
 TOOL("crystal ball", "glass orb", 0, 0, 1, 1, 15,150, 60, GLASS, HI_GLASS),
 TOOL("lenses",              None, 1, 0, 0, 0,  5,  3, 80, GLASS, HI_GLASS),

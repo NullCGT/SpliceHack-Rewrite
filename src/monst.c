@@ -2979,6 +2979,17 @@ struct permonst _mons2[] = {
         M2_NOPOLY | M2_DEMON | M2_STALK | M2_HOSTILE | M2_PNAME | M2_NASTY
             | M2_PRINCE | M2_MALE,
         M3_WANTSAMUL | M3_INFRAVISIBLE | M3_INFRAVISION, 57, HI_LORD),
+    /* Not technically a rider, but along the same lines. Only used in the
+       deck of fate at this point. */
+    MON("Grim Reaper", S_DEMON, LVL(30, 12, -5, 100, 0), (G_NOGEN | G_NOCORPSE),
+        A(ATTK(AT_WEAP, AD_PHYS, 8, 10), ATTK(AT_TUCH, AD_DETH, 8, 8), NO_ATTK,
+          NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(WT_HUMAN, 1, MS_WAIL, MZ_HUMAN),
+        MR_FIRE | MR_COLD | MR_ELEC | MR_SLEEP | MR_POISON | MR_STONE |
+        MR_PSYCHIC, 0,
+        M1_FLY | M1_HUMANOID | M1_REGEN | M1_SEE_INVIS,
+        M2_NOPOLY | M2_STALK | M2_HOSTILE | M2_STRONG | M2_NASTY,
+        M3_INFRAVISIBLE | M3_INFRAVISION | M3_DISPLACES, 34, HI_LORD),
     /* Riders -- the Four Horsemen of the Apocalypse ("War" == player);
      * depicted with '&' but do not have M2_DEMON set.
      */

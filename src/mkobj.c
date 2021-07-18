@@ -258,6 +258,7 @@ mkbox_cnts(struct obj* box)
     case ICE_BOX:
         n = 20;
         break;
+    case COFFIN:
     case CHEST:
         n = box->olocked ? 7 : 5;
         break;
@@ -912,6 +913,9 @@ mksobj(int otyp, boolean init, boolean artif)
             case LARGE_BOX:
                 otmp->olocked = !!(rn2(5));
                 otmp->otrapped = !(rn2(10));
+                /*FALLTHRU*/
+            case COFFIN:
+                otmp->otrapped = 1;
                 /*FALLTHRU*/
             case ICE_BOX:
             case SACK:

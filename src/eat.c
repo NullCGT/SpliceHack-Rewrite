@@ -697,7 +697,8 @@ cprefx(register int pm)
         break;
     case PM_DEATH:
     case PM_PESTILENCE:
-    case PM_FAMINE: {
+    case PM_FAMINE:
+    case PM_GRIM_REAPER: {
         pline("Eating that is instantly fatal.");
         Sprintf(g.killer.name, "unwisely ate the body of %s",
                 mons[pm].pmnames[NEUTRAL]);

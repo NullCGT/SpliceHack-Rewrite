@@ -708,6 +708,13 @@ m_initweap(register struct monst *mtmp)
             (void) mongets(mtmp, rn2(2) ? RANSEUR : LANCE);
             m_initthrow(mtmp, CROSSBOW_BOLT, 20);
             break;
+        case PM_GRIM_REAPER:
+            otmp = mksobj(SCYTHE, FALSE, FALSE);
+            otmp = oname(otmp, artiname(ART_END));
+            curse(otmp);
+            otmp->oerodeproof = TRUE;
+            mpickobj(mtmp, otmp);
+            break;
         }
         /* prevent djinn and mail daemons from leaving objects when
          * they vanish
