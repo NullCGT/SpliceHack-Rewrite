@@ -574,6 +574,12 @@ probe_monster(struct monst *mtmp)
 {
     struct obj *otmp;
 
+    if (!has_mgivenname(mtmp) && !type_is_pname(mtmp->data) &&
+        is_human(mtmp->data) && !(mtmp->data->geno & G_UNIQ)) {
+        pline("%s is named %s.", Monnam(mtmp),
+              mon_nam(christen_monst(mtmp, rndhumname(mtmp->female))));
+    }
+
     mstatusline(mtmp);
     learn_monster(monsndx(mtmp->data));
     if (g.notonhead)

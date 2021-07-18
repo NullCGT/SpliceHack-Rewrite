@@ -4678,7 +4678,9 @@ readobjnam(char* bp, struct obj* no_wish)
         if (d.otmp->otyp == SPE_NOVEL || d.otmp->otyp == SPE_ENCYCLOPEDIA) {
             const char *novelname;
 
-            novelname = lookup_novel(d.name, &d.otmp->novelidx);
+            novelname = d.otmp->otyp == SPE_NOVEL ?
+                lookup_novel(d.name, &d.otmp->novelidx) :
+                lookup_encyclopedia(d.name, &d.otmp->novelidx);
             if (novelname)
                 d.name = novelname;
         }

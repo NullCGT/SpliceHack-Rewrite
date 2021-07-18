@@ -368,19 +368,28 @@ void
 mplayer_talk(register struct monst* mtmp)
 {
     static const char
-        *same_class_msg[3] = {
+        *same_class_msg[4] = {
             "I can't win, and neither will you!",
             "You don't deserve to win!",
             "Mine should be the honor, not yours!",
+            "Glory will be mine!",
         },
         *other_class_msg[3] = {
             "The low-life wants to talk, eh?",
             "Fight, scum!",
             "Here is what I have to say!",
+        },
+        *peaceful_msg[3] = {
+            "Best of luck in your quest. Don\'t make the same mistakes I did.",
+            "Let's hope you know what you're doing."
+            "You must complete what I started."
         };
 
-    if (mtmp->mpeaceful)
-        return; /* will drop to humanoid talk */
+    if (mtmp->mpeaceful) {
+        mintroduce(mtmp);
+        pline("%s", peaceful_msg[rn2(3)]);
+        return;
+    }
 
     pline("Talk? -- %s", (mtmp->data == &mons[g.urole.malenum]
                           || mtmp->data == &mons[g.urole.femalenum])

@@ -1733,11 +1733,43 @@ static const char *const ghostnames[] = {
     "Stephan", "Lance Braccus", "Shadowhawk"
 };
 
+static const char *const malhumnames[] = {
+    "Samuel",    "John",   "Alejandro",  "Mickey",  "Bert",      "Ernie",
+    "Larry",    "Curly",  "Shemp",      "Moe",      "Jake",      "Jackson",
+    "Liam",     "Lucas",  "Oliver",     "Jayden",   "Sebastian", "Wyatt",
+    "Connor",   "Owen",   "Ben",        "Levi",     "Hikaru",    "Timmy",
+    "Johnny",   "Spike",  "Josiah",     "Justin",   "Erin",      "Sarah",
+    "Jimbo",    "Bob",    "Shadow",     "Dimitri",  "Harry",     "Donald",
+    "Jerry",    "Dale",   "Arthur",     "Drew",     "Neo",       "Leo",
+    "Trevor",   "Pike",   "Barret",     "Red",      "Roy",       "Hugh",
+    "Juan",
+};
+
+static const char *const femhumnames[] = {
+    "Tiffany",  "Sally",    "Amanda",  "Jane",   "Erin",   "Emma",   "Olivia",
+    "Sofia",    "Wendy",    "Astrid",  "Sylva",  "Terra",  "Kyrie",  "Savannah",
+    "Kennedy",  "Autumn",   "Bella",   "Ivy",    "Freya",  "Kate",   "Zena",
+    "Regina",   "Cosette",  "Chloe",   "Lyra",   "John",   "Alexa",  "Brooke",
+    "Siri",     "Violet",   "Pell",    "Sam",    "Wanda",  "Lois",   "Bianca",
+    "Trinity",  "Carmen",   "Megan",   "Sky",    "Rose",   "Roxy",   "Julie",
+    "Fran",     "Frieda",   "Lana",    "Tanya",  "Sally",  "Rika",   "Sil",
+    "Valeska",  "Yellow",   "Lucy",    "Patty",  "Celia",  "Erika",  "Kestrel"
+};
+
 /* ghost names formerly set by x_monnam(), now by makemon() instead */
 const char *
 rndghostname(void)
 {
     return rn2(7) ? ghostnames[rn2(SIZE(ghostnames))] : (const char *) g.plname;
+}
+
+const char *
+rndhumname(feminine)
+boolean feminine;
+{
+    if (feminine)
+        return femhumnames[rn2(SIZE(femhumnames))];
+    return malhumnames[rn2(SIZE(malhumnames))];
 }
 
 static const char *const dragonages[] = {
@@ -2542,6 +2574,90 @@ lookup_novel(const char *lookname, int *idx)
         return sir_Terry_novels[*idx];
 
     return (const char *) 0;
+}
+
+const char *
+lookup_encyclopedia(lookname, idx)
+const char *lookname;
+int *idx;
+{
+    int k;
+
+    for (k = 0; k < SIZE(encyclopedias); ++k) {
+        if (!strcmpi(lookname, encyclopedias[k])
+            || !strcmpi(The(lookname), encyclopedias[k])) {
+            if (idx)
+                *idx = k;
+            return encyclopedias[k];
+        }
+    }
+    /* name not found; if novelidx is already set, override the name */
+    if (idx && *idx >= 0 && *idx < SIZE(encyclopedias))
+        return encyclopedias[*idx];
+
+    return (const char *) 0;
+}
+
+/* Most of these are actual names of nymphs from mythology. */
+const char* nymphnames[] = {
+    "Erythea", "Hesperia", "Arethusa", "Pasithea", "Thaleia", "Halimede",
+    "Actaea", "Electra", "Maia", "Nesaea", "Alcyone", "Asterope",
+    "Callianeira", "Nausithoe", "Dione", "Thetis", "Ephyra", "Eulimene",
+    "Nerea", "Laomedeia", "Echo", "Maera", "Eurydice", "Lysianassa", "Phoebe",
+    "Daphnis", "Daphnae", "Melinoe", "Othreis", "Polychrome"
+};
+
+const char* maldemonnames[] = {
+    "Agiel", "Kali", "Amon", "Foras", "Armaros", "Orias", "Malthus", "Asag",
+    "Raum", "Iblis", "Vanth", "Bael", "Leonard", "Barbas", "Charun", "Ishmael",
+    "Balthamel", "Rahvin"
+};
+
+const char* femdemonnames[] = {
+    "Mara", "Lamia", "Meraxes", "Daeva", "Amy", "Lilith", "Aliss", "Berith",
+    "Euryale", "Zorya", "Rhaenyra", "Bellatrix", "Rusalka", "Messaana",
+    "Jadis", "Anzu", "Eve", "Bilquis", "Cyndane", "Vanessa", "Graendal"
+};
+#define rnd_name(list) list[rn2(SIZE(list))]
+
+/* Monster introduces themselves. If they're not currently named, give them a
+ * random name from the specified list. */
+void
+mintroduce(mtmp)
+struct monst *mtmp;
+{
+    char buf[BUFSZ];
+
+    if (!has_mgivenname(mtmp) && !(mtmp->data->geno & G_UNIQ)) {
+        const char* name;
+        if (mtmp->data->mlet == S_NYMPH || mtmp->data == &mons[PM_THRIAE]) {
+            name = rnd_name(nymphnames);
+        } else if (is_demon(mtmp->data)) {
+            if (mtmp->female)
+                name = rnd_name(femdemonnames);
+            else
+                name = rnd_name(maldemonnames);
+        } else if (mtmp->data == &mons[PM_GHOST]) {
+            name = rndghostname();
+        } else if (is_orc(mtmp->data)) {
+            name = rndorcname(buf);
+        } else if (is_human(mtmp->data)) {
+            rndhumname(mtmp->female);
+        } else {
+            return;
+        }
+        const char* pronoun =
+            genders[is_neuter(mtmp->data) ? 2 : mtmp->female].him;
+        if (!Deaf) {
+            pline("%s introduces %sself to you as %s.", Monnam(mtmp), pronoun,
+                  name);
+            christen_monst(mtmp, name);
+        } else {
+            pline("%s seems to be introducing %sself, but you can't hear %s.",
+                  Monnam(mtmp), pronoun, pronoun);
+        }
+    }
+    return;
 }
 
 /*do_name.c*/

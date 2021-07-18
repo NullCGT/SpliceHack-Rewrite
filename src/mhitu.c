@@ -697,8 +697,11 @@ mattacku(register struct monst *mtmp)
             pline("%s loosens its grip slightly.", Monnam(mtmp));
         } else if (!range2) {
             if (youseeit || sensemon(mtmp))
-                pline("%s starts to attack you, but pulls back.",
-                      Monnam(mtmp));
+                if (mtmp->data == &mons[PM_GIANT_PRAYING_MANTIS])
+                    pline("%s bows %s head in prayer.", Monnam(mtmp), mhis(mtmp));
+                else
+                    pline("%s starts to attack you, but pulls back.",
+                        Monnam(mtmp));
             else
                 You_feel("%s move nearby.", something);
         }

@@ -184,6 +184,7 @@ onscary(int x, int y, struct monst* mtmp)
             && !(mtmp->isshk || mtmp->isgd || !mtmp->mcansee
                  || mtmp->mpeaceful || mtmp->data->mlet == S_HUMAN
                  || mtmp->data == &mons[PM_MINOTAUR]
+                 || mtmp->data == &mons[PM_GIANT_PRAYING_MANTIS]
                  || Inhell || In_endgame(&u.uz)));
 }
 
@@ -1193,7 +1194,7 @@ m_move(register struct monst* mtmp, register int after)
                          || (likegems && otmp->oclass == GEM_CLASS
                              && otmp->material != MINERAL)
                          || (conceals && !cansee(otmp->ox, otmp->oy))
-                         || (ptr == &mons[PM_GELATINOUS_CUBE]
+                         || (is_bigeater(ptr)
                              && !index(indigestion, otmp->oclass)
                              && !(otmp->otyp == CORPSE
                                   && touch_petrifies(&mons[otmp->corpsenm]))))
@@ -1582,8 +1583,8 @@ m_move(register struct monst* mtmp, register int after)
             if (g_at(mtmp->mx, mtmp->my) && likegold)
                 mpickgold(mtmp);
 
-            /* Maybe a cube ate just about anything */
-            if (ptr == &mons[PM_GELATINOUS_CUBE]) {
+            /* Maybe a cube or hangry monster ate just about anything */
+            if (is_bigeater(ptr)) {
                 if ((etmp = meatobj(mtmp)) >= 2)
                     return etmp; /* it died or got forced off the level */
             }

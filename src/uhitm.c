@@ -3362,6 +3362,53 @@ mhitm_ad_halu(struct monst *magr, struct attack *mattk UNUSED,
 }
 
 void
+mhitm_ad_larv(magr, mattk, mdef, mhm)
+struct monst *magr;
+struct attack *mattk;
+struct monst *mdef;
+struct mhitm_data *mhm;
+{
+    if (magr == &g.youmonst) {
+        /* uhitm */
+        struct monst* mtmp;
+        int armpro = magic_negation(mdef);
+        /* since hero can't be cancelled, only defender's armor applies */
+        boolean negated = !(rn2(10) >= 3 * armpro);
+        if (!negated && !thick_skinned(mdef->data) && mdef->mhp < 5 && !rn2(4)) {
+            mhm->damage = mdef->mhp;
+            pline("%s burst out of %s!",
+                Hallucination ? rndmonnam(NULL) : "Wasp larvae",
+                mon_nam(mdef));
+            mtmp = makemon(&mons[PM_ICHNEUMON_LARVA],
+                u.ux, u.uy, MM_EDOG);
+            initedog(mtmp);
+        }
+    } else if (mdef == &g.youmonst) {
+        /* mhitu */
+        int armpro = magic_negation(mdef);
+        boolean uncancelled = !magr->mcan && (rn2(10) >= 3 * armpro);
+        
+        hitmsg(magr, mattk);
+        if (uncancelled && !thick_skinned(g.youmonst.data)
+              && !LarvaCarrier && !rn2(4)) {
+            pline("%s injects something into you!", Monnam(magr));
+            make_carrier((long) 100 + rn2(200), TRUE);
+        }
+    } else {
+        /* mhitm */
+        if (!magr->mcan && !thick_skinned(mdef->data)
+            && mdef->mhp < 5 && !rn2(4)) {
+            mhm->damage = mdef->mhp;
+            pline("%s burst out of %s and immediately fly off!",
+                Hallucination ? rndmonnam(NULL) : "Insects",
+                mon_nam(mdef));
+            if (DEADMONSTER(mdef))
+                mhm->hitflags = MM_DEF_DIED;
+        }
+    }
+}
+
+void
 mhitm_ad_hngy(struct monst *magr, struct attack *mattk, 
               struct monst *mdef, struct mhitm_data *mhm)
 {
@@ -4107,6 +4154,7 @@ mhitm_ad_sedu(struct monst *magr, struct attack *mattk, struct monst *mdef,
             }
             return;
         }
+        mintroduce(magr);
         buf[0] = '\0';
         switch (steal(magr, buf, FALSE)) {
         case -1:
@@ -4192,12 +4240,14 @@ mhitm_ad_ssex(struct monst *magr, struct attack *mattk, struct monst *mdef,
     } else if (mdef == &g.youmonst) {
         /* mhitu */
         if (SYSOPT_SEDUCE) {
-            if (could_seduce(magr, mdef, mattk) == 1 && !magr->mcan)
+            if (could_seduce(magr, mdef, mattk) == 1 && !magr->mcan) {
+                mintroduce(magr);
                 if (doseduce(magr)) {
                     mhm->hitflags = MM_AGR_DONE;
                     mhm->done = TRUE;
                     return;
                 }
+            }
             return;
         }
         mhitm_ad_sedu(magr, mattk, mdef, mhm);
@@ -4260,6 +4310,7 @@ mhitm_adtyping(struct monst *magr, struct attack *mattk, struct monst *mdef,
     case AD_DGST: mhitm_ad_dgst(magr, mattk, mdef, mhm); break;
     case AD_HALU: mhitm_ad_halu(magr, mattk, mdef, mhm); break;
     /* Todo */
+    case AD_LARV: mhitm_ad_larv(magr, mattk, mdef, mhm); break;
     case AD_HNGY:  mhitm_ad_hngy(magr, mattk, mdef, mhm); break;
     case AD_VORP: mhitm_ad_vorp(magr, mattk, mdef, mhm); break;
     /* case AD_FEAR: mhtim_ad_fear(magr, mattkm mdef, mhm); break; */
