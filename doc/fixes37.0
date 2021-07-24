@@ -570,6 +570,8 @@ defer encumbrance check during polymorph to new man; newman() -> redist_attr()
 	became obsolete if polyman() subsequently restored old attributes
 fix heap-use-after-free when attacking monster with potion
 for "a" vs "an", add ukulele and uke as exceptions for "an u<anything>"
+add new extended command #retravel
+remove special doinv key, functionality was equal to BIND=0:inventory
 
 
 Fixes to 3.7.0-x Problems that Were Exposed Via git Repository
@@ -1011,8 +1013,10 @@ boiling a pool or fountain now creates a temporary cloud of steam
 random themed rooms in the dungeons of doom
 extended achievement and conduct fields for xlogfile
 record amount of gold in hero's possession in xlogfile
-new objects:  amulets of flying and guarding
-new monsters:  displacer beast ('f') and genetic engineer ('Q')
+new objects:  amulets of flying and guarding, gold dragon scale mail and
+	set of gold dragon scales
+new monsters:  displacer beast ('f') and genetic engineer ('Q'), gold dragon
+	and baby gold dragon (both 'D')
 make camera flash which reveals previously unseen map features or objects or
 	monsters record those on the hero's map; monsters revert to 'unseen'
 boolean options can optionally have the form "name:value" with value taken
@@ -1076,7 +1080,7 @@ using 'f' while quiver is empty and 'autoquiver' is Off when wielding a
 	Lords and Ladies, two to Soul Music, three to Interesting Times, four
 	to Maskerade, three to Hogfather, two to Jingo, four to The Last
 	Continent, four to Carpe Jugulum, three to The Fifth Elephant, five
-	to The Truth
+	to The Truth, six to Thief of Time
 monsters can see and remember hero resistances
 monsters can gain resistances by eating corpses
 menu for what-is command supports /^ and /" to view a list of nearby or whole

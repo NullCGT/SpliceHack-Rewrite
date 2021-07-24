@@ -45,7 +45,7 @@
 %.au
 \author{Original version - Eric S. Raymond\\
 (Edited and expanded for 3.7 by Mike Stephenson and others)}
-\date{March 25, 2021}
+\date{July 21, 2021}
 
 \maketitle
 
@@ -1525,6 +1525,11 @@ and also `{\tt \^{}L}' if {\it number\verb+_+pad\/} is on.
 \item[\tb{\#remove}]
 Remove an accessory (ring, amulet, etc). Default key is `{\tt R}'.
 %.lp
+\item[\tb{\#retravel}]
+Travel to a previously selected travel destination.
+Default key is `{\tt C-_}'.
+See also {\tt \#travel}.
+%.lp
 \item[\tb{\#ride}]
 Ride (or stop riding) a saddled creature. Autocompletes.
 Default key is `{\tt M-R}'.
@@ -1658,6 +1663,7 @@ without asking to move the cursor.
 When picking a target with cursor and the {\it autodescribe\/}
 option is on, the top line will show ``(no travel path)'' if
 your character does not know of a path to that location.
+See also {\tt \#retravel}.
 %.lp
 \item[\tb{\#turn}]
 Turn undead away. Autocompletes. Default key is `{\tt M-t}'.
@@ -5217,9 +5223,6 @@ can only be bound to a single key.
 \item[{\bb{count}}]
 Prefix key to start a count, to repeat a command this many times.
 With {\it number\verb+_+pad\/} only. Default is~`{\tt n}'.
-%.lp
-\item[{\bb{doinv}}]
-Show inventory. With {\it number\verb+_+pad\/} only. Default is~`{\tt 0}'.
 %.lp
 \item[{\bb{fight}}]
 Prefix key to force fight a direction. Default is~`{\tt F}'.
