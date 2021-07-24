@@ -241,7 +241,7 @@ WEAPON("runesword", "runed broadsword",
 
 /* polearms */
 /* spear-type */
-WEAPON("partisan", "vulgar polearm",
+WEAPON("nasty pike", "vulgar polearm",
        0, 0, 1,  5,  80,  10,  6,  6, 0, P,   P_POLEARMS, IRON, HI_METAL),
         /* +1 large */
 WEAPON("ranseur", "hilted polearm",

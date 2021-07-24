@@ -214,7 +214,7 @@ m_initweap(register struct monst *mtmp)
             case PM_WATCHMAN:
             case PM_SOLDIER:
                 if (!rn2(3)) {
-                    w1 = rn1(BEC_DE_CORBIN - PARTISAN + 1, PARTISAN);
+                    w1 = rn1(BEC_DE_CORBIN - NASTY_PIKE + 1, NASTY_PIKE);
                     w2 = rn2(2) ? DAGGER : KNIFE;
                 } else
                     w1 = rn2(2) ? SPEAR : SHORT_SWORD;
@@ -610,7 +610,7 @@ m_initweap(register struct monst *mtmp)
                 (void) mongets(mtmp, RANSEUR);
                 break;
             case 1:
-                (void) mongets(mtmp, PARTISAN);
+                (void) mongets(mtmp, NASTY_PIKE);
                 break;
             case 2:
                 (void) mongets(mtmp, GLAIVE);
@@ -1531,7 +1531,7 @@ makemon(register struct permonst *ptr,
                 mount_monster(mtmp, !rn2(2) ? PM_PONY : PM_HORSE);
                 break;
             case PM_DRAGON_RIDER:
-                mount_monster(mtmp, PM_BABY_GRAY_DRAGON + 
+                mount_monster(mtmp, PM_BABY_GRAY_DRAGON +
                     rn2(PM_YELLOW_DRAGON - PM_BABY_GRAY_DRAGON));
                 break;
             case PM_DEATH:
@@ -2787,7 +2787,7 @@ is_valid_template(struct monst *mtmp, int tindex) {
     case MT_DWARVISH:
     case MT_GNOMISH:
     case MT_ORCISH:
-        return (is_human(mtmp->data) 
+        return (is_human(mtmp->data)
             && monsndx(mtmp->data) != PM_HUMAN_ZOMBIE
             && monsndx(mtmp->data) != PM_HUMAN_MUMMY);
     case MT_VAMPIRIC:
@@ -2810,7 +2810,7 @@ template_chance(struct monst *mtmp) {
     int tryct = 0;
 
     /* Unique monsters do not receive random templates. */
-    if (mtmp->data->msound == MS_LEADER 
+    if (mtmp->data->msound == MS_LEADER
         || mtmp->data->msound == MS_NEMESIS
         || unique_corpstat(mtmp->data)
         || has_etemplate(mtmp))
@@ -2857,7 +2857,7 @@ apply_template(struct permonst basemon, int tindex)
 {
     int i;
     struct permonst template = montemplates[tindex];
-    
+
     /* Additive Properties */
     basemon.mlevel += template.mlevel;
     basemon.mmove += template.mmove;
