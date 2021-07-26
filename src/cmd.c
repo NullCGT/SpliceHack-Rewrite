@@ -171,6 +171,9 @@ static const char unavailcmd[] = "Unavailable command '%s'.";
 /* for rejecting #if !SHELL, !SUSPEND */
 static const char cmdnotavail[] = "'%s' command not available.";
 
+/* only needed for #if ALTMETA config but present unconditionally */
+static boolean getting_cmd = FALSE; /* True when parse() gets next command */
+
 static int
 doprev_message(void)
 {
@@ -2486,25 +2489,30 @@ dokeylist(void)
     putstr(datawin, 0, "");
     show_menu_controls(datawin, TRUE);
 
-    if (keylist_putcmds(datawin, TRUE, GENERALCMD, WIZMODECMD, keys_used)) {
+    if (keylist_putcmds(datawin, TRUE, GENERALCMD,
+                        WIZMODECMD | INTERNALCMD, keys_used)) {
         putstr(datawin, 0, "");
         putstr(datawin, 0, "General commands:");
-        (void) keylist_putcmds(datawin, FALSE, GENERALCMD, WIZMODECMD,
+        (void) keylist_putcmds(datawin, FALSE, GENERALCMD,
+                               WIZMODECMD | INTERNALCMD,
                                  keys_used);
     }
 
     if (keylist_putcmds(datawin, TRUE, 0,
-                        GENERALCMD | WIZMODECMD, keys_used)) {
+                        GENERALCMD | WIZMODECMD | INTERNALCMD, keys_used)) {
         putstr(datawin, 0, "");
         putstr(datawin, 0, "Game commands:");
         (void) keylist_putcmds(datawin, FALSE, 0,
-                               GENERALCMD | WIZMODECMD, keys_used);
+                               GENERALCMD | WIZMODECMD | INTERNALCMD,
+                               keys_used);
     }
 
-    if (wizard && keylist_putcmds(datawin, TRUE, WIZMODECMD, 0, keys_used)) {
+    if (wizard && keylist_putcmds(datawin, TRUE,
+                                  WIZMODECMD, INTERNALCMD, keys_used)) {
         putstr(datawin, 0, "");
         putstr(datawin, 0, "Debug mode commands:");
-        (void) keylist_putcmds(datawin, FALSE, WIZMODECMD, 0, keys_used);
+        (void) keylist_putcmds(datawin, FALSE,
+                               WIZMODECMD, INTERNALCMD, keys_used);
     }
 
     display_nhwindow(datawin, FALSE);
@@ -4470,8 +4478,11 @@ parse(void)
     g.context.move = 1;
     flush_screen(1); /* Flush screen buffer. Put the cursor on the hero. */
 
+    getting_cmd = TRUE; /* affects readchar() behavior if the 'altmeta'
+                         * option is On; reset to False by readchar() */
     if (!g.Cmd.num_pad || (foo = readchar()) == g.Cmd.spkeys[NHKF_COUNT]) {
-        foo = get_count((char *) 0, '\0', LARGEST_INT, &g.command_count, FALSE);
+        foo = get_count((char *) 0, '\0', LARGEST_INT,
+                        &g.command_count, FALSE);
         g.last_command_count = g.command_count;
     }
 
@@ -4616,8 +4627,9 @@ readchar_core(int *x, int *y, int *mod)
 #endif
         sym = '\033';
 #ifdef ALTMETA
-    } else if (sym == '\033' && iflags.altmeta) {
-        /* iflags.altmeta: treat two character ``ESC c'' as single `M-c' */
+    } else if (sym == '\033' && iflags.altmeta && getting_cmd) {
+        /* iflags.altmeta: treat two character ``ESC c'' as single `M-c' but
+           only when we're called by parse() [possibly via get_count()] */
         sym = *readchar_queue ? *readchar_queue++ : pgetchar();
         if (sym == EOF || sym == 0)
             sym = '\033';
@@ -4629,6 +4641,8 @@ readchar_core(int *x, int *y, int *mod)
         readchar_queue = click_to_cmd(*x, *y, *mod);
         sym = *readchar_queue++;
     }
+    getting_cmd = FALSE; /* next readchar() will be for an ordinary char
+                          * unless parse() sets this back to True */
     return (char) sym;
 }
 
