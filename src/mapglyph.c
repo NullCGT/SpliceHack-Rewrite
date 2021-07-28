@@ -71,7 +71,6 @@ int *ochar;
 unsigned *ospecial;
 unsigned mgflags;
 {
-    struct stairway *sway = stairway_at(x, y);
     register int offset, idx;
     int color = NO_COLOR;
     nhsym ch;
@@ -164,13 +163,6 @@ unsigned mgflags;
         } else if (iflags.use_color && offset == S_litcorr
                    && g.showsyms[idx] == g.showsyms[S_corr + SYM_OFF_P]) {
             color = CLR_WHITE;
-        /* show branch stairs in a different color */
-        } else if (iflags.use_color
-                   && (offset == S_upstair || offset == S_dnstair)
-                   && ((sway = stairway_at(x, y)) != 0 && sway->tolev.dnum != u.uz.dnum)
-                   && (g.showsyms[idx] == g.showsyms[S_upstair + SYM_OFF_P]
-                       || g.showsyms[idx] == g.showsyms[S_dnstair + SYM_OFF_P])) {
-            color = CLR_YELLOW;
 #endif
         /* try to provide a visible difference between water and lava
            if they use the same symbol and color is disabled */
