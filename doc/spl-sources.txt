@@ -6,9 +6,6 @@
 # Code and Patches #
 ####################
 
-# Slash'em Extended
-- Autorecover patch by Kerio
-
 # DynaHack
 - Skill Progress
 

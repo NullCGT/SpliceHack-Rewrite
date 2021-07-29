@@ -1883,6 +1883,14 @@ fprefx(struct obj *otmp)
     case HUGE_CHUNK_OF_MEAT:
     case MEAT_RING:
         goto give_feedback;
+    case PINCH_OF_CATNIP:
+        if (is_feline(g.youmonst.data)) {
+            pline("Wow! That was excellent!");
+            make_confused(HConfusion + d(2, 4), FALSE);
+        } else {
+            pline("Blech! That was not very enjoyable.");
+        }
+        break;
     case CLOVE_OF_GARLIC:
         if (is_undead(g.youmonst.data)) {
             make_vomiting((long) rn1(g.context.victual.reqtime, 5), FALSE);
@@ -2125,9 +2133,22 @@ eataccessory(struct obj *otmp)
                 HSleepy = (HSleepy & ~TIMEOUT) | newnap;
             break;
         }
+        case AMULET_OF_NAUSEA: {
+            make_vomiting((long) rn1(15, 10), FALSE);
+            break;
+        }
+        case AMULET_OF_DANGER: {
+            if (Hallucination)
+                pline("Let\'s get dangerous...");
+            else
+                You("feel more dangerous!");
+            break;
+        }
         case RIN_SUSTAIN_ABILITY:
         case AMULET_OF_LIFE_SAVING:
+        case AMULET_OF_DRAIN_RESISTANCE:
         case AMULET_OF_FLYING:
+        case AMULET_OF_REINCARNATION:
         case AMULET_OF_REFLECTION: /* nice try */
             /* can't eat Amulet of Yendor or fakes,
              * and no oc_prop even if you could -3.

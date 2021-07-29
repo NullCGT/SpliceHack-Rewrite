@@ -2439,12 +2439,14 @@ learn_monster(int mndx)
 
 /* find the worn amulet of life saving which will save a monster */
 struct obj *
-mlifesaver(struct monst* mon)
+mlifesaver(mon)
+struct monst *mon;
 {
     if (!nonliving(mon->data) || is_vampshifter(mon)) {
         struct obj *otmp = which_armor(mon, W_AMUL);
 
-        if (otmp && otmp->otyp == AMULET_OF_LIFE_SAVING)
+        if (otmp && (otmp->otyp == AMULET_OF_LIFE_SAVING
+              || otmp->otyp == AMULET_OF_REINCARNATION))
             return otmp;
     }
     return (struct obj *) 0;

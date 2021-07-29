@@ -229,6 +229,8 @@ wearslot(struct obj *obj)
     case FOOD_CLASS:
         if (obj->otyp == MEAT_RING)
             res = W_RINGL | W_RINGR;
+        else if (obj->otyp == PUMPKIN)
+            res = W_ARMH;
         break;
     case GEM_CLASS:
         res = W_QUIVER;

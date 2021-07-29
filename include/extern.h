@@ -971,6 +971,7 @@ extern boolean friday_13th(void);
 extern boolean pi_day(void);
 extern boolean mayfourth(void);
 extern boolean junethack(void);
+extern boolean halloween(void);
 extern int night(void);
 extern int midnight(void);
 extern void strbuf_init(strbuf_t *);

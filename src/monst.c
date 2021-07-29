@@ -3800,6 +3800,12 @@ NEARDATA struct permonst montemplates[] = {
         MR_COLD | MR_ELEC | MR_POISON,
         M1_BREATHLESS | M1_AMORPHOUS | M1_ACID, 
         M2_NEUTER, 0, 4, 0),
+    /* sticky, nutritious "demilichen". this mucilage is delicious! */
+    MON("sticky", S_FUNGUS, LVL(0, 2, 2, 0, 0), (0),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
+          ATTK(AT_TUCH, AD_STCK, 0, 0)),
+        SIZ(0, 50, 0, 0), 0, 0, 0L, 0L, 0, 1, CLR_BRIGHT_GREEN),
+
     /*
      * array terminator
      */

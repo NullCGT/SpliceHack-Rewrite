@@ -900,6 +900,8 @@ dogfood(struct monst *mon, struct obj *obj)
                          : MANFOOD;
         case TIN:
             return metallivorous(mptr) ? ACCFOOD : MANFOOD;
+        case PINCH_OF_CATNIP:
+            return is_feline(mptr) ? DOGFOOD : MANFOOD;
         case APPLE:
             return herbi ? DOGFOOD : starving ? ACCFOOD : MANFOOD;
         case CARROT:

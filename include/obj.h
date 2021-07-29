@@ -242,7 +242,8 @@ struct obj {
     (otmp->oclass == ARMOR_CLASS \
      && objects[otmp->otyp].oc_armcat == ARM_SHIELD)
 #define is_helmet(otmp) \
-    (otmp->oclass == ARMOR_CLASS && objects[otmp->otyp].oc_armcat == ARM_HELM)
+    ((otmp->oclass == ARMOR_CLASS && objects[otmp->otyp].oc_armcat == ARM_HELM) \
+     || (otmp)->otyp == PUMPKIN)
 #define is_boots(otmp)           \
     (otmp->oclass == ARMOR_CLASS \
      && objects[otmp->otyp].oc_armcat == ARM_BOOTS)

@@ -679,6 +679,7 @@ m_initweap(register struct monst *mtmp)
             (void) mpickobj(mtmp, otmp);
             break;
         case PM_HEADLESS_RIDER:
+            (void) mongets(mtmp, PUMPKIN);
             (void) mongets(mtmp, LANCE);
             (void) mongets(mtmp, SCALE_MAIL);
             break;
@@ -768,6 +769,8 @@ m_initweap(register struct monst *mtmp)
 
     if ((int) mtmp->m_lev > rn2(75))
         (void) mongets(mtmp, rnd_offensive_item(mtmp));
+    if (halloween() && !rn2(30))
+        (void) mongets(mtmp, PUMPKIN);
 }
 
 /*

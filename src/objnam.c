@@ -1143,6 +1143,7 @@ doname_base(struct obj* obj, unsigned int doname_flags)
             Strcat(bp, " (being worn)");
         break;
     case ARMOR_CLASS:
+        armor:
         if (obj->owornmask & W_ARMOR) {
             Strcat(bp, (obj == uskin) ? " (embedded in your skin)"
                        /* in case of perm_invent update while Wear/Takeoff
@@ -1249,6 +1250,8 @@ doname_base(struct obj* obj, unsigned int doname_flags)
     case FOOD_CLASS:
         if (obj->oeaten)
             Strcat(prefix, "partly eaten ");
+        if (obj->otyp == PUMPKIN)
+            goto armor;
         if (obj->otyp == CORPSE) {
             /* (quan == 1) => want corpse_xname() to supply article,
                (quan != 1) => already have count or "some" as prefix;

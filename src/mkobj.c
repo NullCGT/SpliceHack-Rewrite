@@ -870,6 +870,7 @@ mksobj(int otyp, boolean init, boolean artif)
                                  + (otmp->otyp - GLOB_OF_GRAY_OOZE);
             } else {
                 if (otmp->otyp != CORPSE && otmp->otyp != MEAT_RING
+                    && otmp->otyp != PUMPKIN
                     && otmp->otyp != KELP_FROND && !rn2(6)) {
                     otmp->quan = 2L;
                 }
@@ -970,7 +971,9 @@ mksobj(int otyp, boolean init, boolean artif)
                 g.context.made_amulet = TRUE;
             if (rn2(10) && (otmp->otyp == AMULET_OF_STRANGULATION
                             || otmp->otyp == AMULET_OF_CHANGE
-                            || otmp->otyp == AMULET_OF_RESTFUL_SLEEP)) {
+                            || otmp->otyp == AMULET_OF_RESTFUL_SLEEP
+                            || otmp->otyp == AMULET_OF_NAUSEA
+                            || otmp->otyp == AMULET_OF_DANGER)) {
                 curse(otmp);
             } else
                 blessorcurse(otmp, 10);
@@ -2816,7 +2819,7 @@ sanity_check_worn(struct obj* obj)
            be wielded/alt-wielded/quivered, so tests on those are limited */
         what = 0;
         if (owornmask & W_ARMOR) {
-            if (obj->oclass != ARMOR_CLASS)
+            if (obj->oclass != ARMOR_CLASS && obj->otyp != PUMPKIN)
                 what = "armor";
             /* 3.6: dragon scale mail reverts to dragon scales when
                becoming embedded in poly'd hero's skin */
@@ -3228,6 +3231,7 @@ struct obj* obj;
             return NULL;
         /* Any other cases for specific object types go here. */
         case SHIELD_OF_REFLECTION:
+        case RESONANT_SHIELD:
         case ORNATE_MACE:
         case CHAKRAM:
             return shiny_materials;

@@ -184,6 +184,7 @@
 #define type_is_pname(ptr) (((ptr)->mflags2 & M2_PNAME) != 0L)
 #define is_dragon(ptr) ((ptr) >= &mons[PM_BABY_GRAY_DRAGON] && \
                         (ptr) <= &mons[PM_YELLOW_DRAGON])
+#define is_feline(ptr) ((ptr)->mlet == S_FELINE)
 #define is_lord(ptr) (((ptr)->mflags2 & M2_LORD) != 0L)
 #define is_prince(ptr) (((ptr)->mflags2 & M2_PRINCE) != 0L)
 #define is_ndemon(ptr) \

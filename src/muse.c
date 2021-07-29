@@ -2525,7 +2525,7 @@ searches_for_item(struct monst* mon, struct obj* obj)
             return TRUE;
         break;
     case AMULET_CLASS:
-        if (typ == AMULET_OF_LIFE_SAVING)
+        if (typ == AMULET_OF_LIFE_SAVING || typ == AMULET_OF_REINCARNATION)
             return (boolean) !(nonliving(mon->data) || is_vampshifter(mon));
         if (typ == AMULET_OF_REFLECTION || typ == AMULET_OF_GUARDING)
             return TRUE;
@@ -2585,6 +2585,13 @@ mon_reflects(struct monst* mon, const char* str)
             makeknown(AMULET_OF_REFLECTION);
         }
         return TRUE;
+    } else if ((orefl = which_armor(mon, W_ARMC))
+               && orefl->otyp == CLOAK_OF_REFLECTION) {
+        if (str) {
+            pline(str, s_suffix(mon_nam(mon)), "cloak");
+            makeknown(CLOAK_OF_REFLECTION);
+        }
+        return TRUE;
     } else if ((orefl = which_armor(mon, W_ARM))
                && (orefl->otyp == SILVER_DRAGON_SCALES
                    || orefl->otyp == SILVER_DRAGON_SCALE_MAIL)) {
@@ -2625,6 +2632,11 @@ ureflects(const char* fmt, const char* str)
     } else if (EReflecting & W_ARM) {
         if (fmt && str)
             pline(fmt, str, uskin ? "luster" : "armor");
+        return TRUE;
+    } else if (EReflecting & W_ARMC) {
+        if (fmt && str)
+            pline(fmt, str, "cloak");
+            makeknown(CLOAK_OF_REFLECTION);
         return TRUE;
     } else if (g.youmonst.data == &mons[PM_SILVER_DRAGON]) {
         if (fmt && str)
