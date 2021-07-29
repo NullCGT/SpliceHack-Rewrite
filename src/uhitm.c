@@ -416,6 +416,15 @@ do_attack(struct monst *mtmp)
         }
     }
 
+    if (uarmf && uarmf->otyp == STOMPING_BOOTS
+        && !Levitation && verysmall(mtmp->data)) {
+        You("stomp on %s!", mon_nam(mtmp));
+        xkilled(mtmp, XKILL_GIVEMSG);
+        wake_nearby();
+        makeknown(uarmf->otyp);
+        return TRUE;
+    }
+
     /* possibly set in attack_checks;
        examined in known_hitum, called via hitum or hmonas below */
     g.override_confirmation = FALSE;
@@ -1080,6 +1089,27 @@ hmon_hitmon(struct monst *mon,
                     }
                     tmp = 1;
                     break;
+                case PINCH_OF_CATNIP:
+                    tmp = 0;
+                    if (is_feline(mdat)) {
+                        if (!Blind)
+                            pline("%s chases %s tail!", Monnam(mon), mhis(mon));
+                        (void) tamedog(mon, (struct obj *) 0);
+                        mon->mconf = 1;
+                        if (thrown)
+                            obfree(obj, (struct obj *) 0);
+                        else
+                            useup(obj);
+                        return FALSE;
+                    } else {
+                        You("%s catnip fly everywhere!", Blind ? "feel" : "see");
+                        setmangry(mon, TRUE);
+                    }
+                    if (thrown)
+                        obfree(obj, (struct obj *) 0);
+                    else
+                        useup(obj);
+                    break;
                 case CREAM_PIE:
                 case BLINDING_VENOM:
                     mon->msleeping = 0;
@@ -1319,7 +1349,8 @@ hmon_hitmon(struct monst *mon,
         hittxt = TRUE;
     } else if (unarmed && tmp > 1 && !thrown && !obj && !Upolyd) {
         /* VERY small chance of stunning opponent if unarmed. */
-        if (rnd(100) < (P_SKILL(P_BARE_HANDED_COMBAT) + P_SKILL(P_STUNNING_FIST)) 
+        if (rnd(100) < (P_SKILL(P_BARE_HANDED_COMBAT) + P_SKILL(P_STUNNING_FIST)
+            || (rnd(50) && uarmg && uarmg->otyp == BOXING_GLOVES)) 
             && !bigmonst(mdat)
             && !thick_skinned(mdat)) {
             if (canspotmon(mon))
@@ -2717,7 +2748,8 @@ mhitm_ad_drin(struct monst *magr, struct attack *mattk, struct monst *mdef,
         if (m_slips_free(mdef, mattk))
             return;
 
-        if ((helmet = which_armor(mdef, W_ARMH)) != 0 && rn2(8)) {
+        if ((helmet = which_armor(mdef, W_ARMH)) != 0 && (rn2(8) ||
+                which_armor(mdef, W_ARMH)->otyp == TINFOIL_HAT)) {
             pline("%s %s blocks your attack to %s head.",
                   s_suffix(Monnam(mdef)), helm_simple_name(helmet),
                   mhis(mdef));
@@ -2738,7 +2770,7 @@ mhitm_ad_drin(struct monst *magr, struct attack *mattk, struct monst *mdef,
         if (u_slip_free(magr, mattk))
             return;
 
-        if (uarmh && rn2(8)) {
+        if (uarmh && (rn2(8) || uarmh->otyp == TINFOIL_HAT)) {
             /* not body_part(HEAD) */
             Your("%s blocks the attack to your head.",
                  helm_simple_name(uarmh));
@@ -2775,7 +2807,8 @@ mhitm_ad_drin(struct monst *magr, struct attack *mattk, struct monst *mdef,
             g.skipdrin = TRUE; /* affects mattackm()'s attack loop */
             return;
         }
-        if ((mdef->misc_worn_check & W_ARMH) && rn2(8)) {
+        if ((mdef->misc_worn_check & W_ARMH) && (rn2(8) ||
+                which_armor(mdef, W_ARMH)->otyp == TINFOIL_HAT)) {
             if (g.vis && canspotmon(magr) && canseemon(mdef)) {
                 Strcpy(buf, s_suffix(Monnam(mdef)));
                 pline("%s helmet blocks %s attack to %s head.", buf,

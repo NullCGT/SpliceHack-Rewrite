@@ -752,6 +752,7 @@ hurtle_step(genericptr_t arg, int x, int y)
         ) {
         const char *mnam, *pronoun;
         int glyph = glyph_at(x, y);
+        boolean stomping = (uarmf && uarmf->otyp == STOMPING_BOOTS && verysmall(mon->data));
 
         mon->mundetected = 0; /* wakeup() will handle mimic */
         mnam = a_monnam(mon); /* after unhiding */
@@ -760,15 +761,22 @@ hurtle_step(genericptr_t arg, int x, int y)
             mnam = !strcmp(pronoun, "it") ? "something" : "someone";
         }
         if (!glyph_is_monster(glyph) && !glyph_is_invisible(glyph))
-            You("find %s by bumping into %s.", mnam, pronoun);
+            You("find %s by %s %s.", mnam, stomping ? "stomping on" : "bumping into", pronoun);
         else
-            You("bump into %s.", mnam);
+            You("%s %s.", stomping ? "stomp on" : "bump into", mnam);
         wakeup(mon, FALSE);
         if (!canspotmon(mon))
             map_invisible(mon->mx, mon->my);
         setmangry(mon, FALSE);
         wake_nearto(x, y, 10);
-        return FALSE;
+        if (stomping && verysmall(mon->data)) {
+            xkilled(mon, XKILL_GIVEMSG);
+            makeknown(uarmf->otyp);
+            if (Hallucination) verbalize("Woohoo!");
+        } else {
+            unmul((char *) 0);
+            return FALSE;
+        }
     }
 
     if ((u.ux - x) && (u.uy - y)
@@ -1098,6 +1106,9 @@ toss_up(struct obj *obj, boolean hitsroof)
         breakobj(obj, u.ux, u.uy, TRUE, TRUE);
         obj = 0; /* it's now gone */
         switch (otyp) {
+        case PINEAPPLE:
+            pline("Ouch! %s is covered in spikes!", Doname2(obj));
+            break;
         case EGG:
             if (petrifier && !Stone_resistance
                 && !(poly_when_stoned(g.youmonst.data)
@@ -1144,6 +1155,8 @@ toss_up(struct obj *obj, boolean hitsroof)
                 dmg = 1;
             else if (dmg > 6)
                 dmg = 6;
+            if (obj->otyp == PINEAPPLE)
+                dmg = dmg + 2;
             if (g.youmonst.data == &mons[PM_SHADE] && obj->material != SILVER)
                 dmg = 0;
         }
@@ -1615,6 +1628,9 @@ omon_adj(struct monst *mon, struct obj *obj, boolean mon_notices)
     }
     /* some objects are more likely to hit than others */
     switch (obj->otyp) {
+    case PINEAPPLE:
+        tmp += 4;
+        break;
     case HEAVY_IRON_BALL:
         if (obj != uball)
             tmp += 2;
@@ -1710,11 +1726,13 @@ thitmonst(register struct monst *mon,
     if (uarmg && uwep && objects[uwep->otyp].oc_skill == P_BOW) {
         switch (uarmg->otyp) {
         case GAUNTLETS_OF_POWER: /* metal */
+        case BOXING_GLOVES: /* bulky */
             tmp -= 2;
             break;
         case GAUNTLETS_OF_FUMBLING:
             tmp -= 3;
             break;
+        case ROGUES_GLOVES:
         case GLOVES:
         case GAUNTLETS_OF_DEXTERITY:
             break;
@@ -1913,7 +1931,7 @@ thitmonst(register struct monst *mon,
         }
 
     } else if ((otyp == EGG || otyp == CREAM_PIE || otyp == BLINDING_VENOM
-                || otyp == ACID_VENOM)
+                || otyp == ACID_VENOM || otyp == PINEAPPLE)
                && (guaranteed_hit || ACURR(A_DEX) > rnd(25))) {
         (void) hmon(mon, obj, hmode, dieroll);
         return 1; /* hmon used it up */
@@ -1923,6 +1941,13 @@ thitmonst(register struct monst *mon,
         potionhit(mon, obj, POTHIT_HERO_THROW);
         return 1;
 
+    } else if (obj->otyp == PINCH_OF_CATNIP
+                && is_feline(mon->data)) {
+        if (!Blind)
+            pline("%s chases %s tail!", Monnam(mon), mhis(mon));
+        (void) tamedog(mon, (struct obj *) 0);
+        mon->mconf = 1;
+        return 1;
     } else if (befriend_with_obj(mon->data, obj)
                || (mon->mtame && dogfood(mon, obj) <= ACCFOOD)) {
         if (tamedog(mon, obj)) {
@@ -2273,6 +2298,7 @@ breakmsg(struct obj *obj, boolean in_view)
         break;
     case EGG:
     case MELON:
+    case PUMPKIN:
         pline("Splat!");
         break;
     case CREAM_PIE:

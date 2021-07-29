@@ -7,7 +7,12 @@ Since this release is a rewrite, a number of pieces of existing content have bee
 or outright removed. Rationale will be provided for all removed content upon request.
 - Removed the following monsters: Anubites, Nuckelavees, Plant Monsters, Lords of Worms, Penguins.
 - Removed the following objects:
-  - Razor whips.
+  - Razor whip.
+  - Robe of the blood magus.
+  - Robe of stasis.
+  - Ring of memory.
+  - Ring of blood magic.
+  - Moonstone.
 - The intelligent pet patch from GruntHack has been removed. This patch introduced an incredible
   number of bugs in monster AI, and made the monster AI code nigh unreadable.
   Additionally, many of the changes made by it were supersceded by later vanilla changes.
@@ -130,6 +135,9 @@ Object Changes
 - Masks last longer and give an indication that they are wearing out.
 - Coffins are always trapped, and looting them will occasionally produce
   vampires.
+- Shields of resonance renamed to resonant shields. Appearance changed from "vibrating"
+  to "humming," since having a shield that's just constantly vibrating is kind of weird.
+- Changed the name of "helm of opaque thoughts" to "tinfoil hat."
 
 Race Changes
 - Drow

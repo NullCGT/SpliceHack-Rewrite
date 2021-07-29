@@ -1400,6 +1400,10 @@ attributes_enlightenment(int unused_mode UNUSED, int final)
         you_are("poison resistant", from_what(POISON_RES));
     if (Acid_resistance)
         you_are("acid resistant", from_what(ACID_RES));
+    if (Psychic_resistance)
+        you_are("psychic resistant", from_what(PSYCHIC_RES));
+    if (Sonic_resistance)
+        you_are("sonic resistant", from_what(SONIC_RES));
     if (Drain_resistance)
         you_are("level-drain resistant", from_what(DRAIN_RES));
     if (Sick_resistance)

@@ -1339,6 +1339,8 @@ ini_inv(struct trobj *trop)
                    || otyp == RIN_AGGRAVATE_MONSTER
                    || otyp == RIN_HUNGER
                    || otyp == WAN_NOTHING
+                   /* starting with pumpkins can give better AC */
+                   || otyp == PUMPKIN
                    /* orcs start with poison resistance */
                    || (otyp == RIN_POISON_RESISTANCE && Race_if(PM_ORC))
                    /* Monks don't use weapons */

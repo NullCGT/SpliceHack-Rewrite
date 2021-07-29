@@ -1764,6 +1764,7 @@ silly_thing(const char *word,
             s1 = "T", s2 = "take", s3 = " off";
     } else if ((ocls == RING_CLASS || otyp == MEAT_RING)
                || ocls == AMULET_CLASS
+               || otyp == PUMPKIN
                || (otyp == BLINDFOLD || otyp == TOWEL || otyp == LENSES
                || otyp == MASK)) {
         if (!strcmp(word, "wear"))
