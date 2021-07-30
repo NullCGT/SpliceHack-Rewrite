@@ -824,6 +824,12 @@ NEARDATA struct permonst mons_init[] = {
         SIZ(20, 12, MS_SQEEK, MZ_TINY), 0, 0,
         M1_ANIMAL | M1_NOHANDS | M1_CARNIVORE, M2_HOSTILE, M3_INFRAVISIBLE,
         1, CLR_BROWN),
+    MON("black rat",  S_RODENT, LVL(0, 12, 7, 0, 0), (G_NOGEN),
+        A(ATTK(AT_BITE, AD_PHYS, 1, 3), NO_ATTK, NO_ATTK,
+          NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(20, 12, MS_SQEEK, MZ_TINY), 0, 0,
+        M1_ANIMAL | M1_NOHANDS | M1_CARNIVORE, M2_HOSTILE, 
+        M3_INFRAVISIBLE, 1, CLR_BLACK),
     MON("giant rat", S_RODENT, LVL(1, 10, 7, 0, 0), (G_GENO | G_SGROUP | 2),
         A(ATTK(AT_BITE, AD_PHYS, 1, 3), NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
           NO_ATTK),
@@ -836,6 +842,12 @@ NEARDATA struct permonst mons_init[] = {
         SIZ(30, 5, MS_SQEEK, MZ_TINY), MR_POISON, 0,
         M1_ANIMAL | M1_NOHANDS | M1_POIS | M1_CARNIVORE, M2_HOSTILE,
         M3_INFRAVISIBLE, 4, CLR_BROWN),
+    MON("pack rat", S_RODENT, LVL(2, 12, 7, 0, 0), (G_GENO | 1),
+        A(ATTK(AT_BITE, AD_PHYS, 1, 2), ATTK(AT_BITE, AD_SITM, 0, 0), 
+          NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(30, 30, MS_SQEEK, MZ_TINY), 0, 0,
+        M1_ANIMAL | M1_NOHANDS | M1_CARNIVORE,
+        M2_HOSTILE | M2_COLLECT | M2_STRONG, M3_INFRAVISIBLE, 3, CLR_YELLOW),
     MON("wererat", S_RODENT, LVL(2, 12, 6, 10, -7), (G_NOGEN | G_NOCORPSE),
         A(ATTK(AT_BITE, AD_WERE, 1, 4), NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
           NO_ATTK),
@@ -871,6 +883,15 @@ NEARDATA struct permonst mons_init[] = {
             | M1_HERBIVORE,
         /* In reality, they tunnel instead of cutting lumber.  Oh, well. */
         M2_WANDER | M2_HOSTILE, M3_INFRAVISIBLE, 4, CLR_BROWN),
+    MON3("rat king", "rat queen", "rat ruler", 
+        S_RODENT, LVL(12, 15, 7, 0, 0), (G_NOGEN | G_UNIQ),
+        A(ATTK(AT_WEAP, AD_PHYS, 2, 4), ATTK(AT_BITE, AD_PHYS, 2, 3), 
+          NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(200, 120, MS_SQEEK, MZ_MEDIUM), MR_STONE, MR_STONE,
+        M1_ANIMAL | M1_CARNIVORE,
+        M2_STRONG | M2_PRINCE | M2_MALE | M2_GREEDY | M2_STALK |
+        M2_HOSTILE | M2_NASTY | M2_JEWELS | M2_COLLECT |
+        M2_MAGIC, M3_INFRAVISIBLE, 16, HI_LORD),
     /*
      * spiders & scorpions (keep webmaker() in sync if new critters are added)
      */

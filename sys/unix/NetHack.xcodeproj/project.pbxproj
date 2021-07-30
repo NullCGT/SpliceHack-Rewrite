@@ -1171,6 +1171,7 @@
 				"$(NH_DAT_DIR)/Ran-goal.lua",
 				"$(NH_DAT_DIR)/Ran-loca.lua",
 				"$(NH_DAT_DIR)/Ran-strt.lua",
+				"$(NH_DAT_DIR)/rats.lua",
 				"$(NH_DAT_DIR)/Rog-fila.lua",
 				"$(NH_DAT_DIR)/Rog-filb.lua",
 				"$(NH_DAT_DIR)/Rog-goal.lua",

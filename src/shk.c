@@ -5523,7 +5523,8 @@ cost_per_charge(
          */
         tmp /= 2L;
     } else if (otmp->otyp == BAG_OF_TRICKS /* 1 - 20 */
-               || otmp->otyp == HORN_OF_PLENTY) {
+               || otmp->otyp == HORN_OF_PLENTY
+               || otmp->otyp == BAG_OF_RATS) {
         /* altusage: emptying of all the contents at once */
         if (!altusage)
             tmp /= 5L;
@@ -5576,7 +5577,8 @@ check_unpaid_usage(struct obj* otmp, boolean altusage)
     } else if (otmp->otyp == POT_OIL) {
         fmt = "%s%sThat will cost you %ld %s (Yendorian Fuel Tax).";
     } else if (altusage && (otmp->otyp == BAG_OF_TRICKS
-                            || otmp->otyp == HORN_OF_PLENTY)) {
+                            || otmp->otyp == HORN_OF_PLENTY
+                            || otmp->otyp == BAG_OF_RATS)) {
         fmt = "%s%sEmptying that will cost you %ld %s.";
         if (!rn2(3))
             arg1 = "Whoa!  ";

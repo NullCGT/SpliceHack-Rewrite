@@ -83,6 +83,12 @@ in its own way.
   underground rivers patch.
 - All rooms are dark by default, but generate with a torch sconce that helps to light them up.
   As depth increases, sconces become less and less common.
+- Ported the Rat King level from Slash'Em, with some alterations.
+  - The Rat King is a valid polymorph form and has hands.
+  - SpliceHack pack rats are used, rather than Slash'Em pack rats.
+  - Black rats cannot be genocided.
+  - The rat king level generates in 25% of games, rather than 50%.
+  - Contains a guaranteed bag of rats.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.

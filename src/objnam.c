@@ -1072,7 +1072,7 @@ doname_base(struct obj* obj, unsigned int doname_flags)
            making the prefix be redundant; note that 'known' flag
            isn't set when emptiness gets discovered because then
            charging magic would yield known number of new charges) */
-        && ((obj->otyp == BAG_OF_TRICKS)
+        && ((obj->otyp == BAG_OF_TRICKS || obj->otyp == BAG_OF_RATS)
              ? (obj->spe == 0 && !obj->known)
              /* not bag of tricks: empty if container which has no contents */
              : ((Is_container(obj) || obj->otyp == STATUE)
@@ -4639,7 +4639,7 @@ readobjnam(char* bp, struct obj* no_wish)
     }
     /* empty for containers rather than for tins */
     if (d.contents == EMPTY) {
-        if (d.otmp->otyp == BAG_OF_TRICKS || d.otmp->otyp == HORN_OF_PLENTY) {
+        if (d.otmp->otyp == BAG_OF_TRICKS || d.otmp->otyp == BAG_OF_RATS || d.otmp->otyp == HORN_OF_PLENTY) {
             if (d.otmp->spe > 0)
                 d.otmp->spe = 0;
         } else if (Has_contents(d.otmp)) {

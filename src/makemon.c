@@ -2659,15 +2659,16 @@ set_mimic_sym(register struct monst *mtmp)
         block_point(mx, my);
 }
 
-/* release monster from bag of tricks; return number of monsters created */
+//* release monster from bag of tricks; return number of monsters created */
 int
-bagotricks(struct obj *bag,
-           boolean tipping, /* caller emptying entire contents; affects shop handling */
-           int *seencount)  /* secondary output */
+bagotricks(bag, tipping, seencount)
+struct obj *bag;
+boolean tipping; /* caller emptying entire contents; affects shop handling */
+int *seencount;  /* secondary output */
 {
     int moncount = 0;
 
-    if (!bag || bag->otyp != BAG_OF_TRICKS) {
+    if (!bag || (bag->otyp != BAG_OF_TRICKS && bag->otyp != BAG_OF_RATS)) {
         impossible("bad bag o' tricks");
     } else if (bag->spe < 1) {
         /* if tipping known empty bag, give normal empty container message */
@@ -2681,10 +2682,14 @@ bagotricks(struct obj *bag,
 
         consume_obj_charge(bag, !tipping);
 
-        if (!rn2(23))
+        if (bag->otyp == BAG_OF_RATS && !rn2(4))
+            creatcnt += rnd(3);
+        else if (!rn2(23))
             creatcnt += rnd(7);
         do {
-            mtmp = makemon((struct permonst *) 0, u.ux, u.uy, NO_MM_FLAGS);
+            mtmp = makemon(bag->otyp == BAG_OF_TRICKS ? 
+                            (struct permonst *) 0 : &mons[PM_SEWER_RAT + rn2(2)], 
+                            u.ux, u.uy, NO_MM_FLAGS);
             if (mtmp) {
                 ++moncount;
                 if ((canseemon(mtmp) && (M_AP_TYPE(mtmp) == M_AP_NOTHING
@@ -2697,7 +2702,7 @@ bagotricks(struct obj *bag,
             if (seencount)
                 *seencount += seecount;
             if (bag->dknown)
-                makeknown(BAG_OF_TRICKS);
+                makeknown(bag->otyp);
         } else if (!tipping) {
             pline1(!moncount ? nothing_happens : "Nothing seems to happen.");
         }

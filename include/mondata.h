@@ -149,6 +149,9 @@
 				 (ptr) == &mons[PM_GIANT_RAT] || \
 				 (ptr) == &mons[PM_RABID_RAT] || \
 				 (ptr) == &mons[PM_ENORMOUS_RAT] || \
+                 (ptr) == &mons[PM_PACK_RAT] || \
+                 (ptr) == &mons[PM_BLACK_RAT] || \
+                 (ptr) == &mons[PM_RAT_RULER] || \
 				 (ptr) == &mons[PM_RODENT_OF_UNUSUAL_SIZE])
 #define is_giant(ptr) (((ptr)->mflags2 & M2_GIANT) != 0L)
 #define is_golem(ptr) ((ptr)->mlet == S_GOLEM)

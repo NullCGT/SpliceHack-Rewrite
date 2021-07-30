@@ -117,7 +117,7 @@ loot_classify(Loot *sort_item, struct obj *obj)
         break;
     case TOOL_CLASS:
         if (seen && discovered
-            && (otyp == BAG_OF_TRICKS || otyp == HORN_OF_PLENTY))
+            && (otyp == BAG_OF_TRICKS || otyp == HORN_OF_PLENTY || otyp == BAG_OF_RATS))
             k = 2; /* known pseudo-container */
         else if (Is_container(obj))
             k = 1; /* regular container or unknown bag of tricks */

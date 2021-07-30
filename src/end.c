@@ -1760,7 +1760,7 @@ container_contents(struct obj *list, boolean identified,
                     box->lknown = 1;
                 update_inventory();
             }
-            if (box->otyp == BAG_OF_TRICKS) {
+            if (box->otyp == BAG_OF_TRICKS || box->otyp == BAG_OF_RATS) {
                 continue; /* wrong type of container */
             } else if (box->cobj) {
                 winid tmpwin = create_nhwindow(NHW_MENU);
