@@ -120,6 +120,8 @@ db_under_typ(int mask)
         return LAVAPOOL;
     case DB_MOAT:
         return MOAT;
+    case DB_FLOOR:
+        return CORR;
     default:
         return STONE;
     }
@@ -863,6 +865,7 @@ void
 destroy_rope_bridge(xchar x, xchar y)
 {
     register struct rm *lev1;
+    struct trap *trtmp;
     struct trap *t;
     xchar x2, y2;
     long time_left, where;
@@ -878,11 +881,14 @@ destroy_rope_bridge(xchar x, xchar y)
         You_hear("something snap.");
     }
 
-    lev1->typ = (lev1->drawbridgemask & DB_UNDER);
+    lev1->typ = db_under_typ(lev1->drawbridgemask);
+    if (lev1->typ == CORR) {
+        maketrap(x, y, HOLE);
+        trtmp = t_at(u.ux, u.uy);
+        if (trtmp) dotrap(trtmp, FORCETRAP);
+    }
     lev1->drawbridgemask = 0;
     spot_stop_timers(x, y, COLLAPSE_ROPE_BRIDGE);
-    if ((t = t_at(x, y)) != 0)
-        deltrap(t);
     del_engr_at(x, y);
     if (!does_block(x, y, lev1))
         unblock_point(x, y);
@@ -900,7 +906,12 @@ destroy_rope_bridge(xchar x, xchar y)
 void
 create_rope_bridge(int x, int y)
 {
-    levl[x][y].drawbridgemask |= levl[x][y].typ;
+    if (levl[x][y].typ == LAVAPOOL)
+        levl[x][y].drawbridgemask |= DB_LAVA;
+    else if (levl[x][y].typ == CORR)
+        levl[x][y].drawbridgemask |= DB_FLOOR;
+    else
+        levl[x][y].drawbridgemask |= DB_MOAT;
     levl[x][y].typ = BRIDGE;
 }
 

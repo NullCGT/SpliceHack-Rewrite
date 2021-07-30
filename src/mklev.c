@@ -664,12 +664,7 @@ mkchasms(void)
     boolean cells2[COLNO][ROWNO];
     int passes, wallcnt;
     int maxpasses = 5;
-    int pooltyp = MOAT; 
-    
-    /* What are we bridging over? */
-    if (depth(&u.uz) > 13)
-        pooltyp = LAVAPOOL;
-    else pooltyp = MOAT;
+    int pooltyp = CORR;  
     
     /* Initial pass; randomly fill level. */
     for (x = 0; x < COLNO; x++) {
@@ -703,6 +698,8 @@ mkchasms(void)
     }
 
     /* Transfer cells to map */
+    if (depth(&u.uz) >= 20)
+        pooltyp = rn2(2) ? MOAT : LAVAPOOL;
     for (x = 0; x < COLNO; x++) {
         for (y = 0; y < ROWNO; y++) {
             if (cells[x][y]) {
@@ -712,6 +709,7 @@ mkchasms(void)
                 }
                 else if (levl[x][y].typ == STONE) {
                     levl[x][y].typ = pooltyp;
+                    if (pooltyp == CORR) maketrap(x, y, HOLE);
                 }
                 levl[x][y].lit = 1;
             }
