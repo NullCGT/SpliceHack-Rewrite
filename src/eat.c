@@ -1869,6 +1869,23 @@ fprefx(struct obj *otmp)
                               FALSE);
         }
         break;
+    case SLICE_OF_CAKE:
+        if (otmp->cursed) {
+            pline("This cake is very filling! You feel bloated.");
+            exercise(A_DEX, FALSE);
+        } else if (Hallucination) {
+            pline("You have some cake, and you eat it too!");
+        } else {
+            pline("This cake is fantastic! You feel amazing.");
+            /* blessed restore ability */
+            int ii;
+            for (ii = 0; ii < A_MAX; ii++)
+                if (ABASE(ii) < AMAX(ii)) {
+                    ABASE(ii) = AMAX(ii);
+                    g.context.botl = 1;
+                }
+        }
+        break;
     case LEMBAS_WAFER:
         if (maybe_polyd(is_orc(g.youmonst.data), Race_if(PM_ORC))) {
             pline("%s", "!#?&* elf kibble!");
@@ -2787,6 +2804,7 @@ doeat(void)
         default:
             if (otmp->otyp == PANCAKE || otmp->otyp == FORTUNE_COOKIE /*eggs*/
                 || otmp->otyp == CREAM_PIE || otmp->otyp == CANDY_BAR /*milk*/
+                || otmp->otyp == SLICE_OF_CAKE /*eggs AND milk*/
                 || otmp->otyp == LUMP_OF_ROYAL_JELLY
                 || otmp->otyp == CHEESE)
                 if (!u.uconduct.unvegan++ && !ll_conduct)

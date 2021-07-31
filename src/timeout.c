@@ -101,6 +101,7 @@ const struct propname {
     { REFLECTING, "reflecting" },
     { FREE_ACTION, "free action" },
     { FIXED_ABIL, "fixed abilities" },
+    { WITHERING, "withering away"},
     { STABLE,    "extraodinarily stable" },
     { LIFESAVED, "life will be saved" },
     {  0, 0 },
@@ -659,8 +660,15 @@ nh_timeout(void)
                 done_timeout(POISONING, SICK);
                 u.usick_type = 0;
                 break;
+            case WITHERING:
+                You("are no longer withering away.");
+                g.context.botl = TRUE;
+                break;
             case STABLE:
                 You("are a little less sure of your footing.");
+                break;
+            case REFLECTING:
+                You("are no longer as shiny.");
                 break;
             case REGENERATION:
                 You_feel("your metabolism returning to normal.");

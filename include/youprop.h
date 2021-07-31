@@ -375,6 +375,10 @@
 #define EReflecting u.uprops[REFLECTING].extrinsic
 #define Reflecting (HReflecting || EReflecting)
 
+#define HWithering u.uprops[WITHERING].intrinsic
+#define EWithering u.uprops[WITHERING].extrinsic
+#define Withering (HWithering || EWithering)
+
 #define HStable u.uprops[STABLE].intrinsic
 #define EStable u.uprops[STABLE].extrinsic
 #define Stable (EStable || HStable)

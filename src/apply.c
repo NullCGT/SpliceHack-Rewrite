@@ -2294,6 +2294,8 @@ use_unicorn_horn(struct obj **optr)
         && !(u.uswallow
              && attacktype_fordmg(u.ustuck->data, AT_ENGL, AD_BLND)))
         prop_trouble(BLINDED);
+    if (TimedTrouble(HWithering))
+        prop_trouble(WITHERING);
     if (TimedTrouble(HHallucination))
         prop_trouble(HALLUC);
     if (TimedTrouble(Vomiting))
@@ -2332,6 +2334,11 @@ use_unicorn_horn(struct obj **optr)
             break;
         case BLINDED:
             make_blinded((long) u.ucreamed, TRUE);
+            did_prop++;
+            break;
+        case WITHERING:
+            You("are no longer withering away. Whew!");
+            set_itimeout(&HWithering, (long) 0);
             did_prop++;
             break;
         case HALLUC:

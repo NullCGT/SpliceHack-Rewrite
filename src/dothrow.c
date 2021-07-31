@@ -2158,6 +2158,30 @@ breakobj(struct obj *obj,
         obj->in_use = 1; /* in case it's fatal */
         if (obj->otyp == POT_OIL && obj->lamplit) {
             explode_oil(obj, x, y);
+        } else if ((obj->otyp == POT_VAMPIRE_BLOOD ||
+ 				   obj->otyp == POT_BLOOD) &&
+ 				   levl[x][y].altarmask != AM_CHAOTIC &&
+ 				   levl[x][y].altarmask != AM_NONE) {
+   			    /* ALI: If blood is spilt on a lawful or
+   			     * neutral altar the effect is similar to
+   			     * human sacrifice. There's no effect on
+   			     * chaotic or unaligned altars since it is
+   			     * not sufficient to summon a demon.
+   			     */
+   			    if (hero_caused) {
+         				/* Regardless of your race/alignment etc.
+         				 * Lawful and neutral gods really _dont_
+         				 * like vampire or (presumed) human blood
+         				 * on their altars.
+         				 */
+         				pline("You'll regret this infamous offense!");
+         				exercise(A_WIS, FALSE);
+   			    }
+   			    /* curse the lawful/neutral altar */
+   			    pline_The("altar is stained with blood.");
+   			    if (!Is_astralevel(&u.uz))
+   				  levl[x][y].altarmask = AM_CHAOTIC;
+   			    angry_priest();
         } else if (distu(x, y) <= 2) {
             if (!breathless(g.youmonst.data) || haseyes(g.youmonst.data)) {
                 /* wet towel protects both eyes and breathing */
@@ -2258,6 +2282,7 @@ breaktest(struct obj *obj)
     case BULLET:
     case SHOTGUN_SHELL:
     case FLAMING_LASH:
+    case SLICE_OF_CAKE:
         return 1;
     default:
         return 0;
@@ -2304,6 +2329,10 @@ breakmsg(struct obj *obj, boolean in_view)
     case CREAM_PIE:
         if (in_view)
             pline("What a mess!");
+        break;
+    case SLICE_OF_CAKE:
+        if (in_view)
+            pline("Dirt cake!");
         break;
     case ACID_VENOM:
     case BLINDING_VENOM:

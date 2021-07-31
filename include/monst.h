@@ -141,6 +141,7 @@ struct monst {
     Bitfield(mcanmove, 1);  /* paralysis, similar to mblinded */
 
     Bitfield(mconf, 1);     /* confused */
+    Bitfield(mreflect, 1);  /* reflects things */
     Bitfield(mpeaceful, 1); /* does not attack unprovoked */
     Bitfield(mtrapped, 1);  /* trapped in a pit, web or bear trap */
     Bitfield(mleashed, 1);  /* monster is on a leash */
@@ -151,8 +152,9 @@ struct monst {
 
     Bitfield(iswiz, 1);     /* is the Wizard of Yendor */
     Bitfield(wormno, 5);    /* at most 31 worms on any level */
+    Bitfield(mwither, 1);   /* is withering away */
     Bitfield(mtemplit, 1);  /* temporarily seen; only valid during bhit() */
-    /* 1 free bit */
+    /* 7 free bits */
 
 #define MAX_NUM_WORMS 32    /* should be 2^(wormno bitfield size) */
 

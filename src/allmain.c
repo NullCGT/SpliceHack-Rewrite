@@ -276,6 +276,12 @@ moveloop(boolean resuming)
                         regen_hp(wtcap);
                     }
 
+                    /* withering away */
+                    if (Withering && !Regeneration) {
+                        losehp(1, "withered away", NO_KILLER_PREFIX);
+                        g.context.botl = TRUE;
+                        interrupt_multi("You are slowly withering away.");
+                    }
                     /* moving around while encumbered is hard work */
                     if (wtcap > MOD_ENCUMBER && u.umoved) {
                         if (!(wtcap < EXT_ENCUMBER ? g.moves % 30
@@ -565,7 +571,7 @@ regen_hp(int wtcap)
            no !Upolyd check here, so poly'd hero recovered lost u.uhp
            once u.mh reached u.mhmax; that may have been convenient
            for the player, but it didn't make sense for gameplay...] */
-        if (u.uhp < u.uhpmax && (encumbrance_ok || U_CAN_REGEN())) {
+        if (u.uhp < u.uhpmax && (encumbrance_ok || U_CAN_REGEN() && !Withering)) {
             if (u.ulevel > 9) {
                 if (!(g.moves % 3L)) {
                     int Con = (int) ACURR(A_CON);
@@ -582,7 +588,7 @@ regen_hp(int wtcap)
                 if (!(g.moves % (long) ((MAXULEV + 12) / (u.ulevel + 2) + 1)))
                     heal = 1;
             }
-            if (U_CAN_REGEN() && !heal)
+            if (U_CAN_REGEN() && !Withering && !heal)
                 heal = 1;
             if (Sleepy && u.usleep)
                 heal++;

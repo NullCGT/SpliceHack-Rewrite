@@ -3479,6 +3479,41 @@ mhitm_ad_hngy(struct monst *magr, struct attack *mattk,
 }
 
 void
+mhitm_ad_wthr(magr, mattk, mdef, mhm)
+struct monst *magr;
+struct attack *mattk;
+struct monst *mdef;
+struct mhitm_data *mhm;
+{
+    if (magr == &g.youmonst) {
+        /* uhitm */
+        if (!rn2(3) && !is_undead(mdef->data)) {
+            if (canseemon(mdef))
+                pline("%s is withering away!", Monnam(mdef));
+            mdef->mwither = 1;
+        }
+        return;
+    } else if (mdef == &g.youmonst) {
+        /* mhitu */
+        hitmsg(magr, mattk);
+        if (!rn2(2)) {
+            if (!Withering) You("are withering away!");
+            incr_itimeout(&HWithering, max(4, rnd(mhm->damage)));
+            g.context.botl = TRUE;
+        }
+        return;
+    } else {
+        /* mhitm */
+        if (!rn2(3) && !is_undead(mdef->data)) {
+            if (canseemon(mdef))
+                pline("%s is withering away!", Monnam(mdef));
+            mdef->mwither = 1;
+        }
+        return;
+    }
+}
+
+void
 mhitm_ad_vorp(struct monst *magr, struct attack *mattk, 
               struct monst *mdef, struct mhitm_data *mhm)
 {
@@ -4345,6 +4380,7 @@ mhitm_adtyping(struct monst *magr, struct attack *mattk, struct monst *mdef,
     /* Todo */
     case AD_LARV: mhitm_ad_larv(magr, mattk, mdef, mhm); break;
     case AD_HNGY:  mhitm_ad_hngy(magr, mattk, mdef, mhm); break;
+    case AD_WTHR: mhitm_ad_wthr(magr, mattk, mdef, mhm); break;
     case AD_VORP: mhitm_ad_vorp(magr, mattk, mdef, mhm); break;
     /* case AD_FEAR: mhtim_ad_fear(magr, mattkm mdef, mhm); break; */
     default:

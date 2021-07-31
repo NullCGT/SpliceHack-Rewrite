@@ -2988,6 +2988,7 @@ static const struct alt_spellings {
     { "immortality", AMULET_OF_LIFE_SAVING },
     { "family", EGG },
     { "map", SCR_MAGIC_MAPPING },
+    { "vampire food", POT_VAMPIRE_BLOOD },
 #ifdef MAIL
     { "junk", SCR_MAIL },
 #endif
@@ -3491,7 +3492,17 @@ readobjnam_preparse(struct _readobjnam_data* d)
                    || !strncmpi(d->bp, "blank ", l = 6)) {
             d->unlabeled = 1;
         } else if (!strncmpi(d->bp, "poisoned ", l = 9)) {
-            d->ispoisoned = 1;
+            d->ispoisoned = POT_SICKNESS;
+        } else if (!strncmpi(d->bp, "drugged ", l = 8)) {
+            d->ispoisoned = POT_SLEEPING;
+        } else if (!strncmpi(d->bp, "envenomed ", l = 10)) {
+            d->ispoisoned = POT_PARALYSIS;
+        } else if (!strncmpi(d->bp, "oiled ", l = 6)) {
+            d->ispoisoned = POT_OIL;
+        } else if (!strncmpi(d->bp, "filth-crusted ", l = 14)) {
+            d->ispoisoned = POT_FILTH;
+        } else if (!strncmpi(d->bp, "potion-coated ", l = 14)) {
+            d->ispoisoned = POT_GAIN_ABILITY + rn2(POT_VAMPIRE_BLOOD - POT_GAIN_ABILITY);
             /* "trapped" recognized but not honored outside wizard mode */
         } else if (!strncmpi(d->bp, "trapped ", l = 8)) {
             d->trapped = 0; /* undo any previous "untrapped" */
@@ -3586,7 +3597,7 @@ readobjnam_preparse(struct _readobjnam_data* d)
             /* ['real' isn't actually needed (unless we someday add
                "real gem" for random non-glass, non-stone)] */
         } else {
-            /* check for materials */
+            /* check for materials and such */
             if (!strncmpi(d->bp, "silver dragon", l = 13)
                 || !strncmpi(d->bp, "gold dragon", l = 11)
                 || !strncmpi(d->bp, "gold detection", l = 14)
@@ -3843,7 +3854,7 @@ readobjnam_postparse1(struct _readobjnam_data* d)
         && strncmpi(d->bp, "master key", 10)  /* not the "master" rank */
         && strncmpi(d->bp, "Bat from Hell", 13) /* not the "bat" monster */
         && strncmpi(d->bp, "ninja-to", 8)     /* not the "ninja" rank */
-        && strncmpi(d->bp, "vampire blood", 13) /* not the "vampire" monster */
+        && strncmpi(d->bp, "vampire blood", 23) /* not the "vampire" monster */
         && strncmpi(d->bp, "magenta", 7)) {   /* not the "mage" rank */
         const char *rest = 0;
 
@@ -4627,7 +4638,7 @@ readobjnam(char* bp, struct obj* no_wish)
     /* set poisoned */
     if (d.ispoisoned) {
         if (is_poisonable(d.otmp))
-            d.otmp->opoisoned = (Luck >= 0);
+            d.otmp->opoisoned = (Luck >= 0) ? d.ispoisoned : 0;
         else if (d.oclass == FOOD_CLASS)
             /* try to taint by making it as old as possible */
             d.otmp->age = 1L;

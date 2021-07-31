@@ -292,6 +292,7 @@ mquaffmsg(struct monst* mtmp, struct obj* otmp)
 /* Splice muse */
 #define MUSE_WAN_CREATE_HORDE 21
 #define MUSE_WAN_HEALING 22
+#define MUSE_POT_VAMPIRE_BLOOD 23
 /*
 #define MUSE_INNATE_TPT 9999
  * We cannot use this.  Since monsters get unlimited teleportation, if they
@@ -326,6 +327,12 @@ m_use_healing(struct monst* mtmp)
             return TRUE;
         }
     }
+     if (is_vampire(mtmp->data) &&
+		  (obj = m_carrying(mtmp, POT_VAMPIRE_BLOOD)) !=0) {
+		    g.m.defensive = obj;
+		    g.m.has_defense = MUSE_POT_VAMPIRE_BLOOD;
+		    return TRUE;
+	}
     return FALSE;
 }
 
@@ -645,6 +652,11 @@ find_defensive(struct monst* mtmp)
                 g.m.defensive = obj;
                 g.m.has_defense = MUSE_POT_HEALING;
             }
+            nomore(MUSE_POT_VAMPIRE_BLOOD);
+        	if(is_vampire(mtmp->data) && obj->otyp == POT_VAMPIRE_BLOOD) {
+        			g.m.defensive = obj;
+        			g.m.has_defense = MUSE_POT_VAMPIRE_BLOOD;
+        	}
         } else { /* Pestilence */
             nomore(MUSE_POT_FULL_HEALING);
             if (obj->otyp == POT_SICKNESS) {
@@ -1097,6 +1109,19 @@ use_defensive(struct monst* mtmp)
         /* not actually called for its unstoning effect */
         mon_consume_unstone(mtmp, otmp, FALSE, FALSE);
         return 2;
+    case MUSE_POT_VAMPIRE_BLOOD:
+        mquaffmsg(mtmp, otmp);
+        if (!otmp->cursed) {
+            i = rnd(8) + rnd(2);
+            mtmp->mhp += i;
+            mtmp->mhpmax += i;
+            if (vismon) pline("%s looks full of life.", Monnam(mtmp));
+        }
+        else if (vismon)
+            pline("%s discards the congealed blood in disgust.", Monnam(mtmp));
+        if (oseen) makeknown(POT_VAMPIRE_BLOOD);
+        m_useup(mtmp, otmp);
+        return 2;
     case 0:
         return 0; /* i.e. an exploded wand */
     default:
@@ -1180,6 +1205,7 @@ rnd_defensive_item(struct monst* mtmp)
 #define MUSE_WAN_SONICS 25
 #define MUSE_WAN_PSIONICS 26
 #define MUSE_HORN_OF_BLASTING 27
+#define MUSE_POT_BLOOD_THROW 28
 
 static boolean
 linedup_chk_corpse(int x, int y)
@@ -1396,6 +1422,11 @@ find_offensive(struct monst* mtmp)
             && !m_seenres(mtmp, M_SEEN_ACID)) {
             g.m.offensive = obj;
             g.m.has_offense = MUSE_POT_ACID;
+        }
+        nomore(MUSE_POT_BLOOD_THROW);
+        if (obj->otyp == POT_BLOOD && !is_vampire(mtmp->data)) {
+            g.m.offensive = obj;
+            g.m.has_offense = MUSE_POT_BLOOD_THROW;
         }
         /* we can safely put this scroll here since the locations that
          * are in a 1 square radius are a subset of the locations that
@@ -1823,6 +1854,7 @@ use_offensive(struct monst* mtmp)
     case MUSE_POT_CONFUSION:
     case MUSE_POT_SLEEPING:
     case MUSE_POT_ACID:
+    case MUSE_POT_BLOOD_THROW:
         /* Note: this setting of dknown doesn't suffice.  A monster
          * which is out of sight might throw and it hits something _in_
          * sight, a problem not existing with wands because wand rays
@@ -1903,6 +1935,8 @@ rnd_offensive_item(struct monst* mtmp)
 #define MUSE_BULLWHIP 8
 #define MUSE_POT_POLYMORPH 9
 #define MUSE_BAG 10
+/* splice muse */
+#define MUSE_POT_REFLECT 11
 
 boolean
 find_misc(struct monst* mtmp)
@@ -2027,6 +2061,13 @@ find_misc(struct monst* mtmp)
         if (obj->otyp == POT_SPEED && mtmp->mspeed != MFAST && !mtmp->isgd) {
             g.m.misc = obj;
             g.m.has_misc = MUSE_POT_SPEED;
+        }
+        nomore(MUSE_POT_REFLECT);
+        if (obj->otyp == POT_REFLECTION && !mtmp->mreflect &&
+              mtmp->data != &mons[PM_SILVER_DRAGON] &&
+              mtmp->data != &mons[PM_BABY_SILVER_DRAGON]) {
+            g.m.misc = obj;
+            g.m.has_misc = MUSE_POT_REFLECT;
         }
         nomore(MUSE_WAN_POLYMORPH);
         if (obj->otyp == WAN_POLYMORPH && obj->spe > 0
@@ -2281,6 +2322,15 @@ use_misc(struct monst* mtmp)
         mon_adjust_speed(mtmp, 1, otmp);
         m_useup(mtmp, otmp);
         return 2;
+    case MUSE_POT_REFLECT:
+        mquaffmsg(mtmp, otmp);
+        mtmp->mreflect = 1;
+        if (canseemon(mtmp) && !Blind)
+            pline("%s is covered in a silvery sheen!", Monnam(mtmp));
+        if (oseen)
+            makeknown(POT_REFLECTION);
+        m_useup(mtmp, otmp);
+        return 2;
     case MUSE_WAN_POLYMORPH:
         mzapwand(mtmp, otmp, TRUE);
         (void) newcham(mtmp, muse_newcham_mon(mtmp), TRUE, FALSE);
@@ -2451,6 +2501,8 @@ rnd_misc_item(struct monst* mtmp)
         return rn2(6) ? POT_INVISIBILITY : WAN_MAKE_INVISIBLE;
     case 2:
         return POT_GAIN_LEVEL;
+    case 3:
+        return POT_REFLECTION;
     }
     /*NOTREACHED*/
     return 0;
@@ -2494,6 +2546,8 @@ searches_for_item(struct monst* mon, struct obj* obj)
                           && !attacktype(mon->data, AT_GAZE));
     if (typ == WAN_SPEED_MONSTER || typ == POT_SPEED)
         return (boolean) (mon->mspeed != MFAST);
+    if (typ == POT_REFLECTION)
+        return mon->mreflect != 1;
 
     switch (obj->oclass) {
     case WAND_CLASS:
@@ -2511,10 +2565,13 @@ searches_for_item(struct monst* mon, struct obj* obj)
             return TRUE;
         break;
     case POTION_CLASS:
+        if (typ == POT_VAMPIRE_BLOOD)
+            return is_vampire(mon->data);
         if (typ == POT_HEALING || typ == POT_EXTRA_HEALING
             || typ == POT_FULL_HEALING || typ == POT_POLYMORPH
             || typ == POT_GAIN_LEVEL || typ == POT_PARALYSIS
-            || typ == POT_SLEEPING || typ == POT_ACID || typ == POT_CONFUSION)
+            || typ == POT_SLEEPING || typ == POT_ACID || typ == POT_CONFUSION
+            || typ == POT_BLOOD)
             return TRUE;
         if (typ == POT_BLINDNESS && !attacktype(mon->data, AT_GAZE))
             return TRUE;
@@ -2603,6 +2660,10 @@ mon_reflects(struct monst* mon, const char* str)
         /* Silver dragons only reflect when mature; babies do not */
         if (str)
             pline(str, s_suffix(mon_nam(mon)), "scales");
+        return TRUE;
+    } else if (mon->mreflect) {
+        if (str)
+            pline(str, s_suffix(mon_nam(mon)), "body");
         return TRUE;
     }
     return FALSE;

@@ -488,6 +488,10 @@ dochug(register struct monst* mtmp)
     if (mtmp->mstun && !rn2(10))
         mtmp->mstun = 0;
 
+    /* withering monsters stop withering with high probability */
+    if (mtmp->mwither && !rn2(5))
+        mtmp->mwither = 0;
+
     /* some monsters teleport */
     if (mtmp->mflee && !rn2(40) && can_teleport(mdat) && !mtmp->iswiz
         && !noteleport_level(mtmp)) {

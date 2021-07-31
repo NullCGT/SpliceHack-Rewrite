@@ -792,7 +792,7 @@ mksobj(int otyp, boolean init, boolean artif)
                 blessorcurse(otmp, 10);
             if (is_poisonable(otmp) && !rn2(100)) {
                 /* small chance for a completely random type of poison. */
-                if (!rn2(8)) otmp->opoisoned = POT_GAIN_ABILITY + rn2(POT_OIL - POT_GAIN_ABILITY);
+                if (!rn2(8)) otmp->opoisoned = POT_GAIN_ABILITY + rn2(POT_VAMPIRE_BLOOD - POT_GAIN_ABILITY);
                 else otmp->opoisoned = POT_SICKNESS;
             }
 

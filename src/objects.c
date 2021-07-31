@@ -883,6 +883,7 @@ FOOD("slime mold",           75,  1,  5, 0, VEGGY, 250, HI_ORGANIC),
 FOOD("lump of royal jelly",   0,  1,  2, 0, VEGGY, 200, CLR_YELLOW),
 FOOD("cream pie",            25,  1, 10, 0, VEGGY, 100, CLR_WHITE),
 FOOD("candy bar",            13,  1,  2, 0, VEGGY, 100, CLR_BROWN),
+FOOD("slice of cake",         6, 10,  2, 0, VEGGY, 900, CLR_RED),
 FOOD("cheese",               14,  2,  2, 0, FLESH, 250, CLR_YELLOW),
 FOOD("fortune cookie",       55,  1,  1, 0, VEGGY,  40, CLR_YELLOW),
 FOOD("pancake",              25,  2,  2, 0, VEGGY, 200, CLR_YELLOW),
@@ -903,6 +904,8 @@ FOOD("tin",                  75,  0, 10, 1, METAL,   0, HI_METAL),
            BITS(0, 1, 0, 0, mgc, 0, 0, 0, 0, 0, 0, P_NONE, GLASS),      \
            power, POTION_CLASS, prob, 0, 20, cost, 0, 0, 0, 0, 10, color)
 POTION("gain ability",           "ruby",  1, 0, 42, 300, CLR_RED),
+POTION("reflection",         "metallic",  1, REFLECTING, 10, 300, CLR_GRAY),
+POTION("regeneration",          "soupy",  1, REGENERATION, 20, 150, CLR_YELLOW),
 POTION("restore ability",        "pink",  1, 0, 40, 100, CLR_BRIGHT_MAGENTA),
 POTION("confusion",            "orange",  1, CONFUSION, 42, 100, CLR_ORANGE),
 POTION("blindness",            "yellow",  1, BLINDED, 40, 150, CLR_YELLOW),
@@ -931,6 +934,8 @@ POTION("oil",                   "murky",  0, 0, 30, 250, CLR_BROWN),
 /* fixed description
  */
 POTION("water",                 "clear",  0, 0, 92, 100, CLR_CYAN),
+POTION("blood",             "blood-red",  0, 0, 0,   50, CLR_RED),
+POTION("vampire blood",     "blood-red",  1, 0, 0,  350, CLR_RED),
 #undef POTION
 
 /* scrolls ... */

@@ -1008,6 +1008,34 @@ peffects(struct obj *otmp)
             }
         }
         break;
+    case POT_REFLECTION:
+        if (otmp->cursed) {
+            pline("It\'s like drinking glue!");
+            g.potion_unkn++;
+        } else {
+            pline("You are covered in a mirror-like sheen!");
+            if (otmp->blessed) {
+                set_itimeout(&HReflecting, rn1(50, 250));
+            } else {
+                set_itimeout(&HReflecting, rn1(10, 20));
+            }
+        }
+        break;
+    case POT_REGENERATION:
+        if (otmp->cursed) {
+            You("begin to wither away!");
+            incr_itimeout(&HWithering, rn1(10, 20));
+            g.potion_unkn++;
+            g.context.botl = TRUE;
+        } else {
+            You("metabolism kicks into overdrive!");
+            if (otmp->blessed) {
+                set_itimeout(&HRegeneration, rn1(100, 100));
+            } else {
+                set_itimeout(&HRegeneration, rn1(50, 50));
+            }
+        }
+        break;
     case POT_SPEED:
         /* skip when mounted; heal_legs() would heal steed's legs */
         if (Wounded_legs && !otmp->cursed && !u.usteed) {
@@ -1224,6 +1252,54 @@ peffects(struct obj *otmp)
         You_feel("a little %s.", Hallucination ? "normal" : "strange");
         if (!Unchanging)
             polyself(0);
+        break;
+    case POT_BLOOD:
+  	case POT_VAMPIRE_BLOOD:
+        g.potion_unkn++;
+        u.uconduct.unvegan++;
+        if (maybe_polyd(is_vampire(g.youmonst.data), Race_if(PM_VAMPIRE))) {
+            violated_vegetarian();
+            if (otmp->cursed)
+                    pline("Yecch!  This %s.", Hallucination ?
+            "liquid could do with a good stir" : "blood has congealed");
+            else pline(Hallucination ?
+                "The %s liquid stirs memories of home." :
+                "The %s blood tastes delicious.",
+                otmp->odiluted ? "watery" : "thick");
+            if (!otmp->cursed)
+                lesshungry((otmp->odiluted ? 1 : 2) *
+                    (otmp->otyp == POT_VAMPIRE_BLOOD ? 400 :
+                    otmp->blessed ? 15 : 10));
+            if (otmp->otyp == POT_VAMPIRE_BLOOD && otmp->blessed) {
+                int num = newhp();
+                if (Upolyd) {
+                    u.mhmax += num;
+                    u.mh += num;
+                } else {
+                    u.uhpmax += num;
+                    u.uhp += num;
+                }
+            }
+        } else if (otmp->otyp == POT_VAMPIRE_BLOOD) {
+            /* [CWC] fix conducts for potions of (vampire) blood -
+                doesn't use violated_vegetarian() to prevent
+                duplicated "you feel guilty" messages */
+            u.uconduct.unvegetarian++;
+            if (u.ualign.type == A_LAWFUL || Role_if(PM_MONK)) {
+                You_feel("%sguilty about drinking such a vile liquid.",
+                    Role_if(PM_MONK) ? "especially " : "");
+                u.ugangr++;
+                adjalign(-15);
+            } else if (u.ualign.type == A_NEUTRAL)
+                    adjalign(-3);
+            exercise(A_CON, FALSE);
+            if (!Unchanging && polymon(PM_VAMPIRE))
+                u.mtimedone = 0;	/* "Permament" change */
+        } else {
+            violated_vegetarian();
+            pline("Ugh.  That was vile.");
+            make_vomiting(Vomiting+d(10,8), TRUE);
+        }
         break;
     default:
         impossible("What a funny potion! (%u)", otmp->otyp);
@@ -1476,6 +1552,20 @@ potionhit(struct monst *mon, struct obj *obj, int how)
             if (!Unchanging && !Antimagic)
                 polyself(0);
             break;
+        case POT_BLOOD:
+        case POT_VAMPIRE_BLOOD:
+            if (Blind)
+                You_feel("sticky!");
+            else if (Race_if(PM_INFERNAL)) {
+                pline("Blood drips down your form.");
+                exercise(A_CHA, TRUE);
+            }
+            else {
+                You("are covered in blood! How disgusting!");
+                exercise(A_CHA, FALSE);
+            }
+
+            break;
         case POT_ACID:
             if (!Acid_resistance) {
                 int dmg;
@@ -1630,6 +1720,14 @@ potionhit(struct monst *mon, struct obj *obj, int how)
                 paralyze_monst(mon, rnd(5));
             }
             break;
+        case POT_BLOOD:
+        case POT_VAMPIRE_BLOOD:
+            if (canspotmon(mon)) {
+                pline("%s is covered in blood!", Monnam(mon));
+                if (!Blind && (is_vampire(mon->data) || is_demon(mon->data)))
+                    pline("%s seems to enjoy the blood bath.", Monnam(mon));
+            }
+            break;
         case POT_SPEED:
             angermon = FALSE;
             mon_adjust_speed(mon, 1, obj);
@@ -1710,6 +1808,12 @@ potionhit(struct monst *mon, struct obj *obj, int how)
                     else
                         monkilled(mon, "", AD_ACID);
                 }
+            }
+            break;
+        case POT_REGENERATION:
+            if (obj->cursed) {
+                pline("%s begins to wither!", Monnam(mon));
+                mon->mwither = 1;
             }
             break;
         case POT_POLYMORPH:
@@ -1875,6 +1979,18 @@ potionbreathe(struct obj *obj)
         }
         exercise(A_CON, TRUE);
         break;
+    case POT_REGENERATION:
+        if (obj->cursed) {
+            incr_itimeout(&HWithering, rn1(5, 5));
+            exercise(A_CON, FALSE);
+            You("start to shrivel up!");
+        } else {
+            You("feel a tiny bit better.");
+            set_itimeout(&HRegeneration, rn1(5, 5));
+            kn++;
+        }
+        g.context.botl = TRUE;
+        break;
     case POT_SICKNESS:
         if (!Role_if(PM_HEALER)) {
             if (Upolyd) {
@@ -2021,6 +2137,7 @@ mixtype(struct obj *o1, struct obj *o2)
         case POT_BLINDNESS:
         case POT_CONFUSION:
         case POT_FILTH:
+        case POT_VAMPIRE_BLOOD:
             return POT_WATER;
         }
         break;
@@ -2047,6 +2164,8 @@ mixtype(struct obj *o1, struct obj *o2)
         break;
     case POT_FRUIT_JUICE:
         switch (o2typ) {
+        case POT_BLOOD:
+            return POT_VAMPIRE_BLOOD;
         case POT_SICKNESS:
             return POT_SICKNESS;
         case POT_ENLIGHTENMENT:

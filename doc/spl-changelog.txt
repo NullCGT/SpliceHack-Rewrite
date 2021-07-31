@@ -79,8 +79,7 @@ in its own way.
   - Rope bridges are vulnerable to fire, and can be destroyed by exposing them to it.
   - When a tile of a rope bridge is destroyed, a countdown begins for all adjacent bridge
     tiles. When this countdown ends, that tile will collapse as well.
-- Many levels generate with pools of water or lava bridged by rope bridges. This replaces the
-  underground rivers patch.
+- Many levels generate with rope bridges. This replaces the underground rivers patch.
 - All rooms are dark by default, but generate with a torch sconce that helps to light them up.
   As depth increases, sconces become less and less common.
 - Ported the Rat King level from Slash'Em, with some alterations.
@@ -191,6 +190,8 @@ Bug Fixes
 Known Bugs
 - Rare failed sanity check for improper mon data, possibly due to vampiric monsters shapeshifting.
 - Removing a mask that transformed you into a light-emitting monster will cause a program in disorder.
+- Wishing for "vampire blood" results in a potion of vampire blood. Wishing for "potion of vampire blood"
+  results in a random potion.
 
                             Version 0.8.3
 
