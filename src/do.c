@@ -1,4 +1,4 @@
-/* NetHack 3.7	do.c	$NHDT-Date: 1626315675 2021/07/15 02:21:15 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.269 $ */
+/* NetHack 3.7	do.c	$NHDT-Date: 1627516694 2021/07/28 23:58:14 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.270 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Derek S. Ray, 2015. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -1251,7 +1251,11 @@ u_collide_m(struct monst *mtmp)
 DISABLE_WARNING_FORMAT_NONLITERAL
 
 void
-goto_level(d_level *newlevel, boolean at_stairs, boolean falling, boolean portal)
+goto_level(
+    d_level *newlevel, /* destination */
+    boolean at_stairs, /* True if arriving via stairs/ladder */
+    boolean falling,   /* when fallling to level, objects might tag along */
+    boolean portal)    /* True if arriving via magic portal */
 {
     int l_idx, save_mode;
     NHFILE *nhfp;
@@ -1529,9 +1533,10 @@ goto_level(d_level *newlevel, boolean at_stairs, boolean falling, boolean portal
     } else if (at_stairs && !In_endgame(&u.uz)) {
         if (up) {
             stairway *stway = stairway_find_from(&u.uz0, g.at_ladder);
-            if (stway)
+            if (stway) {
                 u_on_newpos(stway->sx, stway->sy);
-            else if (newdungeon)
+                stway->u_traversed = TRUE;
+            } else if (newdungeon)
                 u_on_sstairs(1);
             else
                 u_on_dnstairs();
@@ -1546,9 +1551,10 @@ goto_level(d_level *newlevel, boolean at_stairs, boolean falling, boolean portal
                       g.at_ladder ? "ladder" : "stairs");
         } else { /* down */
             stairway *stway = stairway_find_from(&u.uz0, g.at_ladder);
-            if (stway)
+            if (stway) {
                 u_on_newpos(stway->sx, stway->sy);
-            else if (newdungeon)
+                stway->u_traversed = TRUE;
+            } else if (newdungeon)
                 u_on_sstairs(0);
             else
                 u_on_upstairs();

@@ -18,6 +18,7 @@ extern char *fmt_ptr(const void *);
 
 /* ### allmain.c ### */
 
+extern void moveloop_core(void);
 extern void moveloop(boolean);
 extern void stop_occupation(void);
 extern void display_gamewindows(void);
@@ -634,6 +635,8 @@ extern unsigned int induced_align(int);
 extern boolean Invocation_lev(d_level *);
 extern xchar level_difficulty(void);
 extern schar lev_by_name(const char *);
+extern boolean known_branch_stairs(stairway *);
+extern char *stairs_description(stairway *, char *, boolean);
 extern schar print_dungeon(boolean, schar *, xchar *);
 extern char *get_annotation(d_level *);
 extern int donamelevel(void);

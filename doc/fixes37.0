@@ -1,4 +1,4 @@
-NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.609 $ $NHDT-Date: 1627414178 2021/07/27 19:29:38 $
+NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.610 $ $NHDT-Date: 1627505147 2021/07/28 20:45:47 $
 
 General Fixes and Modified Features
 -----------------------------------
@@ -576,6 +576,10 @@ some monsters should not have been scared of bugle playing
 monsters that drowned would never leave a corpse (holdover from decades ago
 	when it wasn't possible to recover anything from a water location)
 give alternate message if hero is blind when throne gives "your vision clears"
+monster wearing an alchemy smock was only getting poison resistance from it,
+	not acid resistance; give both properties, just like for hero
+in wizard mode, knowing teleport away spell resulted in ^T always attempting
+	the spell instead of teleporting on demand
 
 
 Fixes to 3.7.0-x Problems that Were Exposed Via git Repository
@@ -979,7 +983,7 @@ when hallucinating, see hallucinated liquids when looking at water or lava
 applying a spellbook hints about read charges left
 wizard mode wishing for level topology can now create hidden doors (ask for
 	"secret door" when at a door or wall location), hidden corridor
-	spots ("secret corridor" at a corridor location), and clouds
+	spots ("secret corridor" at a corridor location), clouds and walls
 tiny chance for randomly created spellbooks to be Discworld novels instead
 	of having only one in the first book or scroll shop created (won't
 	occur in hero's initial inventory or NPC priest inventory or be
@@ -1086,7 +1090,7 @@ using 'f' while quiver is empty and 'autoquiver' is Off when wielding a
 	Lords and Ladies, two to Soul Music, three to Interesting Times, four
 	to Maskerade, three to Hogfather, two to Jingo, four to The Last
 	Continent, four to Carpe Jugulum, three to The Fifth Elephant, five
-	to The Truth, six to Thief of Time
+	to The Truth, six to Thief of Time, six to The Last Hero
 monsters can see and remember hero resistances
 monsters can gain resistances by eating corpses
 menu for what-is command supports /^ and /" to view a list of nearby or whole

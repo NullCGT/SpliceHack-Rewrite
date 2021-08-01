@@ -2892,7 +2892,7 @@ gethungry(void)
 {
     int accessorytime;
 
-    if (u.uinvulnerable)
+    if (u.uinvulnerable || iflags.debug_hunger)
         return; /* you don't feel hungrier */
 
     /* being polymorphed into a creature which doesn't eat prevents
