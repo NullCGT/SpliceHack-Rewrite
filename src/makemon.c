@@ -1531,7 +1531,7 @@ makemon(register struct permonst *ptr,
                 mount_monster(mtmp, !rn2(2) ? PM_PONY : PM_HORSE);
                 break;
             case PM_DRAGON_RIDER:
-                mount_monster(mtmp, PM_BABY_GRAY_DRAGON + 
+                mount_monster(mtmp, PM_BABY_GRAY_DRAGON +
                     rn2(PM_YELLOW_DRAGON - PM_BABY_GRAY_DRAGON));
                 break;
             case PM_DEATH:
@@ -2695,8 +2695,8 @@ int *seencount;  /* secondary output */
         else if (!rn2(23))
             creatcnt += rnd(7);
         do {
-            mtmp = makemon(bag->otyp == BAG_OF_TRICKS ? 
-                            (struct permonst *) 0 : &mons[PM_SEWER_RAT + rn2(2)], 
+            mtmp = makemon(bag->otyp == BAG_OF_TRICKS ?
+                            (struct permonst *) 0 : &mons[PM_SEWER_RAT + rn2(2)],
                             u.ux, u.uy, NO_MM_FLAGS);
             if (mtmp) {
                 ++moncount;
@@ -2787,7 +2787,7 @@ is_valid_template(struct monst *mtmp, int tindex) {
     case MT_DWARVISH:
     case MT_GNOMISH:
     case MT_ORCISH:
-        return (is_human(mtmp->data) 
+        return (is_human(mtmp->data)
             && monsndx(mtmp->data) != PM_HUMAN_ZOMBIE
             && monsndx(mtmp->data) != PM_HUMAN_MUMMY);
     case MT_VAMPIRIC:
@@ -2810,7 +2810,7 @@ template_chance(struct monst *mtmp) {
     int tryct = 0;
 
     /* Unique monsters do not receive random templates. */
-    if (mtmp->data->msound == MS_LEADER 
+    if (mtmp->data->msound == MS_LEADER
         || mtmp->data->msound == MS_NEMESIS
         || unique_corpstat(mtmp->data)
         || has_etemplate(mtmp))
@@ -2857,7 +2857,7 @@ apply_template(struct permonst basemon, int tindex)
 {
     int i;
     struct permonst template = montemplates[tindex];
-    
+
     /* Additive Properties */
     basemon.mlevel += template.mlevel;
     basemon.mmove += template.mmove;

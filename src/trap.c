@@ -592,7 +592,7 @@ fall_through(
 struct monst *
 animate_statue(
     struct obj *statue,
-    xchar x, 
+    xchar x,
     xchar y,
     int cause,
     int *fail_reason)
@@ -771,7 +771,7 @@ animate_statue(
 struct monst *
 activate_statue_trap(
     struct trap *trap,
-    xchar x, 
+    xchar x,
     xchar y,
     boolean shatter)
 {
@@ -2956,7 +2956,7 @@ feeltrap(struct trap* trap)
 static int
 mkroll_launch(
     struct trap *ttmp,
-    xchar x, 
+    xchar x,
     xchar y,
     short otyp,
     long ocount)
@@ -3809,7 +3809,7 @@ fire_damage(
 int
 fire_damage_chain(
     struct obj *chain,
-    boolean force, 
+    boolean force,
     boolean here,
     xchar x,
     xchar y)

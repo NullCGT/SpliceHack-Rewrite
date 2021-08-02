@@ -163,15 +163,15 @@ const struct Role roles[NUM_ROLES+1] = {
         {"Fugitive", 0,  0} },
         "Ilmater", "Grumbar", "_Tymora",	/* Faerunian */
         "Con", "Castle Waterdeep Dungeon", "the Warden's Level",
-        PM_CONVICT, 
+        PM_CONVICT,
         NON_PM,
         PM_SEWER_RAT,
-        PM_ROBERT_THE_LIFER, 
-        PM_INMATE, 
+        PM_ROBERT_THE_LIFER,
+        PM_INMATE,
         PM_WARDEN_ARIANNA,
-        PM_GIANT_BEETLE, 
-        PM_SOLDIER_ANT, 
-        S_RODENT, 
+        PM_GIANT_BEETLE,
+        PM_SOLDIER_ANT,
+        S_RODENT,
         S_SPIDER,
         ART_IRON_BALL_OF_LIBERATION,
         MH_HUMAN | MH_DWARF | MH_GNOME | MH_ORC | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_CHAOTIC,
@@ -181,9 +181,9 @@ const struct Role roles[NUM_ROLES+1] = {
         /* Init   Lower  Higher */
         {  8, 0,  0, 8,  0, 0 },	/* Hit points */
         {  1, 0,  0, 1,  0, 1 },10,	/* Energy */
-        -10, 5, 0, 2, 10, 
-        A_INT, 
-        SPE_TELEPORT_AWAY,   
+        -10, 5, 0, 2, 10,
+        A_INT,
+        SPE_TELEPORT_AWAY,
         -4 },
     { { "Dragon Rider", 0, 0 },
       { { "Servant of Scales", 0, 0 },
@@ -426,10 +426,10 @@ const struct Role roles[NUM_ROLES+1] = {
       /* Init   Lower  Higher */
       { 10, 0,  0, 8,  1, 0 },	/* Hit points */
       {  1, 0,  0, 1,  0, 1 },12,	/* Energy */
-      10, 
+      10,
       8,
       0,
-      2, 
+      2,
       9,
       A_INT,
       SPE_CAUSE_FEAR,
@@ -1693,7 +1693,7 @@ root_plselection_prompt(
 
 char *
 build_plselection_prompt(
-    char *buf, int buflen, 
+    char *buf, int buflen,
     int rolenum, int racenum, int gendnum, int alignnum)
 {
     const char *defprompt = "Shall I pick a character for you? [ynaq] ";

@@ -754,7 +754,7 @@ shambler_init(void)
   		while (attkptr->aatyp == 0 || attkptr->aatyp == AT_ENGL || attkptr->aatyp == AT_SPIT ||
   					attkptr->aatyp == AT_BREA || attkptr->aatyp == AT_EXPL ||
   					attkptr->aatyp == AT_BOOM || attkptr->aatyp == AT_GAZE ||
-                    attkptr->aatyp == AT_HUGS || attkptr->aatyp == AT_SCRE || 
+                    attkptr->aatyp == AT_HUGS || attkptr->aatyp == AT_SCRE ||
                     attkptr->aatyp == AT_VOLY) {
   			attkptr->aatyp = rn2(AT_TENT);
   		}
