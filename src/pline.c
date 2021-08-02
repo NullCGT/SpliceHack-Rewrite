@@ -1,4 +1,4 @@
-/* NetHack 3.7	pline.c	$NHDT-Date: 1606504240 2020/11/27 19:10:40 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.100 $ */
+/* NetHack 3.7  pline.c $NHDT-Date: 1606504240 2020/11/27 19:10:40 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.100 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2018. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -23,26 +23,26 @@ extern void maybe_play_sound(const char *);
 const char *
 replace(const char *st, const char *orig, const char *repl)
 {
-  	static char retval[TBUFSZ];
-  	char buffer[TBUFSZ];
-  	const char *ch, *pos;
-  	size_t len;
-  	memset(buffer, 0, TBUFSZ);
-  	pos = st;
-  	while ((ch = strstr(pos, orig))){
-    		len = (ch - pos);
-    		strncat(buffer, pos, len);
-    		strncat(buffer, repl, strlen(repl));
-    		pos = (ch + strlen(orig));
-  	}
-  	if (pos == st) {
-  		  return st;
-  	}
-  	if (pos < (st + strlen(st))) {
-  		  strncat(buffer, pos, (st - pos));
-  	}
-  	strcpy(retval, buffer);
-  	return retval;
+    static char retval[TBUFSZ];
+    char buffer[TBUFSZ];
+    const char *ch, *pos;
+    size_t len;
+    memset(buffer, 0, TBUFSZ);
+    pos = st;
+    while ((ch = strstr(pos, orig))){
+            len = (ch - pos);
+            strncat(buffer, pos, len);
+            strncat(buffer, repl, strlen(repl));
+            pos = (ch + strlen(orig));
+    }
+    if (pos == st) {
+          return st;
+    }
+    if (pos < (st + strlen(st))) {
+          strncat(buffer, pos, (st - pos));
+    }
+    strcpy(retval, buffer);
+    return retval;
 }
 
 
@@ -50,32 +50,32 @@ replace(const char *st, const char *orig, const char *repl)
 const char *
 piratesay(const char *orig)
 {
-		orig = replace(orig,"You","Ye");
-		orig = replace(orig,"you","ye");
-		orig = replace(orig,"His","'is");
-		orig = replace(orig," his"," 'is");
-		orig = replace(orig,"Her","'er");
-		orig = replace(orig," her"," 'er");
-		orig = replace(orig,"Are","Be");
-		orig = replace(orig," are "," be ");
-		orig = replace(orig,"Is","Be");
-		orig = replace(orig," is "," be ");
+        orig = replace(orig,"You","Ye");
+        orig = replace(orig,"you","ye");
+        orig = replace(orig,"His","'is");
+        orig = replace(orig," his"," 'is");
+        orig = replace(orig,"Her","'er");
+        orig = replace(orig," her"," 'er");
+        orig = replace(orig,"Are","Be");
+        orig = replace(orig," are "," be ");
+        orig = replace(orig,"Is","Be");
+        orig = replace(orig," is "," be ");
         orig = replace(orig," is."," be.");
-		orig = replace(orig,"Of","O'");
-		orig = replace(orig," eye"," deadlight");
-		orig = replace(orig,"zorkmid","doubloon");
-		orig = replace(orig,"Zorkmid","Doubloon");
-		orig = replace(orig,"gold coins","pieces of eight");
-		orig = replace(orig,"Gold coins","Pieces of eight");
-		orig = replace(orig,"gold coin","piece of eight");
-		orig = replace(orig,"Gold coin","Piece of eight");
-		orig = replace(orig,"gold pieces","pieces of eight");
-		orig = replace(orig,"Gold pieces","Pieces of eight");
-		orig = replace(orig,"gold piece","piece of eight");
-		orig = replace(orig,"Gold piece","Piece of eight");
+        orig = replace(orig,"Of","O'");
+        orig = replace(orig," eye"," deadlight");
+        orig = replace(orig,"zorkmid","doubloon");
+        orig = replace(orig,"Zorkmid","Doubloon");
+        orig = replace(orig,"gold coins","pieces of eight");
+        orig = replace(orig,"Gold coins","Pieces of eight");
+        orig = replace(orig,"gold coin","piece of eight");
+        orig = replace(orig,"Gold coin","Piece of eight");
+        orig = replace(orig,"gold pieces","pieces of eight");
+        orig = replace(orig,"Gold pieces","Pieces of eight");
+        orig = replace(orig,"gold piece","piece of eight");
+        orig = replace(orig,"Gold piece","Piece of eight");
         orig = replace(orig,"Ouch!","Arrr!");
         orig = replace(orig,"Wow!","Avast!");
-		return orig;
+        return orig;
 }
 
 /* keep the most recent DUMPLOG_MSG_COUNT messages */
@@ -211,8 +211,8 @@ vpline(const char *line, va_list the_args)
 #endif
 
     if(Role_if(PM_PIRATE)){
-     		line = piratesay(line);
-   	}
+            line = piratesay(line);
+    }
 
     /* use raw_print() if we're called too early (or perhaps too late
        during shutdown) or if we're being called recursively (probably

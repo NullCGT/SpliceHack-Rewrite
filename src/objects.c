@@ -1,4 +1,4 @@
-/* NetHack 3.7	objects.c	$NHDT-Date: 1596498192 2020/08/03 23:43:12 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.66 $ */
+/* NetHack 3.7  objects.c   $NHDT-Date: 1596498192 2020/08/03 23:43:12 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.66 $ */
 /* Copyright (c) Mike Threepoint, 1989.                           */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -107,10 +107,10 @@ OBJECT(OBJ("strange object", None),
            WEAPON_CLASS, prob, 0, \
            wt, cost, sdam, ldam, hitbon, ammotyp, wt, color )
 #define GUN(name,app,kn,bi,prob,wt,cost,hitbon,ammotyp,metal,sub,color) \
-	OBJECT( \
-		OBJ(name,app), BITS(kn,0,1,0,0,1,0,0,bi,0,0,sub,metal), 0, \
-		WEAPON_CLASS, prob, 0, \
-		wt, cost, 2, 2, hitbon, ammotyp, wt, color )
+    OBJECT( \
+        OBJ(name,app), BITS(kn,0,1,0,0,1,0,0,bi,0,0,sub,metal), 0, \
+        WEAPON_CLASS, prob, 0, \
+        wt, cost, 2, 2, hitbon, ammotyp, wt, color )
 
 /* Note: for weapons that don't do an even die of damage (ex. 2-7 or 3-18)
    the extra damage is added on in weapon.c, not here! */
@@ -336,13 +336,13 @@ BOW("sling", None,             1, 40,  3, 20, 0, LEATHER, P_SLING, HI_LEATHER),
 BOW("crossbow", None,          1, 45, 50, 40, 0, WOOD, P_CROSSBOW, HI_WOOD),
 
 /* firearms */
-GUN("pistol", None,	   1,  0, 0,  20,  100,  0, WP_BULLET, IRON, P_FIREARM, HI_METAL),
+GUN("pistol", None,    1,  0, 0,  20,  100,  0, WP_BULLET, IRON, P_FIREARM, HI_METAL),
 GUN("submachine gun", None,   1,  0, 0,  25,  250, -1, WP_BULLET, IRON, P_FIREARM, HI_METAL),
 GUN("heavy machine gun", None,1,  1, 0, 500, 2000, -4, WP_BULLET, IRON, P_FIREARM, HI_METAL),
-GUN("rifle", None,		   1,  1, 0,  30,  150,  1, WP_BULLET, IRON, P_FIREARM, HI_METAL),
-GUN("sniper rifle", None,	   1,  1, 0,  50, 4000,  4, WP_BULLET, IRON, P_FIREARM, HI_METAL),
-GUN("shotgun", None,	   1,  0, 0,  35,  200,  3,  WP_SHELL, IRON, P_FIREARM, HI_METAL),
-GUN("auto shotgun", None,	   1,  1, 0,  60, 1500,  0,  WP_SHELL, IRON, P_FIREARM, HI_METAL),
+GUN("rifle", None,         1,  1, 0,  30,  150,  1, WP_BULLET, IRON, P_FIREARM, HI_METAL),
+GUN("sniper rifle", None,      1,  1, 0,  50, 4000,  4, WP_BULLET, IRON, P_FIREARM, HI_METAL),
+GUN("shotgun", None,       1,  0, 0,  35,  200,  3,  WP_SHELL, IRON, P_FIREARM, HI_METAL),
+GUN("auto shotgun", None,      1,  1, 0,  60, 1500,  0,  WP_SHELL, IRON, P_FIREARM, HI_METAL),
 BULLET("bullet", None,
         1,  0,   1,   5, 20, 30, 0, WP_BULLET,   P,   IRON, -P_FIREARM, HI_METAL),
 BULLET("shotgun shell", None,

@@ -1,4 +1,4 @@
-/* NetHack 3.7	uhitm.c	$NHDT-Date: 1617035737 2021/03/29 16:35:37 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.300 $ */
+/* NetHack 3.7  uhitm.c $NHDT-Date: 1617035737 2021/03/29 16:35:37 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.300 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -319,7 +319,7 @@ find_roll_to_hit(struct monst *mtmp,
     if (is_orc(mtmp->data)
         && maybe_polyd(is_elf(g.youmonst.data), Race_if(PM_ELF)))
         tmp++;
-        
+
     /* Adding iron ball as a weapon skill gives a -4 penalty for
     unskilled vs no penalty for non-weapon objects.  Add 4 to
     compensate. */
@@ -620,7 +620,7 @@ hitum_cleave(struct monst *target, /* non-Null; forcefight at nothing doesn't
         dieroll = rnd(20);
         mhit = (tmp > dieroll);
         g.bhitpos.x = tx, g.bhitpos.y = ty; /* normally set up by
-					       do_attack() */
+                           do_attack() */
         (void) known_hitum(mtmp, uwep, &mhit, tmp, armorpenalty,
                            uattk, dieroll);
         (void) passive(mtmp, uwep, mhit, !DEADMONSTER(mtmp), AT_WEAP, !uwep);
@@ -825,7 +825,7 @@ hmon_hitmon(struct monst *mon,
                        let it also hit from behind or shatter foes' weapons */
                     || (hand_to_hand && obj->oartifact == ART_CLEAVER)) {
                     ; /* no special bonuses */
-                } else if (mon->mflee && (Role_if(PM_ROGUE) || P_SKILL(P_BACKSTAB)) 
+                } else if (mon->mflee && (Role_if(PM_ROGUE) || P_SKILL(P_BACKSTAB))
                             && !Upolyd
                            /* multi-shot throwing is too powerful here */
                            && hand_to_hand) {
@@ -1350,7 +1350,7 @@ hmon_hitmon(struct monst *mon,
     } else if (unarmed && tmp > 1 && !thrown && !obj && !Upolyd) {
         /* VERY small chance of stunning opponent if unarmed. */
         if (rnd(100) < (P_SKILL(P_BARE_HANDED_COMBAT) + P_SKILL(P_STUNNING_FIST)
-            || (rnd(50) && uarmg && uarmg->otyp == BOXING_GLOVES)) 
+            || (rnd(50) && uarmg && uarmg->otyp == BOXING_GLOVES))
             && !bigmonst(mdat)
             && !thick_skinned(mdat)) {
             if (canspotmon(mon))
@@ -3420,7 +3420,7 @@ struct mhitm_data *mhm;
         /* mhitu */
         int armpro = magic_negation(mdef);
         boolean uncancelled = !magr->mcan && (rn2(10) >= 3 * armpro);
-        
+
         hitmsg(magr, mattk);
         if (uncancelled && !thick_skinned(g.youmonst.data)
               && !LarvaCarrier && !rn2(4)) {
@@ -3442,7 +3442,7 @@ struct mhitm_data *mhm;
 }
 
 void
-mhitm_ad_hngy(struct monst *magr, struct attack *mattk, 
+mhitm_ad_hngy(struct monst *magr, struct attack *mattk,
               struct monst *mdef, struct mhitm_data *mhm)
 {
     if (magr == &g.youmonst) {
@@ -3514,7 +3514,7 @@ struct mhitm_data *mhm;
 }
 
 void
-mhitm_ad_vorp(struct monst *magr, struct attack *mattk, 
+mhitm_ad_vorp(struct monst *magr, struct attack *mattk,
               struct monst *mdef, struct mhitm_data *mhm)
 {
     if (magr == &g.youmonst) {
@@ -4735,7 +4735,7 @@ missum(struct monst *mdef, struct attack *mattk, boolean wouldhavehit)
             pline("%s parries %s with %s %s.", Monnam(mdef),
                 yobjnam(uwep, (const char *) 0), mhis(mdef), simpleonames(MON_WEP(mdef)));
         } else {
-            pline("%s %s %s%s.", Monnam(mdef), 
+            pline("%s %s %s%s.", Monnam(mdef),
                 rn2(2) ? "dodges out of the way of" : "ducks past",
                 uwep ? "" : "your ",
                 uwep ? yobjnam(uwep, (const char *) 0) : barehitmsg(&g.youmonst));
@@ -4868,14 +4868,14 @@ hmonas(struct monst *mon)
             /*FALLTHRU*/
         case AT_BITE:
             /* [ALI] Vampires are also smart. They avoid biting
-			   monsters if doing so would be fatal */
-			if ((uwep || (u.twoweap && uswapwep)) &&
-				maybe_polyd(is_vampire(g.youmonst.data), Race_if(PM_VAMPIRE)) &&
-				(is_rider(mon->data) ||
+               monsters if doing so would be fatal */
+            if ((uwep || (u.twoweap && uswapwep)) &&
+                maybe_polyd(is_vampire(g.youmonst.data), Race_if(PM_VAMPIRE)) &&
+                (is_rider(mon->data) ||
                  mon->data == &mons[PM_GRIM_REAPER] ||
-				 mon->data == &mons[PM_GREEN_SLIME] ||
+                 mon->data == &mons[PM_GREEN_SLIME] ||
                  touch_petrifies(mon->data)))
-			    break;
+                break;
         case AT_KICK:
         case AT_STNG:
         case AT_BUTT:

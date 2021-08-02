@@ -1,4 +1,4 @@
-/* NetHack 3.7	end.c	$NHDT-Date: 1621380392 2021/05/18 23:26:32 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.225 $ */
+/* NetHack 3.7  end.c   $NHDT-Date: 1621380392 2021/05/18 23:26:32 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.225 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -126,7 +126,7 @@ panictrace_handler(int sig_unused UNUSED)
         curses_uncurse_terminal();
     }
 #endif
-    
+
     f2 = (int) write(2, SIG_MSG, sizeof SIG_MSG - 1);
     nhUse(f2);  /* what could we do if write to fd#2 (stderr) fails  */
     NH_abort(); /* ... and we're already in the process of quitting? */
@@ -1215,23 +1215,23 @@ done(int how)
         }
     }
     /* Save life when under heaven or hell mode, but not when
-	 * self-genociding. */
-	if (u.ulives > 0 && how < GENOCIDED) {
-		pline("But wait...");
-		You("suddenly start to feel better!");
-		savelife(how);
-		u.ulives--;
-		if (!u.ulives)
-			You_feel("death is waiting for you just around the corner...");
-		/* Set invulnerability and wait until player gets another action. */
-		nomul(-5);
-		u.uinvulnerable = TRUE;
-		g.nomovemsg = You_can_move_again;
-		g.afternmv = heaven_or_hell_lifesave_end;
-		g.killer.name[0] = '\0';
-		g.killer.format = 0;
-		return;
-	}
+     * self-genociding. */
+    if (u.ulives > 0 && how < GENOCIDED) {
+        pline("But wait...");
+        You("suddenly start to feel better!");
+        savelife(how);
+        u.ulives--;
+        if (!u.ulives)
+            You_feel("death is waiting for you just around the corner...");
+        /* Set invulnerability and wait until player gets another action. */
+        nomul(-5);
+        u.uinvulnerable = TRUE;
+        g.nomovemsg = You_can_move_again;
+        g.afternmv = heaven_or_hell_lifesave_end;
+        g.killer.name[0] = '\0';
+        g.killer.format = 0;
+        return;
+    }
     if (Lifesaved && how <= GENOCIDED) {
         pline("But wait...");
         if (uamul && uamul->otyp == AMULET_OF_REINCARNATION) {
@@ -1290,8 +1290,8 @@ done(int how)
 static int
 heaven_or_hell_lifesave_end(void)
 {
-	u.uinvulnerable = FALSE;
-	return 1;
+    u.uinvulnerable = FALSE;
+    return 1;
 }
 
 /* separated from done() in order to specify the __noreturn__ attribute */
@@ -1477,8 +1477,8 @@ really_done(int how)
         formatkiller(eos(pbuf), sizeof pbuf - strlen(pbuf), how, TRUE);
         /* ask player if he wants a custom epitaph */
         if ('y' == yn("Do you want to write your own epitaph?")) {
-        	  getlin("What do you want your epitaph to be?",ebuf);
-         	  Sprintf(pbuf, "Here lies %s. %s", g.plname, ebuf);
+              getlin("What do you want your epitaph to be?",ebuf);
+              Sprintf(pbuf, "Here lies %s. %s", g.plname, ebuf);
         }
         make_grave(u.ux, u.uy, pbuf);
     }
@@ -1915,7 +1915,7 @@ save_killers(NHFILE *nhfp)
     if (perform_bwrite(nhfp)) {
         for (kptr = &g.killer; kptr != (struct kinfo *) 0; kptr = kptr->next) {
             if (nhfp->structlevel)
-	        bwrite(nhfp->fd, (genericptr_t)kptr, sizeof(struct kinfo));
+            bwrite(nhfp->fd, (genericptr_t)kptr, sizeof(struct kinfo));
         }
     }
     if (release_data(nhfp)) {
@@ -1934,7 +1934,7 @@ restore_killers(NHFILE *nhfp)
 
     for (kptr = &g.killer; kptr != (struct kinfo *) 0; kptr = kptr->next) {
         if (nhfp->structlevel)
-	    mread(nhfp->fd, (genericptr_t)kptr, sizeof(struct kinfo));
+        mread(nhfp->fd, (genericptr_t)kptr, sizeof(struct kinfo));
         if (kptr->next) {
             kptr->next = (struct kinfo *) alloc(sizeof (struct kinfo));
         }

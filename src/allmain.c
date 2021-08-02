@@ -729,7 +729,7 @@ newgame(void)
         } else if (u.uroleplay.marathon) {
             com_pager("legacy_marathon");
         } else if (Role_if(PM_CONVICT)) {
-		    com_pager("legacy_convict");
+            com_pager("legacy_convict");
         } else
             com_pager("legacy");
     }

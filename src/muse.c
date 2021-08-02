@@ -1,4 +1,4 @@
-/* NetHack 3.7	muse.c	$NHDT-Date: 1620329779 2021/05/06 19:36:19 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.143 $ */
+/* NetHack 3.7  muse.c  $NHDT-Date: 1620329779 2021/05/06 19:36:19 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.143 $ */
 /*      Copyright (C) 1990 by Ken Arromdee                         */
 /* NetHack may be freely redistributed.  See license for details.  */
 
@@ -328,11 +328,11 @@ m_use_healing(struct monst* mtmp)
         }
     }
      if (is_vampire(mtmp->data) &&
-		  (obj = m_carrying(mtmp, POT_VAMPIRE_BLOOD)) !=0) {
-		    g.m.defensive = obj;
-		    g.m.has_defense = MUSE_POT_VAMPIRE_BLOOD;
-		    return TRUE;
-	}
+          (obj = m_carrying(mtmp, POT_VAMPIRE_BLOOD)) !=0) {
+            g.m.defensive = obj;
+            g.m.has_defense = MUSE_POT_VAMPIRE_BLOOD;
+            return TRUE;
+    }
     return FALSE;
 }
 
@@ -653,10 +653,10 @@ find_defensive(struct monst* mtmp)
                 g.m.has_defense = MUSE_POT_HEALING;
             }
             nomore(MUSE_POT_VAMPIRE_BLOOD);
-        	if(is_vampire(mtmp->data) && obj->otyp == POT_VAMPIRE_BLOOD) {
-        			g.m.defensive = obj;
-        			g.m.has_defense = MUSE_POT_VAMPIRE_BLOOD;
-        	}
+            if(is_vampire(mtmp->data) && obj->otyp == POT_VAMPIRE_BLOOD) {
+                    g.m.defensive = obj;
+                    g.m.has_defense = MUSE_POT_VAMPIRE_BLOOD;
+            }
         } else { /* Pestilence */
             nomore(MUSE_POT_FULL_HEALING);
             if (obj->otyp == POT_SICKNESS) {
@@ -858,7 +858,7 @@ use_defensive(struct monst* mtmp)
             if (mon) newsym(mon->mx,mon->my);
         }
         return 2;
-  	}
+    }
     case MUSE_WAN_CREATE_MONSTER: {
         coord cc;
         struct monst *mon;
@@ -1735,7 +1735,7 @@ use_offensive(struct monst* mtmp)
     case MUSE_HORN_OF_BLASTING:
         mplayhorn(mtmp, otmp, FALSE);
         g.m_using = TRUE;
-        buzz(-30 - ((otmp->otyp == FROST_HORN) ? AD_COLD - 1 : 
+        buzz(-30 - ((otmp->otyp == FROST_HORN) ? AD_COLD - 1 :
                 (otmp->otyp == HORN_OF_BLASTING) ? AD_LOUD - 1 : AD_FIRE - 1),
              rn1(6, 6), mtmp->mx, mtmp->my, sgn(mtmp->mux - mtmp->mx),
              sgn(mtmp->muy - mtmp->my));

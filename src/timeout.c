@@ -1,4 +1,4 @@
-/* NetHack 3.7	timeout.c	$NHDT-Date: 1606243387 2020/11/24 18:43:07 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.122 $ */
+/* NetHack 3.7  timeout.c   $NHDT-Date: 1606243387 2020/11/24 18:43:07 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.122 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2018. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -868,23 +868,23 @@ struct obj *bomb;
 int fuse;
 boolean yours;
 {
-	long expiretime;
+    long expiretime;
 
-	if (bomb->cursed && !rn2(2)) return; /* doesn't arm if not armed */
+    if (bomb->cursed && !rn2(2)) return; /* doesn't arm if not armed */
 
-	/* Now if you play with other people's property... */
-	if (yours && (!carried(bomb) && costly_spot(bomb->ox, bomb->oy) &&
-		(!bomb->no_charge || bomb->unpaid))) {
-	    verbalize("You play with it, you pay for it!");
-	    bill_dummy_object(bomb);
-	}
+    /* Now if you play with other people's property... */
+    if (yours && (!carried(bomb) && costly_spot(bomb->ox, bomb->oy) &&
+        (!bomb->no_charge || bomb->unpaid))) {
+        verbalize("You play with it, you pay for it!");
+        bill_dummy_object(bomb);
+    }
 
-	expiretime = stop_timer(BOMB_BLOW, (genericptr_t) bomb);
-	if (expiretime > 0L) fuse = fuse - (expiretime - g.monstermoves);
-	bomb->yours = yours;
-	bomb->oarmed = TRUE;
+    expiretime = stop_timer(BOMB_BLOW, (genericptr_t) bomb);
+    if (expiretime > 0L) fuse = fuse - (expiretime - g.monstermoves);
+    bomb->yours = yours;
+    bomb->oarmed = TRUE;
 
-	(void) start_timer((long)fuse, TIMER_OBJECT, BOMB_BLOW, obj_to_any(bomb));
+    (void) start_timer((long)fuse, TIMER_OBJECT, BOMB_BLOW, obj_to_any(bomb));
 }
 
 /* timer callback routine: detonate the explosives */
@@ -893,92 +893,92 @@ bomb_blow(arg, timeout)
 anything *arg;
 long timeout;
 {
-	struct obj *bomb;
-	xchar x,y;
-	boolean silent, underwater;
-	struct monst *mtmp = (struct monst *)0;
+    struct obj *bomb;
+    xchar x,y;
+    boolean silent, underwater;
+    struct monst *mtmp = (struct monst *)0;
 
-	bomb = arg->a_obj;
+    bomb = arg->a_obj;
 
-	silent = (timeout != g.monstermoves);     /* exploded while away */
+    silent = (timeout != g.monstermoves);     /* exploded while away */
 
-	if (get_obj_location(bomb, &x, &y, BURIED_TOO | CONTAINED_TOO)) {
-		switch(bomb->where) {
-		case OBJ_MINVENT:
-		    mtmp = bomb->ocarry;
-			if (bomb == MON_WEP(mtmp)) {
-			    bomb->owornmask &= ~W_WEP;
-			    MON_NOWEP(mtmp);
-			}
-			if (!silent) {
-			    if (canseemon(mtmp))
-				You("see %s engulfed in an explosion!", mon_nam(mtmp));
-			}
-		    	mtmp->mhp -= d(2,5);
-			if (mtmp->mhp < 1) {
-				if(!bomb->yours)
-					monkilled(mtmp,
-						  (silent ? "" : "explosion"),
-						  AD_PHYS);
-				else xkilled(mtmp, !silent);
-			}
-			break;
-		case OBJ_INVENT:
-		    	/* This shouldn't be silent! */
-			pline("Something explodes inside your knapsack!");
-			if (bomb == uwep) {
-			    uwepgone();
-			    stop_occupation();
-			} else if (bomb == uswapwep) {
-			    uswapwepgone();
-			    stop_occupation();
-			} else if (bomb == uquiver) {
-			    uqwepgone();
-			    stop_occupation();
-			}
+    if (get_obj_location(bomb, &x, &y, BURIED_TOO | CONTAINED_TOO)) {
+        switch(bomb->where) {
+        case OBJ_MINVENT:
+            mtmp = bomb->ocarry;
+            if (bomb == MON_WEP(mtmp)) {
+                bomb->owornmask &= ~W_WEP;
+                MON_NOWEP(mtmp);
+            }
+            if (!silent) {
+                if (canseemon(mtmp))
+                You("see %s engulfed in an explosion!", mon_nam(mtmp));
+            }
+                mtmp->mhp -= d(2,5);
+            if (mtmp->mhp < 1) {
+                if(!bomb->yours)
+                    monkilled(mtmp,
+                          (silent ? "" : "explosion"),
+                          AD_PHYS);
+                else xkilled(mtmp, !silent);
+            }
+            break;
+        case OBJ_INVENT:
+                /* This shouldn't be silent! */
+            pline("Something explodes inside your knapsack!");
+            if (bomb == uwep) {
+                uwepgone();
+                stop_occupation();
+            } else if (bomb == uswapwep) {
+                uswapwepgone();
+                stop_occupation();
+            } else if (bomb == uquiver) {
+                uqwepgone();
+                stop_occupation();
+            }
             losehp(d(2,5), "carrying live explosives", KILLED_BY);
             break;
-		case OBJ_FLOOR:
-			underwater = is_pool(x, y);
-			if (!silent) {
-			    if (x == u.ux && y == u.uy) {
-				if (underwater && (Flying || Levitation))
-				    pline_The("water boils beneath you.");
-				else if (underwater && Wwalking)
-				    pline_The("water erupts around you.");
-				else pline("A bomb explodes under your %s!",
-				  makeplural(body_part(FOOT)));
-			    } else if (cansee(x, y))
-				You(underwater ?
-				    "see a plume of water shoot up." :
-				    "see a bomb explode.");
-			}
-			if (underwater && (Flying || Levitation || Wwalking)) {
-			    if (Wwalking && x == u.ux && y == u.uy) {
-				struct trap trap;
-				trap.ntrap = NULL;
-				trap.tx = x;
-				trap.ty = y;
-				trap.launch.x = -1;
-				trap.launch.y = -1;
-				trap.ttyp = RUST_TRAP;
-				trap.tseen = 0;
-				trap.once = 0;
-				trap.madeby_u = 0;
-				trap.dst.dnum = -1;
-				trap.dst.dlevel = -1;
-				dotrap(&trap, 0);
-			    }
-			    goto free_bomb;
-			}
-		    	break;
-		default:	/* Buried, contained, etc. */
-			if (!silent)
-			    You_hear("a muffled explosion.");
-			goto free_bomb;
-			break;
-		}
-		grenade_explode(bomb, x, y, bomb->yours);
+        case OBJ_FLOOR:
+            underwater = is_pool(x, y);
+            if (!silent) {
+                if (x == u.ux && y == u.uy) {
+                if (underwater && (Flying || Levitation))
+                    pline_The("water boils beneath you.");
+                else if (underwater && Wwalking)
+                    pline_The("water erupts around you.");
+                else pline("A bomb explodes under your %s!",
+                  makeplural(body_part(FOOT)));
+                } else if (cansee(x, y))
+                You(underwater ?
+                    "see a plume of water shoot up." :
+                    "see a bomb explode.");
+            }
+            if (underwater && (Flying || Levitation || Wwalking)) {
+                if (Wwalking && x == u.ux && y == u.uy) {
+                struct trap trap;
+                trap.ntrap = NULL;
+                trap.tx = x;
+                trap.ty = y;
+                trap.launch.x = -1;
+                trap.launch.y = -1;
+                trap.ttyp = RUST_TRAP;
+                trap.tseen = 0;
+                trap.once = 0;
+                trap.madeby_u = 0;
+                trap.dst.dnum = -1;
+                trap.dst.dlevel = -1;
+                dotrap(&trap, 0);
+                }
+                goto free_bomb;
+            }
+                break;
+        default:    /* Buried, contained, etc. */
+            if (!silent)
+                You_hear("a muffled explosion.");
+            goto free_bomb;
+            break;
+        }
+        grenade_explode(bomb, x, y, bomb->yours);
 free_bomb:
         if (carried(bomb)) {
             useup(bomb);
@@ -987,8 +987,8 @@ free_bomb:
             obfree(bomb, (struct obj *)0);
         }
         newsym(x, y);
-		return;
-	} /* Migrating grenades "blow up in midair" */
+        return;
+    } /* Migrating grenades "blow up in midair" */
 }
 
 /* Attach an egg hatch timeout to the given egg.

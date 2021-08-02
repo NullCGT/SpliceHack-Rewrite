@@ -1,4 +1,4 @@
-/* NetHack 3.7	trap.c	$NHDT-Date: 1615759958 2021/03/14 22:12:38 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.403 $ */
+/* NetHack 3.7  trap.c  $NHDT-Date: 1615759958 2021/03/14 22:12:38 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.403 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2013. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -2173,9 +2173,9 @@ trapeffect_landmine(
         trap->ttyp = PIT;
         trap->madeby_u = FALSE;
         if (!u.uroleplay.heaven_or_hell)
-			losehp(rnd(16), "land mine", KILLED_BY_AN);
-		else
-			You_feel("as if something protected you.");
+            losehp(rnd(16), "land mine", KILLED_BY_AN);
+        else
+            You_feel("as if something protected you.");
         blow_up_landmine(trap);
         if (steed_mid && saddle && !u.usteed)
             (void) keep_saddle_with_steedcorpse(steed_mid, fobj, saddle);
@@ -3523,10 +3523,10 @@ dofiretrap(
     int num, alt;
 
     /* Disable fire traps in case of heaven or hell mode */
-	if (u.uroleplay.heaven_or_hell) {
-		You_feel("as if something protected you.");
-		return;
-	}
+    if (u.uroleplay.heaven_or_hell) {
+        You_feel("as if something protected you.");
+        return;
+    }
 
     /* Bug: for box case, the equivalent of burn_floor_objects() ought
      * to be done upon its contents.

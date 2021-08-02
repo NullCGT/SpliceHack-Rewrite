@@ -1,4 +1,4 @@
-/* NetHack 3.7	dothrow.c	$NHDT-Date: 1621037618 2021/05/15 00:13:38 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.199 $ */
+/* NetHack 3.7  dothrow.c   $NHDT-Date: 1621037618 2021/05/15 00:13:38 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.199 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2013. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -198,18 +198,18 @@ throw_obj(struct obj *obj, int shotlimit)
             case PM_HUMAN:
             case PM_DWARF:
             default:
-                if (skill == -P_BOW && 
+                if (skill == -P_BOW &&
                     uwep->oartifact && uwep->oartifact == ART_LONGBOW_OF_DIANA)
                     multishot++;
                 break; /* No bonus */
             }
 
         /* Rate of fire is intrinsic to the weapon - cannot be user selected
-	     * except via altmode
-	     * Only for valid launchers 
-	     */
-	    if (uwep && is_firearm(uwep)) {
-            if (firearm_rof(uwep->otyp)) 
+         * except via altmode
+         * Only for valid launchers
+         */
+        if (uwep && is_firearm(uwep)) {
+            if (firearm_rof(uwep->otyp))
                 multishot += (firearm_rof(uwep->otyp) - 1);
             if (uwep->altmode == WP_MODE_SINGLE)
             /* weapons switchable b/w full/semi auto */
@@ -217,8 +217,8 @@ throw_obj(struct obj *obj, int shotlimit)
             else if (uwep->altmode == WP_MODE_BURST)
                 multishot = ((multishot > 3) ? (multishot / 3) : 1);
             /* else it is auto == no change */
-	    }
-	    if ((long )multishot > obj->quan) multishot = (int) obj->quan;
+        }
+        if ((long )multishot > obj->quan) multishot = (int) obj->quan;
         if (multishot < 1) multishot = 1;
 
         /* crossbows are slow to load and probably shouldn't allow multiple
@@ -1287,9 +1287,9 @@ throwit(struct obj *obj,
     }
 
     /* KMH -- Handle Plague here */
-  	if (uwep && uwep->oartifact == ART_PLAGUE &&
-  			ammo_and_launcher(obj, uwep) && is_poisonable(obj))
-  		  obj->opoisoned = POT_SICKNESS;
+    if (uwep && uwep->oartifact == ART_PLAGUE &&
+            ammo_and_launcher(obj, uwep) && is_poisonable(obj))
+          obj->opoisoned = POT_SICKNESS;
 
     g.thrownobj = obj;
     g.thrownobj->was_thrown = 1;
@@ -1323,7 +1323,7 @@ throwit(struct obj *obj,
             setuwep(obj);
             set_twoweap(twoweap); /* u.twoweap = twoweap */
         } else if (is_grenade(obj)) {
-		    arm_bomb(obj, TRUE);
+            arm_bomb(obj, TRUE);
         } else if (u.dz < 0) {
             (void) toss_up(obj, rn2(5) && !Underwater);
         } else if (u.dz > 0 && u.usteed && obj->oclass == POTION_CLASS
@@ -1380,9 +1380,9 @@ throwit(struct obj *obj,
             range = 1;
 
         if (is_ammo(obj)) {
-		    if (ammo_and_launcher(obj, uwep)) {
-                if (gunning) 
-				    range = firearm_range(uwep->otyp);
+            if (ammo_and_launcher(obj, uwep)) {
+                if (gunning)
+                    range = firearm_range(uwep->otyp);
                 else if (crossbowing)
                     range = BOLT_LIM;
                 else
@@ -1459,9 +1459,9 @@ throwit(struct obj *obj,
     }
 
     /* Handle grenades or rockets */
-	if (is_grenade(obj)) {
-	    arm_bomb(obj, TRUE);
-	}
+    if (is_grenade(obj)) {
+        arm_bomb(obj, TRUE);
+    }
 
     if (!g.thrownobj) {
         /* missile has already been handled */
@@ -1828,7 +1828,7 @@ thitmonst(register struct monst *mon,
                     if (Race_if(PM_ELF) && uwep->otyp == ELVEN_BOW)
                         tmp++;
                     else if (Race_if(PM_DROW) && uwep->otyp == DARK_ELVEN_BOW)
-              			tmp++;
+                        tmp++;
                     else if (Role_if(PM_SAMURAI) && uwep->otyp == YUMI)
                         tmp++;
                 }
@@ -2159,29 +2159,29 @@ breakobj(struct obj *obj,
         if (obj->otyp == POT_OIL && obj->lamplit) {
             explode_oil(obj, x, y);
         } else if ((obj->otyp == POT_VAMPIRE_BLOOD ||
- 				   obj->otyp == POT_BLOOD) &&
- 				   levl[x][y].altarmask != AM_CHAOTIC &&
- 				   levl[x][y].altarmask != AM_NONE) {
-   			    /* ALI: If blood is spilt on a lawful or
-   			     * neutral altar the effect is similar to
-   			     * human sacrifice. There's no effect on
-   			     * chaotic or unaligned altars since it is
-   			     * not sufficient to summon a demon.
-   			     */
-   			    if (hero_caused) {
-         				/* Regardless of your race/alignment etc.
-         				 * Lawful and neutral gods really _dont_
-         				 * like vampire or (presumed) human blood
-         				 * on their altars.
-         				 */
-         				pline("You'll regret this infamous offense!");
-         				exercise(A_WIS, FALSE);
-   			    }
-   			    /* curse the lawful/neutral altar */
-   			    pline_The("altar is stained with blood.");
-   			    if (!Is_astralevel(&u.uz))
-   				  levl[x][y].altarmask = AM_CHAOTIC;
-   			    angry_priest();
+                   obj->otyp == POT_BLOOD) &&
+                   levl[x][y].altarmask != AM_CHAOTIC &&
+                   levl[x][y].altarmask != AM_NONE) {
+                /* ALI: If blood is spilt on a lawful or
+                 * neutral altar the effect is similar to
+                 * human sacrifice. There's no effect on
+                 * chaotic or unaligned altars since it is
+                 * not sufficient to summon a demon.
+                 */
+                if (hero_caused) {
+                        /* Regardless of your race/alignment etc.
+                         * Lawful and neutral gods really _dont_
+                         * like vampire or (presumed) human blood
+                         * on their altars.
+                         */
+                        pline("You'll regret this infamous offense!");
+                        exercise(A_WIS, FALSE);
+                }
+                /* curse the lawful/neutral altar */
+                pline_The("altar is stained with blood.");
+                if (!Is_astralevel(&u.uz))
+                  levl[x][y].altarmask = AM_CHAOTIC;
+                angry_priest();
         } else if (distu(x, y) <= 2) {
             if (!breathless(g.youmonst.data) || haseyes(g.youmonst.data)) {
                 /* wet towel protects both eyes and breathing */

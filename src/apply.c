@@ -1,4 +1,4 @@
-/* NetHack 3.7	apply.c	$NHDT-Date: 1621387861 2021/05/19 01:31:01 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.344 $ */
+/* NetHack 3.7  apply.c $NHDT-Date: 1621387861 2021/05/19 01:31:01 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.344 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -326,18 +326,18 @@ struct obj *obj;
         card_luck = badcards ? 13 - Luck : Luck;
 
         You("draw a hand of five cards.");
-        if (Blind) 
+        if (Blind)
             pline("No telling how good it is...");
-        else if (card_luck <= 0) 
+        else if (card_luck <= 0)
             pline("It's not very good...");
         else if (card_luck < 5)
             pline("Two pair!");
-        else if (card_luck < 13) 
+        else if (card_luck < 13)
             pline("Full house!");
         else if (card_luck >= 13)
             pline("Wow, a straight flush!");
 
-        /* 
+        /*
          * If blessed, indicate the luck value directly.  The high card or
          * kicker (depending on the hand) corresponds to the current value of
          * Luck, with a one meaning Luck == 1 and a king meaning Luck == 13.
@@ -3356,7 +3356,7 @@ use_pole(struct obj *obj)
         max_range = 5;
     else
         max_range = 8; /* (P_SKILL(typ) >= P_EXPERT) */
-    
+
     if (obj->oartifact == ART_GLEIPNIR)
         max_range = max_range * 3;
 
@@ -4203,21 +4203,21 @@ doapply(void)
         use_stone(obj);
         break;
     case AUTO_SHOTGUN:
-	case SUBMACHINE_GUN:		
-		if (obj->altmode == WP_MODE_AUTO) obj-> altmode = WP_MODE_SINGLE;
-		else obj->altmode = WP_MODE_AUTO;
-		You("switch %s to %s mode.", yname(obj), 
-			(obj->altmode ? "semi-automatic" : "full automatic"));
-		break;
+    case SUBMACHINE_GUN:
+        if (obj->altmode == WP_MODE_AUTO) obj-> altmode = WP_MODE_SINGLE;
+        else obj->altmode = WP_MODE_AUTO;
+        You("switch %s to %s mode.", yname(obj),
+            (obj->altmode ? "semi-automatic" : "full automatic"));
+        break;
     case FRAG_GRENADE:
-	case GAS_GRENADE:
-		if (!obj->oarmed) {
+    case GAS_GRENADE:
+        if (!obj->oarmed) {
             if (obj->oartifact == ART_HAND_GRENADE_OF_ANTIOCH) You("pull the holy pin.");
-			else You("arm %s.", yname(obj));
-			arm_bomb(obj, TRUE);
+            else You("arm %s.", yname(obj));
+            arm_bomb(obj, TRUE);
             update_inventory();
-		} else pline("It's already armed!");
-		break;
+        } else pline("It's already armed!");
+        break;
     default:
         /* Pole-weapons can strike at a distance */
         if (is_pole(obj)) {

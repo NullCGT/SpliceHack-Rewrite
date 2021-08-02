@@ -1,4 +1,4 @@
-/* NetHack 3.7	artifact.c	$NHDT-Date: 1620326528 2021/05/06 18:42:08 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.167 $ */
+/* NetHack 3.7  artifact.c  $NHDT-Date: 1620326528 2021/05/06 18:42:08 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.167 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2013. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -91,7 +91,7 @@ restore_artifacts(NHFILE *nhfp)
         mread(nhfp->fd, (genericptr_t) g.artiexist, sizeof g.artiexist);
         mread(nhfp->fd, (genericptr_t) g.artidisco, sizeof g.artidisco);
     }
-    hack_artifacts();	/* redo non-saved special cases */
+    hack_artifacts();   /* redo non-saved special cases */
 }
 
 const char *
@@ -1441,42 +1441,42 @@ artifact_hit(struct monst *magr, struct monst *mdef, struct obj *otmp,
         }
     }
     /* STEPHEN WHITE'S NEW CODE */
-  	if (otmp->oartifact == ART_SERPENT_S_TONGUE) {
-  	    otmp->dknown = TRUE;
-  	    pline_The("twisted blade poisons %s!",
-  		    youdefend ? "you" : mon_nam(mdef));
-  	    if (youdefend ? Poison_resistance : resists_poison(mdef)) {
-        		if (youdefend)
-        		    You("are not affected by the poison.");
-        		else
-        		    pline("%s seems unaffected by the poison.", Monnam(mdef));
-        		return TRUE;
-  	    }
-    	  switch (rnd(10)) {
-    		case 1:
-    		case 2:
-    		case 3:
-    		case 4:
-    		    *dmgptr += d(1,6) + 2;
-    		    break;
-    		case 5:
-    		case 6:
-    		case 7:
-    		    *dmgptr += d(2,6) + 4;
-    		    break;
-    		case 8:
-    		case 9:
-    		    *dmgptr += d(3,6) + 6;
-    		    break;
-    		case 10:
-    		    pline_The("poison was deadly...");
-    		    *dmgptr = 2 *
-    			    (youdefend ? Upolyd ? u.mh : u.uhp : mdef->mhp) +
-    			    FATAL_DAMAGE_MODIFIER;
-    		    break;
-    	  }
-  	    return TRUE;
-  	}
+    if (otmp->oartifact == ART_SERPENT_S_TONGUE) {
+        otmp->dknown = TRUE;
+        pline_The("twisted blade poisons %s!",
+            youdefend ? "you" : mon_nam(mdef));
+        if (youdefend ? Poison_resistance : resists_poison(mdef)) {
+                if (youdefend)
+                    You("are not affected by the poison.");
+                else
+                    pline("%s seems unaffected by the poison.", Monnam(mdef));
+                return TRUE;
+        }
+          switch (rnd(10)) {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                *dmgptr += d(1,6) + 2;
+                break;
+            case 5:
+            case 6:
+            case 7:
+                *dmgptr += d(2,6) + 4;
+                break;
+            case 8:
+            case 9:
+                *dmgptr += d(3,6) + 6;
+                break;
+            case 10:
+                pline_The("poison was deadly...");
+                *dmgptr = 2 *
+                    (youdefend ? Upolyd ? u.mh : u.uhp : mdef->mhp) +
+                    FATAL_DAMAGE_MODIFIER;
+                break;
+          }
+        return TRUE;
+    }
     if (spec_ability(otmp, SPFX_CANC) && !rn2(3)) {
         if (!youdefend) {
             if (cancel_monst(mdef, otmp, TRUE, FALSE, FALSE) && vis) {
@@ -1636,7 +1636,7 @@ artifact_hit(struct monst *magr, struct monst *mdef, struct obj *otmp,
                 dobuzz((int) (-20 - (rnd(AD_PSYC) - 1)), 3,
                        magr->mx, magr->my, sgn(g.tbx), sgn(g.tby), TRUE);
             }
-            
+
         }
         return realizes_damage;
     }
@@ -1711,7 +1711,7 @@ artifact_hit(struct monst *magr, struct monst *mdef, struct obj *otmp,
 
     /* Reaver item theft */
     if (otmp->oartifact == ART_REAVER){
-   	    if (youattack){
+        if (youattack){
             if(mdef->minvent && (Role_if(PM_PIRATE) || !rn2(10) ) ){
                 struct obj *otmp2;
                 long unwornmask;
@@ -1742,11 +1742,11 @@ artifact_hit(struct monst *magr, struct monst *mdef, struct obj *otmp,
                         hold_another_object(otmp2, "You snatched but dropped %s.",
                                 doname(otmp2), "You steal: ");
                     /* more take-away handling, after theft message */
-                    if (unwornmask & W_WEP) {		/* stole wielded weapon */
+                    if (unwornmask & W_WEP) {       /* stole wielded weapon */
                         possibly_unwield(mdef, FALSE);
-                    } else if (unwornmask & W_ARMG) {	/* stole worn gloves */
+                    } else if (unwornmask & W_ARMG) {   /* stole worn gloves */
                         mselftouch(mdef, (const char *)0, TRUE);
-                        if (mdef->mhp <= 0)	/* it's now a statue */
+                        if (mdef->mhp <= 0) /* it's now a statue */
                             return 1; /* monster is dead */
                     }
                 }
@@ -1795,8 +1795,8 @@ artifact_hit(struct monst *magr, struct monst *mdef, struct obj *otmp,
                 if (mdef->mhp <= 0)
                     return 1;
             }
-   	    }
-   	}
+        }
+    }
     return FALSE;
 }
 
@@ -1842,7 +1842,7 @@ arti_invoke(struct obj *obj)
     register const struct artifact *oart = get_artifact(obj);
     struct monst *mtmp;
     int artinum = obj->oartifact;
-    
+
     if (!obj) {
         impossible("arti_invoke without obj");
         return 0;
@@ -1949,9 +1949,9 @@ arti_invoke(struct obj *obj)
             anything any;
 
             if (Is_blackmarket(&u.uz) && *u.ushops) {
-      		      You("feel very disoriented for a moment.");
-      		      break;
-      	    }
+                  You("feel very disoriented for a moment.");
+                  break;
+            }
             any = cg.zeroany; /* set all bits to zero */
             start_menu(tmpwin, MENU_BEHAVE_STANDARD);
             /* use index+1 (cant use 0) as identifier */
@@ -2037,20 +2037,20 @@ arti_invoke(struct obj *obj)
                 if (Punished && (obj != uball)) {
                     unpunish(); /* Remove a mundane heavy iron ball */
                 }
-                
+
                 if (!Punished) {
                     setworn(mkobj(CHAIN_CLASS, TRUE), W_CHAIN);
                     setworn(obj, W_BALL);
                     uball->spe = 1;
                     if (!u.uswallow) {
                     placebc();
-                    if (Blind) set_bc(1);	/* set up ball and chain variables */
-                    newsym(u.ux,u.uy);		/* see ball&chain if can't see self */
+                    if (Blind) set_bc(1);   /* set up ball and chain variables */
+                    newsym(u.ux,u.uy);      /* see ball&chain if can't see self */
                     }
                     Your("%s chains itself to you!", The(xname(obj)));
                 }
             }
-            if (!Hallucination) {    
+            if (!Hallucination) {
                 Your("body begins to feel less solid.");
             } else {
                 You_feel("one with the spirit world.");
@@ -2764,26 +2764,26 @@ has_magic_key(struct monst *mon) /* if null, hero assumed */
 }
 
 static const char *random_seasound[] = {
-   	"distant waves",
-   	"distant surf",
-   	"the distant sea",
-   	"the call of the ocean",
-   	"waves against the shore",
-   	"flowing water",
-   	"the sighing of waves",
-   	"quarrelling gulls",
-   	"the song of the deep",
-   	"rumbling in the deeps",
-   	"the singing of Eidothea",
-   	"the laughter of the protean nymphs",
-   	"rushing tides",
-   	"the elusive sea change",
-   	"the silence of the sea",
-   	"the passage of the albatross",
-   	"dancing raindrops",
-   	"coins rolling on the seabed",
-   	"treasure galleons crumbling in the depths",
-   	"waves lapping against a hull"
+    "distant waves",
+    "distant surf",
+    "the distant sea",
+    "the call of the ocean",
+    "waves against the shore",
+    "flowing water",
+    "the sighing of waves",
+    "quarrelling gulls",
+    "the song of the deep",
+    "rumbling in the deeps",
+    "the singing of Eidothea",
+    "the laughter of the protean nymphs",
+    "rushing tides",
+    "the elusive sea change",
+    "the silence of the sea",
+    "the passage of the albatross",
+    "dancing raindrops",
+    "coins rolling on the seabed",
+    "treasure galleons crumbling in the depths",
+    "waves lapping against a hull"
 };
 
 /* Polymorph obj contents */
@@ -2792,15 +2792,15 @@ arti_poly_contents(struct obj *obj)
 {
     struct obj *dobj = 0;  /*object to be deleted*/
     struct obj *otmp;
-   	You_hear("%s.",random_seasound[rn2(SIZE(random_seasound))]);
-   	for (otmp = obj->cobj; otmp; otmp = otmp->nobj){
+    You_hear("%s.",random_seasound[rn2(SIZE(random_seasound))]);
+    for (otmp = obj->cobj; otmp; otmp = otmp->nobj){
         if (!otmp->unpaid)
             otmp->no_charge = 1;
-     		if (dobj) {
-     			  delobj(dobj);
-     			    dobj = 0;
-     		}
-   		if(!obj_resists(otmp, 5, 95)) {
+            if (dobj) {
+                  delobj(dobj);
+                    dobj = 0;
+            }
+        if(!obj_resists(otmp, 5, 95)) {
             /* KMH, conduct */
             u.uconduct.polypiles++;
             /* any saved lock context will be dangerously obsolete */
@@ -2810,12 +2810,12 @@ arti_poly_contents(struct obj *obj)
                     dobj = otmp;
             }
             else otmp = poly_obj(otmp, STRANGE_OBJECT);
-   		}
-   	}
-   	if (dobj) {
-     		delobj(dobj);
-     		dobj = 0;
-   	}
+        }
+    }
+    if (dobj) {
+            delobj(dobj);
+            dobj = 0;
+    }
 }
 
 /*artifact.c*/

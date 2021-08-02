@@ -1,4 +1,4 @@
-/* NetHack 3.7	mkroom.c	$NHDT-Date: 1613086701 2021/02/11 23:38:21 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.52 $ */
+/* NetHack 3.7  mkroom.c    $NHDT-Date: 1613086701 2021/02/11 23:38:21 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.52 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2011. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -142,9 +142,9 @@ mkshop(void)
                 return;
             }
             if(*ep == 'p' || *ep == 'P'){
- 				mkzoo(LEMUREPIT);
- 				return;
- 			}
+                mkzoo(LEMUREPIT);
+                return;
+            }
             if (*ep == '_') {
                 mktemple();
                 return;
@@ -359,7 +359,7 @@ fill_zoo(struct mkroom* sroom)
                                            ? &mons[PM_LEPRECHAUN]
                                            : (type == COCKNEST)
                                                ? &mons[PM_COCKATRICE]
-                                               : (type == ARMORY) 
+                                               : (type == ARMORY)
                                                     ? (rn2(3) ? mkclass(S_RUSTMONST,0) : &mons[PM_BROWN_PUDDING])
                                                         : (type == DEN)
                                                             ? denmon()
@@ -470,8 +470,8 @@ fill_zoo(struct mkroom* sroom)
         g.level.flags.has_beehive = 1;
         break;
     case LEMUREPIT:
- 		g.level.flags.has_lemurepit = 1;
- 		break;
+        g.level.flags.has_lemurepit = 1;
+        break;
     case DEN:
         g.level.flags.has_den = 1;
         break;

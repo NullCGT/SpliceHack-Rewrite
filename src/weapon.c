@@ -1,4 +1,4 @@
-/* NetHack 3.7	weapon.c	$NHDT-Date: 1607811730 2020/12/12 22:22:10 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.89 $ */
+/* NetHack 3.7  weapon.c    $NHDT-Date: 1607811730 2020/12/12 22:22:10 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.89 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2011. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -679,12 +679,12 @@ oselect(struct monst *mtmp, int x)
                  && !touch_petrifies(&mons[otmp->corpsenm]))
             && (!otmp->oartifact || touch_artifact(otmp, mtmp))
             && !mon_hates_material(mtmp, otmp->material)) {
-       	        if (!obest ||
-             		    dmgval(otmp, &g.youmonst) > dmgval(obest, &g.youmonst))
-             		    obest = otmp;
+                if (!obest ||
+                        dmgval(otmp, &g.youmonst) > dmgval(obest, &g.youmonst))
+                        obest = otmp;
         }
     }
-             	return obest;
+                return obest;
 }
 
 /* TODO: have monsters use aklys' throw-and-return */
@@ -1246,7 +1246,7 @@ skill_training_percent(int skill)
     int i;
 
     if (P_RESTRICTED(skill))
-	    return 0;
+        return 0;
 
     if (skill >= P_FIRST_ROLE)
         return 100;

@@ -1,4 +1,4 @@
-/* NetHack 3.7	worn.c	$NHDT-Date: 1606919259 2020/12/02 14:27:39 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.70 $ */
+/* NetHack 3.7  worn.c  $NHDT-Date: 1606919259 2020/12/02 14:27:39 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.70 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2013. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -350,13 +350,13 @@ update_mon_intrinsics(struct monst *mon, struct obj *obj, boolean on,
     unseen = !canseemon(mon);
 
     if (obj->otyp == GOLD_DRAGON_SCALE_MAIL || obj->otyp == GOLD_DRAGON_SCALES) {
-		if(on)
-			begin_burn(obj,FALSE);
-		else
-			end_burn(obj,FALSE);
-		if(!unseen && !silently)
-			if(on) pline("%s begins to glow.", The(xname(obj)));
-	}
+        if(on)
+            begin_burn(obj,FALSE);
+        else
+            end_burn(obj,FALSE);
+        if(!unseen && !silently)
+            if(on) pline("%s begins to glow.", The(xname(obj)));
+    }
 
     if (!which)
         goto maybe_blocks;

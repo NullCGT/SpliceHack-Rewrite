@@ -1,4 +1,4 @@
-/* NetHack 3.7	hack.c	$NHDT-Date: 1617035736 2021/03/29 16:35:36 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.281 $ */
+/* NetHack 3.7  hack.c  $NHDT-Date: 1617035736 2021/03/29 16:35:36 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.281 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Derek S. Ray, 2015. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -2629,8 +2629,8 @@ check_special_room(boolean newlev)
             You("enter the den of a beast pack!");
             break;
         case LEMUREPIT:
- 		    You("enter a pit of screaming lemures!");
- 		    break;
+            You("enter a pit of screaming lemures!");
+            break;
         case ARMORY:
             You("enter a dilapidated armory!");
             break;
@@ -2714,8 +2714,8 @@ check_special_room(boolean newlev)
                     g.level.flags.has_beehive = 0;
                     break;
                 case LEMUREPIT:
-     				g.level.flags.has_lemurepit = 0;
-     				break;
+                    g.level.flags.has_lemurepit = 0;
+                    break;
                 case DEN:
                     g.level.flags.has_den = 0;
                     break;

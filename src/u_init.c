@@ -1,4 +1,4 @@
-/* NetHack 3.7	u_init.c	$NHDT-Date: 1621131203 2021/05/16 02:13:23 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.75 $ */
+/* NetHack 3.7  u_init.c    $NHDT-Date: 1621131203 2021/05/16 02:13:23 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.75 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2017. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -58,9 +58,9 @@ static struct trobj Cave_man[] = {
     { 0, 0, 0, 0, 0 }
 };
 static struct trobj Convict[] = {
-	{ ROCK, 0, GEM_CLASS, 1, 0 },
-	{ STRIPED_SHIRT, 0, ARMOR_CLASS, 1, 0 },
-	{ 0, 0, 0, 0, 0 }
+    { ROCK, 0, GEM_CLASS, 1, 0 },
+    { STRIPED_SHIRT, 0, ARMOR_CLASS, 1, 0 },
+    { 0, 0, 0, 0, 0 }
 };
 static struct trobj Dragon_Rider[] = {
     { BROADSWORD, 1, WEAPON_CLASS, 1, UNDEF_BLESS },
@@ -124,20 +124,20 @@ static struct trobj Priest[] = {
     { 0, 0, 0, 0, 0 }
 };
 static struct trobj Pirate[] = {
-#define PIR_KNIVES	1
+#define PIR_KNIVES  1
 #define PIR_SNACK 5
 #define PIR_JEWELRY 7
 #define PIR_TOOL 8
-	{ SCIMITAR, 0, WEAPON_CLASS, 1, UNDEF_BLESS },
-	{ KNIFE, 1, WEAPON_CLASS, 2, 0 },
-	{ JACKET, 0, ARMOR_CLASS, 1, UNDEF_BLESS },
-	{ HIGH_BOOTS, 0, ARMOR_CLASS, 1, UNDEF_BLESS },
-	{ CRAM_RATION, 0, FOOD_CLASS, 2, UNDEF_BLESS },
-	{ BANANA, 0, FOOD_CLASS, 3, 0 },
-	{ POT_BOOZE, 0, POTION_CLASS, 3, UNDEF_BLESS },
-	{ UNDEF_TYP, UNDEF_SPE, RING_CLASS, 1, UNDEF_BLESS },
-	{ OILSKIN_SACK, 0, TOOL_CLASS, 1, 0 },
-	{ 0, 0, 0, 0, 0 }
+    { SCIMITAR, 0, WEAPON_CLASS, 1, UNDEF_BLESS },
+    { KNIFE, 1, WEAPON_CLASS, 2, 0 },
+    { JACKET, 0, ARMOR_CLASS, 1, UNDEF_BLESS },
+    { HIGH_BOOTS, 0, ARMOR_CLASS, 1, UNDEF_BLESS },
+    { CRAM_RATION, 0, FOOD_CLASS, 2, UNDEF_BLESS },
+    { BANANA, 0, FOOD_CLASS, 3, 0 },
+    { POT_BOOZE, 0, POTION_CLASS, 3, UNDEF_BLESS },
+    { UNDEF_TYP, UNDEF_SPE, RING_CLASS, 1, UNDEF_BLESS },
+    { OILSKIN_SACK, 0, TOOL_CLASS, 1, 0 },
+    { 0, 0, 0, 0, 0 }
 };
 static struct trobj Ranger[] = {
 #define RAN_BOW 1
@@ -488,11 +488,11 @@ static const struct def_skill Skill_Pir[] = {
     { P_KNIFE,  P_EXPERT },
     { P_AXE, P_SKILLED },
     { P_SHORT_SWORD, P_BASIC },
-   	{ P_BROAD_SWORD, P_EXPERT },
+    { P_BROAD_SWORD, P_EXPERT },
     { P_LONG_SWORD, P_BASIC },
-   	{ P_SCIMITAR, P_EXPERT },
+    { P_SCIMITAR, P_EXPERT },
     { P_SABER, P_EXPERT },
-   	{ P_CLUB, P_BASIC },
+    { P_CLUB, P_BASIC },
     { P_MORNING_STAR, P_SKILLED },
     { P_FLAIL, P_EXPERT },
     { P_SPEAR, P_SKILLED },
@@ -501,9 +501,9 @@ static const struct def_skill Skill_Pir[] = {
     { P_DART, P_SKILLED },
     { P_WHIP, P_SKILLED },
     { P_UNICORN_HORN, P_BASIC },
-   	{ P_ATTACK_SPELL, P_BASIC },
+    { P_ATTACK_SPELL, P_BASIC },
     { P_DIVINATION_SPELL, P_BASIC },
-   	{ P_ENCHANTMENT_SPELL, P_BASIC },
+    { P_ENCHANTMENT_SPELL, P_BASIC },
     { P_ESCAPE_SPELL, P_SKILLED },
     { P_TWO_WEAPON_COMBAT, P_SKILLED },
     { P_BARE_HANDED_COMBAT, P_EXPERT },
@@ -741,72 +741,72 @@ shambler_init(void)
     struct attack* attkptr;
 
     /* what a horrible night to have a curse */
-  	shambler->mlevel += rnd(12)-3;				/* shuffle level */
-  	shambler->mmove = rn2(10)+9;				/* slow to very fast */
-  	shambler->ac = rn2(21)-10;				/* any AC */
-  	shambler->mr = rn2(5)*25;				/* varying amounts of MR */
-  	shambler->maligntyp = rn2(21)-10;			/* any alignment */
-  	/* attacks...?  */
-  	for (i = 0; i < rnd(4); i++) {
-  		attkptr = &shambler->mattk[i];
-  		/* restrict it to certain types of attacks */
-  		attkptr->aatyp = 0;
-  		while (attkptr->aatyp == 0 || attkptr->aatyp == AT_ENGL || attkptr->aatyp == AT_SPIT ||
-  					attkptr->aatyp == AT_BREA || attkptr->aatyp == AT_EXPL ||
-  					attkptr->aatyp == AT_BOOM || attkptr->aatyp == AT_GAZE ||
+    shambler->mlevel += rnd(12)-3;              /* shuffle level */
+    shambler->mmove = rn2(10)+9;                /* slow to very fast */
+    shambler->ac = rn2(21)-10;              /* any AC */
+    shambler->mr = rn2(5)*25;               /* varying amounts of MR */
+    shambler->maligntyp = rn2(21)-10;           /* any alignment */
+    /* attacks...?  */
+    for (i = 0; i < rnd(4); i++) {
+        attkptr = &shambler->mattk[i];
+        /* restrict it to certain types of attacks */
+        attkptr->aatyp = 0;
+        while (attkptr->aatyp == 0 || attkptr->aatyp == AT_ENGL || attkptr->aatyp == AT_SPIT ||
+                    attkptr->aatyp == AT_BREA || attkptr->aatyp == AT_EXPL ||
+                    attkptr->aatyp == AT_BOOM || attkptr->aatyp == AT_GAZE ||
                     attkptr->aatyp == AT_HUGS || attkptr->aatyp == AT_SCRE ||
                     attkptr->aatyp == AT_VOLY) {
-  			attkptr->aatyp = rn2(AT_TENT);
-  		}
-  		attkptr->adtyp = 0;
-  		while (attkptr->adtyp == 0 || attkptr->adtyp == AD_DETH || attkptr->adtyp == AD_TLPT ||
-  					attkptr->adtyp == AD_SLIM || attkptr->adtyp == AD_VOID ||
-  					attkptr->adtyp == AD_ENCH || attkptr->adtyp == AD_DISN ||
-  					attkptr->adtyp == AD_PEST || attkptr->adtyp == AD_FAMN ||
+            attkptr->aatyp = rn2(AT_TENT);
+        }
+        attkptr->adtyp = 0;
+        while (attkptr->adtyp == 0 || attkptr->adtyp == AD_DETH || attkptr->adtyp == AD_TLPT ||
+                    attkptr->adtyp == AD_SLIM || attkptr->adtyp == AD_VOID ||
+                    attkptr->adtyp == AD_ENCH || attkptr->adtyp == AD_DISN ||
+                    attkptr->adtyp == AD_PEST || attkptr->adtyp == AD_FAMN ||
                     attkptr->adtyp == AD_HYDR || attkptr->adtyp == AD_DGST ||
                     attkptr->adtyp == AD_SKEL || attkptr->adtyp == AD_POTN ||
                     attkptr->adtyp == AD_WERE) {
-  			attkptr->adtyp = rn2(AD_VORP);
-  		}
-  		attkptr->damn = 2;				/* we're almost sure to get this wrong first time */
-  		attkptr->damd = 10;				/* either too high or too low */
-  	}
-  	shambler->msize = rn2(MZ_HUGE+1);			/* any size */
-  	shambler->cwt = 20;					/* fortunately moot as it's flagged NOCORPSE */
-  	shambler->cnutrit = 20;					/* see above */
-  	shambler->msound = rn2(MS_HUMANOID);			/* any but the specials */
-  	shambler->mresists = 0;
-  	for (i = 0; i < rnd(6); i++) {
-  		shambler->mresists |= (1 << rn2(8));		/* physical resistances... */
-  	}
-  	for (i = 0; i < rnd(5); i++) {
-  		shambler->mresists |= (0x100 << rn2(7));	/* 'different' resistances, even clumsy */
-  	}
-  	shambler->mconveys = 0;					/* flagged NOCORPSE */
-  	/*
-  	 * now time for the random flags.  this will likely produce
-  	 * a number of complete trainwreck monsters at first, but
-  	 * every so often something will dial up nasty stuff
-  	 */
-  	shambler->mflags1 = 0;
-  	for (i = 0; i < rnd(17); i++) {
-  		shambler->mflags1 |= (1 << rn2(33));		/* trainwreck this way :D */
-  	}
-  	shambler->mflags1 &= ~M1_UNSOLID;			/* no ghosts */
+            attkptr->adtyp = rn2(AD_VORP);
+        }
+        attkptr->damn = 2;              /* we're almost sure to get this wrong first time */
+        attkptr->damd = 10;             /* either too high or too low */
+    }
+    shambler->msize = rn2(MZ_HUGE+1);           /* any size */
+    shambler->cwt = 20;                 /* fortunately moot as it's flagged NOCORPSE */
+    shambler->cnutrit = 20;                 /* see above */
+    shambler->msound = rn2(MS_HUMANOID);            /* any but the specials */
+    shambler->mresists = 0;
+    for (i = 0; i < rnd(6); i++) {
+        shambler->mresists |= (1 << rn2(8));        /* physical resistances... */
+    }
+    for (i = 0; i < rnd(5); i++) {
+        shambler->mresists |= (0x100 << rn2(7));    /* 'different' resistances, even clumsy */
+    }
+    shambler->mconveys = 0;                 /* flagged NOCORPSE */
+    /*
+     * now time for the random flags.  this will likely produce
+     * a number of complete trainwreck monsters at first, but
+     * every so often something will dial up nasty stuff
+     */
+    shambler->mflags1 = 0;
+    for (i = 0; i < rnd(17); i++) {
+        shambler->mflags1 |= (1 << rn2(33));        /* trainwreck this way :D */
+    }
+    shambler->mflags1 &= ~M1_UNSOLID;           /* no ghosts */
 
-  	shambler->mflags2 = M2_NOPOLY | M2_HOSTILE;		/* Don't let the player be one of these yet. */
-  	for (i = 0; i < rnd(17); i++) {
-  		shambler->mflags2 |= (1 << rn2(31));
-  	}
-  	shambler->mflags2 &= ~M2_MERC;				/* no guards */
-  	shambler->mflags2 &= ~M2_PEACEFUL;			/* no peacefuls */
-    shambler->mflags2 &= ~M2_SHAPESHIFTER;	    /* no shapeshifters */
-  	shambler->mflags2 &= ~M2_WERE;              /* no werecreatures */
-  	shambler->mflags2 &= ~M2_PNAME;				/* not a proper name */
+    shambler->mflags2 = M2_NOPOLY | M2_HOSTILE;     /* Don't let the player be one of these yet. */
+    for (i = 0; i < rnd(17); i++) {
+        shambler->mflags2 |= (1 << rn2(31));
+    }
+    shambler->mflags2 &= ~M2_MERC;              /* no guards */
+    shambler->mflags2 &= ~M2_PEACEFUL;          /* no peacefuls */
+    shambler->mflags2 &= ~M2_SHAPESHIFTER;      /* no shapeshifters */
+    shambler->mflags2 &= ~M2_WERE;              /* no werecreatures */
+    shambler->mflags2 &= ~M2_PNAME;             /* not a proper name */
     /* randomize race flag */
     for (i = 0; i < rnd(4); i++) {
-  		shambler->mflags2 |= (1 << rn2(14));
-  	}
+        shambler->mflags2 |= (1 << rn2(14));
+    }
     return;
 }
 
@@ -875,15 +875,15 @@ u_init(void)
 
     /* Init heaven or hell. */
     if (u.uroleplay.heaven_or_hell) {
-		u.ulives = 3;
-		u.uhpmax = 1;
-		u.uhp = 1;
+        u.ulives = 3;
+        u.uhpmax = 1;
+        u.uhp = 1;
         if (!(HWarning & FROMOUTSIDE))
             HWarning |= FROMOUTSIDE;
-	}
-	else {
-		u.ulives = 0;
-	}
+    }
+    else {
+        u.ulives = 0;
+    }
 
     /* You automatically recognize monsters of your kind */
     learn_monster(monsndx(g.youmonst.data));
@@ -961,7 +961,7 @@ u_init(void)
         knows_object(GRAPPLING_HOOK);
         skill_init(Skill_Con);
         u.uhunger = 200;  /* On the verge of hungry */
-    	u.ualignbase[A_CURRENT] = u.ualignbase[A_ORIGINAL] =
+        u.ualignbase[A_CURRENT] = u.ualignbase[A_ORIGINAL] =
         u.ualign.type = A_CHAOTIC; /* Override racial alignment */
         g.urace.hatemask |= g.urace.lovemask;   /* Hated by the race's allies */
         g.urace.lovemask = 0; /* Convicts are pariahs of their race */
@@ -1012,8 +1012,8 @@ u_init(void)
         Pirate[PIR_KNIVES].trquan = rn1(2, 2);
         if(!rn2(4)) Pirate[PIR_SNACK].trotyp = KELP_FROND;
         Pirate[PIR_SNACK].trquan += rn2(4);
-        if(rn2(100)<50)	Pirate[PIR_JEWELRY].trotyp = RIN_ADORNMENT;
-        if(rn2(100)<50)	Pirate[PIR_TOOL].trotyp = GRAPPLING_HOOK;
+        if(rn2(100)<50) Pirate[PIR_JEWELRY].trotyp = RIN_ADORNMENT;
+        if(rn2(100)<50) Pirate[PIR_TOOL].trotyp = GRAPPLING_HOOK;
         ini_inv(Pirate);
         knows_object(OILSKIN_SACK);
         knows_object(OILSKIN_CLOAK);
@@ -1098,9 +1098,9 @@ u_init(void)
     }
 
     /* Add knowledge of life saving amulets for heaven or hell mode. */
-	if (u.uroleplay.heaven_or_hell) {
-		knows_object(AMULET_OF_LIFE_SAVING);
-	}
+    if (u.uroleplay.heaven_or_hell) {
+        knows_object(AMULET_OF_LIFE_SAVING);
+    }
 
     /*** Race-specific initializations ***/
     switch (Race_switch) {
@@ -1144,13 +1144,13 @@ u_init(void)
         break;
 
     case PM_DROW:
-  	    /* Drows can recognize all droven objects */
-  	    knows_object(DARK_ELVEN_SHORT_SWORD);
-  	    knows_object(DARK_ELVEN_ARROW);
-  	    knows_object(DARK_ELVEN_BOW);
-  	    knows_object(DARK_ELVEN_DAGGER);
-  	    knows_object(DARK_ELVEN_RING_MAIL);
-  	    break;
+        /* Drows can recognize all droven objects */
+        knows_object(DARK_ELVEN_SHORT_SWORD);
+        knows_object(DARK_ELVEN_ARROW);
+        knows_object(DARK_ELVEN_BOW);
+        knows_object(DARK_ELVEN_DAGGER);
+        knows_object(DARK_ELVEN_RING_MAIL);
+        break;
 
     case PM_DWARF:
         /* Dwarves can recognize all dwarvish objects */
@@ -1300,7 +1300,7 @@ ini_inv(struct trobj *trop)
     struct obj *obj;
     int otyp, i;
 
-	while (trop->trclass) {
+    while (trop->trclass) {
         otyp = (int) trop->trotyp;
         if (otyp != UNDEF_TYP) {
             obj = mksobj(otyp, TRUE, FALSE);

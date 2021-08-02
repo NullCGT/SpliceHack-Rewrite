@@ -1,4 +1,4 @@
-/* NetHack 3.7	display.c	$NHDT-Date: 1609101156 2020/12/27 20:32:36 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.141 $ */
+/* NetHack 3.7  display.c   $NHDT-Date: 1609101156 2020/12/27 20:32:36 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.141 $ */
 /* Copyright (c) Dean Luick, with acknowledgements to Kevin Darcy */
 /* and Dave Cohrs, 1990.                                          */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -1717,7 +1717,7 @@ row_refresh(int start, int stop, int y)
             bkglyphinfo.glyph = get_bk_glyph(x, y);
             print_glyph(WIN_MAP, x, y,
                         Glyphinfo_at(x, y, glyph), &bkglyphinfo);
-	}
+    }
     }
 }
 
@@ -1772,7 +1772,7 @@ flush_screen(int cursor_on_u)
 
         for (; x <= g.gbuf_stop[y]; gptr++, x++)
             if (gptr->gnew) {
-                bkglyphinfo.glyph = get_bk_glyph(x, y);            
+                bkglyphinfo.glyph = get_bk_glyph(x, y);
                 print_glyph(WIN_MAP, x, y,
                             Glyphinfo_at(x, y, gptr->glyph), &bkglyphinfo);
                 gptr->gnew = 0;
@@ -2242,27 +2242,27 @@ map_glyphinfo(xchar x, xchar y, int glyph,
             color = CLR_YELLOW;
         } else if (iflags.use_color && offset >= S_vwall && offset <= S_trwall) {
             if (*in_rooms(x,y,BEEHIVE) && !On_W_tower_level(&u.uz))
-        		    color = CLR_YELLOW;
+                    color = CLR_YELLOW;
             else if (In_sokoban(&u.uz))
                 color = CLR_BLUE;
             else if (Is_blackmarket(&u.uz))
                 color = CLR_ORANGE;
-        		else if (In_W_tower(x, y, &u.uz))
-        		    color = CLR_MAGENTA;
-        		else if (In_mines(&u.uz))
-        		    color = CLR_BROWN;
-        		else if (In_hell(&u.uz) && !Is_valley(&u.uz))
-        		    color =  CLR_RED;
+                else if (In_W_tower(x, y, &u.uz))
+                    color = CLR_MAGENTA;
+                else if (In_mines(&u.uz))
+                    color = CLR_BROWN;
+                else if (In_hell(&u.uz) && !Is_valley(&u.uz))
+                    color =  CLR_RED;
                 else if (Is_firelevel(&u.uz))
                     color = CLR_YELLOW;
-        		else if (Is_astralevel(&u.uz))
-        		    color = CLR_WHITE;
-      	} else if (iflags.use_color && offset == S_room) {
-        		if (*in_rooms(x,y,BEEHIVE))
-        		    color = CLR_YELLOW;
+                else if (Is_astralevel(&u.uz))
+                    color = CLR_WHITE;
+        } else if (iflags.use_color && offset == S_room) {
+                if (*in_rooms(x,y,BEEHIVE))
+                    color = CLR_YELLOW;
                 else if (In_mines(&u.uz))
-        		    color = CLR_BROWN;
-        		else if (Is_juiblex_level(&u.uz))
+                    color = CLR_BROWN;
+                else if (Is_juiblex_level(&u.uz))
                 color = CLR_GREEN;
 #endif
         /* try to provide a visible difference between water and lava

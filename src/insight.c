@@ -1,4 +1,4 @@
-/* NetHack 3.7	insight.c	$NHDT-Date: 1619640466 2021/04/28 20:07:46 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.35 $ */
+/* NetHack 3.7  insight.c   $NHDT-Date: 1619640466 2021/04/28 20:07:46 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.35 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -825,15 +825,15 @@ status_enlightenment(int mode, int final)
     /* In heaven or hell mode, this is arguably the most important
        attribute. */
     /* heaven or hell modes */
-	if (u.uroleplay.heaven_or_hell) {
-		if (u.ulives > 1)
-			Sprintf(buf, "%d lives remaining", u.ulives);
-		else if (u.ulives == 0)
-			Sprintf(buf, "no lives remaining");
-		else
-			Sprintf(buf, "%d life remaining", u.ulives);
-		you_have(buf, "");
-	}
+    if (u.uroleplay.heaven_or_hell) {
+        if (u.ulives > 1)
+            Sprintf(buf, "%d lives remaining", u.ulives);
+        else if (u.ulives == 0)
+            Sprintf(buf, "no lives remaining");
+        else
+            Sprintf(buf, "%d life remaining", u.ulives);
+        you_have(buf, "");
+    }
 
     /* not a traditional status but inherently obvious to player; more
        detail given below (attributes section) for magic enlightenment */
@@ -2056,7 +2056,7 @@ show_conduct(int final)
     if (!u.uconduct.alcohol && final) {
         you_have_been("a teetotaler");
     }
-    
+
     if (!u.uconduct.pactmaker) {
         you_have_never("made deals with demonic entities");
     } else {
@@ -2065,7 +2065,7 @@ show_conduct(int final)
         you_have_X(buf);
     }
 
-    
+
 
     show_achievements(final);
 

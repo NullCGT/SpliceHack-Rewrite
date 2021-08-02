@@ -1,4 +1,4 @@
-/* NetHack 3.7	shk.c	$NHDT-Date: 1620861209 2021/05/12 23:13:29 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.197 $ */
+/* NetHack 3.7  shk.c   $NHDT-Date: 1620861209 2021/05/12 23:13:29 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.197 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -345,9 +345,9 @@ call_kops(register struct monst* shkp, register boolean nearshop)
               && (g.mvitals[PM_KOP_SERGEANT].mvflags & G_GONE)
               && (g.mvitals[PM_KOP_LIEUTENANT].mvflags & G_GONE)
               && (g.mvitals[PM_KOP_KAPTAIN].mvflags & G_GONE));
-    
+
     if (Is_blackmarket(&u.uz)) {
-      	nokops = ((g.mvitals[PM_SOLDIER].mvflags & G_GONE) &&
+        nokops = ((g.mvitals[PM_SOLDIER].mvflags & G_GONE) &&
             (g.mvitals[PM_SERGEANT].mvflags & G_GONE) &&
             (g.mvitals[PM_LIEUTENANT].mvflags & G_GONE) &&
             (g.mvitals[PM_CAPTAIN].mvflags & G_GONE) &&
@@ -410,7 +410,7 @@ void
 blkmar_guards(struct monst *mtmp)
 {
     register struct monst *mt;
-    boolean mesg_given = FALSE;	/* Only give message if assistants peaceful */
+    boolean mesg_given = FALSE; /* Only give message if assistants peaceful */
     static boolean rlock = FALSE; /* Prevent recursive calls (via wakeup) */
 
     if (rlock)  return;
@@ -422,21 +422,21 @@ blkmar_guards(struct monst *mtmp)
     /* wake up assistants */
     for (mt = fmon; mt; mt = mt->nmon) {
         if (DEADMONSTER(mt)) continue;
-      	/* non-tame named monsters are presumably
-      	 * black marketeer's assistants */
-      	else if (mt->mpeaceful &&
-      		  ((!mt->mtame && has_mgivenname(mt) &&
-      		    mt->mpeaceful && mt != mtmp) ||
+        /* non-tame named monsters are presumably
+         * black marketeer's assistants */
+        else if (mt->mpeaceful &&
+              ((!mt->mtame && has_mgivenname(mt) &&
+                mt->mpeaceful && mt != mtmp) ||
               mt->data == &mons[PM_ARMS_DEALER])) {
                   if (!mesg_given) {
-                  		pline("%s calls for help!", noit_Monnam(mtmp));
-                  		mesg_given = TRUE;
-                  		bars_around_portal(FALSE);
-                  		call_kops(mtmp, FALSE);
+                        pline("%s calls for help!", noit_Monnam(mtmp));
+                        mesg_given = TRUE;
+                        bars_around_portal(FALSE);
+                        call_kops(mtmp, FALSE);
                   }
-      	    wakeup(mt, FALSE);
+            wakeup(mt, FALSE);
             setmangry(mt, FALSE);
-      	}
+        }
     }
     rlock = FALSE;
 }
@@ -456,30 +456,30 @@ bars_around_portal(boolean removebars)
     if (!trap) return;
     if (trap->tx == u.ux && trap->ty == u.uy) return;
     for (dx = -1; dx <= 1; dx++)
-      	for (dy = -1; dy <= 1; dy++) {
-      	    if (!dx && !dy) continue;
-      	    x = trap->tx + dx;
-      	    y = trap->ty + dy;
-      	    if (removebars) {
-            		if (levl[x][y].typ == IRONBARS) {
-            		    dissolve_bars(x,y);
-            		    if (cansee(x,y))
-            			sawit = TRUE;
-            		}
-      	    } else {
-            		if (!IS_ROCK(levl[x][y].typ) && levl[x][y].typ != IRONBARS) {
-            		    levl[x][y].typ = IRONBARS;
-            		    newsym(x, y);
-            		    if (cansee(x,y))
-            			sawit = TRUE;
-            		}
-      	    }
-      	}
+        for (dy = -1; dy <= 1; dy++) {
+            if (!dx && !dy) continue;
+            x = trap->tx + dx;
+            y = trap->ty + dy;
+            if (removebars) {
+                    if (levl[x][y].typ == IRONBARS) {
+                        dissolve_bars(x,y);
+                        if (cansee(x,y))
+                        sawit = TRUE;
+                    }
+            } else {
+                    if (!IS_ROCK(levl[x][y].typ) && levl[x][y].typ != IRONBARS) {
+                        levl[x][y].typ = IRONBARS;
+                        newsym(x, y);
+                        if (cansee(x,y))
+                        sawit = TRUE;
+                    }
+            }
+        }
     if (sawit) {
-      	if (removebars)
-      	    pline("The iron bars rise back into the ceiling.");
-  	else
-  	    pline("Iron bars drop from the ceiling around the magic portal!");
+        if (removebars)
+            pline("The iron bars rise back into the ceiling.");
+    else
+        pline("Iron bars drop from the ceiling around the magic portal!");
     }
 
 }
@@ -692,9 +692,9 @@ u_entered_shop(char* enterstring)
     }
 
     /* Visible striped prison shirt */
-	if ((uarmu && (uarmu->otyp == STRIPED_SHIRT)) && !uarm && !uarmc) {
-	    eshkp->pbanned = TRUE;
-	}
+    if ((uarmu && (uarmu->otyp == STRIPED_SHIRT)) && !uarm && !uarmc) {
+        eshkp->pbanned = TRUE;
+    }
 
     rt = g.rooms[*enterstring - ROOMOFFSET].rtype;
 
@@ -1661,127 +1661,127 @@ dopay(void)
 static void
 shk_other_services(void)
 {
-	const char *slang;		/* What shk calls you		*/
-	struct monst *shkp;		/* The shopkeeper		*/
-	/*WAC - Windowstuff*/
-	winid tmpwin;
-	anything any;
-	menu_item *selected;
-	int n;
+    const char *slang;      /* What shk calls you       */
+    struct monst *shkp;     /* The shopkeeper       */
+    /*WAC - Windowstuff*/
+    winid tmpwin;
+    anything any;
+    menu_item *selected;
+    int n;
 
-	/* Do you want to use other services */
-	if (yn("Do you wish to try our other services?") != 'y' ) return;
+    /* Do you want to use other services */
+    if (yn("Do you wish to try our other services?") != 'y' ) return;
 
-	/* Init your name */
-	if (!is_human(g.youmonst.data))
-		slang = "ugly";
-	else
-		slang = flags.female == FEMALE ? "lady" : "buddy";
+    /* Init your name */
+    if (!is_human(g.youmonst.data))
+        slang = "ugly";
+    else
+        slang = flags.female == FEMALE ? "lady" : "buddy";
 
-	/* Init the shopkeeper */
-	shkp = shop_keeper(/* roomno= */*u.ushops);
-	if (!ESHK(shkp)->services) return;
+    /* Init the shopkeeper */
+    shkp = shop_keeper(/* roomno= */*u.ushops);
+    if (!ESHK(shkp)->services) return;
 
-	/*
-	** Figure out what services he offers
-	**
-	** i = identify
-	** a = appraise weapon's worth
-	** u = uncurse
-	** w = weapon-works (including poison)
-	** p = poison weapon
-	** r = armor-works
-	** c = charge wands
-	*/
-	/*WAC - did this using the windowing system...*/
-	any.a_void = 0;         /* zero out all bits */
-	tmpwin = create_nhwindow(NHW_MENU);
-	start_menu(tmpwin, MENU_BEHAVE_STANDARD);
+    /*
+    ** Figure out what services he offers
+    **
+    ** i = identify
+    ** a = appraise weapon's worth
+    ** u = uncurse
+    ** w = weapon-works (including poison)
+    ** p = poison weapon
+    ** r = armor-works
+    ** c = charge wands
+    */
+    /*WAC - did this using the windowing system...*/
+    any.a_void = 0;         /* zero out all bits */
+    tmpwin = create_nhwindow(NHW_MENU);
+    start_menu(tmpwin, MENU_BEHAVE_STANDARD);
 
-  	/* All shops can identify (some better than others) */
-	any.a_int = 1;
-	if (ESHK(shkp)->services & (SHK_ID_BASIC|SHK_ID_PREMIUM))
-	     add_menu(tmpwin, &nul_glyphinfo, &any , 'i', 0, ATR_NONE,
-	         "Identify", MENU_ITEMFLAGS_NONE);
-  
-  	/* All shops can uncurse */
-	any.a_int = 2;
-	if (ESHK(shkp)->services & (SHK_UNCURSE))
-	     add_menu(tmpwin, &nul_glyphinfo, &any , 'u', 0, ATR_NONE,
-	         "Uncurse", MENU_ITEMFLAGS_NONE);
-  
-  	/* Weapon appraisals.  Weapon & general stores can do this. */
-	if ((ESHK(shkp)->services & (SHK_UNCURSE)) &&
-			(shk_class_match(WEAPON_CLASS, shkp))) {
-		any.a_int = 3;
-		add_menu(tmpwin, &nul_glyphinfo, &any , 'a', 0, ATR_NONE,
-				"Appraise", MENU_ITEMFLAGS_NONE);
-	}
-  
-  	/* Weapon-works!  Only a weapon store. */
-	if ((ESHK(shkp)->services & (SHK_SPECIAL_A|SHK_SPECIAL_B|SHK_SPECIAL_C))
-			&& (shk_class_match(WEAPON_CLASS, shkp) == SHK_MATCH)) {
-		any.a_int = 4;
-		if (ESHK(shkp)->services & (SHK_SPECIAL_A|SHK_SPECIAL_B))
-			add_menu(tmpwin, &nul_glyphinfo, &any , 'w', 0, ATR_NONE,
-				"Weapon-works", MENU_ITEMFLAGS_NONE);
-		else
-			add_menu(tmpwin, &nul_glyphinfo, &any , 'p', 0, ATR_NONE,
-				"Poison", MENU_ITEMFLAGS_NONE);
-	}
-  
-  	/* Armor-works */
-	if ((ESHK(shkp)->services & (SHK_SPECIAL_A|SHK_SPECIAL_B))
-			 && (shk_class_match(ARMOR_CLASS, shkp) == SHK_MATCH)) {
-		any.a_int = 5;
-		add_menu(tmpwin, &nul_glyphinfo, &any , 'r', 0, ATR_NONE,
-				"Armor-works", MENU_ITEMFLAGS_NONE);
-	}
-  
-  	/* Charging: / ( = */
-	if ((ESHK(shkp)->services & (SHK_SPECIAL_A|SHK_SPECIAL_B)) &&
-			((shk_class_match(WAND_CLASS, shkp) == SHK_MATCH) ||
-			(shk_class_match(TOOL_CLASS, shkp) == SHK_MATCH) ||
-			(shk_class_match(SPBOOK_CLASS, shkp) == SHK_MATCH) ||
-			(shk_class_match(RING_CLASS, shkp) == SHK_MATCH))) {
-		any.a_int = 6;
-		add_menu(tmpwin, &nul_glyphinfo, &any , 'c', 0, ATR_NONE,
-				"Charge", MENU_ITEMFLAGS_NONE);
-	}
+    /* All shops can identify (some better than others) */
+    any.a_int = 1;
+    if (ESHK(shkp)->services & (SHK_ID_BASIC|SHK_ID_PREMIUM))
+         add_menu(tmpwin, &nul_glyphinfo, &any , 'i', 0, ATR_NONE,
+             "Identify", MENU_ITEMFLAGS_NONE);
 
-	end_menu(tmpwin, "Services Available:");
-	n = select_menu(tmpwin, PICK_ONE, &selected);
-	destroy_nhwindow(tmpwin);
+    /* All shops can uncurse */
+    any.a_int = 2;
+    if (ESHK(shkp)->services & (SHK_UNCURSE))
+         add_menu(tmpwin, &nul_glyphinfo, &any , 'u', 0, ATR_NONE,
+             "Uncurse", MENU_ITEMFLAGS_NONE);
 
-	if (n > 0)
-	    switch (selected[0].item.a_int) {
-	        case 1:
-	                shk_identify(slang, shkp);
-	                break;
+    /* Weapon appraisals.  Weapon & general stores can do this. */
+    if ((ESHK(shkp)->services & (SHK_UNCURSE)) &&
+            (shk_class_match(WEAPON_CLASS, shkp))) {
+        any.a_int = 3;
+        add_menu(tmpwin, &nul_glyphinfo, &any , 'a', 0, ATR_NONE,
+                "Appraise", MENU_ITEMFLAGS_NONE);
+    }
 
-	        case 2:
-	                shk_uncurse(slang, shkp);
-	                break;
+    /* Weapon-works!  Only a weapon store. */
+    if ((ESHK(shkp)->services & (SHK_SPECIAL_A|SHK_SPECIAL_B|SHK_SPECIAL_C))
+            && (shk_class_match(WEAPON_CLASS, shkp) == SHK_MATCH)) {
+        any.a_int = 4;
+        if (ESHK(shkp)->services & (SHK_SPECIAL_A|SHK_SPECIAL_B))
+            add_menu(tmpwin, &nul_glyphinfo, &any , 'w', 0, ATR_NONE,
+                "Weapon-works", MENU_ITEMFLAGS_NONE);
+        else
+            add_menu(tmpwin, &nul_glyphinfo, &any , 'p', 0, ATR_NONE,
+                "Poison", MENU_ITEMFLAGS_NONE);
+    }
 
-	        case 3:
-	                shk_appraisal(slang, shkp);
-	                break;
+    /* Armor-works */
+    if ((ESHK(shkp)->services & (SHK_SPECIAL_A|SHK_SPECIAL_B))
+             && (shk_class_match(ARMOR_CLASS, shkp) == SHK_MATCH)) {
+        any.a_int = 5;
+        add_menu(tmpwin, &nul_glyphinfo, &any , 'r', 0, ATR_NONE,
+                "Armor-works", MENU_ITEMFLAGS_NONE);
+    }
 
-	        case 4:
-	                shk_weapon_works(slang, shkp);
-	                break;
+    /* Charging: / ( = */
+    if ((ESHK(shkp)->services & (SHK_SPECIAL_A|SHK_SPECIAL_B)) &&
+            ((shk_class_match(WAND_CLASS, shkp) == SHK_MATCH) ||
+            (shk_class_match(TOOL_CLASS, shkp) == SHK_MATCH) ||
+            (shk_class_match(SPBOOK_CLASS, shkp) == SHK_MATCH) ||
+            (shk_class_match(RING_CLASS, shkp) == SHK_MATCH))) {
+        any.a_int = 6;
+        add_menu(tmpwin, &nul_glyphinfo, &any , 'c', 0, ATR_NONE,
+                "Charge", MENU_ITEMFLAGS_NONE);
+    }
 
-	        case 5:
-	                shk_armor_works(slang, shkp);
-	                break;
+    end_menu(tmpwin, "Services Available:");
+    n = select_menu(tmpwin, PICK_ONE, &selected);
+    destroy_nhwindow(tmpwin);
 
-	        case 6:
-	                shk_charge(slang, shkp);
-	                break;
-	        default:
-	                pline ("Unknown Service");
-	                break;
-	    }
+    if (n > 0)
+        switch (selected[0].item.a_int) {
+            case 1:
+                    shk_identify(slang, shkp);
+                    break;
+
+            case 2:
+                    shk_uncurse(slang, shkp);
+                    break;
+
+            case 3:
+                    shk_appraisal(slang, shkp);
+                    break;
+
+            case 4:
+                    shk_weapon_works(slang, shkp);
+                    break;
+
+            case 5:
+                    shk_armor_works(slang, shkp);
+                    break;
+
+            case 6:
+                    shk_charge(slang, shkp);
+                    break;
+            default:
+                    pline ("Unknown Service");
+                    break;
+        }
 }
 
 /* return 2 if used-up portion paid
@@ -1792,10 +1792,10 @@ shk_other_services(void)
  */
 static int
 dopayobj(
-    register struct monst* shkp, 
-    register struct bill_x* bp, 
-    struct obj** obj_p, 
-    int which /* 0 => used-up item, 1 => other (unpaid or lost) */, 
+    register struct monst* shkp,
+    register struct bill_x* bp,
+    struct obj** obj_p,
+    int which /* 0 => used-up item, 1 => other (unpaid or lost) */,
     boolean itemize)
 
 {
@@ -2300,7 +2300,7 @@ const int matprices[] = {
 /* calculate the value that the shk will charge for [one of] an object */
 static long
 get_cost(
-    register struct obj* obj, 
+    register struct obj* obj,
     register struct monst* shkp) /* if angry, impose a surcharge */
 {
     long tmp = getprice(obj, FALSE),
@@ -2409,13 +2409,13 @@ get_cost(
         tmp += (tmp + 2L) / 3L;
 
     if (Is_blackmarket(&u.uz)) {
-    	  if (obj->oclass==RING_CLASS    || obj->oclass==AMULET_CLASS   ||
-    	      obj->oclass==POTION_CLASS  || obj->oclass==SCROLL_CLASS   ||
-    	      obj->oclass==SPBOOK_CLASS  || obj->oclass==WAND_CLASS     ||
-    	      obj->otyp==LUCKSTONE       || obj->otyp==LOADSTONE ||
+          if (obj->oclass==RING_CLASS    || obj->oclass==AMULET_CLASS   ||
+              obj->oclass==POTION_CLASS  || obj->oclass==SCROLL_CLASS   ||
+              obj->oclass==SPBOOK_CLASS  || obj->oclass==WAND_CLASS     ||
+              obj->otyp==LUCKSTONE       || obj->otyp==LOADSTONE ||
             objects[obj->otyp].oc_magic) {
             tmp *= 25;
-    	  } else {
+          } else {
             tmp *= 15;
         }
     }
@@ -2780,7 +2780,7 @@ add_to_billobjs(struct obj* obj)
 static void
 bill_box_content(
     register struct obj *obj,
-    register boolean ininv, 
+    register boolean ininv,
     register boolean dummy,
     register struct monst *shkp)
 {
@@ -2878,7 +2878,7 @@ billable(
 void
 addtobill(
     struct obj *obj,
-    boolean ininv, 
+    boolean ininv,
     boolean dummy,
     boolean silent)
 {
@@ -3140,9 +3140,9 @@ stolen_container(
 long
 stolen_value(
     struct obj *obj,
-    xchar x, 
+    xchar x,
     xchar y,
-    boolean peaceful, 
+    boolean peaceful,
     boolean silent)
 {
     long value = 0L, gvalue = 0L, billamt = 0L;
@@ -3569,130 +3569,130 @@ static const char ident_chars[] = "bp";
 static void
 shk_identify(const char *slang, struct monst *shkp)
 {
-	register struct obj *obj;       /* The object to identify       */
-	int charge, mult;               /* Cost to identify             */
-	boolean guesswork;              /* Will shkp be guessing?       */
-	boolean ripoff=FALSE;           /* Shkp ripping you off?        */
-	char ident_type;
+    register struct obj *obj;       /* The object to identify       */
+    int charge, mult;               /* Cost to identify             */
+    boolean guesswork;              /* Will shkp be guessing?       */
+    boolean ripoff=FALSE;           /* Shkp ripping you off?        */
+    char ident_type;
 
-	/* Pick object */
-	if ( !(obj = getobj("have identified", identify_ok, GETOBJ_NOFLAGS))) return;
+    /* Pick object */
+    if ( !(obj = getobj("have identified", identify_ok, GETOBJ_NOFLAGS))) return;
 
     if ((guesswork = !shk_obj_match(obj, shkp))) {
-		verbalize("I don't normally handle that sort of item, but I could try...");
-	}
+        verbalize("I don't normally handle that sort of item, but I could try...");
+    }
 
-	/* Here we go */
-	/* KMH -- fixed */
-	if (ESHK(shkp)->services & (SHK_ID_BASIC|SHK_ID_PREMIUM)) {
-		ident_type = yn_function("[B]asic service or [P]remier",
-		     ident_chars, '\0');
-		if (ident_type == '\0') return;
-	} else if (ESHK(shkp)->services & SHK_ID_BASIC) {
-		verbalize("I only offer basic identification.");
-		ident_type = 'b';
-	} else if (ESHK(shkp)->services & SHK_ID_PREMIUM) {
-		verbalize("I only make complete identifications.");
-		ident_type = 'p';
-	}
+    /* Here we go */
+    /* KMH -- fixed */
+    if (ESHK(shkp)->services & (SHK_ID_BASIC|SHK_ID_PREMIUM)) {
+        ident_type = yn_function("[B]asic service or [P]remier",
+             ident_chars, '\0');
+        if (ident_type == '\0') return;
+    } else if (ESHK(shkp)->services & SHK_ID_BASIC) {
+        verbalize("I only offer basic identification.");
+        ident_type = 'b';
+    } else if (ESHK(shkp)->services & SHK_ID_PREMIUM) {
+        verbalize("I only make complete identifications.");
+        ident_type = 'p';
+    }
 
-	/*
-	** Shopkeeper is ripping you off if:
-	** Basic service and object already known.
-	** Premier service, object known, + know blessed/cursed and
-	**      rustproof, etc.
-	*/
-	if (obj->dknown && objects[obj->otyp].oc_name_known)
-	{
-		if (ident_type=='b') ripoff=TRUE;
-		if (ident_type=='p' && obj->bknown && obj->rknown && obj->known) ripoff=TRUE;
-	}
+    /*
+    ** Shopkeeper is ripping you off if:
+    ** Basic service and object already known.
+    ** Premier service, object known, + know blessed/cursed and
+    **      rustproof, etc.
+    */
+    if (obj->dknown && objects[obj->otyp].oc_name_known)
+    {
+        if (ident_type=='b') ripoff=TRUE;
+        if (ident_type=='p' && obj->bknown && obj->rknown && obj->known) ripoff=TRUE;
+    }
 
-	/* Compute the charge */
-	
-	if (ripoff)
-	{
-		if (NO_CHEAT) {
-			verbalize("That item's already identified!");
-			return;
-		}
-		/* Object already identified: Try and cheat the customer. */
-		pline("%s chuckles greedily...", mon_nam(shkp));
-		mult = 1;
+    /* Compute the charge */
 
-	/* basic */        
-	} else if (ident_type=='b') mult = 1;
-	/* premier */
-	else mult = 2;
-	
-	switch (obj->oclass) {        
-		case AMULET_CLASS:      charge = 375 * mult;
-					break;
-		case WEAPON_CLASS:      charge = 75 * mult;
-					break;
-		case ARMOR_CLASS:       charge = 100 * mult;
-					break;
-		case FOOD_CLASS:        charge = 25 * mult;   
-					break;
-		case SCROLL_CLASS:      charge = 150 * mult;   
-					break;
-		case SPBOOK_CLASS:      charge = 250 * mult;   
-					break;
-		case POTION_CLASS:      charge = 150 * mult;   
-					break;
-		case RING_CLASS:        charge = 300 * mult;   
-					break;
-		case WAND_CLASS:        charge = 200 * mult;   
-					break;
-		case TOOL_CLASS:        charge = 50 * mult;   
-					break;
-		case GEM_CLASS:         charge = 500 * mult;
-					break;
-		default:                charge = 75 * mult;
-					break;
-	}
-		
-	/* Artifacts cost more to deal with */
-	/* KMH -- Avoid floating-point */
-	if (obj->oartifact) charge = charge * 3 / 2;
-	
-	/* Smooth out the charge a bit (lower bound only) */
-	shk_smooth_charge(&charge, 25, 750);
-	
-	/* Go ahead? */
-	if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+    if (ripoff)
+    {
+        if (NO_CHEAT) {
+            verbalize("That item's already identified!");
+            return;
+        }
+        /* Object already identified: Try and cheat the customer. */
+        pline("%s chuckles greedily...", mon_nam(shkp));
+        mult = 1;
 
-	/* Shopkeeper deviousness */
-	if (ident_type == 'b') {
-	    if (Hallucination) {
+    /* basic */
+    } else if (ident_type=='b') mult = 1;
+    /* premier */
+    else mult = 2;
+
+    switch (obj->oclass) {
+        case AMULET_CLASS:      charge = 375 * mult;
+                    break;
+        case WEAPON_CLASS:      charge = 75 * mult;
+                    break;
+        case ARMOR_CLASS:       charge = 100 * mult;
+                    break;
+        case FOOD_CLASS:        charge = 25 * mult;
+                    break;
+        case SCROLL_CLASS:      charge = 150 * mult;
+                    break;
+        case SPBOOK_CLASS:      charge = 250 * mult;
+                    break;
+        case POTION_CLASS:      charge = 150 * mult;
+                    break;
+        case RING_CLASS:        charge = 300 * mult;
+                    break;
+        case WAND_CLASS:        charge = 200 * mult;
+                    break;
+        case TOOL_CLASS:        charge = 50 * mult;
+                    break;
+        case GEM_CLASS:         charge = 500 * mult;
+                    break;
+        default:                charge = 75 * mult;
+                    break;
+    }
+
+    /* Artifacts cost more to deal with */
+    /* KMH -- Avoid floating-point */
+    if (obj->oartifact) charge = charge * 3 / 2;
+
+    /* Smooth out the charge a bit (lower bound only) */
+    shk_smooth_charge(&charge, 25, 750);
+
+    /* Go ahead? */
+    if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+
+    /* Shopkeeper deviousness */
+    if (ident_type == 'b') {
+        if (Hallucination) {
             if (!Deaf)
                 You_hear("%s tell you it's a pot of flowers.", mon_nam(shkp));
             return;
-	    } else if (Confusion) {
+        } else if (Confusion) {
             pline("%s tells you but you forget.", mon_nam(shkp));
             return;
-	    }
-	}
+        }
+    }
 
-	if (guesswork)
-	{
-		if (!rn2(ident_type == 'b' ? 4 : 2)) {
-			verbalize("Success!");
-			/* Rest of msg will come from identify(); */
-		} else {
-			verbalize("Sorry.  I guess it's not your lucky day.");
-			return;
-		}
-	}
+    if (guesswork)
+    {
+        if (!rn2(ident_type == 'b' ? 4 : 2)) {
+            verbalize("Success!");
+            /* Rest of msg will come from identify(); */
+        } else {
+            verbalize("Sorry.  I guess it's not your lucky day.");
+            return;
+        }
+    }
 
-	if (ident_type == 'p') {
-		identify(obj);
-	} else { 
-		/* Basic */
-		makeknown(obj->otyp);
-		obj->dknown = 1;
-    		prinv((char *)0, obj, 0L); /* Print result */
-	}
+    if (ident_type == 'p') {
+        identify(obj);
+    } else {
+        /* Basic */
+        makeknown(obj->otyp);
+        obj->dknown = 1;
+            prinv((char *)0, obj, 0L); /* Print result */
+    }
 }
 
 
@@ -3702,54 +3702,54 @@ shk_identify(const char *slang, struct monst *shkp)
 static void
 shk_uncurse(const char *slang, struct monst *shkp)
 {
-	struct obj *obj;                /* The object picked            */
-	int charge;                     /* How much to uncurse          */
+    struct obj *obj;                /* The object picked            */
+    int charge;                     /* How much to uncurse          */
 
-	/* Pick object */
-	if ( !(obj = getobj("uncurse", uncurse_ok, GETOBJ_NOFLAGS))) return;
+    /* Pick object */
+    if ( !(obj = getobj("uncurse", uncurse_ok, GETOBJ_NOFLAGS))) return;
 
-	/* Charge is same as cost */
-	charge = get_cost(obj, shop_keeper(/* roomno= */*u.ushops));
-		
-	/* Artifacts cost more to deal with */
-	/* KMH -- Avoid floating-point */
-	if (obj->oartifact) charge = charge * 3 / 2;
+    /* Charge is same as cost */
+    charge = get_cost(obj, shop_keeper(/* roomno= */*u.ushops));
 
-	/* Smooth out the charge a bit */
-	shk_smooth_charge(&charge, 50, 250);
+    /* Artifacts cost more to deal with */
+    /* KMH -- Avoid floating-point */
+    if (obj->oartifact) charge = charge * 3 / 2;
 
-	/* Go ahead? */
-	if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+    /* Smooth out the charge a bit */
+    shk_smooth_charge(&charge, 50, 250);
 
-	/* Shopkeeper responses */
-	/* KMH -- fixed bknown, curse(), bless(), uncurse() */
-	if (!obj->bknown && !Role_if(PM_CLERIC) && !NO_CHEAT)
-	{
-		/* Not identified! */
-		pline("%s snickers and says \"See, nice and uncursed!\"",
-			mon_nam(shkp));
-		obj->bknown = FALSE;
-	} else if (Confusion) {
-		/* Curse the item! */
-		You("accidentally ask for the item to be cursed");
-		curse(obj);
-	} else if (Hallucination) {
-		/*
-		** Let's have some fun:  If you're hallucinating,
-		** then there's a chance for the object to be blessed!
-		*/
-		if (!rn2(4)) {
-		    pline("Distracted by your blood-shot %s, the shopkeeper",
-			makeplural(body_part(EYE)));
-		    pline("accidentally blesses the item!");
-		    bless(obj);
-		} else {
-			You("can't see straight and point to the wrong item");
-		}
-	} else {
-		verbalize("All done - safe to handle, now!");
-		uncurse(obj);
-	}
+    /* Go ahead? */
+    if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+
+    /* Shopkeeper responses */
+    /* KMH -- fixed bknown, curse(), bless(), uncurse() */
+    if (!obj->bknown && !Role_if(PM_CLERIC) && !NO_CHEAT)
+    {
+        /* Not identified! */
+        pline("%s snickers and says \"See, nice and uncursed!\"",
+            mon_nam(shkp));
+        obj->bknown = FALSE;
+    } else if (Confusion) {
+        /* Curse the item! */
+        You("accidentally ask for the item to be cursed");
+        curse(obj);
+    } else if (Hallucination) {
+        /*
+        ** Let's have some fun:  If you're hallucinating,
+        ** then there's a chance for the object to be blessed!
+        */
+        if (!rn2(4)) {
+            pline("Distracted by your blood-shot %s, the shopkeeper",
+            makeplural(body_part(EYE)));
+            pline("accidentally blesses the item!");
+            bless(obj);
+        } else {
+            You("can't see straight and point to the wrong item");
+        }
+    } else {
+        verbalize("All done - safe to handle, now!");
+        uncurse(obj);
+    }
     update_inventory();
 }
 
@@ -3761,46 +3761,46 @@ shk_uncurse(const char *slang, struct monst *shkp)
 static void
 shk_appraisal(const char *slang, struct monst *shkp)
 {
-	struct obj *obj;                /* The object picked            */
-	int charge;                     /* How much for appraisal       */
-	boolean guesswork;              /* Shopkeeper unsure?           */
+    struct obj *obj;                /* The object picked            */
+    int charge;                     /* How much for appraisal       */
+    boolean guesswork;              /* Shopkeeper unsure?           */
 
 
-	/* Pick object */
-	if ( !(obj = getobj("appraise", weapon_ok, GETOBJ_NOFLAGS))) return;
+    /* Pick object */
+    if ( !(obj = getobj("appraise", weapon_ok, GETOBJ_NOFLAGS))) return;
 
-	charge = get_cost(obj, shop_keeper(/* roomno= */*u.ushops)) / 3;
+    charge = get_cost(obj, shop_keeper(/* roomno= */*u.ushops)) / 3;
 
-	/* Smooth out the charge a bit */
-	shk_smooth_charge(&charge, 5, 50);
+    /* Smooth out the charge a bit */
+    shk_smooth_charge(&charge, 5, 50);
 
-	if (shk_class_match(WEAPON_CLASS, shkp) == SHK_MATCH){
-		verbalize("Ok, %s, let's see what we have here.", slang);
-		guesswork = FALSE;
-	} else {
-		verbalize("Mind you, I'm not an expert in this field.");
-		guesswork = TRUE;
-	}
+    if (shk_class_match(WEAPON_CLASS, shkp) == SHK_MATCH){
+        verbalize("Ok, %s, let's see what we have here.", slang);
+        guesswork = FALSE;
+    } else {
+        verbalize("Mind you, I'm not an expert in this field.");
+        guesswork = TRUE;
+    }
 
-	/* Go ahead? */
-	if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+    /* Go ahead? */
+    if (shk_offer_price(slang, charge, shkp) == FALSE) return;
 
-	/* Shopkeeper deviousness */
-	if (Confusion) {
-		pline("The numbers get all mixed up in your head.");
-		return;
-	} else if (Hallucination) {
-		You("hear %s say it'll \"knock 'em dead\"",
-			mon_nam(shkp));
-		return;
-	}
+    /* Shopkeeper deviousness */
+    if (Confusion) {
+        pline("The numbers get all mixed up in your head.");
+        return;
+    } else if (Hallucination) {
+        You("hear %s say it'll \"knock 'em dead\"",
+            mon_nam(shkp));
+        return;
+    }
 
-	/* Will shopkeeper be unsure? */
-	if (guesswork && !rn2(10)) {
+    /* Will shopkeeper be unsure? */
+    if (guesswork && !rn2(10)) {
         /* Shkp's an idiot */
         verbalize("Sorry, %s, but I'm not certain.", slang);
-	} else {
-        verbalize("If someone were to swing this at you, they could deal roughly %d damage.", 
+    } else {
+        verbalize("If someone were to swing this at you, they could deal roughly %d damage.",
             dmgval(obj, &g.youmonst) + guesswork ? rnd(30) : 0);
     }
 }
@@ -3830,7 +3830,7 @@ shk_weapon_works(const char *slang, struct monst *shkp)
 
     /* Check if you asked for a non weapon tool to be improved */
     if (obj->oclass == TOOL_CLASS && !is_weptool(obj))
-	    pline("%s grins greedily...", mon_nam(shkp));
+        pline("%s grins greedily...", mon_nam(shkp));
 
     if (ESHK(shkp)->services & (SHK_SPECIAL_A | SHK_SPECIAL_B)) {
         any.a_void = 0;         /* zero out all bits */
@@ -3863,100 +3863,100 @@ shk_weapon_works(const char *slang, struct monst *shkp)
         else
             service = 0;
     } else
-	service = 3;
+    service = 3;
 
     /* Here we go */
     if (service > 0)
-	verbalize(we_offer);
+    verbalize(we_offer);
     else
-	pline1(Never_mind);
+    pline1(Never_mind);
 
     switch(service) {
-	case 0:
-	    break;
+    case 0:
+        break;
 
-	case 1:
-	    verbalize("This'll leave your %s untouchable!", xname(obj));
-	    
-	    /* Costs more the more eroded it is (oeroded 0-3 * 2) */
-	    charge = 500 * (obj->oeroded + obj->oeroded2 + 1);
-	    if (obj->oeroded + obj->oeroded2 > 2)
-		verbalize("This thing's in pretty sad condition, %s", slang);
+    case 1:
+        verbalize("This'll leave your %s untouchable!", xname(obj));
 
-	    /* Another warning if object is naturally rustproof */
-	    if (obj->oerodeproof || !is_damageable(obj))
-		pline("%s gives you a suspciously happy smile...",
-			mon_nam(shkp));
+        /* Costs more the more eroded it is (oeroded 0-3 * 2) */
+        charge = 500 * (obj->oeroded + obj->oeroded2 + 1);
+        if (obj->oeroded + obj->oeroded2 > 2)
+        verbalize("This thing's in pretty sad condition, %s", slang);
 
-	    /* Artifacts cost more to deal with */
-	    if (obj->oartifact) charge = charge * 3 / 2;
+        /* Another warning if object is naturally rustproof */
+        if (obj->oerodeproof || !is_damageable(obj))
+        pline("%s gives you a suspciously happy smile...",
+            mon_nam(shkp));
 
-	    /* Smooth out the charge a bit */
-	    shk_smooth_charge(&charge, 200, 1500);
+        /* Artifacts cost more to deal with */
+        if (obj->oartifact) charge = charge * 3 / 2;
 
-	    if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+        /* Smooth out the charge a bit */
+        shk_smooth_charge(&charge, 200, 1500);
 
-	    /* Have some fun, but for this $$$ it better work. */
-	    if (Confusion)
-		You("fall over in appreciation");
-	    else if (Hallucination)
-		Your(" - tin roof, un-rusted!");
+        if (shk_offer_price(slang, charge, shkp) == FALSE) return;
 
-	    obj->oeroded = obj->oeroded2 = 0;
-	    obj->rknown = TRUE;
-	    obj->oerodeproof = TRUE;
-	    break;
+        /* Have some fun, but for this $$$ it better work. */
+        if (Confusion)
+        You("fall over in appreciation");
+        else if (Hallucination)
+        Your(" - tin roof, un-rusted!");
 
-	case 2:
-	    verbalize("Guaranteed not to harm your weapon, or your money back!");
-	    /*
-	    ** The higher the enchantment, the more costly!
-	    ** Gets to the point where you need to rob fort ludios
-	    ** in order to get it to +5!!
-	    */
-	    charge = (obj->spe+1) * (obj->spe+1) * 625;
+        obj->oeroded = obj->oeroded2 = 0;
+        obj->rknown = TRUE;
+        obj->oerodeproof = TRUE;
+        break;
 
-	    if (obj->spe < 0) charge = 100;
+    case 2:
+        verbalize("Guaranteed not to harm your weapon, or your money back!");
+        /*
+        ** The higher the enchantment, the more costly!
+        ** Gets to the point where you need to rob fort ludios
+        ** in order to get it to +5!!
+        */
+        charge = (obj->spe+1) * (obj->spe+1) * 625;
 
-	    /* Artifacts cost more to deal with */
-	    if (obj->oartifact) charge *= 2;
+        if (obj->spe < 0) charge = 100;
 
-	    /* Smooth out the charge a bit (lower bound only) */
-	    shk_smooth_charge(&charge, 50, NOBOUND);
+        /* Artifacts cost more to deal with */
+        if (obj->oartifact) charge *= 2;
 
-	    if (shk_offer_price(slang, charge, shkp) == FALSE) return;
-	    if (obj->spe+1 > 5) { 
-		verbalize("I can't enchant this any higher!");
-		charge = 0;
-		break;
-	    }
-	    /* Have some fun! */
-	    if (Confusion)
-		    Your("%s unexpectedly!", aobjnam(obj, "vibrate"));
-	    else if (Hallucination)
-		    Your("%s to evaporate into thin air!", aobjnam(obj, "seem"));
-	    /* ...No actual vibrating and no evaporating */
+        /* Smooth out the charge a bit (lower bound only) */
+        shk_smooth_charge(&charge, 50, NOBOUND);
 
-	    if (obj->otyp == WORM_TOOTH) {
+        if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+        if (obj->spe+1 > 5) {
+        verbalize("I can't enchant this any higher!");
+        charge = 0;
+        break;
+        }
+        /* Have some fun! */
+        if (Confusion)
+            Your("%s unexpectedly!", aobjnam(obj, "vibrate"));
+        else if (Hallucination)
+            Your("%s to evaporate into thin air!", aobjnam(obj, "seem"));
+        /* ...No actual vibrating and no evaporating */
+
+        if (obj->otyp == WORM_TOOTH) {
             obj->otyp = CRYSKNIFE;
             Your("weapon seems sharper now.");
             obj->cursed = 0;
             break;
-	    }
+        }
 
-	    obj->spe++;
-	    break;
+        obj->spe++;
+        break;
 
-	case 3:
-	    verbalize("Just imagine what poisoned %s can do!", xname(obj));
-	    charge = 10 * obj->quan;
-	    if (shk_offer_price(slang, charge, shkp) == FALSE) return;
-	    obj->opoisoned = POT_SICKNESS;
-	    break;
+    case 3:
+        verbalize("Just imagine what poisoned %s can do!", xname(obj));
+        charge = 10 * obj->quan;
+        if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+        obj->opoisoned = POT_SICKNESS;
+        break;
 
-	default:
-	    impossible("Unknown Weapon Enhancement");
-	    break;
+    default:
+        impossible("Unknown Weapon Enhancement");
+        break;
     }
 }
 
@@ -3967,109 +3967,109 @@ shk_weapon_works(const char *slang, struct monst *shkp)
 static void
 shk_armor_works(const char *slang, struct monst *shkp)
 {
-	struct obj *obj;
-	int charge;
+    struct obj *obj;
+    int charge;
     /*WAC - Windowstuff*/
-	winid tmpwin;
-	anything any;
-	menu_item *selected;
-	int n;
+    winid tmpwin;
+    anything any;
+    menu_item *selected;
+    int n;
 
-	/* Pick armor */
-	if ( !(obj = getobj("improve", armor_ok, GETOBJ_NOFLAGS))) return;
+    /* Pick armor */
+    if ( !(obj = getobj("improve", armor_ok, GETOBJ_NOFLAGS))) return;
 
-	/* Here we go */
-	/*WAC - did this using the windowing system...*/
-	any.a_void = 0;         /* zero out all bits */
-	tmpwin = create_nhwindow(NHW_MENU);
-	start_menu(tmpwin, MENU_BEHAVE_STANDARD);
-	any.a_int = 1;
-	if (ESHK(shkp)->services & (SHK_SPECIAL_A))
-		add_menu(tmpwin, &nul_glyphinfo, &any , 'r', 0, ATR_NONE, "Rust/Fireproof", MENU_ITEMFLAGS_NONE);
-	any.a_int = 2;
-	if (ESHK(shkp)->services & (SHK_SPECIAL_B))
-		add_menu(tmpwin, &nul_glyphinfo, &any , 'e', 0, ATR_NONE, "Enchant", MENU_ITEMFLAGS_NONE);
-	end_menu(tmpwin, "Armor-works:");
-	n = select_menu(tmpwin, PICK_ONE, &selected);
-	destroy_nhwindow(tmpwin);
+    /* Here we go */
+    /*WAC - did this using the windowing system...*/
+    any.a_void = 0;         /* zero out all bits */
+    tmpwin = create_nhwindow(NHW_MENU);
+    start_menu(tmpwin, MENU_BEHAVE_STANDARD);
+    any.a_int = 1;
+    if (ESHK(shkp)->services & (SHK_SPECIAL_A))
+        add_menu(tmpwin, &nul_glyphinfo, &any , 'r', 0, ATR_NONE, "Rust/Fireproof", MENU_ITEMFLAGS_NONE);
+    any.a_int = 2;
+    if (ESHK(shkp)->services & (SHK_SPECIAL_B))
+        add_menu(tmpwin, &nul_glyphinfo, &any , 'e', 0, ATR_NONE, "Enchant", MENU_ITEMFLAGS_NONE);
+    end_menu(tmpwin, "Armor-works:");
+    n = select_menu(tmpwin, PICK_ONE, &selected);
+    destroy_nhwindow(tmpwin);
 
-	verbalize(we_offer);
+    verbalize(we_offer);
 
-	if (n > 0)
-	switch(selected[0].item.a_int) {
-		case 1:
-		if (flags.female == MALE && is_human(g.youmonst.data))
-		     verbalize("They'll call you the man of stainless steel!");
+    if (n > 0)
+    switch(selected[0].item.a_int) {
+        case 1:
+        if (flags.female == MALE && is_human(g.youmonst.data))
+             verbalize("They'll call you the man of stainless steel!");
 
-		/* Costs more the more rusty it is (oeroded 0-3) */
-		charge = 300 * (obj->oeroded+1);
-		if (obj->oeroded > 2) verbalize("Yikes!  This thing's a mess!");
+        /* Costs more the more rusty it is (oeroded 0-3) */
+        charge = 300 * (obj->oeroded+1);
+        if (obj->oeroded > 2) verbalize("Yikes!  This thing's a mess!");
 
-		/* Artifacts cost more to deal with */
-		/* KMH -- Avoid floating-point */
-		if (obj->oartifact) charge = charge * 3 / 2;
-		
-		/* Smooth out the charge a bit */
-		shk_smooth_charge(&charge, 100, 1000);
+        /* Artifacts cost more to deal with */
+        /* KMH -- Avoid floating-point */
+        if (obj->oartifact) charge = charge * 3 / 2;
 
-		if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+        /* Smooth out the charge a bit */
+        shk_smooth_charge(&charge, 100, 1000);
 
-		/* Have some fun, but for this $$$ it better work. */
-		if (Confusion)
-			You("forget how to put your %s back on!", xname(obj));
-		else if (Hallucination)
-			You("mistake your %s for a pot and...", xname(obj));
+        if (shk_offer_price(slang, charge, shkp) == FALSE) return;
 
-		obj->oeroded = 0;
-		obj->rknown = TRUE;
-		obj->oerodeproof = TRUE;
-		break;
+        /* Have some fun, but for this $$$ it better work. */
+        if (Confusion)
+            You("forget how to put your %s back on!", xname(obj));
+        else if (Hallucination)
+            You("mistake your %s for a pot and...", xname(obj));
 
-		case 2:
-		verbalize("Nobody will ever hit on you again.");
- 
-		/* Higher enchantment levels cost more. */
-		charge = (obj->spe+1) * (obj->spe+1) * 500;
-						
-		if (obj->spe < 0) charge = 100;                
+        obj->oeroded = 0;
+        obj->rknown = TRUE;
+        obj->oerodeproof = TRUE;
+        break;
 
-		/* Artifacts cost more to deal with */
-		if (obj->oartifact) charge *= 2;
-		
-		/* Smooth out the charge a bit */
-		shk_smooth_charge(&charge, 50, NOBOUND);
+        case 2:
+        verbalize("Nobody will ever hit on you again.");
 
-		if (shk_offer_price(slang, charge, shkp) == FALSE) return;
-		if (obj->spe+1 > 3) { 
-			verbalize("I can't enchant this any higher!");
-			charge = 0;
-			break;
-			}
-		 /* Have some fun! */
-		if (Hallucination) Your("%s looks dented.", xname(obj));
-		
-		if (obj->otyp >= GRAY_DRAGON_SCALES &&
-					obj->otyp <= YELLOW_DRAGON_SCALES) {
-			/* dragon scales get turned into dragon scale mail */
-			Your("%s merges and hardens!", xname(obj));
-			setworn((struct obj *)0, W_ARM);
-			/* assumes same order */
-			obj->otyp = GRAY_DRAGON_SCALE_MAIL +
-						obj->otyp - GRAY_DRAGON_SCALES;
-			obj->cursed = 0;
-			obj->known = 1;
-			setworn(obj, W_ARM);
-			break;
-		}
+        /* Higher enchantment levels cost more. */
+        charge = (obj->spe+1) * (obj->spe+1) * 500;
 
-		obj->spe++;
-		adj_abon(obj, 1);
-		break;
+        if (obj->spe < 0) charge = 100;
 
-	    default:
+        /* Artifacts cost more to deal with */
+        if (obj->oartifact) charge *= 2;
+
+        /* Smooth out the charge a bit */
+        shk_smooth_charge(&charge, 50, NOBOUND);
+
+        if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+        if (obj->spe+1 > 3) {
+            verbalize("I can't enchant this any higher!");
+            charge = 0;
+            break;
+            }
+         /* Have some fun! */
+        if (Hallucination) Your("%s looks dented.", xname(obj));
+
+        if (obj->otyp >= GRAY_DRAGON_SCALES &&
+                    obj->otyp <= YELLOW_DRAGON_SCALES) {
+            /* dragon scales get turned into dragon scale mail */
+            Your("%s merges and hardens!", xname(obj));
+            setworn((struct obj *)0, W_ARM);
+            /* assumes same order */
+            obj->otyp = GRAY_DRAGON_SCALE_MAIL +
+                        obj->otyp - GRAY_DRAGON_SCALES;
+            obj->cursed = 0;
+            obj->known = 1;
+            setworn(obj, W_ARM);
+            break;
+        }
+
+        obj->spe++;
+        adj_abon(obj, 1);
+        break;
+
+        default:
                 pline ("Unknown Armor Enhancement");
                 break;
-	}
+    }
 }
 
 
@@ -4079,119 +4079,119 @@ shk_armor_works(const char *slang, struct monst *shkp)
 static void
 shk_charge(const char *slang, struct monst *shkp)
 {
-	struct obj *obj = NULL; /* The object picked            */
-	struct obj *tobj;       /* Temp obj                     */
-	char type;              /* Basic/premier service        */
-	int charge;             /* How much to charge customer  */
-	char invlet;            /* Inventory letter             */
+    struct obj *obj = NULL; /* The object picked            */
+    struct obj *tobj;       /* Temp obj                     */
+    char type;              /* Basic/premier service        */
+    int charge;             /* How much to charge customer  */
+    char invlet;            /* Inventory letter             */
 
-	/* What type of shop are we? */
-	if (shk_class_match(WAND_CLASS, shkp) == SHK_MATCH)
-		obj = getobj("charge", wand_ok, GETOBJ_NOFLAGS);
-	else if (shk_class_match(TOOL_CLASS, shkp) == SHK_MATCH)
-		obj = getobj("charge", tool_ok, GETOBJ_NOFLAGS);
-	else if (shk_class_match(RING_CLASS, shkp) == SHK_MATCH)
-		obj = getobj("charge", ring_ok, GETOBJ_NOFLAGS);
-	else if (shk_class_match(SPBOOK_CLASS, shkp) == SHK_MATCH)
-		obj = getobj("charge", spbook_ok, GETOBJ_NOFLAGS);
-	if (!obj) return;
+    /* What type of shop are we? */
+    if (shk_class_match(WAND_CLASS, shkp) == SHK_MATCH)
+        obj = getobj("charge", wand_ok, GETOBJ_NOFLAGS);
+    else if (shk_class_match(TOOL_CLASS, shkp) == SHK_MATCH)
+        obj = getobj("charge", tool_ok, GETOBJ_NOFLAGS);
+    else if (shk_class_match(RING_CLASS, shkp) == SHK_MATCH)
+        obj = getobj("charge", ring_ok, GETOBJ_NOFLAGS);
+    else if (shk_class_match(SPBOOK_CLASS, shkp) == SHK_MATCH)
+        obj = getobj("charge", spbook_ok, GETOBJ_NOFLAGS);
+    if (!obj) return;
 
-	/*
-	** Wand shops can offer special service!
-	** Extra charges (for a lot of extra money!)
-	*/
-	if (obj->oclass == WAND_CLASS) {
-		/* What type of service? */
-		if ((ESHK(shkp)->services & (SHK_SPECIAL_A|SHK_SPECIAL_B)) ==
-				(SHK_SPECIAL_A|SHK_SPECIAL_B)) {
-			type = yn_function("[B]asic service or [P]remier",
-					ident_chars, '\0');
-			if (type == '\0') return;
-		} else if (ESHK(shkp)->services & SHK_SPECIAL_A) {
-			pline ("I only perform basic charging.");
-			type = 'b';
-		} else if (ESHK(shkp)->services & SHK_SPECIAL_B) {
-			pline ("I only perform complete charging.");
-			type = 'p';
-		} else {
+    /*
+    ** Wand shops can offer special service!
+    ** Extra charges (for a lot of extra money!)
+    */
+    if (obj->oclass == WAND_CLASS) {
+        /* What type of service? */
+        if ((ESHK(shkp)->services & (SHK_SPECIAL_A|SHK_SPECIAL_B)) ==
+                (SHK_SPECIAL_A|SHK_SPECIAL_B)) {
+            type = yn_function("[B]asic service or [P]remier",
+                    ident_chars, '\0');
+            if (type == '\0') return;
+        } else if (ESHK(shkp)->services & SHK_SPECIAL_A) {
+            pline ("I only perform basic charging.");
+            type = 'b';
+        } else if (ESHK(shkp)->services & SHK_SPECIAL_B) {
+            pline ("I only perform complete charging.");
+            type = 'p';
+        } else {
             type = 'b';
         }
- 	} else {
-		type = 'b';
-	}
+    } else {
+        type = 'b';
+    }
 
-	/* Compute charge */
-	if (type == 'b')
-		charge = 300;
-	else
-		charge = 1000;
+    /* Compute charge */
+    if (type == 'b')
+        charge = 300;
+    else
+        charge = 1000;
 
-	/* Wands of wishing should be hard to get recharged */
-	if (/*obj->oclass == WAND_CLASS &&*/ obj->otyp == WAN_WISHING)
-		charge *= 3;
-	else /* Smooth out the charge a bit */
-		shk_smooth_charge(&charge, 100, 1000);
+    /* Wands of wishing should be hard to get recharged */
+    if (/*obj->oclass == WAND_CLASS &&*/ obj->otyp == WAN_WISHING)
+        charge *= 3;
+    else /* Smooth out the charge a bit */
+        shk_smooth_charge(&charge, 100, 1000);
 
-	/* Go for it? */
-	if (shk_offer_price(slang, charge, shkp) == FALSE) return;
+    /* Go for it? */
+    if (shk_offer_price(slang, charge, shkp) == FALSE) return;
 
-	/* Shopkeeper deviousness */
-	if ((Confusion || Hallucination) && !NO_CHEAT)
-	{
-		pline("%s says it's charged and pushes you toward the door",
-			Monnam(shkp));
-		return;
-	}
+    /* Shopkeeper deviousness */
+    if ((Confusion || Hallucination) && !NO_CHEAT)
+    {
+        pline("%s says it's charged and pushes you toward the door",
+            Monnam(shkp));
+        return;
+    }
 
-	/* Do it */
-	invlet = obj->invlet;
-	recharge(obj, (type=='b') ? 0 : 1);
+    /* Do it */
+    invlet = obj->invlet;
+    recharge(obj, (type=='b') ? 0 : 1);
 
-	/*
-	** Did the object blow up?  We need to check this in a way
-	** that has nothing to do with dereferencing the obj pointer.
-	** We saved the inventory letter of this item; now cycle
-	** through all objects and see if there is an object
-	** with that letter.
-	*/
-	for(obj = 0, tobj = g.invent; tobj; tobj=tobj->nobj)
-		if(tobj->invlet == invlet)
-		{
-			obj = tobj;
-			break;
-		}
-	if (!obj)
-	{
-		verbalize("Oops!  Sorry about that...");
-		return;
-	}
+    /*
+    ** Did the object blow up?  We need to check this in a way
+    ** that has nothing to do with dereferencing the obj pointer.
+    ** We saved the inventory letter of this item; now cycle
+    ** through all objects and see if there is an object
+    ** with that letter.
+    */
+    for(obj = 0, tobj = g.invent; tobj; tobj=tobj->nobj)
+        if(tobj->invlet == invlet)
+        {
+            obj = tobj;
+            break;
+        }
+    if (!obj)
+    {
+        verbalize("Oops!  Sorry about that...");
+        return;
+    }
 
-	/* Wands get special treatment */
-	if (obj->oclass == WAND_CLASS)
-	{
-		/* Wand of wishing? */
-		if (obj->otyp == WAN_WISHING)
-		{
-			/* Premier gives you ONE more charge */
-			/* KMH -- Okay, but that's pretty generous */
-			if (type == 'p') obj->spe++;
+    /* Wands get special treatment */
+    if (obj->oclass == WAND_CLASS)
+    {
+        /* Wand of wishing? */
+        if (obj->otyp == WAN_WISHING)
+        {
+            /* Premier gives you ONE more charge */
+            /* KMH -- Okay, but that's pretty generous */
+            if (type == 'p') obj->spe++;
 
-			/* Fun */
-			verbalize("Since you'll have everything you always wanted,");
-			verbalize("...How about loaning me some money?");
-			money2mon(shkp, money_cnt(g.invent));
-			makeknown(obj->otyp);
-			bot();
-		} else {
-			/*
-			** Basic: recharge() will have given 1 charge.
-			** Premier: recharge() will have given 5-10, say.
-			** Add a few more still.
-			*/
-			if (obj->spe < 16) obj->spe += rn1(5,5);
-			else if (obj->spe < 20) obj->spe += 1;
-		}
-	}
+            /* Fun */
+            verbalize("Since you'll have everything you always wanted,");
+            verbalize("...How about loaning me some money?");
+            money2mon(shkp, money_cnt(g.invent));
+            makeknown(obj->otyp);
+            bot();
+        } else {
+            /*
+            ** Basic: recharge() will have given 1 charge.
+            ** Premier: recharge() will have given 5-10, say.
+            ** Add a few more still.
+            */
+            if (obj->spe < 16) obj->spe += rn1(5,5);
+            else if (obj->spe < 20) obj->spe += 1;
+        }
+    }
 }
 
 
@@ -4201,8 +4201,8 @@ shk_charge(const char *slang, struct monst *shkp)
 static boolean
 shk_obj_match(struct obj *obj, struct monst *shkp)
 {
-	/* object matches type of shop? */
-	return(saleable(shkp, obj));
+    /* object matches type of shop? */
+    return(saleable(shkp, obj));
 }
 
 
@@ -4213,37 +4213,37 @@ shk_obj_match(struct obj *obj, struct monst *shkp)
 static boolean
 shk_offer_price(const char *slang, long charge, struct monst *shkp)
 {
-	char sbuf[BUFSZ];
-	long credit = ESHK(shkp)->credit;
+    char sbuf[BUFSZ];
+    long credit = ESHK(shkp)->credit;
 
-	/* Ask y/n if player wants to pay */
+    /* Ask y/n if player wants to pay */
         Sprintf(sbuf, "It'll cost you %ld zorkmid%s.  Interested?",
-		charge, plur(charge));
+        charge, plur(charge));
 
-	if ( yn(sbuf) != 'y' ) {
-		verbalize("It's your call, %s.", slang);
-		return(FALSE);
-	}
+    if ( yn(sbuf) != 'y' ) {
+        verbalize("It's your call, %s.", slang);
+        return(FALSE);
+    }
 
-	/* Player _wants_ to pay, but can he? */
-	/* WAC -- Check the credit:  but don't use check_credit
-	 * since we don't want to charge him for part of it if he can't pay for all 
-	 * of it 
-	 */
-	if (charge > (money_cnt(g.invent) + credit)) {  
-		verbalize("Cash on the spot, %s, and you ain't got the dough!",
-			slang);
-		return(FALSE);
-	}
+    /* Player _wants_ to pay, but can he? */
+    /* WAC -- Check the credit:  but don't use check_credit
+     * since we don't want to charge him for part of it if he can't pay for all
+     * of it
+     */
+    if (charge > (money_cnt(g.invent) + credit)) {
+        verbalize("Cash on the spot, %s, and you ain't got the dough!",
+            slang);
+        return(FALSE);
+    }
 
-	/* Charge the customer */
-	charge = check_credit (charge, shkp); /* Deduct the credit first */
+    /* Charge the customer */
+    charge = check_credit (charge, shkp); /* Deduct the credit first */
 
     if (charge)
-	    money2mon(shkp, charge);
-	bot();
+        money2mon(shkp, charge);
+    bot();
 
-	return(TRUE);
+    return(TRUE);
 }
 
 
@@ -4255,47 +4255,47 @@ shk_offer_price(const char *slang, long charge, struct monst *shkp)
 static void
 shk_smooth_charge(int *pcharge, int lower, int upper)
 {
-	int charisma;
-	int bonus;
+    int charisma;
+    int bonus;
 
-	/* KMH -- Avoid using floating-point arithmetic */
-	     if(ACURR(A_CHA) > 21) *pcharge *= 11;
-	else if(ACURR(A_CHA) > 18) *pcharge *= 12;
-	else if(ACURR(A_CHA) > 15) *pcharge *= 13;
-	else if(ACURR(A_CHA) > 12) *pcharge *= 14;
-	else if(ACURR(A_CHA) > 10) *pcharge *= 15;
-	else if(ACURR(A_CHA) > 8)  *pcharge *= 16;
-	else if(ACURR(A_CHA) > 7)  *pcharge *= 17;
-	else if(ACURR(A_CHA) > 6)  *pcharge *= 18;
-	else if(ACURR(A_CHA) > 5)  *pcharge *= 19;
-	else if(ACURR(A_CHA) > 4)  *pcharge *= 20;
-	else *pcharge *= 21;
-	*pcharge /= 10;
+    /* KMH -- Avoid using floating-point arithmetic */
+         if(ACURR(A_CHA) > 21) *pcharge *= 11;
+    else if(ACURR(A_CHA) > 18) *pcharge *= 12;
+    else if(ACURR(A_CHA) > 15) *pcharge *= 13;
+    else if(ACURR(A_CHA) > 12) *pcharge *= 14;
+    else if(ACURR(A_CHA) > 10) *pcharge *= 15;
+    else if(ACURR(A_CHA) > 8)  *pcharge *= 16;
+    else if(ACURR(A_CHA) > 7)  *pcharge *= 17;
+    else if(ACURR(A_CHA) > 6)  *pcharge *= 18;
+    else if(ACURR(A_CHA) > 5)  *pcharge *= 19;
+    else if(ACURR(A_CHA) > 4)  *pcharge *= 20;
+    else *pcharge *= 21;
+    *pcharge /= 10;
 
-	if (Is_blackmarket(&u.uz)) *pcharge *= 3;
-	/* Skip upper stuff? */
-	if (upper == NOBOUND) goto check_lower;
+    if (Is_blackmarket(&u.uz)) *pcharge *= 3;
+    /* Skip upper stuff? */
+    if (upper == NOBOUND) goto check_lower;
 
-	/* This should give us something like a charisma of 5 to 25. */
-	charisma = ABASE(A_CHA) + ABON(A_CHA) + ATEMP(A_CHA);        
+    /* This should give us something like a charisma of 5 to 25. */
+    charisma = ABASE(A_CHA) + ABON(A_CHA) + ATEMP(A_CHA);
 
-	/* Now: 0 to 10 = 0.  11 and up = 1 to whatever. */
-	if (charisma <= 10)
-		charisma = 0;
-	else
-		charisma -= 10;
+    /* Now: 0 to 10 = 0.  11 and up = 1 to whatever. */
+    if (charisma <= 10)
+        charisma = 0;
+    else
+        charisma -= 10;
 
-	/* Charismatic players get smaller upper bounds */
-	bonus=((upper/50)*charisma);
+    /* Charismatic players get smaller upper bounds */
+    bonus=((upper/50)*charisma);
 
-	/* Adjust upper.  Upper > lower! */
-	upper -= bonus;
-	upper = (upper>=lower) ? upper : lower;
+    /* Adjust upper.  Upper > lower! */
+    upper -= bonus;
+    upper = (upper>=lower) ? upper : lower;
 
-	/* Ok, do the min/max stuff */
-	if (*pcharge > upper) *pcharge=upper;
+    /* Ok, do the min/max stuff */
+    if (*pcharge > upper) *pcharge=upper;
 check_lower:
-	if (*pcharge < lower) *pcharge=lower;
+    if (*pcharge < lower) *pcharge=lower;
 }
 
 int

@@ -1,4 +1,4 @@
-/* NetHack 3.7	mthrowu.c	$NHDT-Date: 1620923922 2021/05/13 16:38:42 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.114 $ */
+/* NetHack 3.7  mthrowu.c   $NHDT-Date: 1620923922 2021/05/13 16:38:42 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.114 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Pasi Kallinen, 2016. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -40,7 +40,7 @@ m_has_launcher_and_ammo(struct monst* mtmp)
 /* hero is hit by something other than a monster */
 int
 thitu(
-    int tlev, 
+    int tlev,
     int dam,
     struct obj **objp,
     const char *name) /* if null, then format `*objp' */
@@ -140,15 +140,15 @@ drop_throw(
         create = 1;
 
     /* Detonate rockets */
-	if (is_grenade(obj)) {
-		if (!ohit) {
-			create = 1; /* Don't destroy */
-			arm_bomb(obj, FALSE);
-		} else {
+    if (is_grenade(obj)) {
+        if (!ohit) {
+            create = 1; /* Don't destroy */
+            arm_bomb(obj, FALSE);
+        } else {
             create = 0;
-			grenade_explode(obj, g.bhitpos.x, g.bhitpos.y, FALSE);
-		}
-	}
+            grenade_explode(obj, g.bhitpos.x, g.bhitpos.y, FALSE);
+        }
+    }
 
     if (create && !((mtmp = m_at(x, y)) != 0 && mtmp->mtrapped
                     && (t = t_at(x, y)) != 0
@@ -224,7 +224,7 @@ monmulti(struct monst* mtmp, struct obj* otmp, struct obj* mwep)
 
         /* gunz */
         if (mwep && is_firearm(mwep))
-	        multishot += firearm_rof(mwep->otyp);
+            multishot += firearm_rof(mwep->otyp);
 
         /* class bonus */
         multishot += multishot_class_bonus(monsndx(mtmp->data), otmp, mwep);
@@ -542,11 +542,11 @@ m_throw(
 
     /* D: Special launcher effects */
     if (mon) mwep = MON_WEP(mon);
-  	else mwep = (struct obj *) 0;
-  	if (mwep && is_ammo(singleobj) && ammo_and_launcher(singleobj, mwep)) {
-  	    if (mwep->oartifact == ART_PLAGUE && is_poisonable(singleobj))
-  			singleobj->opoisoned = TRUE;
-  	}
+    else mwep = (struct obj *) 0;
+    if (mwep && is_ammo(singleobj) && ammo_and_launcher(singleobj, mwep)) {
+        if (mwep->oartifact == ART_PLAGUE && is_poisonable(singleobj))
+            singleobj->opoisoned = TRUE;
+    }
 
     if ((singleobj->cursed || singleobj->greased) && (dx || dy) && !rn2(7)) {
         if (canseemon(mon) && flags.verbose) {
@@ -776,9 +776,9 @@ thrwmm(struct monst* mtmp, struct monst* mtarg)
     if (mwep) gun_range = firearm_range(mwep->otyp);
 
     if (mwep && is_firearm(mwep) && ammo_and_launcher(otmp, mwep) && gun_range &&
-		dist2(mtmp->mx, mtmp->my, mtarg->mx, mtarg->my) >
-		gun_range * gun_range)
-	    return 0; /* Out of range */
+        dist2(mtmp->mx, mtmp->my, mtarg->mx, mtarg->my) >
+        gun_range * gun_range)
+        return 0; /* Out of range */
 
     mwep = MON_WEP(mtmp); /* wielded weapon */
 
@@ -882,12 +882,12 @@ breamm(struct monst* mtmp, struct attack* mattk, struct monst* mtarg)
             return MM_MISS;
         }
 
-	/* if we've seen the actual resistance, don't bother, or
-	 * if we're close by and they reflect, just jump the player */
-	if (m_seenres(mtmp, cvt_adtyp_to_mseenres(typ))
-	    || (m_seenres(mtmp, M_SEEN_REFL)
+    /* if we've seen the actual resistance, don't bother, or
+     * if we're close by and they reflect, just jump the player */
+    if (m_seenres(mtmp, cvt_adtyp_to_mseenres(typ))
+        || (m_seenres(mtmp, M_SEEN_REFL)
                 && monnear(mtmp, mtmp->mux, mtmp->muy)))
-	    return MM_HIT;
+        return MM_HIT;
 
         if (!mtmp->mspec_used && rn2(3)) {
             if ((typ >= AD_MAGM) && (typ <= AD_PSYC)) {

@@ -1,4 +1,4 @@
-/* NetHack 3.7	invent.c	$NHDT-Date: 1620861205 2021/05/12 23:13:25 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.331 $ */
+/* NetHack 3.7  invent.c    $NHDT-Date: 1620861205 2021/05/12 23:13:25 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.331 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Derek S. Ray, 2015. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -823,7 +823,7 @@ addinv_core1(struct obj *obj)
             u.uhave.questart = 1;
             artitouch(obj);
             if(obj->oartifact == ART_TREASURY_OF_PROTEUS){
-            		u.ukinghill = TRUE;
+                    u.ukinghill = TRUE;
              }
         }
         set_artifact_intrinsic(obj, 1, W_ART);
@@ -1147,7 +1147,7 @@ freeinv_core(struct obj *obj)
             u.uhave.questart = 0;
         }
         if (obj->oartifact == ART_TREASURY_OF_PROTEUS) {
-        	u.ukinghill = FALSE;
+            u.ukinghill = FALSE;
         }
         set_artifact_intrinsic(obj, 0, W_ART);
     }
@@ -3627,8 +3627,8 @@ mergable(register struct obj *otmp, register struct obj *obj)
     }
 
     /* armed grenades do not merge */
-	if ((obj->timed || otmp->timed) && is_grenade(obj))
-	    return FALSE;
+    if ((obj->timed || otmp->timed) && is_grenade(obj))
+        return FALSE;
 
     /* hatching eggs don't merge; ditto for revivable corpses */
     if ((obj->otyp == EGG && (obj->timed || otmp->timed))

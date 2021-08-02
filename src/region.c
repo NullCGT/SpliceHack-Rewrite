@@ -1,4 +1,4 @@
-/* NetHack 3.7	region.c	$NHDT-Date: 1596498203 2020/08/03 23:43:23 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.65 $ */
+/* NetHack 3.7  region.c    $NHDT-Date: 1596498203 2020/08/03 23:43:23 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.65 $ */
 /* Copyright (c) 1996 by Jean-Christophe Collet  */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -617,7 +617,7 @@ save_regions(NHFILE* nhfp)
     if (!perform_bwrite(nhfp))
         goto skip_lots;
     if (nhfp->structlevel) {
-        bwrite(nhfp->fd, (genericptr_t) &g.moves, sizeof (g.moves));	/* timestamp */
+        bwrite(nhfp->fd, (genericptr_t) &g.moves, sizeof (g.moves));    /* timestamp */
         bwrite(nhfp->fd, (genericptr_t) &g.n_regions, sizeof (g.n_regions));
     }
     for (i = 0; i < g.n_regions; i++) {
@@ -677,7 +677,7 @@ save_regions(NHFILE* nhfp)
             bwrite(nhfp->fd, (genericptr_t) &g.regions[i]->arg, sizeof (anything));
         }
     }
-  
+
   skip_lots:
     if (release_data(nhfp))
         clear_regions();
@@ -692,7 +692,7 @@ rest_regions(NHFILE* nhfp)
     char *msg_buf;
     boolean ghostly = (nhfp->ftype == NHF_BONESFILE);
 
-    clear_regions();		/* Just for security */
+    clear_regions();        /* Just for security */
     if (nhfp->structlevel)
         mread(nhfp->fd, (genericptr_t) &tmstamp, sizeof (tmstamp));
     if (ghostly)
@@ -744,7 +744,7 @@ rest_regions(NHFILE* nhfp)
                 mread(nhfp->fd, (genericptr_t) msg_buf, n);
             }
             msg_buf[n] = '\0';
-	    g.regions[i]->leave_msg = (const char *) msg_buf;
+        g.regions[i]->leave_msg = (const char *) msg_buf;
         } else
             g.regions[i]->leave_msg = (const char *)0;
 
@@ -753,7 +753,7 @@ rest_regions(NHFILE* nhfp)
         /* check for expired region */
         if (g.regions[i]->ttl >= 0L)
             g.regions[i]->ttl =
-		(g.regions[i]->ttl > tmstamp) ? g.regions[i]->ttl - tmstamp : 0L;
+        (g.regions[i]->ttl > tmstamp) ? g.regions[i]->ttl - tmstamp : 0L;
         if (nhfp->structlevel) {
             mread(nhfp->fd, (genericptr_t) &g.regions[i]->expire_f,
                     sizeof (short));
@@ -770,7 +770,7 @@ rest_regions(NHFILE* nhfp)
             mread(nhfp->fd, (genericptr_t) &g.regions[i]->player_flags,
                     sizeof (unsigned int));
         }
-        if (ghostly) {	/* settings pertained to old player */
+        if (ghostly) {  /* settings pertained to old player */
             clear_hero_inside(g.regions[i]);
             clear_heros_fault(g.regions[i]);
         }

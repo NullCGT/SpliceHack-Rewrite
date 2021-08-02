@@ -1,4 +1,4 @@
-/* NetHack 3.7	explode.c	$NHDT-Date: 1619553210 2021/04/27 19:53:30 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.77 $ */
+/* NetHack 3.7  explode.c   $NHDT-Date: 1619553210 2021/04/27 19:53:30 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.77 $ */
 /*      Copyright (C) 1990 by Ken Arromdee */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -586,9 +586,9 @@ explode(
             g.context.botl = 1;
         }
 
-	/* You resisted the damage, lets not keep that to ourselves */
-	if (uhurt == 1)
-	    monstseesu_ad(adtyp);
+    /* You resisted the damage, lets not keep that to ourselves */
+    if (uhurt == 1)
+        monstseesu_ad(adtyp);
 
         if (u.uhp <= 0 || (Upolyd && u.mh <= 0)) {
             if (Upolyd) {
@@ -965,19 +965,19 @@ mon_explodes(struct monst *mon, struct attack *mattk)
 
 void arm_bomb(struct obj *obj, boolean yours)
 {
-    /* Three shall be the number of the counting and the 
+    /* Three shall be the number of the counting and the
        number of the counting shall be three. */
     if (obj->oarmed)
         return;
-	if (obj->oartifact == ART_HAND_GRENADE_OF_ANTIOCH) {
+    if (obj->oartifact == ART_HAND_GRENADE_OF_ANTIOCH) {
         attach_bomb_blow_timeout(obj, 3, yours);
     } else if (is_grenade(obj)) {
-		attach_bomb_blow_timeout(obj, 
-			    (obj->cursed ? rn2(5) + 2 : obj->blessed ? 4 : 
-			    	rn2(2) + 3)
-			     , yours);			
-	}
-	/* Otherwise, do nothing */
+        attach_bomb_blow_timeout(obj,
+                (obj->cursed ? rn2(5) + 2 : obj->blessed ? 4 :
+                    rn2(2) + 3)
+                 , yours);
+    }
+    /* Otherwise, do nothing */
 }
 
 /*explode.c*/

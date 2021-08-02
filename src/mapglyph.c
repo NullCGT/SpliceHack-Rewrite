@@ -1,4 +1,4 @@
-/* NetHack 3.7	mapglyph.c	$NHDT-Date: 1596498176 2020/08/03 23:42:56 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.65 $ */
+/* NetHack 3.7  mapglyph.c  $NHDT-Date: 1596498176 2020/08/03 23:42:56 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.65 $ */
 /* Copyright (c) David Cohrs, 1991                                */
 /* NetHack may be freely redistributed.  See license for details. */
 
@@ -176,27 +176,27 @@ unsigned mgflags;
             color = CLR_YELLOW;
         } else if (iflags.use_color && offset >= S_vwall && offset <= S_trwall) {
             if (*in_rooms(x,y,BEEHIVE) && !On_W_tower_level(&u.uz))
-        		    color = CLR_YELLOW;
+                    color = CLR_YELLOW;
             else if (In_sokoban(&u.uz))
                 color = CLR_BLUE;
             else if (Is_blackmarket(&u.uz))
                 color = CLR_ORANGE;
-        		else if (In_W_tower(x, y, &u.uz))
-        		    color = CLR_MAGENTA;
-        		else if (In_mines(&u.uz))
-        		    color = CLR_BROWN;
-        		else if (In_hell(&u.uz) && !Is_valley(&u.uz))
-        		    color =  CLR_RED;
+                else if (In_W_tower(x, y, &u.uz))
+                    color = CLR_MAGENTA;
+                else if (In_mines(&u.uz))
+                    color = CLR_BROWN;
+                else if (In_hell(&u.uz) && !Is_valley(&u.uz))
+                    color =  CLR_RED;
                 else if (Is_firelevel(&u.uz))
                     color = CLR_YELLOW;
-        		else if (Is_astralevel(&u.uz))
-        		    color = CLR_WHITE;
-      	} else if (iflags.use_color && offset == S_room) {
-        		if (*in_rooms(x,y,BEEHIVE))
-        		    color = CLR_YELLOW;
+                else if (Is_astralevel(&u.uz))
+                    color = CLR_WHITE;
+        } else if (iflags.use_color && offset == S_room) {
+                if (*in_rooms(x,y,BEEHIVE))
+                    color = CLR_YELLOW;
                 else if (In_mines(&u.uz))
-        		    color = CLR_BROWN;
-        		else if (Is_juiblex_level(&u.uz))
+                    color = CLR_BROWN;
+                else if (Is_juiblex_level(&u.uz))
                 color = CLR_GREEN;
 #endif
         /* try to provide a visible difference between water and lava
@@ -534,7 +534,7 @@ unsigned itemflags;     /* The itemflags for the item               */
 boolean is_selected;    /* The current selection status of the item */
 {
     boolean skipinvert = (itemflags & MENU_ITEMFLAGS_SKIPINVERT) != 0;
-    
+
     if ((iflags.menuinvertmode == 1 || iflags.menuinvertmode == 2)
         && !mode && skipinvert && !is_selected)
         return FALSE;

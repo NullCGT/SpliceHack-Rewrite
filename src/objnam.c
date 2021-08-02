@@ -1,4 +1,4 @@
-/* NetHack 3.7	objnam.c	$NHDT-Date: 1620348711 2021/05/07 00:51:51 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.315 $ */
+/* NetHack 3.7  objnam.c    $NHDT-Date: 1620348711 2021/05/07 00:51:51 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.315 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2011. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -72,14 +72,14 @@ struct Jitem {
              && typ != OPAL)))
 
 static struct Jitem Pirate_items[] = { { POT_BOOZE, "rum" },
-                                        	 { CRAM_RATION, "sea biscuit" },
-                                        	 { SCIMITAR, "cutlass" },
-                                        	 { SMALL_SHIELD, "buckler" },
-                                        	 { SACK, "ditty bag" },
-                                        	 { LARGE_BOX, "foot locker" },
-                                        	 { CLUB, "belaying pin" },
+                                             { CRAM_RATION, "sea biscuit" },
+                                             { SCIMITAR, "cutlass" },
+                                             { SMALL_SHIELD, "buckler" },
+                                             { SACK, "ditty bag" },
+                                             { LARGE_BOX, "foot locker" },
+                                             { CLUB, "belaying pin" },
                                            { QUARTERSTAFF, "oar"},
-                                        	 {0, "" } };
+                                             {0, "" } };
 static struct Jitem Japanese_items[] = { { SHORT_SWORD, "wakizashi" },
                                              { BROADSWORD, "ninja-to" },
                                              { FLAIL, "nunchaku" },
@@ -148,7 +148,7 @@ obj_typename(int otyp)
     if (Role_if(PM_SAMURAI) && Alternate_item_name(otyp,Japanese_items))
         actualn = Alternate_item_name(otyp,Japanese_items);
     else if (Role_if(PM_PIRATE) && Alternate_item_name(otyp,Pirate_items))
-     	actualn = Alternate_item_name(otyp,Pirate_items);
+        actualn = Alternate_item_name(otyp,Pirate_items);
 
     switch (ocl->oc_class) {
     case COIN_CLASS:
@@ -467,7 +467,7 @@ xname_flags(
     if (Role_if(PM_SAMURAI) && Alternate_item_name(typ, Japanese_items))
         actualn = Alternate_item_name(typ, Japanese_items);
     else if (Role_if(PM_PIRATE) && Alternate_item_name(typ,Pirate_items))
-     	actualn = Alternate_item_name(typ,Pirate_items);
+        actualn = Alternate_item_name(typ,Pirate_items);
     /* As of 3.6.2: this used to be part of 'dn's initialization, but it
        needs to come after possibly overriding 'actualn' */
     if (!dn)
@@ -1182,7 +1182,7 @@ doname_base(struct obj* obj, unsigned int doname_flags)
         }
 
         if (is_grenade(obj))
-		    if (obj->oarmed) Strcat(bp, " (armed)");
+            if (obj->oarmed) Strcat(bp, " (armed)");
         break;
     case TOOL_CLASS:
         if (obj->owornmask & (W_TOOL | W_SADDLE)) { /* blindfold */
@@ -2144,8 +2144,8 @@ vtense(const char* subj, const char* verb)
      */
 
     if(Role_if(PM_PIRATE) && !strcmp(verb,"are")) {
-    		Strcpy(buf,"be");
-    		return buf;
+            Strcpy(buf,"be");
+            return buf;
     }
 
     if (subj) {
@@ -2903,8 +2903,8 @@ static NEARDATA const struct o_range o_ranges[] = {
     { "dsm", ARMOR_CLASS, GRAY_DRAGON_SCALE_MAIL,
       YELLOW_DRAGON_SCALE_MAIL },
     { "sword", WEAPON_CLASS, SHORT_SWORD, KATANA },
-    { "firearm", 	WEAPON_CLASS, PISTOL, AUTO_SHOTGUN },
-    { "gun", 	WEAPON_CLASS, PISTOL, AUTO_SHOTGUN },
+    { "firearm",    WEAPON_CLASS, PISTOL, AUTO_SHOTGUN },
+    { "gun",    WEAPON_CLASS, PISTOL, AUTO_SHOTGUN },
     { "machine gun", WEAPON_CLASS, SUBMACHINE_GUN, HEAVY_MACHINE_GUN },
     { "grenade", WEAPON_CLASS, FRAG_GRENADE, GAS_GRENADE },
     { "venom", VENOM_CLASS, BLINDING_VENOM, ACID_VENOM },
@@ -2968,8 +2968,8 @@ static const struct alt_spellings {
     { "flintstone", FLINT },
     /* grenades and firearms */
     { "handgun", PISTOL },
-	{ "hand gun", PISTOL },
-	{ "revolver", PISTOL },
+    { "hand gun", PISTOL },
+    { "revolver", PISTOL },
     { "hand grenade", FRAG_GRENADE },
     { "shell", SHOTGUN_SHELL },
     /* Community abbreviations */
@@ -3427,7 +3427,7 @@ static int
 readobjnam_preparse(struct _readobjnam_data* d)
 {
     int i;
-    
+
     for (;;) {
         register int l;
 
@@ -4168,16 +4168,16 @@ readobjnam_postparse3(struct _readobjnam_data* d)
 
     if (d->actualn) {
         struct Jitem *j[] = {Japanese_items,Pirate_items};
-    		for(i = 0; (unsigned long) i < sizeof(j) / sizeof(j[0]); i++)
-    		{
-         		while(j[i]->item) {
-           			if (d->actualn && !strcmpi(d->actualn, j[i]->name)) {
-           				  d->typ = j[i]->item;
-            				return 2; /* goto typfnd;*/
-            		}
-           			j[i]++;
-         		}
-  		  }
+            for(i = 0; (unsigned long) i < sizeof(j) / sizeof(j[0]); i++)
+            {
+                while(j[i]->item) {
+                    if (d->actualn && !strcmpi(d->actualn, j[i]->name)) {
+                          d->typ = j[i]->item;
+                            return 2; /* goto typfnd;*/
+                    }
+                    j[i]++;
+                }
+          }
     }
     /* if we've stripped off "armor" and failed to match anything
        in objects[], append "mail" and try again to catch misnamed
@@ -4787,9 +4787,9 @@ static const char *
 Alternate_item_name(int i, struct Jitem *alternate_items)
 {
     while(alternate_items->item) {
-   		  if (i == alternate_items->item)
-   			    return alternate_items->name;
-   		  alternate_items++;
+          if (i == alternate_items->item)
+                return alternate_items->name;
+          alternate_items++;
     }
     return (const char *)0;
 }

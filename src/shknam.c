@@ -1,4 +1,4 @@
-/* NetHack 3.7	shknam.c	$NHDT-Date: 1596498209 2020/08/03 23:43:29 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.57 $ */
+/* NetHack 3.7  shknam.c    $NHDT-Date: 1596498209 2020/08/03 23:43:29 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.57 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2011. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -536,10 +536,10 @@ mkshobj_at(const struct shclass* shp, int sx, int sy, boolean mkspecl)
         if (atype == VEGETARIAN_CLASS)
             mkveggy_at(sx, sy);
         else if (Is_blackmarket(&u.uz)) {
-  	         if (!rn2(20)) return; /* leave an empty square */
+             if (!rn2(20)) return; /* leave an empty square */
              if (!rn2(10)) {
                 (void) mkobj_at(rn2(5) ? GEM_CLASS : TOOL_CLASS, sx, sy, TRUE);
-  		          return;
+                  return;
             }
         }
         else if (atype < 0)
@@ -730,7 +730,7 @@ shkinit(const struct shclass* shp, struct mkroom* sroom)
     eshkp->bill_p = (struct bill_x *) 0;
     eshkp->customer[0] = '\0';
     /* WAC init services */
-	init_shk_services(shk);
+    init_shk_services(shk);
     if (!Is_blackmarket(&u.uz))
         mkmonmoney(shk, 1000L + 30L * (long) rnd(100)); /* initial capital */
     else
@@ -908,45 +908,45 @@ stock_blkmar(struct mkroom *sroom, int sh)
     partial = 0;
     for(sx = sroom->lx+1; sx <= sroom->hx; sx++) {
         if (sx==sroom->lx+1 ||
-  	      ((sx-sroom->lx-2)*total)/(sroom->hx-sroom->lx-1)>partial) {
-	          clp++;
-	          if (clp>lastclp)  clp = lastclp;
-          	first = g.bases[*clp];
-          	next = (*clp==GEM_CLASS) ? (LOADSTONE+1) : g.bases[(*clp)+1];
-          	partial += next-first;
+          ((sx-sroom->lx-2)*total)/(sroom->hx-sroom->lx-1)>partial) {
+              clp++;
+              if (clp>lastclp)  clp = lastclp;
+            first = g.bases[*clp];
+            next = (*clp==GEM_CLASS) ? (LOADSTONE+1) : g.bases[(*clp)+1];
+            partial += next-first;
         }
 
         for(sy = sroom->ly; sy <= sroom->hy; sy++) {
-          	if((sx == sroom->lx && g.doors[sh].x == sx-1) ||
-          	   (sx == sroom->hx && g.doors[sh].x == sx+1) ||
-          	   (sy == sroom->ly && g.doors[sh].y == sy-1) ||
-          	   (sy == sroom->hy && g.doors[sh].y == sy+1) || (rn2(3)))
-          	  continue;
+            if((sx == sroom->lx && g.doors[sh].x == sx-1) ||
+               (sx == sroom->hx && g.doors[sh].x == sx+1) ||
+               (sy == sroom->ly && g.doors[sh].y == sy-1) ||
+               (sy == sroom->hy && g.doors[sh].y == sy+1) || (rn2(3)))
+              continue;
 
-          	for (i=0; i<50; i++) {
+            for (i=0; i<50; i++) {
                 typ = rn2(next-first) + first;
 
                 /* forbidden objects  */
-            	if (typ==AMULET_OF_YENDOR || typ==CANDELABRUM_OF_INVOCATION ||
-            	      typ==BELL_OF_OPENING  || typ==SPE_BOOK_OF_THE_DEAD ||
-            	      objects[typ].oc_nowish || typ==0) {
-            	    continue;
+                if (typ==AMULET_OF_YENDOR || typ==CANDELABRUM_OF_INVOCATION ||
+                      typ==BELL_OF_OPENING  || typ==SPE_BOOK_OF_THE_DEAD ||
+                      objects[typ].oc_nowish || typ==0) {
+                    continue;
                 }
-  	            otmp = mkobj_at(RANDOM_CLASS,sx,sy,TRUE);
+                otmp = mkobj_at(RANDOM_CLASS,sx,sy,TRUE);
                 /* generate multiple copies with decreasing probabilities */
                 /*        if (rn2(blkmar_gen[typ]+1) && i<49)  continue; */
 
                 /*        otmp = mksobj_at(typ, sx, sy, TRUE, TRUE);
-                	  blkmar_gen[typ]++;*/
+                      blkmar_gen[typ]++;*/
 
                 /* prevent wishing abuse */
-            	  if (typ==WAN_WISHING) {
-            	    otmp->spe = 0;
-            	    otmp->recharged = 1;
-            	  }
-            	  if (typ==MAGIC_LAMP) {
-            	    otmp->spe = 0;
-            	  }
+                  if (typ==WAN_WISHING) {
+                    otmp->spe = 0;
+                    otmp->recharged = 1;
+                  }
+                  if (typ==MAGIC_LAMP) {
+                    otmp->spe = 0;
+                  }
                 break;
             }
 
@@ -963,45 +963,45 @@ stock_blkmar(struct mkroom *sroom, int sh)
 static void
 init_shk_services(struct monst *shk)
 {
-	ESHK(shk)->services = 0L;
+    ESHK(shk)->services = 0L;
 
-	/* KMH, balance patch 2 -- Increase probability of shopkeeper services.
-	 * Requested by Dave <mitch45678@aol.com>
-	 */
-	if (Is_blackmarket(&u.uz)) {
-		ESHK(shk)->services = 
-		    SHK_ID_BASIC|SHK_ID_PREMIUM|SHK_UNCURSE|SHK_APPRAISE|
-		    SHK_SPECIAL_A|SHK_SPECIAL_B|SHK_SPECIAL_C;
-		return;
-	}
+    /* KMH, balance patch 2 -- Increase probability of shopkeeper services.
+     * Requested by Dave <mitch45678@aol.com>
+     */
+    if (Is_blackmarket(&u.uz)) {
+        ESHK(shk)->services =
+            SHK_ID_BASIC|SHK_ID_PREMIUM|SHK_UNCURSE|SHK_APPRAISE|
+            SHK_SPECIAL_A|SHK_SPECIAL_B|SHK_SPECIAL_C;
+        return;
+    }
 
-	/* Guarantee some form of identification
-	 * 1/3 		both Basic and Premium ID
-	 * 2/15 	Premium ID only
-	 * 8/15 	Basic ID only
-	 */
-	if (!rn2(2)) ESHK(shk)->services |= (SHK_ID_BASIC|SHK_ID_PREMIUM);
-	else if (!rn2(4)) ESHK(shk)->services |= SHK_ID_PREMIUM;
-	else ESHK(shk)->services |= SHK_ID_BASIC;
+    /* Guarantee some form of identification
+     * 1/3      both Basic and Premium ID
+     * 2/15     Premium ID only
+     * 8/15     Basic ID only
+     */
+    if (!rn2(2)) ESHK(shk)->services |= (SHK_ID_BASIC|SHK_ID_PREMIUM);
+    else if (!rn2(4)) ESHK(shk)->services |= SHK_ID_PREMIUM;
+    else ESHK(shk)->services |= SHK_ID_BASIC;
 
-	if (!rn2(3)) ESHK(shk)->services |= SHK_UNCURSE;
+    if (!rn2(3)) ESHK(shk)->services |= SHK_UNCURSE;
 
-	if (!rn2(3) && shk_class_match(WEAPON_CLASS, shk))
-		ESHK(shk)->services |= SHK_APPRAISE;
+    if (!rn2(3) && shk_class_match(WEAPON_CLASS, shk))
+        ESHK(shk)->services |= SHK_APPRAISE;
 
-	if ((shk_class_match(WEAPON_CLASS, shk) == SHK_MATCH) ||
-	(shk_class_match(ARMOR_CLASS, shk) == SHK_MATCH) ||
-	(shk_class_match(WAND_CLASS, shk) == SHK_MATCH) ||
-	(shk_class_match(TOOL_CLASS, shk) == SHK_MATCH) ||
-	(shk_class_match(SPBOOK_CLASS, shk) == SHK_MATCH) ||
-	(shk_class_match(RING_CLASS, shk) == SHK_MATCH)) {
-		if (!rn2(4/*5*/)) ESHK(shk)->services |= SHK_SPECIAL_A;
-		if (!rn2(4/*5*/)) ESHK(shk)->services |= SHK_SPECIAL_B;
-	}
-	if (!rn2(4/*5*/) && (shk_class_match(WEAPON_CLASS, shk) == SHK_MATCH))
-	 ESHK(shk)->services |= SHK_SPECIAL_C;
+    if ((shk_class_match(WEAPON_CLASS, shk) == SHK_MATCH) ||
+    (shk_class_match(ARMOR_CLASS, shk) == SHK_MATCH) ||
+    (shk_class_match(WAND_CLASS, shk) == SHK_MATCH) ||
+    (shk_class_match(TOOL_CLASS, shk) == SHK_MATCH) ||
+    (shk_class_match(SPBOOK_CLASS, shk) == SHK_MATCH) ||
+    (shk_class_match(RING_CLASS, shk) == SHK_MATCH)) {
+        if (!rn2(4/*5*/)) ESHK(shk)->services |= SHK_SPECIAL_A;
+        if (!rn2(4/*5*/)) ESHK(shk)->services |= SHK_SPECIAL_B;
+    }
+    if (!rn2(4/*5*/) && (shk_class_match(WEAPON_CLASS, shk) == SHK_MATCH))
+     ESHK(shk)->services |= SHK_SPECIAL_C;
 
-	return;
+    return;
 }
 
 /* does shkp's shop stock this item type? */

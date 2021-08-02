@@ -1,4 +1,4 @@
-/* NetHack 3.7	makemon.c	$NHDT-Date: 1606033928 2020/11/22 08:32:08 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.180 $ */
+/* NetHack 3.7  makemon.c   $NHDT-Date: 1606033928 2020/11/22 08:32:08 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.180 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Robert Patrick Rankin, 2012. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -359,21 +359,21 @@ m_initweap(register struct monst *mtmp)
                 break;
             case PM_PIRATE_CREWMATE:
                 (void) mongets(mtmp, SCIMITAR);
-     		    (void) mongets(mtmp, LIGHT_ARMOR);
-     			(void) mongets(mtmp, HIGH_BOOTS);
+                (void) mongets(mtmp, LIGHT_ARMOR);
+                (void) mongets(mtmp, HIGH_BOOTS);
                 break;
             }
         }
         break;
     case S_GHOST:
-     	if (mm == PM_BLACKBEARD_S_GHOST) {
-     		    otmp = mksobj(SCIMITAR, FALSE, FALSE);
-     		    curse(otmp);
-     		    otmp->oerodeproof = TRUE;
-     			  otmp->oeroded = 1;
-     		    spe2 = d(2,3);
-     		    otmp->spe = max(otmp->spe, spe2);
-     		    (void) mpickobj(mtmp, otmp);
+        if (mm == PM_BLACKBEARD_S_GHOST) {
+                otmp = mksobj(SCIMITAR, FALSE, FALSE);
+                curse(otmp);
+                otmp->oerodeproof = TRUE;
+                  otmp->oeroded = 1;
+                spe2 = d(2,3);
+                otmp->spe = max(otmp->spe, spe2);
+                (void) mpickobj(mtmp, otmp);
 
             otmp = mksobj(CHEST, FALSE, FALSE);
             otmp = oname(otmp, artiname(ART_TREASURY_OF_PROTEUS));
@@ -489,7 +489,7 @@ m_initweap(register struct monst *mtmp)
                 otmp->spe = 5;
                 otmp->quan = (long) 1;
                 otmp->owt = weight(otmp);
-			    (void) mpickobj(mtmp, otmp);
+                (void) mpickobj(mtmp, otmp);
                 /* powerful bow */
                 otmp = mksobj(FOOTBOW, TRUE, FALSE);
                 otmp->spe = 3;
@@ -651,14 +651,14 @@ m_initweap(register struct monst *mtmp)
         case PM_SKELETAL_PIRATE:
             otmp = rn2(2) ? mksobj(SCIMITAR, FALSE, FALSE) :
                     mksobj(KNIFE, FALSE, FALSE);
-            	  curse(otmp);
-             		otmp->oeroded = 1;
-             		(void) mpickobj(mtmp, otmp);
-             		otmp = rn2(2) ? mksobj(HIGH_BOOTS, FALSE, FALSE) :
+                  curse(otmp);
+                    otmp->oeroded = 1;
+                    (void) mpickobj(mtmp, otmp);
+                    otmp = rn2(2) ? mksobj(HIGH_BOOTS, FALSE, FALSE) :
                     mksobj(JACKET, FALSE, FALSE);
-             		curse(otmp);
-             		otmp->oeroded2 = 1;
-             		(void) mpickobj(mtmp, otmp);
+                    curse(otmp);
+                    otmp->oeroded2 = 1;
+                    (void) mpickobj(mtmp, otmp);
             break;
         }
         break;
@@ -949,9 +949,9 @@ m_initinv(register struct monst *mtmp)
         } else if (quest_mon_represents_role(ptr, PM_MONK)) {
             (void) mongets(mtmp, rn2(11) ? ROBE : CLOAK_OF_MAGIC_RESISTANCE);
         } else if (ptr == &mons[PM_MINER]) {
-		    (void) mongets(mtmp, PICK_AXE);
-		    otmp = mksobj(LANTERN, TRUE, FALSE);
-			(void) mpickobj(mtmp, otmp);
+            (void) mongets(mtmp, PICK_AXE);
+            otmp = mksobj(LANTERN, TRUE, FALSE);
+            (void) mpickobj(mtmp, otmp);
             begin_burn(otmp, FALSE);
         } else if(ptr == &mons[PM_PLANAR_PIRATE]){
             (void) mongets(mtmp, TWO_HANDED_SWORD);
@@ -1900,12 +1900,12 @@ rndmonst(void)
     boolean elemlevel, upper;
 
     if (u.ukinghill) { /* You have pirate quest artifact in open inventory */
-   		  if(rnd(100) > 80){
-   			    if (In_endgame(&u.uz)) return &mons[PM_PLANAR_PIRATE];
-   			    else if (Inhell) return &mons[PM_DAMNED_PIRATE];
-   			    else return &mons[PM_SKELETAL_PIRATE];
-   		  }
-   	}
+          if(rnd(100) > 80){
+                if (In_endgame(&u.uz)) return &mons[PM_PLANAR_PIRATE];
+                else if (Inhell) return &mons[PM_DAMNED_PIRATE];
+                else return &mons[PM_SKELETAL_PIRATE];
+          }
+    }
 
     if (u.uz.dnum == quest_dnum && rn2(7) && (ptr = qt_montype()) != 0)
         return ptr;
