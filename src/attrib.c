@@ -120,6 +120,11 @@ static const struct innate {
                  { 1, &HFire_resistance, "", ""},
                  { 0, 0, 0, 0 } },
 
+  mer_abil[] = { { 1, &HSwimming, "", ""},
+                 { 7, &HMagical_breathing, "yourself sprout gills",
+                                           "your gills retract" },
+                 { 0, 0, 0, 0 } },
+
   orc_abil[] = { { 1, &HInfravision, "", "" },
                  { 1, &HPoison_resistance, "", "" },
                  { 0, 0, 0, 0 } },
@@ -767,6 +772,9 @@ check_innate_abil(long *ability, long frommask)
         abil = role_abil(Role_switch);
     else if (frommask == FROMRACE)
         switch (Race_switch) {
+        case PM_MERFOLK:
+            abil = mer_abil;
+            break;
         case PM_INFERNAL:
             abil = inf_abil;
             break;
@@ -958,6 +966,9 @@ adjabil(int oldlevel, int newlevel)
     abil = role_abil(Role_switch);
 
     switch (Race_switch) {
+    case PM_MERFOLK:
+        rabil = mer_abil;
+        break;
     case PM_INFERNAL:
         rabil = inf_abil;
         break;
