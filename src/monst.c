@@ -3845,6 +3845,10 @@ NEARDATA struct permonst montemplates[] = {
         M1_FLY | M1_THICK_HIDE | M1_SEE_INVIS | M1_CARNIVORE,
         M2_HOSTILE | M2_STRONG | M2_GREEDY | M2_JEWELS | M2_MAGIC,
         0, 4, CLR_WHITE),
+    MON("explosive", S_EYE, LVL(1, 0, 0, 0, 0), (G_NOCORPSE),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
+            ATTK(AT_BOOM, AD_PHYS, 4, 10)),
+        SIZ(0, 0, 0, 0), 0, 0, 0L, 0L, 0, 0, 0),
 
     /*
      * array terminator
