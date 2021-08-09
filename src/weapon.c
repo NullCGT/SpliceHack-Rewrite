@@ -253,7 +253,7 @@ dmgval(struct obj *otmp, struct monst *mon)
         case IRON_CHAIN:
         case CROSSBOW_BOLT:
         case MORNING_STAR:
-        case PARTISAN:
+        case NASTY_PIKE:
         case RUNESWORD:
         case ELVEN_BROADSWORD:
         case BROADSWORD:
@@ -692,7 +692,7 @@ static NEARDATA const int rwep[] = {
     FRAG_GRENADE, GAS_GRENADE, BULLET, SHOTGUN_SHELL,
     DWARVISH_SPEAR, ELVEN_SPEAR, SPEAR, ORCISH_SPEAR, JAVELIN,
     THROWING_AXE,
-    SHURIKEN, LIGHT_ARROW, YA, ELVEN_ARROW, DARK_ELVEN_ARROW, 
+    SHURIKEN, LIGHT_ARROW, YA, ELVEN_ARROW, DARK_ELVEN_ARROW,
     ARROW, ORCISH_ARROW,
     CROSSBOW_BOLT, ELVEN_DAGGER, DARK_ELVEN_DAGGER, DAGGER, ORCISH_DAGGER, KNIFE,
     FLINT, ROCK, LOADSTONE, LUCKSTONE, DART, PINEAPPLE,
@@ -703,7 +703,7 @@ static NEARDATA const int pwep[] = { SPIKED_CHAIN,
                                      HALBERD,       BARDICHE, SPETUM,
                                      BILL_GUISARME, VOULGE,   RANSEUR,
                                      GUISARME,      GLAIVE,   LUCERN_HAMMER,
-                                     BEC_DE_CORBIN, FAUCHARD, PARTISAN,
+                                     BEC_DE_CORBIN, FAUCHARD, NASTY_PIKE,
                                      LANCE };
 
 /* select a ranged weapon for the monster */
@@ -858,7 +858,7 @@ monmightthrowwep(struct obj *obj)
 static const NEARDATA short hwep[] = {
     CORPSE, /* cockatrice corpse */
     SPIKED_CHAIN,
-    TSURUGI, RUNESWORD, ORNATE_MACE, FLAMING_LASH, DWARVISH_MATTOCK, 
+    TSURUGI, RUNESWORD, ORNATE_MACE, FLAMING_LASH, DWARVISH_MATTOCK,
     TWO_HANDED_SWORD, BATTLE_AXE,
     KATANA, UNICORN_HORN, CRYSKNIFE, TRIDENT, LONG_SWORD, ELVEN_BROADSWORD,
     BROADSWORD, SCIMITAR, SABER, MORNING_STAR, ELVEN_SHORT_SWORD,
@@ -1342,7 +1342,7 @@ can_advance(int skill, boolean speedy)
 
     if (wizard && speedy)
         return TRUE;
-    
+
     if (skill >= P_FIRST_ROLE && skill <= P_LAST_ROLE
         && u.weapon_slots >= slots_required(skill))
         return TRUE;
