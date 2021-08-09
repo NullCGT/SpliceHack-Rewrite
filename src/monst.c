@@ -3830,6 +3830,21 @@ NEARDATA struct permonst montemplates[] = {
         MR_ACID | MR_POISON | MR_STONE, MR_ACID,
         M1_NOEYES | M1_MINDLESS, M2_HOSTILE,
         0, 1, CLR_ORANGE),
+    MON("fiery drakken", S_DRAGON, LVL(2, -2, 2, 10, 0), (0),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
+            ATTK(AT_BREA, AD_FIRE, 6, 6)),
+        SIZ(0, 0, MS_ROAR, 0), MR_FIRE, MR_FIRE,
+        M1_FLY | M1_THICK_HIDE | M1_SEE_INVIS | M1_CARNIVORE,
+        M2_HOSTILE | M2_STRONG | M2_GREEDY | M2_JEWELS | M2_MAGIC,
+        0, 4, CLR_RED),
+    MON("icy drakken", S_DRAGON, LVL(2, -2, 2, 10, 0), (0),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
+            ATTK(AT_BREA, AD_COLD, 4, 6)),
+        A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(0, 0, MS_ROAR, 0), MR_COLD, MR_COLD,
+        M1_FLY | M1_THICK_HIDE | M1_SEE_INVIS | M1_CARNIVORE,
+        M2_HOSTILE | M2_STRONG | M2_GREEDY | M2_JEWELS | M2_MAGIC,
+        0, 4, CLR_WHITE),
 
     /*
      * array terminator
