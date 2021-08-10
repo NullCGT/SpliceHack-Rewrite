@@ -502,6 +502,7 @@ bhitm(struct monst *mtmp, struct obj *otmp)
         }
         break;
     case WAN_NOTHING:
+    case WAN_WONDER:
         wake = FALSE;
         break;
     default:
@@ -2275,6 +2276,7 @@ bhito(struct obj *obj, struct obj *otmp)
         case SPE_HEALING:
         case SPE_EXTRA_HEALING:
         case WAN_HEALING:
+        case WAN_WONDER:
             res = 0;
             break;
         case SPE_STONE_TO_FLESH:
@@ -2542,6 +2544,7 @@ zapyourself(struct obj *obj, boolean ordinary)
     boolean wonder = FALSE;
     int damage = 0;
     if (obj->otyp == WAN_WONDER) {
+        if (!obj->dknown) pline("You have found a wand of wonder!");
         switch (rn2(7)) {
         /* Not a complete list, just some interesting effects. */
         case 1:
@@ -2567,6 +2570,7 @@ zapyourself(struct obj *obj, boolean ordinary)
             break;
         }
         wonder = TRUE;
+        learn_it = TRUE;
     }
 
     switch (obj->otyp) {
@@ -3435,6 +3439,8 @@ weffects(struct obj *obj)
         obj->otyp = wondertemp;
         otyp = wondertemp;
         wonder = TRUE;
+        disclose = TRUE;
+        if (!obj->dknown) pline("You have found a wand of wonder!");
     }
 
     exercise(A_WIS, TRUE);

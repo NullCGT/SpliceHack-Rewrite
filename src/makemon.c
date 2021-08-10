@@ -214,7 +214,7 @@ m_initweap(register struct monst *mtmp)
             case PM_WATCHMAN:
             case PM_SOLDIER:
                 if (!rn2(3)) {
-                    w1 = rn1(BEC_DE_CORBIN - PARTISAN + 1, PARTISAN);
+                    w1 = rn1(BEC_DE_CORBIN - NASTY_PIKE + 1, NASTY_PIKE);
                     w2 = rn2(2) ? DAGGER : KNIFE;
                 } else
                     w1 = rn2(2) ? SPEAR : SHORT_SWORD;
@@ -610,7 +610,7 @@ m_initweap(register struct monst *mtmp)
                 (void) mongets(mtmp, RANSEUR);
                 break;
             case 1:
-                (void) mongets(mtmp, PARTISAN);
+                (void) mongets(mtmp, NASTY_PIKE);
                 break;
             case 2:
                 (void) mongets(mtmp, GLAIVE);
@@ -2798,6 +2798,9 @@ is_valid_template(struct monst *mtmp, int tindex) {
         return !is_mind_flayer(mtmp->data);
     case MT_JUIBLEX_TOUCHED:
         return !amorphous(mtmp->data);
+    case MT_ICY_DRAKKEN:
+    case MT_FIERY_DRAKKEN:
+        return !is_dragon(mtmp->data);
     default:
         return TRUE;
     }

@@ -486,9 +486,9 @@ barghest
 	while others believe the barghest to be a shapeshifter or
 	some type of gremlin.
 bar-lgura
-	When strong, avoid them. If of high morale, depress them. 
-	Seem humble to fill them with conceit. If at ease, exhaust them. 
-	If united, separate them. Attack their weaknesses. 
+	When strong, avoid them. If of high morale, depress them.
+	Seem humble to fill them with conceit. If at ease, exhaust them.
+	If united, separate them. Attack their weaknesses.
 	Emerge to their surprise.
 		[ The Art of War, by Sun Tzu ]
 baseball bat
@@ -599,7 +599,7 @@ blind io
 	    [ The Colour of Magic, by Terry Pratchett ]
 boar
 pig
-	My memory...hehe. King Robert Baratheon...murdered by a pig. 
+	My memory...hehe. King Robert Baratheon...murdered by a pig.
 	Give me something for the pain, and let me die.
 		[ A Game of Thrones, by George R.R. Martin ]
 blink
@@ -971,7 +971,7 @@ chained blitz
 	you to chain together a series of known techniques by using key
 	combinations. Note that the same combination of keys cannot be
 	used twice in a row.
-	
+
 	Valid chained blitz techniues fall into three categories:
 	- Starter: Can be followed by any category.
 	- Chain: Can be followed by chains and finishers.
@@ -979,7 +979,7 @@ chained blitz
 
 	The number of techniques you can chain together starts out at
 	two, and increases for every multiple of ten levels, up to a
-	maximum of five at level 30. 
+	maximum of five at level 30.
 chameleon
 	A small lizard perched on a brown stone.  Feeling threatened by
 	the approach of human beings along the path, it metamorphosed
@@ -1235,7 +1235,7 @@ cream pie
 	of justice flies one way," Miles snickered.
 		[ The Vor Game, by Lois McMaster Bujold ]
 critical strike
-	The critical strike technique allows you to strike your foe's 
+	The critical strike technique allows you to strike your foe's
 	vital organs for massive damage.
 
 	This technique is less powerful against monsters with bizarre
@@ -1435,17 +1435,17 @@ demogorgon
 deep one
 deeper one
 deepest one
-		I think their predominant color was a greyish-green, though 
-		they had white bellies. They were mostly shiny and slippery, 
-		but the ridges of their backs were scaly. Their forms vaguely 
-		suggested the anthropoid, while their heads were the heads of fish, 
-		with prodigious bulging eyes that never closed. At the sides of their 
-		necks were palpitating gills, and their long paws were webbed. 
-		They hopped irregularly, sometimes on two legs and sometimes on four. 
-		I was somehow glad that they had no more than four limbs. 
-		Their croaking, baying voices, clearly used for articulate speech, 
-		held all the dark shades of expression which their staring faces lacked... 
-		They were the blasphemous fish-frogs of the nameless design—living and horrible. 
+		I think their predominant color was a greyish-green, though
+		they had white bellies. They were mostly shiny and slippery,
+		but the ridges of their backs were scaly. Their forms vaguely
+		suggested the anthropoid, while their heads were the heads of fish,
+		with prodigious bulging eyes that never closed. At the sides of their
+		necks were palpitating gills, and their long paws were webbed.
+		They hopped irregularly, sometimes on two legs and sometimes on four.
+		I was somehow glad that they had no more than four limbs.
+		Their croaking, baying voices, clearly used for articulate speech,
+		held all the dark shades of expression which their staring faces lacked...
+		They were the blasphemous fish-frogs of the nameless design—living and horrible.
 			[ The Shadow over Innsmouth, by H.P. Lovecraft ]
 # takes "major demon" when specifying '&'
 demon
@@ -1665,8 +1665,8 @@ draw energy
 	This technique allows you to meditate and draw energy from
 	your surroundings. Make sure that you are not be interrupted
 	while gathering energy.
-	
-	Dungeon structures and natural features can be excellent 
+
+	Dungeon structures and natural features can be excellent
 	sources of energy.
 dread pirate roberts
  	Finally, Roberts decided something. He said, "All right,
@@ -1690,9 +1690,9 @@ dream thief
 	To sleep, perchance, to dream.
 		[ Hamlet, by William Shakespeare ]
 drop bear
-	A drop bear (sometimes dropbear) is a hoax in contemporary 
+	A drop bear (sometimes dropbear) is a hoax in contemporary
 	Australian folklore featuring a predatory, carnivorous version of the koala.
-	This imaginary animal is commonly spoken about in tall tales designed to 
+	This imaginary animal is commonly spoken about in tall tales designed to
 	scare tourists.
 	 	[ Wikipedia, the free encyclopedia ]
 	You haven't heard of drop bears? Terrifying things! They
@@ -1801,7 +1801,7 @@ giant eel
 efreet
 	Efreeti are cousins of djinn that are native to the elemental plane
 	of Fire, and are particularly common in the City of Brass. Like djinn,
-	efreeti are capable of granting wishes. Unlike djinn, however, 
+	efreeti are capable of granting wishes. Unlike djinn, however,
 	efreeti are not opposed to making their own wishes when their lives
 	are in danger.
 egg
@@ -3197,7 +3197,7 @@ kelp*
 kiii
 kiiilll
 	When you use this technique, you shout a battle cry, aggravating
-	the monsters around you and granting you double damage and a 
+	the monsters around you and granting you double damage and a
 	bonus to accuracy for a short period of time.
 ki-rin
 	The ki-rin is a strange-looking wingless flying creature.
@@ -4266,8 +4266,8 @@ nosferatu
     	[ from _Nosferatu_, written by Henrik Galeen, 1922 ]
 nova fox
 vulpenferno
-	Vulpenfernoes are elemental foxes that hail from a world 
-	of fire and lightning. Their shrill cry signals death for 
+	Vulpenfernoes are elemental foxes that hail from a world
+	of fire and lightning. Their shrill cry signals death for
 	those that cannot keep up with their speed. There are even
 	rumors that they can turn magical attacks back against mages.
 nunchaku
@@ -4725,7 +4725,7 @@ user
 #			[ theme song from "Monk" ]
 polearm
 * polearm
-partisan
+nasty pike
 ranseur
 spetum
 glaive
@@ -6355,7 +6355,7 @@ wakizashi
 	in place of a wakizashi.
 		[ Wikipedia, the free encyclopedia ]
 walrus
-	"The time has come," the walrus said, "to talk of many things: 
+	"The time has come," the walrus said, "to talk of many things:
 	of shoes and ships - and sealing wax - of cabbages and kings."
 		[Alice in Wonderland, by Lewis Carrol ]
 # takes "wand or a wall" when specifying '/'

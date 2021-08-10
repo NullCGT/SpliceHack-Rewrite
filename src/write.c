@@ -39,17 +39,21 @@ cost(struct obj *otmp)
     case SCR_IDENTIFY:
         return 14;
     case SCR_ENCHANT_ARMOR:
+    case SCR_CHANGE_MATERIAL:
     case SCR_REMOVE_CURSE:
     case SCR_ENCHANT_WEAPON:
     case SCR_CHARGING:
     case SCR_AIR:
         return 16;
+    case SCR_ELEMENTALISM:
     case SCR_SCARE_MONSTER:
     case SCR_STINKING_CLOUD:
     case SCR_TAMING:
     case SCR_TELEPORTATION:
         return 20;
+    case SCR_TIME:
     case SCR_GENOCIDE:
+    case SCR_CLONING:
         return 30;
     case SCR_BLANK_PAPER:
     default:
@@ -244,6 +248,10 @@ found:
 
     /* see if there's enough ink */
     basecost = cost(new_obj);
+    if (new_obj->otyp == SCR_KNOWLEDGE) {
+        You("cannot write something you do not know!");
+        return 1;
+    }
     if (pen->spe < basecost / 2) {
         Your("marker is too dry to write that!");
         obfree(new_obj, (struct obj *) 0);

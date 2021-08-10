@@ -253,7 +253,7 @@ dmgval(struct obj *otmp, struct monst *mon)
         case IRON_CHAIN:
         case CROSSBOW_BOLT:
         case MORNING_STAR:
-        case PARTISAN:
+        case NASTY_PIKE:
         case RUNESWORD:
         case ELVEN_BROADSWORD:
         case BROADSWORD:
@@ -703,7 +703,7 @@ static NEARDATA const int pwep[] = { SPIKED_CHAIN,
                                      HALBERD,       BARDICHE, SPETUM,
                                      BILL_GUISARME, VOULGE,   RANSEUR,
                                      GUISARME,      GLAIVE,   LUCERN_HAMMER,
-                                     BEC_DE_CORBIN, FAUCHARD, PARTISAN,
+                                     BEC_DE_CORBIN, FAUCHARD, NASTY_PIKE,
                                      LANCE };
 
 /* select a ranged weapon for the monster */

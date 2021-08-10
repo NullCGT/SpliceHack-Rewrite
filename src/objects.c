@@ -241,7 +241,7 @@ WEAPON("runesword", "runed broadsword",
 
 /* polearms */
 /* spear-type */
-WEAPON("partisan", "vulgar polearm",
+WEAPON("nasty pike", "vulgar polearm",
        0, 0, 1,  5,  80,  10,  6,  6, 0, P,   P_POLEARMS, IRON, HI_METAL),
         /* +1 large */
 WEAPON("ranseur", "hilted polearm",
@@ -952,18 +952,23 @@ SCROLL("enchant weapon",         "DAIYEN FOOELS",  1,  80,  60),
 SCROLL("create monster",       "LEP GEX VEN ZEA",  1,  45, 200),
 SCROLL("taming",                   "PRIRUTSENIE",  1,  15, 200),
 SCROLL("genocide",                  "ELBIB YLOH",  1,  15, 300),
+SCROLL("elementalism",          "4OFAE OF9 SCC9",  1,  10, 300), /* Voynich */
 SCROLL("light",                 "VERR YED HORRE",  1,  90,  50),
+SCROLL("time",                   "TEMP USF UGIT",  1,  20, 100), /* tempus fugit */
 SCROLL("teleportation",        "VENZAR BORGAVVE",  1,  55, 100),
 SCROLL("gold detection",                 "THARR",  1,  33, 100),
 SCROLL("food detection",               "YUM YUM",  1,  25, 100),
+SCROLL("knowledge",                   "POTESTAS",  1,  20,  20), /* power */
 SCROLL("identify",                  "KERNOD WEL",  1, 180,  20),
-SCROLL("air",                        "TRATS ARL",  1,   5, 200), /* LRA START */
+SCROLL("air",                        "TRATS ARL",  1,  35, 200), /* LRA START */
+SCROLL("change material",           "TLON UQBAR",  1,  20, 200), /* Tlon Uqbar */
 SCROLL("magic mapping",              "ELAM EBOW",  1,  45, 100),
 SCROLL("amnesia",                   "DUAM XNAHT",  1,  35, 200),
 SCROLL("fire",                  "ANDOVA BEGARIN",  1,  30, 100),
 SCROLL("earth",                          "KIRJE",  1,  18, 200),
 SCROLL("punishment",            "VE FORBRYDERNE",  1,  15, 300),
 SCROLL("charging",                "HACKEM MUCHE",  1,  15, 300),
+SCROLL("cloning",               "TOYL ENT RUBLE",  1,   5, 300), /* Fire burn and cauldron bubble. */
 SCROLL("stinking cloud",             "VELOX NEB",  1,  15, 300),
     /* Extra descriptions, shuffled into use at start of new game.
      * Code in win/share/tilemap.c depends on SCR_STINKING_CLOUD preceding
@@ -979,7 +984,7 @@ SCROLL(None,     "CONGLATURATION",  1,   0, 100), /* famous mistranslation */
 SCROLL(None,       "DESUM TETRAL",  1,   0, 100), /* dal aos */
 SCROLL(None,            "NHINRL",   1,   0, 100), /* meta */
 SCROLL(None,          "ISAY INAY",  1,   0, 100), /* meta */
-SCROLL(None,       "WE IX APOGEE",  1,   0, 100), /* Normality */
+SCROLL(None,        "PEBCAK RTFM",  1,   0, 100), /* Slang */
 SCROLL(None,              "TEMOV",  1,   0, 100),
 SCROLL(None,         "GARVEN DEH",  1,   0, 100),
 SCROLL(None,            "READ ME",  1,   0, 100),

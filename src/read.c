@@ -11,6 +11,11 @@
 #define Your_Own_Race(mndx)  \
     ((mndx) == g.urace.malenum \
      || (g.urace.femalenum != NON_PM && (mndx) == g.urace.femalenum))
+/* For create_critters and demonology... */
+#define MAKE_EM_NATURAL		0	/* Create monsters... */
+#define MAKE_EM_HOSTILE		1	/* Create hostile monsters... */
+#define MAKE_EM_PEACEFUL	2	/* Create peaceful monsters... */
+#define MAKE_EM_TAME		3	/* Create tamed monsters... */
 
 static boolean learnscrolltyp(short);
 static void cap_spe(struct obj *);
@@ -20,6 +25,7 @@ static void stripspe(struct obj *);
 static void p_glow1(struct obj *);
 static void p_glow2(struct obj *, const char *);
 static void set_dark(int,int,genericptr_t);
+static void specified_id(void);
 static int maybe_tame(struct monst *, struct obj *);
 static boolean get_valid_stinking_cloud_pos(int, int);
 static boolean is_valid_stinking_cloud_pos(int, int, boolean);
@@ -1418,6 +1424,76 @@ seffects(struct obj *sobj) /* sobj - scroll or fake spellbook for spell */
          * monsters are not visible
          */
         break;
+    case SCR_ELEMENTALISM: {
+ 	    struct permonst *critter = (struct permonst *) 0;
+        struct monst *mtmp;
+        int i = 0;
+ 	    int n = 1;
+ 	    int state = MAKE_EM_HOSTILE;
+        /* find the number of critters */
+ 	    if (sobj->blessed) {
+            if (confused) {
+                n = 3 + rn2(10);
+                state = MAKE_EM_TAME;
+            } else if (!rn2(3)) {   
+                state = MAKE_EM_HOSTILE;   /* 1 in 3 */
+            } else {
+                state = MAKE_EM_TAME;
+            }
+ 	    } else if (sobj->cursed) {
+            if (!confused) {
+                n = 2 + rn2(3);
+            }
+ 	    } else {
+            if (confused) {
+                n = 3 + rn2(10);
+            } else if (!rn2(2)) { 
+                state = MAKE_EM_PEACEFUL;
+            }
+ 	    }
+        /* create the critter */
+ 	    if (confused) {
+            /* Normally you get an elemental... */
+            switch (rn2(4)) {
+                case 0:		/* Air */
+                    critter = &mons[PM_GAS_SPORE];
+                    break;
+                case 1:		/* Fire */
+                    critter = &mons[PM_FLAMING_SPHERE];
+                    break;
+                case 2:		/* Water */
+                    critter = &mons[PM_FREEZING_SPHERE];
+                    break;
+                default:
+                case 3:		/* Earth */
+                    critter = &mons[PM_SHOCKING_SPHERE];
+                    break;
+            }
+ 	    } else {
+             critter = &mons[rand_elemental()];
+        }		 
+ 	    /* Summoning demons is a chaotic thing... */
+        for (i = 0; i < n; i++) {
+            mtmp = makemon(critter, u.ux, u.uy, state == MAKE_EM_TAME 
+                ? MM_EDOG | MM_IGNOREWATER | NO_MINVENT : MM_IGNOREWATER | NO_MINVENT);
+            if (!mtmp) {
+                break;
+            } else if (state == MAKE_EM_TAME) {
+                initedog(mtmp);
+            } else if (state == MAKE_EM_PEACEFUL) {
+                mtmp->mpeaceful = 1;
+            } else if (state == MAKE_EM_HOSTILE) {
+                mtmp->mpeaceful = 0;
+            }
+        }
+        g.known = TRUE;
+ 	    if (Hallucination) {
+ 		    You_feel("you have experienced something fundamental.");
+ 	    } else {
+ 	        pline("The elements swirl around you.");
+ 	    }
+ 	    break;
+    }
     case SCR_ENCHANT_WEAPON:
         /* [What about twoweapon mode?  Proofing/repairing/enchanting both
            would be too powerful, but shouldn't we choose randomly between
@@ -1545,6 +1621,22 @@ seffects(struct obj *sobj) /* sobj - scroll or fake spellbook for spell */
             }
         }
         break;
+    case SCR_TIME:
+        g.known = TRUE;
+        if (confused || scursed) {
+            You("are frozen in time!");
+            nomul(-(rn1(5, 10 - 5 * bcsign(sobj))));
+            g.multi_reason = "frozen in time";
+            g.nomovemsg = "Your natural flow of time reasserts itself.";
+        } else {
+            if (Hallucination)
+                pline("ZA WARUDO!");
+            else
+                pline("Time slows down to a crawl around you!");
+            g.youmonst.movement = 50 + bcsign(sobj) * 25;
+            morehungry(rn1(30, 30));
+        }
+        break;
     case SCR_TELEPORTATION:
         if (confused || scursed) {
             level_tele();
@@ -1566,6 +1658,20 @@ seffects(struct obj *sobj) /* sobj - scroll or fake spellbook for spell */
     case SPE_DETECT_FOOD:
         if (food_detect(sobj))
             sobj = 0; /* nothing detected: strange_feeling -> useup */
+        break;
+    case SCR_KNOWLEDGE:
+        useup(sobj);
+        sobj = 0;
+        if (confused)
+            You("know this to be a knowledge scroll.");
+        else {
+            specified_id();
+            if (sblessed)
+                specified_id();
+        }
+        You("feel more knowledgeable.");
+        if (!already_known)
+            (void) learnscrolltyp(SCR_KNOWLEDGE);
         break;
     case SCR_IDENTIFY:
         /* known = TRUE; -- handled inline here */
@@ -1630,6 +1736,35 @@ seffects(struct obj *sobj) /* sobj - scroll or fake spellbook for spell */
         }
         break;
     }
+    case SCR_CHANGE_MATERIAL:
+        if (uwep && rn2(2))
+            otmp = uwep;
+        else
+            otmp = some_armor(&g.youmonst);
+        if (!otmp) {
+            strange_feeling(sobj, "Your skin crawls for a moment.");
+            sobj = 0; /* useup() in strange_feeling() */
+            exercise(A_CON, !scursed);
+            exercise(A_STR, !scursed);
+            break;
+        }
+        if (confused || scursed) {
+            pline("%s with a sickly green light!", Yobjnam2(otmp, "glow"));
+            curse(otmp);
+            otmp->oerodeproof = 0;
+            if (valid_obj_material(otmp, PLASTIC)) {
+                otmp->material = PLASTIC;
+                costly_alteration(otmp, COST_DRAIN);
+            } else
+                warp_material(otmp, TRUE);
+            break;
+        } else {
+            if (sblessed)
+                bless(otmp);
+            pline("%s with a strange yellow light!", Yobjnam2(otmp, "glow"));
+            warp_material(otmp, TRUE);
+        }
+        break;
     case SCR_CHARGING:
         if (confused) {
             if (scursed) {
@@ -1824,6 +1959,66 @@ seffects(struct obj *sobj) /* sobj - scroll or fake spellbook for spell */
         }
         punish(sobj);
         break;
+    case SCR_CLONING: {
+        register struct monst *mtmp;
+        register struct obj *otmp2;
+        int otyp;
+        g.known = TRUE;
+        if (confused) {
+            if (!Hallucination) {
+                You("clone yourself!");
+            } else {
+                You("realize that you have been a clone all along!");
+            }
+            mtmp = cloneu();
+            mtmp->mpeaceful = 0;
+        } else {
+            if (!already_known)
+                You("have found a scroll of cloning!");
+            otmp = getobj("clone", any_obj_ok, GETOBJ_NOFLAGS);
+            /* Unique items */
+            if (otmp->otyp == BELL_OF_OPENING) {
+                otyp = BELL;
+                break;
+            } else if (otmp->otyp == CANDELABRUM_OF_INVOCATION) {
+                otyp = WAX_CANDLE;
+                break;
+            } else if (otmp->otyp == AMULET_OF_YENDOR) {
+                otyp = FAKE_AMULET_OF_YENDOR;
+                break;
+            } else if (otmp->otyp == SPE_BOOK_OF_THE_DEAD) {
+                otyp = SPE_BLANK_PAPER;
+                break;
+            } else {
+                otyp = otmp->otyp;
+            }
+            otmp2 = mksobj_at(otyp, u.ux, u.uy, FALSE, FALSE);
+            if (otmp2 == &cg.zeroobj) impossible("Invalid cloned object?");
+            /* beatitude */
+            if (scursed) curse(otmp2);
+            else otmp2->blessed = otmp->blessed;
+            /* charge / enchantment */
+            if (sblessed) otmp2->spe = otmp->spe;
+            else otmp2->spe = min(otmp->spe, 0);
+            /* other properties */
+            otmp2->material = otmp->material;
+            otmp2->greased = otmp->greased;
+            otmp2->oeroded = otmp->oeroded;
+            otmp2->oeroded2 = otmp->oeroded2;
+            otmp2->opoisoned = otmp->opoisoned;
+            otmp2->corpsenm = otmp->corpsenm;
+            /* Prevent exploits */
+            if (otmp2->otyp == WAN_WISHING) otmp2->spe = -1;
+            else if (otmp2->otyp == MAGIC_MARKER && otmp2->spe >= 16)
+                otmp2->spe = 15;
+            otmp2->quan = 1;
+            obj_extract_self(otmp2);
+            (void) hold_another_object(otmp2, "Whoops! %s out of your grasp.",
+                                   The(aobjnam(otmp2, "tumbles")),
+                                   (const char *) 0);
+        }
+        break;
+    }
     case SCR_STINKING_CLOUD: {
         coord cc;
 
@@ -1855,6 +2050,49 @@ seffects(struct obj *sobj) /* sobj - scroll or fake spellbook for spell */
     if (!sobj)
         update_inventory();
     return sobj ? 0 : 1;
+}
+
+static void
+specified_id()
+{
+    static char buf[BUFSZ] = DUMMY;
+    char promptbuf[BUFSZ];
+    char bufcpy[BUFSZ];
+    short otyp;
+    int tries = 0;
+
+    promptbuf[0] = '\0';
+    if (flags.verbose)
+        You("may learn about any non-artifact.");
+  retry:
+    Strcpy(promptbuf, "What non-artifact do you want to learn about");
+    Strcat(promptbuf, "?");
+    getlin(promptbuf, buf);
+    (void) mungspaces(buf);
+    if (buf[0] == '\033') {
+        buf[0] = '\0';
+    }
+    strcpy(bufcpy, buf);
+    otyp = name_to_otyp(buf);
+    if (otyp == STRANGE_OBJECT) {
+        pline("No specific object of that name exists.");
+        if (++tries < 5)
+            goto retry;
+        pline1(thats_enough_tries);
+        if (!otyp)
+            return; /* for safety; should never happen */
+    }
+    if (objects[otyp].oc_name_known) {
+        pline("You already know what that object looks like.");
+        if (++tries < 5)
+            goto retry;
+        pline1(thats_enough_tries);
+        if (!otyp)
+            return;
+    }
+    (void) makeknown(otyp);
+    You("now know more about %s.", makeplural(simple_typename(otyp)));
+    update_inventory();
 }
 
 void
