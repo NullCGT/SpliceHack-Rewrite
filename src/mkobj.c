@@ -1024,6 +1024,8 @@ mksobj(int otyp, boolean init, boolean artif)
         case WAND_CLASS:
             if (otmp->otyp == WAN_WISHING)
                 otmp->spe = rnd(3);
+            else if (otmp->otyp == WAN_WONDER)
+                otmp->spe = rn1(10, 15);
             else
                 otmp->spe =
                     rn1(5, (objects[otmp->otyp].oc_dir == NODIR) ? 11 : 4);

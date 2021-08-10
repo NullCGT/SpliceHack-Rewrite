@@ -602,6 +602,6 @@ enum optset_restrictions {
 #endif
 
 #define DEVTEAM_EMAIL "AntiGulp"
-#define DEVTEAM_URL "https://www.github.com/NullCGT/SpliceHack"
+#define DEVTEAM_URL "https://www.github.com/NullCGT/SpliceHack-Rewrite"
 
 #endif /* HACK_H */

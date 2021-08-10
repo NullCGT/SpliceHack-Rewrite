@@ -13,6 +13,7 @@ or outright removed. Rationale will be provided for all removed content upon req
   - Ring of memory.
   - Ring of blood magic.
   - Moonstone.
+  - Scroll of web.
 - The intelligent pet patch from GruntHack has been removed. This patch introduced an incredible
   number of bugs in monster AI, and made the monster AI code nigh unreadable.
   Additionally, many of the changes made by it were supersceded by later vanilla changes.
@@ -54,6 +55,8 @@ QOL
   much more balanced.
 - Added Heaven or Hell mode from AceHack. Enable it by adding "heaven_or_hell" to your config file.
 - The grim reaper can no longer appear in bones files.
+- Wands of wonder now automatically identify themselves when used, and notify the player
+  with a message.
 
 Skill System
 - Rather than techniques, SpliceHack uses a skill system.
@@ -140,6 +143,8 @@ Object Changes
 - Shields of resonance renamed to resonant shields. Appearance changed from "vibrating"
   to "humming," since having a shield that's just constantly vibrating is kind of weird.
 - Changed the name of "helm of opaque thoughts" to "tinfoil hat."
+- Combined scrolls of warp weapon and warp armor into a single scroll: Scroll of change material.
+- Altered scroll generation properties.
 
 Race Changes
 - Drow
