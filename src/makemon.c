@@ -2801,6 +2801,8 @@ is_valid_template(struct monst *mtmp, int tindex) {
     case MT_ICY_DRAKKEN:
     case MT_FIERY_DRAKKEN:
         return !is_dragon(mtmp->data);
+    case MT_EXPLOSIVE:
+        return !mtmp->mlet == (S_EYE || S_LIGHT);
     default:
         return TRUE;
     }
