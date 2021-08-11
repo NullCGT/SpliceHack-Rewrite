@@ -3847,7 +3847,7 @@ NEARDATA struct permonst montemplates[] = {
     MON("armored", S_ANT, LVL(0, -2, -6, 0, 0), (0),
         A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
         SIZ(0, 0, 0, 0), 0, 0, 0L, M2_STRONG, 0, 2, 0),
-    MON("Juiblex-touched", S_PUDDING, LVL(0, 0, 0, 0, 0), (0),
+    MON("oozing", S_PUDDING, LVL(0, 0, 0, 0, 0), (0),
         A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
             ATTK(AT_TUCH, AD_SLIM, 1, 2)),
         SIZ(0, 0, 0, 0), 
@@ -3855,6 +3855,14 @@ NEARDATA struct permonst montemplates[] = {
         MR_COLD | MR_ELEC | MR_POISON,
         M1_BREATHLESS | M1_AMORPHOUS | M1_ACID, 
         M2_NEUTER, 0, 4, 0),
+    MON("teleporting", S_HUMANOID, LVL(0, 3, 0, 0, 0), (0),
+       A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(0, 0, 0, 0), 0, 0,
+        M1_TPORT | M1_TPORT_CNTRL, M2_WANDER, 0, 1, 0),
+    MON("overclocked", S_HUMANOID, LVL(0, 7, 0, 0, 0), (0),
+       A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(0, 0, 0, 0), 0, 0,
+        0, M2_WANDER, 0, 4, 0),
     /* sticky, spicy "demilichen". this mucilage is tangy! */
     MON("corrosive", S_FUNGUS, LVL(0, 0, 2, 0, 0), (0),
         A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
@@ -3880,7 +3888,7 @@ NEARDATA struct permonst montemplates[] = {
     MON("explosive", S_EYE, LVL(1, 0, 0, 0, 0), (G_NOCORPSE),
         A(NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
             ATTK(AT_BOOM, AD_PHYS, 4, 10)),
-        SIZ(0, 0, 0, 0), 0, 0, 0L, 0L, 0, 0, 0),
+        SIZ(0, 0, 0, 0), 0, 0, 0L, 0L, 0, 1, 0),
 
     /*
      * array terminator

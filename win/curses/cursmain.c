@@ -762,8 +762,10 @@ curses_print_glyph(winid wid, xchar x, xchar y,
                 attr = A_REVERSE;
         } else if ((special & MG_RIDDEN)) {
             color = CLR_BRIGHT_MAGENTA;
+            attr = A_REVERSE;
         } else if ((special & MG_TEMPLATE)) {
-            color = CLR_ORANGE;   
+            color = CLR_ORANGE;
+            attr = A_REVERSE;
         }
         /* water and lava look the same except for color; when color is off,
            render lava in inverse video so that they look different */

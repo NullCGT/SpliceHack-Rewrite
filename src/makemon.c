@@ -2798,7 +2798,7 @@ is_valid_template(struct monst *mtmp, int tindex) {
         return !is_demon(mtmp->data);
     case MT_HALF_ILLITHID:
         return !is_mind_flayer(mtmp->data);
-    case MT_JUIBLEX_TOUCHED:
+    case MT_OOZING:
         return !amorphous(mtmp->data);
     case MT_ICY_DRAKKEN:
     case MT_FIERY_DRAKKEN:
