@@ -267,6 +267,7 @@ static struct inv_sub {
     { PM_DROW, BOW, DARK_ELVEN_BOW },
     { PM_DROW, ARROW, DARK_ELVEN_ARROW },
     { PM_DROW, POT_SICKNESS, POT_SLEEPING },
+    { PM_VAMPIRE, POT_FRUIT_JUICE, POT_BLOOD },
     { NON_PM, STRANGE_OBJECT, STRANGE_OBJECT }
 };
 
@@ -907,6 +908,7 @@ u_init(void)
     switch (Race_switch) {
     case PM_ELF:
     case PM_DROW:
+    case PM_VAMPIRE:
         u.nv_range = 2;
         break;
     case PM_DWARF:
@@ -1184,6 +1186,14 @@ u_init(void)
         knows_object(ORCISH_CLOAK);
         break;
 
+    case PM_VAMPIRE:
+        knows_object(POT_VAMPIRE_BLOOD);
+        knows_object(POT_BLOOD);
+	    /* Vampires start off with gods not as pleased, luck penalty */
+	    adjalign(-5);
+	    change_luck(-1);
+	    break;
+
     default: /* impossible */
         break;
     }
@@ -1413,6 +1423,12 @@ ini_inv(struct trobj *trop)
                     obj->material = objects[obj->otyp].oc_material;
                     break;
                 }
+        }
+
+        /* Create vampire blood */
+        if (g.urace.malenum == PM_VAMPIRE && obj->otyp == FOOD_RATION) {
+            dealloc_obj(obj);
+            obj = mksobj(POT_VAMPIRE_BLOOD, TRUE, FALSE);
         }
 
         /* nudist gets no armor */

@@ -25,6 +25,7 @@ static boolean hmonas(struct monst *);
 static void nohandglow(struct monst *);
 static boolean shade_aware(struct obj *);
 static int skill_hit_effects(struct monst *);
+static boolean bite_monster(struct monst *);
 
 #define PROJECTILE(obj) ((obj) && is_ammo(obj))
 
@@ -680,6 +681,26 @@ hitum(struct monst *mon, struct attack *uattk)
         /* second passive counter-attack only occurs if second attack hits */
         if (mhit)
             (void) passive(mon, uswapwep, mhit, malive, AT_WEAP, !uswapwep);
+    }
+    /* Tertiary bite attack for vampires */
+    if (malive && m_at(x, y) == mon && Race_if(PM_VAMPIRE) && !Upolyd) {
+        if ((uwep || (u.twoweap && uswapwep)) &&
+            maybe_polyd(is_vampire(g.youmonst.data), Race_if(PM_VAMPIRE)) &&
+            (is_rider(mon->data) ||
+                mon->data == &mons[PM_GRIM_REAPER] ||
+                mon->data == &mons[PM_GREEN_SLIME] ||
+                touch_petrifies(mon->data)))
+            return malive;
+        tmp = find_roll_to_hit(mon, AT_BITE, (struct obj *) 0, &attknum,
+                               &armorpenalty);
+        dieroll = rnd(20);
+        mhit = (tmp > dieroll || u.uswallow);
+        if (mhit) {
+            You("bite %s.", mon_nam(mon));
+            malive = damageum(mon, &mons[PM_VAMPIRE].mattk[1], 0) != 2;
+            (void) passive(mon, uswapwep, mhit, malive, AT_BITE, !uswapwep);
+            wakeup(mon, TRUE);
+        }
     }
     return malive;
 }
@@ -1984,6 +2005,19 @@ mhitm_ad_drli(struct monst *magr, struct attack *mattk, struct monst *mdef,
         if (!negated && !rn2(3) && !resists_drli(mdef)) {
             mhm->damage = d(2, 6); /* Stormbringer uses monhp_per_lvl
                                     * (usually 1d8) */
+            if (maybe_polyd(is_vampire(g.youmonst.data),
+			    Race_if(PM_VAMPIRE)) && mattk->aatyp == AT_BITE &&
+			    has_blood(mdef->data)) {
+				/* For the life of a creature is in the blood
+				   (Lev 17:11) */
+				if (flags.verbose)
+				    You("feed on the lifeblood.");
+				/* [ALI] Biting monsters does not count against
+				   eating conducts. The draining of life is
+				   considered to be primarily a non-physical
+				   effect */
+				lesshungry(mhm->damage * 10);
+			}
             pline("%s becomes weaker!", Monnam(mdef));
             if (mdef->mhpmax - mhm->damage > (int) mdef->m_lev) {
                 mdef->mhpmax -= mhm->damage;
@@ -5163,6 +5197,10 @@ passive(struct monst *mon,
     int mhit = mhitb ? MM_HIT : MM_MISS;
     int malive = maliveb ? MM_HIT : MM_MISS;
 
+    if (mhit && aatyp == AT_BITE && maybe_polyd(is_vampire(g.youmonst.data), Race_if(PM_VAMPIRE))) {
+	    if (bite_monster(mon))
+		return 2;			/* lifesaved */
+	}
     for (i = 0;; i++) {
         if (i >= NATTK)
             return (malive | mhit); /* no passive attacks */
@@ -5671,6 +5709,42 @@ skill_hit_effects(struct monst *mon) {
     }
 
     return damage_bonus;
+}
+
+/*
+ * Called when a vampire bites a monster.
+ * Returns TRUE if hero died and was lifesaved.
+ */
+
+static boolean
+bite_monster(struct monst *mon)
+{
+    switch(monsndx(mon->data)) {
+	case PM_LIZARD:
+	    if (Stoned) fix_petrification();
+	    break;
+	case PM_DEATH:
+	case PM_PESTILENCE:
+	case PM_FAMINE:
+    case PM_GRIM_REAPER:
+	    pline("Unfortunately, eating any of it is fatal.");
+	    done_in_by(mon, CHOKING);
+	    return TRUE;		/* lifesaved */
+
+	case PM_GREEN_SLIME:
+	    if (!Unchanging && g.youmonst.data != &mons[PM_FIRE_VORTEX] &&
+			    g.youmonst.data != &mons[PM_FIRE_ELEMENTAL] &&
+			    g.youmonst.data != &mons[PM_GREEN_SLIME]) {
+		You("don't feel very well.");
+		Slimed = 10L;
+	    }
+	    /* Fall through */
+	default:
+	    if (acidic(mon->data) && Stoned)
+		fix_petrification();
+	    break;
+    }
+    return FALSE;
 }
 
 /*uhitm.c*/

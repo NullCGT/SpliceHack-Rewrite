@@ -160,6 +160,11 @@ Race Changes
   - Infernals are automatically hated by all humans (aside from quest
     monsters).
   - Infernals automatically recognize all demons.
+- Vampire
+  - Vampires no longer feed by draining corpses. Instead, they gain a larger amount of
+    nutrition from draining the blood of living monsters. This change is due to player
+    dissatisfaction with the tedium of draining blood from corpses, as well as the
+    large number of bugs that the corpse draining code introduced to the game.
 - Different races have different night vision ranges.
 
 Role Changes

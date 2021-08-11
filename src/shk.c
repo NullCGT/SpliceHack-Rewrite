@@ -2990,7 +2990,7 @@ append_honorific(char *buf)
                                            "most renowned and sacred" };
 
     Strcat(buf, honored[rn2(SIZE(honored) - 1) + u.uevent.udemigod]);
-    if (is_vampire(g.youmonst.data))
+    if (maybe_polyd(is_vampire(g.youmonst.data), Race_if(PM_VAMPIRE)))
         Strcat(buf, (flags.female == FEMALE) ? " dark lady" : (flags.female == MALE) ? " dark lord" : " dark liege");
     else if (is_elf(g.youmonst.data))
         Strcat(buf, (flags.female == FEMALE) ? " hiril" : " hir");

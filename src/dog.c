@@ -214,10 +214,17 @@ makedog(void)
         else if (pettype == PM_BABY_GRAY_DRAGON) petname = "Errol"; /* Discworld */
         else if (pettype == PM_BABY_WHITE_DRAGON) petname = "Seath"; /* Dark Souls */
         else if (pettype == PM_BABY_GOLD_DRAGON) petname = "Glorund"; /* Silmarillion */
-        
+    } else if (!*petname && pettype == PM_PONY) {
+        if (Role_if(PM_KNIGHT) && Race_if(PM_VAMPIRE))
+            petname = "White Lily"; /* Vampire Knight */
     }
 
     mtmp = makemon(&mons[pettype], u.ux, u.uy, MM_EDOG);
+
+    if (mtmp && Race_if(PM_VAMPIRE) && !has_etemplate(mtmp)) {
+        newetemplate(mtmp);
+        initetemplate(mtmp, MT_VAMPIRIC);
+    }
 
     if (!mtmp)
         return ((struct monst *) 0); /* pets were genocided */
@@ -852,6 +859,15 @@ dogfood(struct monst *mon, struct obj *obj)
                 return stale_egg(obj) ? CADAVER : starving ? ACCFOOD : POISON;
             return TABU;
         }
+        /* vampires only "eat" very fresh corpses ... 
+	     * Assume meat -> blood
+	     */
+	    if (is_vampire(mon->data)) {
+	    	return (obj->otyp == CORPSE &&
+		      has_blood(&mons[obj->corpsenm]) && !obj->oeaten &&
+	    	  peek_at_iced_corpse_age(obj) + 5 >= g.monstermoves) ?
+			    DOGFOOD : TABU;
+	    }
 
         switch (obj->otyp) {
         case TRIPE_RATION:

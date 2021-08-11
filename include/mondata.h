@@ -272,7 +272,9 @@
 #define is_mind_flayer(ptr) \
     ((ptr) == &mons[PM_MIND_FLAYER] || (ptr) == &mons[PM_MASTER_MIND_FLAYER])
 
-#define is_vampire(ptr) ((ptr)->mlet == S_VAMPIRE)
+#define is_vampire(ptr) ((ptr)->mlet == S_VAMPIRE  \
+                     || ((ptr) == g.youmonst.data &&       \
+                         !Upolyd && Race_if(PM_VAMPIRE)))
 
 #define hates_light(ptr) ((ptr) == &mons[PM_GREMLIN])
 
@@ -317,6 +319,11 @@
         && ((ptr)->mlet != S_UNICORN                                     \
             || obj->material == VEGGY                                  \
             || ((obj)->otyp == CORPSE && ((obj)->corpsenm == PM_LICHEN)))))
+
+/* For vampires */
+#define has_blood(ptr)	(!vegetarian(ptr) && \
+				   (ptr)->mlet != S_GOLEM && \
+				   (!is_undead(ptr) || is_vampire(ptr)))
 
 #define is_blkmktstaff(ptr)	(Is_blackmarket(&u.uz) && \
 				  (ptr) == &mons[PM_ARMS_DEALER])

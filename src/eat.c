@@ -44,7 +44,8 @@ static int offer_ok(struct obj *);
 static int tin_ok(struct obj *);
 
 /* also used to see if you're allowed to eat cats and dogs */
-#define CANNIBAL_ALLOWED() (Role_if(PM_CAVE_DWELLER) || Race_if(PM_ORC))
+#define CANNIBAL_ALLOWED() (Role_if(PM_CAVE_DWELLER) || Race_if(PM_ORC) \
+                            || Race_if(PM_VAMPIRE))
 
 /* monster types that cause hero to be turned into stone if eaten */
 #define flesh_petrifies(pm) (touch_petrifies(pm) || (pm) == &mons[PM_MEDUSA])
@@ -86,6 +87,11 @@ is_edible(register struct obj *obj)
         return (boolean)((obj->otyp == CORPSE
                           && !vegan(&mons[obj->corpsenm]))
                          || (obj->otyp == EGG));
+
+    /* As of this version of the game, vampires can only draw blood from
+       the living or potions of blood. */
+    if (maybe_polyd(is_vampire(g.youmonst.data), Race_if(PM_VAMPIRE)))
+		return FALSE;
 
     if (u.umonnum == PM_GELATINOUS_CUBE && is_organic(obj)
         /* [g-cubes can eat containers and retain all contents
