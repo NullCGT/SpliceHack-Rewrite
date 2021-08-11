@@ -464,7 +464,8 @@ Four lashing tentacles, thick with rot.
 Thick, scaly legs ending in knifelike claws.
 The cloying smell of mildew mixed with blood.
 A pair of rabid mandrill heads, their eyes trained on you.
-Prince of Demons.]],
+Prince of Demons.
+Demogorgon.]],
       },
       Death = {
          synopsis = "[You encounter Death.]",

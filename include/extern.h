@@ -1267,6 +1267,7 @@ extern int monster_census(boolean);
 extern int rand_elemental(void);
 extern int msummon(struct monst *);
 extern void summon_minion(aligntyp, boolean);
+extern boolean boss_entrance(struct monst *);
 extern int demon_talk(struct monst *);
 extern long bribe(struct monst *);
 extern int dprince(aligntyp);

@@ -1473,6 +1473,7 @@ dosacrifice(void)
                     else
                         dmon->mstrategy &= ~STRAT_APPEARMSG;
                     You("have summoned %s!", dbuf);
+                    boss_entrance(dmon);
                     if (sgn(u.ualign.type) == sgn(dmon->data->maligntyp))
                         dmon->mpeaceful = TRUE;
                     You("are terrified, and unable to move.");

@@ -225,6 +225,54 @@ summon_minion(aligntyp alignment, boolean talk)
     }
 }
 
+/* A boss monster (if not yet encountered, as determined by STRAT_APPEARMSG)
+ * makes a dramatic entrance.
+ * Might not actually be passed a boss. Return TRUE if it is a boss and we did
+ * print the dramatic entrance; FALSE otherwise. */
+boolean
+boss_entrance(mtmp)
+struct monst* mtmp;
+{
+    struct permonst* mdat = mtmp->data;
+    int mondx = monsndx(mdat);
+    if (g.mvitals[mondx].died > 0) {
+        /* Never print entrance message if the player already killed it. */
+        return FALSE;
+    }
+    if (!canspotmon(mtmp)) {
+        /* Assume the messages depend on you being able to spot it, so no
+         * dramatic entrance if you can't. */
+        return FALSE;
+    }
+    /* Never print message if this monster isn't marked to give one. */
+    if ((mtmp->mstrategy & STRAT_APPEARMSG) == 0) {
+        return FALSE;
+    }
+    /* ... and then turn off any other appearance message they were going to
+     * get. */
+    mtmp->mstrategy &= ~STRAT_APPEARMSG;
+    if (is_dprince(mdat) || is_dlord(mdat) || is_rider(mdat)) {
+        /* Assumes Juiblex is first defined demon lord */
+        com_pager(m_monnam(mtmp));
+        return TRUE;
+    }
+    else if (mondx == PM_WIZARD_OF_YENDOR) {
+        com_pager("Wizard_of_Yendor");
+        return TRUE;
+    }
+    else if (mondx == PM_VLAD_THE_IMPALER) {
+        com_pager("Vlad_the_Impaler");
+        return TRUE;
+    }
+#if 0 /* Deferred because currently this would hardly ever happen. */
+    else if (mondx == PM_MEDUSA) {
+        com_pager(QT_MEDUSA_APPEARS);
+        return TRUE;
+    }
+#endif
+    return FALSE;
+}
+
 #define Athome (Inhell && (mtmp->cham == NON_PM))
 
 /* returns 1 if it won't attack. */
@@ -262,8 +310,8 @@ demon_talk(register struct monst *mtmp)
         boolean wasunseen = !canspotmon(mtmp);
 
         mtmp->minvis = mtmp->perminvis = 0;
-        if (wasunseen && canspotmon(mtmp)) {
-            pline("%s appears before you.", Amonnam(mtmp));
+        if (!boss_entrance(mtmp)) {
+            /* impossible("demon_talk: still can't see monster?"); */
             mtmp->mstrategy &= ~STRAT_APPEARMSG;
         }
         newsym(mtmp->mx, mtmp->my);
