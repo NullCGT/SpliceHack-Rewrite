@@ -1273,7 +1273,7 @@ see_monsters(void)
         newsym(mon->mx, mon->my);
         if (mon->wormno)
             see_wsegs(mon);
-        if (Warn_of_mon && (g.context.warntype.obj & mon->data->mflags2) != 0L)
+        if (Warn_of_mon && (g.context.warntype.obj & mon->data->mhflags) != 0L)
             new_warn_obj_cnt++;
     }
 

@@ -134,6 +134,7 @@ Monster Changes
   - Brood wasps have been renamed to Ichneumon. Carrying larva is no longer considered a curable trouble.
   - Having larvae hatch inside you deals 1d5 damage, then halves your hit points.
   - Drinking a potion of sickness kills all larvae.
+- The Dark One is no longer a human.
 
 Object Changes
 - Zapping a wand of water at an item will extinguish it.
@@ -145,6 +146,7 @@ Object Changes
 - Changed the name of "helm of opaque thoughts" to "tinfoil hat."
 - Combined scrolls of warp weapon and warp armor into a single scroll: Scroll of change material.
 - Altered scroll generation properties.
+- Chains of Malcanthet deal extra to demons instead of minions.
 
 Race Changes
 - Drow

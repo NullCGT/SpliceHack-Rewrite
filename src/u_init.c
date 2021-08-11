@@ -801,12 +801,12 @@ shambler_init(void)
   	shambler->mflags2 &= ~M2_MERC;				/* no guards */
   	shambler->mflags2 &= ~M2_PEACEFUL;			/* no peacefuls */
     shambler->mflags2 &= ~M2_SHAPESHIFTER;	    /* no shapeshifters */
-  	shambler->mflags2 &= ~M2_WERE;              /* no werecreatures */
   	shambler->mflags2 &= ~M2_PNAME;				/* not a proper name */
     /* randomize race flag */
-    for (i = 0; i < rnd(4); i++) {
-  		shambler->mflags2 |= (1 << rn2(14));
+    for (i = 0; i < rnd(6); i++) {
+  		shambler->mhflags |= (1 << rn2(14));
   	}
+      shambler->mhflags &= ~MH_WERE;              /* no werecreatures */
     return;
 }
 

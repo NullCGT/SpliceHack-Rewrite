@@ -284,7 +284,7 @@ const struct Role roles[NUM_ROLES+1] = {
       PM_KNIGHT,
       NON_PM,
       PM_PONY,
-      PM_KING_ARTHUR,
+      PM_ARTHUR,
       PM_PAGE,
       PM_IXOTH,
       PM_QUASIT,

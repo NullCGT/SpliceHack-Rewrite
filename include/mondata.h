@@ -123,24 +123,24 @@
 #define metallivorous(ptr) (((ptr)->mflags1 & M1_METALLIVORE) != 0L)
 #define polyok(ptr) (((ptr)->mflags2 & M2_NOPOLY) == 0L)
 #define is_shapeshifter(ptr) (((ptr)->mflags2 & M2_SHAPESHIFTER) != 0L)
-#define is_undead(ptr) (((ptr)->mflags2 & M2_UNDEAD) != 0L)
-#define is_were(ptr) (((ptr)->mflags2 & M2_WERE) != 0L)
-#define is_elf(ptr) ((((ptr)->mflags2 & M2_ELF) != 0L)     \
+#define is_undead(ptr) (((ptr)->mhflags & MH_UNDEAD) != 0L)
+#define is_were(ptr) (((ptr)->mhflags & MH_WERE) != 0L)
+#define is_elf(ptr) ((((ptr)->mhflags & MH_ELF) != 0L)     \
                      || ((ptr) == g.youmonst.data &&       \
                          !Upolyd && Race_if(PM_ELF)))
-#define is_dwarf(ptr) ((((ptr)->mflags2 & M2_DWARF) != 0L) \
+#define is_dwarf(ptr) ((((ptr)->mhflags & MH_DWARF) != 0L) \
                      || ((ptr) == g.youmonst.data &&       \
                          !Upolyd && Race_if(PM_DWARF)))
-#define is_gnome(ptr) ((((ptr)->mflags2 & M2_GNOME) != 0L) \
+#define is_gnome(ptr) ((((ptr)->mhflags & MH_GNOME) != 0L) \
                      || ((ptr) == g.youmonst.data &&       \
                          !Upolyd && Race_if(PM_GNOME)))
-#define is_orc(ptr) ((((ptr)->mflags2 & M2_ORC) != 0L)     \
+#define is_orc(ptr) ((((ptr)->mhflags & MH_ORC) != 0L)     \
                      || ((ptr) == g.youmonst.data &&       \
                          !Upolyd && Race_if(PM_ORC)))
-#define is_human(ptr) ((((ptr)->mflags2 & M2_HUMAN) != 0L) \
+#define is_human(ptr) ((((ptr)->mhflags & MH_HUMAN) != 0L) \
                      || ((ptr) == g.youmonst.data &&       \
                          !Upolyd && Race_if(PM_HUMAN)))
-#define your_race(ptr) (((ptr)->mflags2 & g.urace.selfmask) != 0L)
+#define your_race(ptr) (((ptr)->mhflags & g.urace.selfmask) != 0L)
 #define is_bat(ptr)                                         \
     ((ptr) == &mons[PM_BAT] || (ptr) == &mons[PM_GIANT_BAT] \
      || (ptr) == &mons[PM_VAMPIRE_BAT])
@@ -153,12 +153,12 @@
                  (ptr) == &mons[PM_BLACK_RAT] || \
                  (ptr) == &mons[PM_RAT_RULER] || \
 				 (ptr) == &mons[PM_RODENT_OF_UNUSUAL_SIZE])
-#define is_giant(ptr) (((ptr)->mflags2 & M2_GIANT) != 0L)
+#define is_giant(ptr) (((ptr)->mhflags & MH_GIANT) != 0L)
 #define is_golem(ptr) ((ptr)->mlet == S_GOLEM)
 #define is_domestic(ptr) ((((ptr)->mflags2 & M2_DOMESTIC) != 0L) \
      || (Role_if(PM_DRAGON_RIDER) && (((ptr) >= &mons[PM_BABY_GRAY_DRAGON] && \
                              (ptr) <= &mons[PM_YELLOW_DRAGON]))))
-#define is_demon(ptr) (((ptr)->mflags2 & M2_DEMON) != 0L)
+#define is_demon(ptr) (((ptr)->mhflags & MH_DEMON) != 0L)
 #define is_mercenary(ptr) (((ptr)->mflags2 & M2_MERC) != 0L)
 #define is_male(ptr) (((ptr)->mflags2 & M2_MALE) != 0L)
 #define is_female(ptr) (((ptr)->mflags2 & M2_FEMALE) != 0L)

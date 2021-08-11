@@ -649,7 +649,7 @@ migr_booty_item(int otyp, const char* gang)
 {
     struct obj *otmp;
 
-    otmp = mksobj_migr_to_species(otyp, (unsigned long) M2_ORC, TRUE, FALSE);
+    otmp = mksobj_migr_to_species(otyp, (unsigned long) MH_ORC, TRUE, FALSE);
     if (otmp && gang) {
         new_oname(otmp, strlen(gang) + 1); /* removes old name if present */
         Strcpy(ONAME(otmp), gang);

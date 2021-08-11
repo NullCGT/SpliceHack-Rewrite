@@ -2787,6 +2787,8 @@ is_valid_template(struct monst *mtmp, int tindex) {
     case MT_DWARVISH:
     case MT_GNOMISH:
     case MT_ORCISH:
+    case MT_HALF_ELF:
+    case MT_HALF_ORC:
         return (is_human(mtmp->data)
             && monsndx(mtmp->data) != PM_HUMAN_ZOMBIE
             && monsndx(mtmp->data) != PM_HUMAN_MUMMY);
@@ -2819,16 +2821,10 @@ template_chance(struct monst *mtmp) {
     /* Traditionally human monsters have a randomly determined
        race template. Other monsters have a small chance of receiving
        a template upon creation. */
-    if (is_human(mtmp->data)) {
-        switch (rn2(5)) {
-        case 0: template = MT_DWARVISH; break;
-        case 1: template = MT_ELVEN; break;
-        case 2: template = MT_GNOMISH; break;
-        case 3: template = MT_ORCISH; break;
-        case 4:
-        default:
-            break;
-        }
+    if (is_human(mtmp->data) && mtmp->data != &mons[PM_HUMAN_ZOMBIE]
+        && mtmp->data != &mons[PM_HUMAN_MUMMY] && rn2(3)) {
+        template = rn2(MT_FIENDISH - MT_ELVEN);
+        return template;
     } else {
         if (u.uhave.bell) chance += 1;
         if (u.uhave.book) chance += 1;
@@ -2871,6 +2867,8 @@ apply_template(struct permonst basemon, int tindex)
     basemon.mflags2 |= template.mflags2;
     basemon.mflags3 |= template.mflags3;
     basemon.difficulty += template.difficulty;
+    
+    if (basemon.mr > 100) basemon.mr = 100;
 
     /* Attacks */
     for (i = 0; i < 6; i++) {
@@ -2892,7 +2890,7 @@ apply_template(struct permonst basemon, int tindex)
     /* Remove human flag */
     if (tindex == MT_ELVEN || tindex == MT_DWARVISH || tindex == MT_GNOMISH
         || tindex == MT_ORCISH)
-        basemon.mflags2 &= ~M2_HUMAN;
+        basemon.mhflags = template.mhflags;
 
     return basemon;
 }

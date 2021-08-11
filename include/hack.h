@@ -248,8 +248,8 @@ typedef struct sortloot_item Loot;
 
 #define MATCH_WARN_OF_MON(mon) \
     (Warn_of_mon                                                        \
-     && ((g.context.warntype.obj & (mon)->data->mflags2) != 0           \
-         || (g.context.warntype.polyd & (mon)->data->mflags2) != 0      \
+     && ((g.context.warntype.obj & (mon)->data->mhflags) != 0           \
+         || (g.context.warntype.polyd & (mon)->data->mhflags) != 0      \
          || (g.context.warntype.species                                 \
              && (g.context.warntype.species == (mon)->data))))
 

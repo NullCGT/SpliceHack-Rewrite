@@ -323,7 +323,7 @@ shade_glare(struct obj *obj)
         return TRUE;
     /* non-silver artifacts with bonus against undead also are effective */
     arti = get_artifact(obj);
-    if (arti && (arti->spfx & SPFX_DFLAG2) && arti->mtype == M2_UNDEAD)
+    if (arti && (arti->spfx & SPFX_DFLAGH) && arti->mtype == MH_UNDEAD)
         return TRUE;
     /* [if there was anything with special bonus against noncorporeals,
        it would be effective too] */
@@ -783,11 +783,11 @@ spec_applies(const struct artifact *weap, struct monst *mtmp)
         return (weap->mtype == (unsigned long) ptr->mlet);
     } else if (weap->spfx & SPFX_DFLAG1) {
         return ((ptr->mflags1 & weap->mtype) != 0L);
-    } else if (weap->spfx & SPFX_DFLAG2) {
-        return ((ptr->mflags2 & weap->mtype)
+    } else if (weap->spfx & SPFX_DFLAGH) {
+        return ((ptr->mhflags & weap->mtype)
                 || (yours
                     && ((!Upolyd && (g.urace.selfmask & weap->mtype))
-                        || ((weap->mtype & M2_WERE) && u.ulycn >= LOW_PM))));
+                        || ((weap->mtype & MH_WERE) && u.ulycn >= LOW_PM))));
     } else if (weap->spfx & SPFX_DALIGN) {
         return yours ? (u.ualign.type != weap->alignment)
                      : (ptr->maligntyp == A_NONE

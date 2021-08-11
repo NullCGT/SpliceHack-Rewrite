@@ -403,11 +403,11 @@ look_at_monster(char *buf,
                 } else {
                     unsigned long mW = (g.context.warntype.obj
                                         | g.context.warntype.polyd),
-                                  m2 = mtmp->data->mflags2;
-                    const char *whom = ((mW & M2_HUMAN & m2) ? "human"
-                                        : (mW & M2_ELF & m2) ? "elf"
-                                          : (mW & M2_ORC & m2) ? "orc"
-                                            : (mW & M2_DEMON & m2) ? "demon"
+                                  mh = mtmp->data->mhflags;
+                    const char *whom = ((mW & MH_HUMAN & mh) ? "human"
+                                        : (mW & MH_ELF & mh) ? "elf"
+                                          : (mW & MH_ORC & mh) ? "orc"
+                                            : (mW & MH_DEMON & mh) ? "demon"
                                               : pmname(mtmp->data, Mgender(mtmp)));
 
                     Sprintf(eos(monbuf), "warned of %s", makeplural(whom));
