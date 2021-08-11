@@ -2800,6 +2800,9 @@ is_valid_template(struct monst *mtmp, int tindex) {
         return !is_mind_flayer(mtmp->data);
     case MT_JUIBLEX_TOUCHED:
         return !amorphous(mtmp->data);
+    case MT_ICY_DRAKKEN:
+    case MT_FIERY_DRAKKEN:
+        return !is_dragon(mtmp->data);
     default:
         return TRUE;
     }
