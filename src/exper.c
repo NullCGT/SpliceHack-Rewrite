@@ -120,6 +120,10 @@ experience(register struct monst *mtmp, register int nk)
     if (extra_nasty(ptr))
         tmp += (7 * mtmp->m_lev);
 
+    /* Templated monsters grant even more */
+    if (has_etemplate(mtmp) && montemplates[ETEMPLATE(mtmp)->template_index].difficulty)
+        tmp += (7 * mtmp->data->difficulty);
+
     /*  For higher level monsters, an additional bonus is given */
     if (mtmp->m_lev > 8)
         tmp += 50;

@@ -129,6 +129,7 @@ Monster Changes
     These templates modify the data of the monster, making them more dangerous.
   - Your starting pet can rarely spawn with a template applied to it.
   - Many traditionally human monsters can have their race randomly altered.
+  - Templated monsters grant extra experience, and are guaranteed to have a death drop.
   - TODO: Update visual indicator for templated mons in windows ports using certain files.
 - Brood Wasp Changes
   - Brood wasps have been renamed to Ichneumon. Carrying larva is no longer considered a curable trouble.

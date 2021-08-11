@@ -3151,7 +3151,8 @@ xkilled(
         int otyp;
 
         /* illogical but traditional "treasure drop" */
-        if (!rn2(6) && !(g.mvitals[mndx].mvflags & G_NOCORPSE)
+        if (((!rn2(6) && !(g.mvitals[mndx].mvflags & G_NOCORPSE))
+            || (has_etemplate(mtmp) && montemplates[ETEMPLATE(mtmp)->template_index].difficulty))
             /* no extra item from swallower or steed */
             && (x != u.ux || y != u.uy)
             /* no extra item from kops--too easy to abuse */
