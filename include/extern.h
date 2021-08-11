@@ -2671,6 +2671,7 @@ extern boolean grease_protect(struct obj *, const char *, struct monst *);
 extern struct trap *maketrap(int, int, int);
 extern void fall_through(boolean, unsigned);
 extern struct monst *animate_statue(struct obj *, xchar, xchar, int, int *);
+extern boolean immune_to_trap(struct monst*, xchar);
 extern struct monst *activate_statue_trap(struct trap *, xchar, xchar,
                                           boolean);
 extern void set_utrap(unsigned, unsigned);

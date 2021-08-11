@@ -77,7 +77,9 @@ struct flag {
 #define PARANOID_REMOVE     0x0040
 #define PARANOID_BREAKWAND  0x0080
 #define PARANOID_WERECHANGE 0x0100
-#define PARANOID_EATING     0x0200
+#define PARANOID_SWIM       0x0200
+#define PARANOID_TRAP       0x0400
+#define PARANOID_EATING     0x0600
     int pickup_burden; /* maximum burden before prompt */
     int pile_limit;    /* controls feedback when walking over objects */
     char discosort;    /* order of dodiscovery/doclassdisco output: o,s,c,a */
@@ -447,6 +449,13 @@ enum runmode_types {
 /* werechange: accepting randomly timed werecreature change to transform
    from human to creature or vice versa while having polymorph control */
 #define ParanoidWerechange ((flags.paranoia_bits & PARANOID_WERECHANGE) != 0)
+/* continue eating: prompt given _after_first_bite_ when eating something
+   while satiated */
+/* swim: walk (not fly or jump or levitate) into water or lava from a
+ * non-similar square */
+#define ParanoidSwim ((flags.paranoia_bits & PARANOID_SWIM) != 0)
+/* trap: move onto a trap that you know is there */
+#define ParanoidTrap ((flags.paranoia_bits & PARANOID_TRAP) != 0)
 /* continue eating: prompt given _after_first_bite_ when eating something
    while satiated */
 #define ParanoidEating ((flags.paranoia_bits & PARANOID_EATING) != 0)
