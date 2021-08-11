@@ -365,6 +365,7 @@ monflee(
             } else
                 pline("%s turns to flee.", Monnam(mtmp));
         }
+        mtmp->movement += NORMAL_SPEED;
         mtmp->mflee = 1;
     }
     /* ignore recently-stepped spaces when made to flee */
@@ -925,6 +926,10 @@ m_balks_at_approaching(struct monst* mtmp)
     if (attacktype(mtmp->data, AT_BREA)
         && ((mtmp->mhp < (mtmp->mhpmax+1) / 3)
             || !mtmp->mspec_used))
+        return TRUE;
+    
+    /* Bodaks try to stay away, unless they think you are weak. */
+    if (mtmp->data == &mons[PM_BODAK] && ((u.uhpmax / u.uhp) < 4))
         return TRUE;
 
     return FALSE;

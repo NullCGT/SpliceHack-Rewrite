@@ -1476,6 +1476,7 @@ extern void mnexto(struct monst *);
 extern void maybe_mnexto(struct monst *);
 extern int mnearto(struct monst *, xchar, xchar, boolean);
 extern void m_respond(struct monst *);
+extern void remove_fearedmon(void);
 extern void setmangry(struct monst *, boolean);
 extern void wakeup(struct monst *, boolean);
 extern void wake_nearby(void);

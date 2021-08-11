@@ -415,7 +415,7 @@ savebones(int how, time_t when, struct obj *corpse)
     if (u.usteed)
         dismount_steed(DISMOUNT_BONES);
     if (u.fearedmon)
-        u.fearedmon = 0;
+        remove_fearedmon();
     dmonsfree(); /* discard dead or gone monsters */
 
     /* mark all fruits as nonexistent; when we come to them we'll mark

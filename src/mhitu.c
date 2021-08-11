@@ -1763,11 +1763,12 @@ gazemu(struct monst *mtmp, struct attack *mattk)
         }
         break;
     case AD_FEAR:
-        if (canseemon(mtmp) && couldsee(mtmp->mx, mtmp->my) && mtmp->mcansee
+        if (canseemon(mtmp) && couldsee(mtmp->mx, mtmp->my) && mtmp->mcansee && !rn2(3)
             && !mtmp->mspec_used && (ACURR(A_CHA) - mtmp->m_lev + u.ulevel < rn2(25))) {
             You("are struck with a terrible fear of %s!", mon_nam(mtmp));
             make_afraid((HAfraid & TIMEOUT) + (long) rn1(10, 5), TRUE);
             u.fearedmon = mtmp;
+            if (mtmp->data == &mons[PM_BODAK]) u.ugrave_arise = PM_BODAK;
         }
         break;
 #ifdef PM_BEHOLDER /* work in progress */

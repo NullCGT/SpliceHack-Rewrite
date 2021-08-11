@@ -913,6 +913,12 @@ mcalcmove(
         mmove = ((rn2(2) ? 4 : 5) * mmove) / 3;
     }
 
+    if (mon->mflee) {
+        /* In SpliceHack, monsters get a boost to movement speed when they are
+           fleeing. - Kes */
+        mmove = ((rn2(2) ? 4 : 5) * mmove) / 3;
+    }
+
     if (m_moving) {
         /* Randomly round the monster's speed to a multiple of NORMAL_SPEED.
            This makes it impossible for the player to predict when they'll
@@ -2608,7 +2614,7 @@ mondead(register struct monst* mtmp)
         dismount_steed(DISMOUNT_GENERIC);
     /* Clear feared monster */
     if (mtmp == u.fearedmon)
-        u.fearedmon = 0;
+        remove_fearedmon();
     /* extinguish monster's armor */
 	if ((otmp = which_armor(mtmp, W_ARM)) && 
 		(otmp->otyp==GOLD_DRAGON_SCALE_MAIL || otmp->otyp == GOLD_DRAGON_SCALES) )
@@ -2851,7 +2857,7 @@ mongone(struct monst* mdef)
         dismount_steed(DISMOUNT_GENERIC);
     /* feared monster cleared */
     if (mdef == u.fearedmon)
-        u.fearedmon = 0;
+        remove_fearedmon();
     /* stuck to you? release */
     unstuck(mdef);
     /* drop special items like the Amulet so that a dismissed Kop or nurse
@@ -3654,6 +3660,13 @@ m_respond(struct monst* mtmp)
             }
         }
     }
+}
+
+void
+remove_fearedmon() {
+    u.fearedmon = 0;
+    if (u.ugrave_arise == PM_BODAK)
+        u.ugrave_arise = NON_PM;
 }
 
 /* Called whenever the player attacks mtmp; also called in other situations

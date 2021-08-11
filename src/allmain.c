@@ -177,6 +177,10 @@ moveloop(boolean resuming)
                             if (rn2(3) == 0)
                                 moveamt += NORMAL_SPEED;
                         }
+
+                        if (Afraid && rn2(4)) { /* Afraid of a monster */
+                            moveamt += NORMAL_SPEED;
+                        }
                     }
 
                     switch (wtcap) {

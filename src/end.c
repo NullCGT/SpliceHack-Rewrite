@@ -540,7 +540,9 @@ done_in_by(struct monst *mtmp, int how)
      *  transformation.  (Turning to slime isn't an issue here because
      *  Unchanging prevents that from happening.)
      */
-    if (mptr->mlet == S_WRAITH)
+    if (mptr == &mons[PM_BODAK] || (u.fearedmon && u.fearedmon->data == &mons[PM_BODAK]))
+        u.ugrave_arise = PM_BODAK;
+    else if (mptr->mlet == S_WRAITH)
         u.ugrave_arise = PM_WRAITH;
     else if (mptr->mlet == S_MUMMY && g.urace.mummynum != NON_PM)
         u.ugrave_arise = g.urace.mummynum;

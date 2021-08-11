@@ -96,15 +96,26 @@ Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
 - Altered the tiles for gnolls again to bring them closer in line with other humanoid tiles.
 - Gnolls have been reduced to medium size so that they can wear the armor they spawn with.
+- Monster fleeing AI has been altered.
+  - When a monster turns to flee, it immediately gains a turn of movement points.
+  - Fleeing monsters gain bonus movement points every turn, allowing them to flee
+    more quickly.
 - New Yendorian Army Member: The General
   - Upgraded form of the captain. Highly dangerous, and very rare to encounter.
 - New Monster: The Slumber Hulk
   - A hulk that puts people to sleep with its gaze.
   - Very low AC.
   - Falls asleep randomly.
-- New Monseter: Eye of Fear and Flame
+- New Monster: Eye of Fear and Flame
   - L-class monster.
   - Two gaze attacks: One deals fire damage, and the other inflicts fear.
+- New Monster: Bodak
+  - Fear-inflicting gaze attack.
+  - Dying while under the effect of a bodak's gaze will cause the player to rise
+    as a bodak.
+  - Attempt to avoid the player unless the player has less than one quarter of their
+    hit points remaining.
+  - Peaceful to neutral characters.
 - Ported UnnetHack Aleaxes: Aleaxes are generated with copies of the player's items.
 - Purple dragons have been renamed to violet dragons.
 - Dragons have been significantly altered.
