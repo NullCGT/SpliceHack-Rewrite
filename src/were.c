@@ -17,21 +17,31 @@ were_change(struct monst *mon)
                             : (flags.moonphase == FULL_MOON ? 10 : 50))) {
             new_were(mon); /* change into animal form */
             if (!Deaf && !canseemon(mon)) {
-                const char *howler;
+                const char *howler, *howl;
 
                 switch (monsndx(mon->data)) {
                 case PM_WEREWOLF:
                     howler = "wolf";
+                    howl = "howling";
                     break;
                 case PM_WEREJACKAL:
                     howler = "jackal";
+                    howl = "howling";
+                    break;
+                case PM_WERECOCKATRICE:
+                    howler = "chicken";
+                    howl = "squawking";
                     break;
                 default:
                     howler = (char *) 0;
                     break;
                 }
-                if (howler)
-                    You_hear("a %s howling at the moon.", howler);
+                if (howler) {
+                    if (Hallucination)
+                        You_hear("the moon %s like a %s", howl, howler);
+                    else
+                        You_hear("a %s %s at the moon.", howler, howl);
+                }
             }
         }
     } else if (!rn2(30) || Protection_from_shape_changers) {
@@ -57,6 +67,10 @@ counter_were(int pm)
         return PM_HUMAN_WERERAT;
     case PM_HUMAN_WERERAT:
         return PM_WERERAT;
+    case PM_WERECOCKATRICE:
+        return PM_HUMAN_WERECOCKATRICE;
+    case PM_HUMAN_WERECOCKATRICE:
+        return PM_WERECOCKATRICE;
     default:
         return NON_PM;
     }
@@ -67,6 +81,11 @@ int
 were_beastie(int pm)
 {
     switch (pm) {
+    case PM_WERECOCKATRICE:
+    case PM_COCKATRICE:
+    case PM_CHICKATRICE:
+    case PM_PYROLISK:
+        return PM_WERECOCKATRICE;
     case PM_WERERAT:
     case PM_SEWER_RAT:
     case PM_GIANT_RAT:
@@ -147,6 +166,12 @@ were_summon(struct permonst *ptr,
             typ = rn2(7) ? PM_JACKAL : rn2(3) ? PM_COYOTE : PM_FOX;
             if (genbuf)
                 Strcpy(genbuf, "jackal");
+            break;
+        case PM_WERECOCKATRICE:
+        case PM_HUMAN_WERECOCKATRICE:
+            typ = rn2(3) ? PM_CHICKATRICE : rn2(3) ? PM_PYROLISK : PM_CHICKATRICE;
+            if (genbuf)
+                Strcpy(genbuf, "cockatrice");
             break;
         case PM_WEREWOLF:
         case PM_HUMAN_WEREWOLF:

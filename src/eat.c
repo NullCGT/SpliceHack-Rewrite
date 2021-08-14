@@ -992,6 +992,9 @@ cpostfx(int pm)
     case PM_HUMAN_WEREWOLF:
         catch_lycanthropy = PM_WEREWOLF;
         break;
+    case PM_HUMAN_WERECOCKATRICE:
+        catch_lycanthropy = PM_WERECOCKATRICE;
+        break;
     case PM_NURSE:
         if (Upolyd)
             u.mh = u.mhmax;

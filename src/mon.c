@@ -2629,6 +2629,8 @@ mondead(register struct monst* mtmp)
         set_mon_data(mtmp, &mons[PM_HUMAN_WEREJACKAL]);
     else if (mtmp->data == &mons[PM_WEREWOLF])
         set_mon_data(mtmp, &mons[PM_HUMAN_WEREWOLF]);
+    else if (mtmp->data == &mons[PM_WERECOCKATRICE])
+        set_mon_data(mtmp, &mons[PM_HUMAN_WERECOCKATRICE]);
     else if (mtmp->data == &mons[PM_WERERAT])
         set_mon_data(mtmp, &mons[PM_HUMAN_WERERAT]);
 
@@ -3840,6 +3842,10 @@ setmangry(struct monst* mtmp, boolean via_attack)
                                don't have to poke around inside growl() */
                             pline("And then starts to flee.");
                     }
+                } else if (mon->data == &mons[PM_CHICKEN]) {
+                    growl(mon);
+                    exclaimed = TRUE;
+                    mon->mpeaceful = 0;
                 }
             }
         }

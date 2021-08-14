@@ -242,6 +242,15 @@ NEARDATA struct permonst mons_init[] = {
     /*
      * cockatrice
      */
+    MON3("rooster", "chicken", "chicken",
+        S_COCKATRICE, LVL(2, 15, 8, 0, 0), 
+        (G_GENO | G_SGROUP | 1),
+        A(ATTK(AT_BITE, AD_PHYS, 1, 3), NO_ATTK, NO_ATTK,
+          NO_ATTK, NO_ATTK, NO_ATTK),
+	      SIZ(100, 50, MS_CHICKEN, MZ_SMALL), 0, 0,
+        M1_ANIMAL | M1_FLY | M1_NOHANDS | M1_HERBIVORE | M1_OVIPAROUS, 
+        M2_WANDER | M2_DOMESTIC | M2_FEMALE,
+        M3_INFRAVISIBLE, 3, HI_DOMESTIC),
     MON("chickatrice", S_COCKATRICE, LVL(4, 4, 8, 30, 0),
         (G_GENO | G_SGROUP | 1),
         A(ATTK(AT_BITE, AD_PHYS, 1, 2), ATTK(AT_TUCH, AD_STON, 0, 0),
@@ -263,6 +272,13 @@ NEARDATA struct permonst mons_init[] = {
         MR_POISON | MR_FIRE,
         M1_ANIMAL | M1_NOHANDS | M1_OMNIVORE | M1_OVIPAROUS, M2_HOSTILE,
         M3_INFRAVISIBLE, 8, CLR_RED),
+    MON2("werecockatrice", S_COCKATRICE, LVL(6, 6, 6, 30, -7), (G_NOGEN | G_NOCORPSE),
+        A(ATTK(AT_BITE, AD_WERE, 1, 3), ATTK(AT_TUCH, AD_STON, 0, 0),
+          ATTK(AT_NONE, AD_STON, 0, 0), NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(30, 30, MS_HISS, MZ_SMALL), MR_POISON | MR_STONE,
+        MR_POISON | MR_STONE,
+        M1_ANIMAL | M1_NOHANDS | M1_OMNIVORE | M1_OVIPAROUS, M2_HOSTILE,
+        M3_INFRAVISIBLE, MH_WERE, 9, CLR_YELLOW),
     /*
      * dogs & other canines
      */
@@ -2511,6 +2527,14 @@ struct permonst _mons2[] = {
         M1_HUMANOID | M1_POIS | M1_REGEN | M1_OMNIVORE,
         M2_NOPOLY | M2_HOSTILE | M2_COLLECT,
         M3_INFRAVISIBLE, MH_HUMAN | MH_WERE, 3, CLR_RED),
+    MON2("werecockatrice", S_HUMAN, LVL(6, 8, 10, 20, -7), (G_NOGEN),
+        A(ATTK(AT_WEAP, AD_PHYS, 2, 4), ATTK(AT_TUCH, AD_STON, 0, 0),
+          ATTK(AT_NONE, AD_STON, 0, 0), NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(WT_HUMAN, 400, MS_WERE, MZ_HUMAN), MR_POISON | MR_STONE,
+        MR_POISON | MR_STONE,
+        M1_HUMANOID | M1_POIS | M1_REGEN | M1_OMNIVORE,
+        M2_NOPOLY | M2_HOSTILE | M2_COLLECT,
+        M3_INFRAVISIBLE, MH_HUMAN | MH_WERE, 8, CLR_YELLOW),
     MON2("werewolf", S_HUMAN, LVL(5, 12, 10, 20, -7), (1),
         A(ATTK(AT_WEAP, AD_PHYS, 2, 4),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
