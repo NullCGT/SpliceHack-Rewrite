@@ -65,21 +65,24 @@ enum trap_types {
     SLP_GAS_TRAP =  8,
     RUST_TRAP    =  9,
     FIRE_TRAP    = 10,
-    PIT          = 11,
-    SPIKED_PIT   = 12,
-    HOLE         = 13,
-    TRAPDOOR     = 14,
-    TELEP_TRAP   = 15,
-    LEVEL_TELEP  = 16,
-    MAGIC_PORTAL = 17,
-    WEB          = 18,
-    STATUE_TRAP  = 19,
-    MAGIC_TRAP   = 20,
-    ANTI_MAGIC   = 21,
-    POLY_TRAP    = 22,
-    VIBRATING_SQUARE = 23,
+    BUZZSAW_TRAP = 11,
+    ICE_BLOCK_TRAP = 12,
+    WHIRLWIND_TRAP = 13,
+    PIT          = 14,
+    SPIKED_PIT   = 15,
+    HOLE         = 16,
+    TRAPDOOR     = 17,
+    TELEP_TRAP   = 18,
+    LEVEL_TELEP  = 19,
+    MAGIC_PORTAL = 20,
+    WEB          = 21,
+    STATUE_TRAP  = 22,
+    MAGIC_TRAP   = 23,
+    ANTI_MAGIC   = 24,
+    POLY_TRAP    = 25,
+    VIBRATING_SQUARE = 26,
 
-    TRAPNUM      = 24
+    TRAPNUM      = 27
 };
 
 #define is_pit(ttyp) ((ttyp) == PIT || (ttyp) == SPIKED_PIT)

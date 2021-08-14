@@ -263,7 +263,6 @@ start: Blank
         S_rust_trap: \032
         S_rustmonst: \032
         S_scroll: \032
-		S_sin: \032
         S_sink: \032
         S_sleeping_gas_trap: \032
         S_snake: \032
@@ -324,7 +323,6 @@ start: Blank
         S_xorn: \032
         S_yeti: \032
         S_zombie: \032
-        S_zouthern: \032
 finish
 
 start: IBMgraphics

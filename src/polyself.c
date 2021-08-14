@@ -1351,6 +1351,11 @@ dospinweb(void)
             deltrap(ttmp);
             newsym(u.ux, u.uy);
             return 1;
+        case WHIRLWIND_TRAP:
+            You("block the air vents with webbing.");
+            deltrap(ttmp);
+            newsym(u.ux, u.uy);
+            return 1;
         case ROLLING_BOULDER_TRAP:
             You("spin a web, jamming the trigger.");
             deltrap(ttmp);
@@ -1367,6 +1372,8 @@ dospinweb(void)
         case MAGIC_TRAP:
         case ANTI_MAGIC:
         case POLY_TRAP:
+        case ICE_BLOCK_TRAP:
+        case BUZZSAW_TRAP:
             You("have triggered a trap!");
             dotrap(ttmp, 0);
             return 1;

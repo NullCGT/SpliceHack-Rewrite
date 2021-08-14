@@ -35,6 +35,9 @@ static int trapeffect_rolling_boulder_trap(struct monst *, struct trap *,
 static int trapeffect_magic_portal(struct monst *, struct trap *, unsigned);
 static int trapeffect_vibrating_square(struct monst *, struct trap *,
                                        unsigned);
+static int trapeffect_buzzsaw_trap(struct monst *, struct trap *, unsigned);
+static int trapeffect_ice_block_trap(struct monst *, struct trap *, unsigned);
+static int trapeffect_whirlwind_trap(struct monst *, struct trap *, unsigned);
 static int trapeffect_selector(struct monst *, struct trap *, unsigned);
 static char *trapnote(struct trap *, boolean);
 static int steedintrap(struct trap *, struct obj *);
@@ -42,6 +45,7 @@ static void launch_drop_spot(struct obj *, xchar, xchar);
 static int mkroll_launch(struct trap *, xchar, xchar, short, long);
 static boolean isclearpath(coord *, int, schar, schar);
 static void dofiretrap(struct obj *);
+static void doiceblocktrap(struct obj *);
 static void domagictrap(void);
 static boolean emergency_disrobe(boolean *);
 static int untrap_prob(struct trap *);
@@ -49,6 +53,7 @@ static void move_into_trap(struct trap *);
 static int try_disarm(struct trap *, boolean);
 static void reward_untrap(struct trap *, struct monst *);
 static int disarm_holdingtrap(struct trap *);
+static int disarm_whirlwindtrap(struct trap *);
 static int disarm_landmine(struct trap *);
 static int unsqueak_ok(struct obj *);
 static int disarm_squeaky_board(struct trap *);
@@ -826,6 +831,10 @@ xchar ttype;
         /* can hit anything. Even noncorporeal monsters might get a blessed
          * projectile. */
         return FALSE;
+    case WHIRLWIND_TRAP:
+        if (amorphous(pm) || is_whirly(pm) || unsolid(pm))
+            return 1;
+        return 0;
     case BEAR_TRAP:
         if (pm->msize <= MZ_SMALL || amorphous(pm) || is_whirly(pm)
             || unsolid(pm))
@@ -838,6 +847,7 @@ xchar ttype;
     case TRAPDOOR:
     case PIT:
     case SPIKED_PIT:
+    case BUZZSAW_TRAP:
         /* ground-based traps, which can be evaded by levitation, flying, or
          * hanging to the ceiling */
         if (Sokoban && (ttype == PIT || ttype == SPIKED_PIT || ttype == HOLE
@@ -932,6 +942,11 @@ xchar ttype;
             }
         }
         return (you ? 2 : 1);
+    case ICE_BLOCK_TRAP:
+        /* Technically we could run a full check for unknowon items granting
+           free action here, but it seems easier just to consider it unsafe
+           at all times. */
+        return 0;
     case MAGIC_PORTAL:
         /* never hurts monsters, but player is considered non-immune so they
          * can be asked about entering it */
@@ -1626,6 +1641,123 @@ trapeffect_fire_trap(
         return trapkilled ? 2 : mtmp->mtrapped;
     }
     return 0;
+}
+
+static int
+trapeffect_ice_block_trap(mtmp, trap, trflags)
+struct monst *mtmp;
+struct trap *trap;
+unsigned trflags UNUSED;
+{
+    boolean trapkilled = FALSE;
+
+    if (mtmp == &g.youmonst) {
+        seetrap(trap);
+        doiceblocktrap((struct obj *) 0);
+        return 0;
+    } else {
+        boolean in_sight = canseemon(mtmp) || (mtmp == u.usteed);
+        boolean see_it = cansee(mtmp->mx, mtmp->my);
+        if (in_sight)
+                pline("A block of ice rises up from the %s and encases %s!",
+                      surface(mtmp->mx, mtmp->my), mon_nam(mtmp));
+        else if (see_it) /* evidently `mtmp' is invisible */
+            You_see("a block of ice rise from the %s!",
+                    surface(mtmp->mx, mtmp->my));
+        if (resists_cold(mtmp)) {
+            if (in_sight) {
+                shieldeff(mtmp->mx, mtmp->my);
+                pline("%s is uninjured.", Monnam(mtmp));
+            }
+        } else if (mtmp->data == &mons[PM_WATER_ELEMENTAL]) {
+            (void) newcham(mtmp, &mons[PM_ICE_ELEMENTAL], FALSE, FALSE);
+        } else {
+            paralyze_monst(mtmp, rn1(5, 10));
+            if (rn2(3))
+                (void) destroy_mitem(mtmp, POTION_CLASS, AD_COLD);
+            if (thitm(0, mtmp, (struct obj *) 0, d(2, 6), FALSE)) {
+                trapkilled = TRUE;
+            }
+        }
+        if (see_it && t_at(mtmp->mx, mtmp->my))
+            seetrap(trap);
+        return trapkilled;
+    }
+    return trapkilled;
+}
+
+static int
+trapeffect_whirlwind_trap(mtmp, trap, trflags)
+struct monst *mtmp;
+struct trap *trap;
+unsigned trflags UNUSED;
+{
+    struct permonst *mptr = mtmp->data;
+
+    if (mtmp == &g.youmonst) {
+        seetrap(trap);
+        pline("Gusts of wind issue from hidden air vents in the floor!");
+        hurtle(rn1(3,-1), rn1(3,-1), d(3,3), TRUE);
+        return 0;
+    } else {
+        boolean in_sight = canseemon(mtmp) || (mtmp == u.usteed);
+        boolean see_it = cansee(mtmp->mx, mtmp->my);
+        if (amorphous(mptr) || is_whirly(mptr) || unsolid(mptr))
+            return 0;
+        if (in_sight)
+            pline("Wind shoots from hidden vents and blasts %s!",
+                mon_nam(mtmp));
+        mhurtle(mtmp, rn1(3,-1), rn1(3,-1), d(3,3));
+        if (see_it) {
+            seetrap(trap);
+        }
+        return 0;
+    }
+    return 0;
+}
+
+static int
+trapeffect_buzzsaw_trap(mtmp, trap, trflags)
+struct monst *mtmp;
+struct trap *trap;
+unsigned trflags UNUSED;
+{
+    struct permonst *mptr = mtmp->data;
+    boolean trapkilled = FALSE;
+
+    if (mtmp == &g.youmonst) {
+        seetrap(trap);
+        pline("Spinning buzzsaws erupt from the %s!",
+              surface(u.ux, u.uy));
+        if (Levitation || Flying) {
+            if (Blind && !Deaf) {
+                You_hear("a loud whirring.");
+            } else if (!Blind)
+                pline("The blades spin uselessly beneath you.");
+        } else if (u.usteed && steedintrap(trap, (struct obj *) 0)) {
+            ;
+        } else {
+            losehp(Maybe_Half_Phys(d(4,6)), "spinning blade", KILLED_BY_AN);
+        }
+    } else {
+        boolean in_sight = canseemon(mtmp) || (mtmp == u.usteed);
+        boolean see_it = cansee(mtmp->mx, mtmp->my);
+        if (in_sight) {
+            pline("Spinning buzzsaws erupt from the %s under %s!",
+                    surface(mtmp->mx, mtmp->my), mon_nam(mtmp));
+        } else if (see_it) {
+            pline("Spinning buzzsaws erupt from the %s!",
+                    surface(mtmp->mx, mtmp->my));
+        }
+        if (!is_flyer(mptr) && !is_floater(mptr)) {
+            if (thitm(0, mtmp, (struct obj *) 0, d(4, 6), FALSE))
+                trapkilled = TRUE;
+        }
+        if (see_it) {
+            seetrap(trap);
+        }
+    }
+    return trapkilled;
 }
 
 static int
@@ -2547,6 +2679,12 @@ trapeffect_selector(
         return trapeffect_poly_trap(mtmp, trap, trflags);
     case ROLLING_BOULDER_TRAP:
         return trapeffect_rolling_boulder_trap(mtmp, trap, trflags);
+    case ICE_BLOCK_TRAP:
+        return trapeffect_ice_block_trap(mtmp, trap, trflags);
+    case WHIRLWIND_TRAP:
+        return trapeffect_whirlwind_trap(mtmp, trap, trflags);
+    case BUZZSAW_TRAP:
+        return trapeffect_buzzsaw_trap(mtmp, trap, trflags);
     case VIBRATING_SQUARE:
         return trapeffect_vibrating_square(mtmp, trap, trflags);
     default:
@@ -2678,6 +2816,16 @@ steedintrap(struct trap* trap, struct obj* otmp)
     case LANDMINE:
         trapkilled = thitm(0, steed, (struct obj *) 0, rnd(16), FALSE);
         steedhit = TRUE;
+        break;
+    case BUZZSAW_TRAP:
+        trapkilled = thitm(0, steed, (struct obj *) 0, d(4, 6), FALSE);
+        steedhit = TRUE;
+        break;
+    case WHIRLWIND_TRAP:
+        seetrap(trap);
+        pline("Gusts of wind issue from hidden air vents in the floor beneath %s!",
+            mon_nam(steed));
+        hurtle(rn1(3,-1), rn1(3,-1), d(3,3), TRUE);
         break;
     case PIT:
     case SPIKED_PIT:
@@ -3662,6 +3810,61 @@ climb_pit(void)
 }
 
 static void
+doiceblocktrap(
+    struct obj *box) /* null for floor trap */
+{
+    boolean see_it = !Blind;
+    boolean freeze = TRUE;
+    int num = 0;
+
+    /* Bug: for box case, the equivalent of burn_floor_objects() ought
+     * to be done upon its contents.
+     */
+
+    if ((box && !carried(box)) ? is_pool(box->ox, box->oy) : Underwater) {
+        pline("A wave of intense cold erupts from %s!",
+              the(box ? xname(box) : surface(u.ux, u.uy)));
+        if (Cold_resistance)
+            You("are uninjured.");
+        else
+            losehp(rnd(3), "flash frost", KILLED_BY);
+        return;
+    }
+    if (see_it)
+        pline("An mass of ice %s from %s!", box ? "surges forth" : "rises up",
+            the(box ? xname(box) : surface(u.ux, u.uy)));
+    else
+        pline("A wave of cold washes over you.");
+    if (Cold_resistance) {
+        shieldeff(u.ux, u.uy);
+        num = 1;
+        g.context.botl = 1;
+    } else if (Upolyd && u.umonnum == PM_WATER_ELEMENTAL) {
+        freeze = FALSE;
+        polymon(PM_ICE_ELEMENTAL);
+    } else {
+        num = d(2, 6);
+        g.context.botl = 1;
+    }
+    if (!num)
+        You("are uninjured.");
+    else
+        losehp(num, "turning into a block of ice", KILLED_BY);
+    if (freeze && !Free_action && ACURR(A_DEX) < rnd(25)) {
+            You("get encased in a block of ice!");
+            nomul(-rn1(5, 10));
+            g.multi_reason = "encased in ice";
+            g.nomovemsg = "The ice around you melts away.";
+    } else {
+        You("manage to escape the block of ice that threatens to encase you!");
+    }
+
+    if (rn2(3)) {
+        destroy_item(POTION_CLASS, AD_COLD);
+    }
+}
+
+static void
 dofiretrap(
     struct obj *box) /* null for floor trap */
 {
@@ -3782,8 +3985,8 @@ domagictrap(void)
         case 11:
             /* sometimes nothing happens */
             break;
-        case 12: /* a flash of fire */
-            dofiretrap((struct obj *) 0);
+        case 12: /* a flash of fire or block of ice */
+            rn2(2) ? dofiretrap((struct obj *) 0) : doiceblocktrap((struct obj *) 0) ;
             break;
 
         /* odd feelings */
@@ -4753,6 +4956,20 @@ disarm_holdingtrap(struct trap* ttmp) /* Helge Hafting */
 }
 
 static int
+disarm_whirlwind(ttmp)
+struct trap *ttmp;
+{
+    int fails = try_disarm(ttmp, FALSE);
+
+    if (fails < 2)
+        return fails;
+    You("disarm %s whirlwind trap.", the_your[ttmp->madeby_u]);
+    deltrap(ttmp);
+    newsym(u.ux + u.dx, u.uy + u.dy);
+    return 1;
+}
+
+static int
 disarm_landmine(struct trap* ttmp) /* Helge Hafting */
 {
     int fails = try_disarm(ttmp, FALSE);
@@ -5058,6 +5275,8 @@ untrap(boolean force)
                 case BEAR_TRAP:
                 case WEB:
                     return disarm_holdingtrap(ttmp);
+                case WHIRLWIND_TRAP:
+                    return disarm_whirlwind(ttmp);
                 case LANDMINE:
                     return disarm_landmine(ttmp);
                 case SQKY_BOARD:
@@ -5510,6 +5729,8 @@ chest_trap(
             break;
         case 12:
         case 11:
+            doiceblocktrap(obj);
+            break;
         case 10:
         case 9:
             dofiretrap(obj);
@@ -5734,6 +5955,7 @@ delfloortrap(struct trap* ttmp)
     /* some of these are arbitrary -dlc */
     if (ttmp && ((ttmp->ttyp == SQKY_BOARD) || (ttmp->ttyp == BEAR_TRAP)
                  || (ttmp->ttyp == LANDMINE) || (ttmp->ttyp == FIRE_TRAP)
+                 || (ttmp->ttyp == ICE_BLOCK_TRAP)
                  || is_pit(ttmp->ttyp)
                  || is_hole(ttmp->ttyp)
                  || (ttmp->ttyp == TELEP_TRAP) || (ttmp->ttyp == LEVEL_TELEP)
@@ -6091,10 +6313,10 @@ trapname(int ttyp, boolean override)
         "queasy board", "electrified web", "owlbear trap", "sand mine",
         "vacillating triangle",
         /* some traps found in nethack variants */
-        "death trap", "disintegration trap", "ice trap", "monochrome trap",
+        "death trap", "disintegration trap", "monochrome trap",
         /* plausible real-life traps */
         "axeblade trap", "pool of boiling oil", "pool of quicksand",
-        "field of caltrops", "buzzsaw trap", "spiked floor", "revolving wall",
+        "field of caltrops", "spiked floor", "revolving wall",
         "uneven floor", "finger trap", "jack-in-a-box", "yellow snow",
         "booby trap", "rat trap", "poisoned nail", "snare", "whirlpool",
         "trip wire", "roach motel (tm)",

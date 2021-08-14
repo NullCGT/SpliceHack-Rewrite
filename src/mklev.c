@@ -1481,6 +1481,18 @@ mktrap(int num, int mktrapflags, struct mkroom *croom, coord *tm)
                 if (lvl < 5)
                     kind = NO_TRAP;
                 break;
+            case WHIRLWIND_TRAP:
+                if (lvl < 3)
+                    kind = NO_TRAP;
+                break;
+            case BUZZSAW_TRAP:
+                if (lvl < 15)
+                    kind = NO_TRAP;
+                break;
+            case ICE_BLOCK_TRAP:
+                if (lvl < 8 || Inhell)
+                    kind = NO_TRAP;
+                break;
             case ANTI_MAGIC:
             case LANDMINE:
                 if (lvl < 6)
