@@ -2650,7 +2650,8 @@ init_mapseen(d_level *lev)
 
 #define INTEREST(feat)                                                \
     ((feat).nfount || (feat).nsink || (feat).nthrone || (feat).naltar \
-     || (feat).ngrave || (feat).ntree || (feat).nshop || (feat).ntemple)
+     || (feat).ngrave || (feat).ntree || (feat).nshop || (feat).ntemple) \
+     || (feat).nfurnace
   /* || (feat).water || (feat).ice || (feat).lava */
 
 /* returns true if this level has something interesting to print out */
@@ -2862,6 +2863,11 @@ recalc_mapseen(void)
                 count = mptr->feat.nsink + 1;
                 if (count <= 3)
                     mptr->feat.nsink = count;
+                break;
+            case FURNACE:
+                count = mptr->feat.nfurnace + 1;
+                if (count <= 3)
+                    mptr->feat.nfurnace = count;
                 break;
             case GRAVE:
                 count = mptr->feat.ngrave + 1;
@@ -3346,6 +3352,7 @@ print_mapseen(winid win, mapseen *mptr,
         ADDNTOBUF("throne", mptr->feat.nthrone);
         ADDNTOBUF("fountain", mptr->feat.nfount);
         ADDNTOBUF("sink", mptr->feat.nsink);
+        ADDNTOBUF("furnace", mptr->feat.nfurnace);
         ADDNTOBUF("grave", mptr->feat.ngrave);
         ADDNTOBUF("tree", mptr->feat.ntree);
 #if 0

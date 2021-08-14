@@ -35,6 +35,7 @@ static const char *artifact_names[] = {
 #define     VOID(a,b)   {0,AD_VOID,a,b}
 #define     PLYS(a,b)   {0,AD_PLYS,a,b}         /* whip binding */
 #define     PSYC(a,b)   {0,AD_PSYC,a,b}         /* psiblast */
+#define     SCLD(a,b)   {0,AD_DGST,a,b}         /* fire + cold */
 /* clang-format on */
 
 static NEARDATA struct artifact artilist[] = {
@@ -287,6 +288,13 @@ static NEARDATA struct artifact artilist[] = {
     /* If necromancers are ever added, they will use this. */
     A("Serpent's Tongue", DAGGER, SPFX_RESTR, 0, 0, PHYS(2,0), NO_DFNS, NO_CARY,
       0, A_CHAOTIC, NON_PM, NON_PM, 400L, NO_COLOR),
+
+    /* FUSION ARTIFACTS */
+    /* These artifacts are only possible to obtain by combining multiple artifacts at a forge. */
+
+    A("Frostburn", LONG_SWORD, (SPFX_RESTR | SPFX_ATTK | SPFX_DEFN | SPFX_NOGEN | SPFX_RESTR), 0, 0,
+      SCLD(5, 0), COLD(0, 0), NO_CARY, 0, A_NONE, NON_PM, NON_PM, 5000L,
+      NO_COLOR),
 
     /* VANILLA ARTIFACTS */
 

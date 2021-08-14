@@ -558,6 +558,15 @@ dodrink(void)
             return 1;
         }
     }
+    /* Or a furnace? */
+    if (IS_FURNACE(levl[u.ux][u.uy].typ)
+        /* not as low as floor level but similar restrictions apply */
+        && can_reach_floor(FALSE)) {
+        if (yn("Drink from the furnace?") == 'y') {
+            drinkfurnace();
+            return 1;
+        }
+    }
     /* Or are you surrounded by water? */
     if (Underwater && !u.uswallow) {
         if (yn("Drink the water around you?") == 'y') {
@@ -2270,6 +2279,14 @@ dodip(void)
         /* "Dip <the object> into the fountain?" */
         if (yn(qbuf) == 'y') {
             dipfountain(obj);
+            return 1;
+        }
+    } else if (IS_FURNACE(here)) {
+        Snprintf(qbuf, sizeof(qbuf), "%s%s into the furnace?", Dip_,
+                flags.verbose ? obuf : shortestname);
+        /* "Dip <the object> into the fountain?" */
+        if (yn(qbuf) == 'y') {
+            dipfurnace(obj);
             return 1;
         }
     } else if (is_pool(u.ux, u.uy)) {

@@ -3303,6 +3303,8 @@ dfeature_at(int x, int y, char *buf)
         dfeature = "pool of water";
     else if (IS_SINK(ltyp))
         cmap = S_sink; /* "sink" */
+    else if (IS_FURNACE(ltyp))
+        cmap = S_furnace; /* "furnace" */
     else if (IS_ALTAR(ltyp)) {
         Sprintf(altbuf, "%saltar to %s (%s)",
                 ((lev->altarmask & AM_SHRINE)

@@ -52,6 +52,12 @@ dosounds(void)
         };
         You_hear1(sink_msg[rn2(2) + hallu]);
     }
+    if (g.level.flags.nfurnaces && !rn2(300)) {
+        static const char *const furnace_msg[3] = {
+            "a slow bubbling.", "crackling flames.", "logs in the fireplace!",
+        };
+        You_hear1(furnace_msg[rn2(2) + hallu]);
+    }
     if (g.level.flags.has_court && !rn2(200)) {
         static const char *const throne_msg[4] = {
             "the tones of courtly conversation.",

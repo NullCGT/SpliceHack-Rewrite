@@ -759,6 +759,8 @@ kickstr(char *buf, const char *kickobjnam)
         what = "a headstone";
     else if (IS_SINK(g.maploc->typ))
         what = "a sink";
+    else if (IS_FURNACE(g.maploc->typ))
+        what = "a furnace";
     else if (IS_ALTAR(g.maploc->typ))
         what = "an altar";
     else if (IS_DRAWBRIDGE(g.maploc->typ))
@@ -1074,6 +1076,20 @@ dokick(void)
                 if (water_damage(uarmf, "metal boots", TRUE) == ER_NOTHING) {
                     Your("boots get wet.");
                     /* could cause short-lived fumbling here */
+                }
+            exercise(A_DEX, TRUE);
+            return 1;
+        }
+        if (IS_FURNACE(g.maploc->typ)) {
+            if (Levitation)
+                goto dumb;
+            You("kick %s.", (Blind ? something : "the furnace"));
+            if (!rn2(3))
+                goto ouch;
+            /* make flammable boots burn */
+            if (uarmf && rn2(3))
+                if (fire_damage(uarmf, FALSE, u.ux, u.uy)) {
+                    The("furnace scorches your boots.");
                 }
             exercise(A_DEX, TRUE);
             return 1;

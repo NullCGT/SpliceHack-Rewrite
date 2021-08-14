@@ -2607,7 +2607,7 @@ set_mimic_sym(register struct monst *mtmp)
         if (s_sym == MAXOCLASSES) {
             static const int furnsyms[] = {
                 S_upstair, S_upstair, S_dnstair, S_dnstair,
-                S_altar, S_grave, S_throne, S_sink
+                S_altar, S_grave, S_throne, S_sink, S_furnace
             };
 
             ap_type = M_AP_FURNITURE;

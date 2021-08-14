@@ -864,14 +864,14 @@ set_wall_property(xchar x1, xchar y1, xchar x2, xchar y2, int prop)
 }
 
 /*
- * Count the different features (sinks, fountains) in the level.
+ * Count the different features (sinks, fountains, furnaces) in the level.
  */
 static void
 count_features(void)
 {
     xchar x, y;
 
-    g.level.flags.nfountains = g.level.flags.nsinks = g.level.flags.nvents = 0;
+    g.level.flags.nfountains = g.level.flags.nsinks = g.level.flags.nvents = g.level.flags.nfurnaces = 0;
     for (y = 0; y < ROWNO; y++)
         for (x = 0; x < COLNO; x++) {
             int typ = levl[x][y].typ;
@@ -881,6 +881,8 @@ count_features(void)
                 g.level.flags.nsinks++;
             else if (typ == VENT)
                 g.level.flags.nvents++;
+            else if (typ == FURNACE)
+                g.level.flags.nfurnaces++;
         }
 }
 
@@ -4884,9 +4886,9 @@ l_table_getset_feature_flag(
 int
 lspo_feature(lua_State* L)
 {
-    static const char *const features[] = { "fountain", "sink", "pool",
+    static const char *const features[] = { "fountain", "furnace", "sink", "pool",
                                             "throne", "tree", NULL };
-    static const int features2i[] = { FOUNTAIN, SINK, POOL,
+    static const int features2i[] = { FOUNTAIN, FURNACE, SINK, POOL,
                                       THRONE, TREE, STONE };
     xchar x,y;
     int typ;
@@ -4932,6 +4934,9 @@ lspo_feature(lua_State* L)
     case FOUNTAIN:
         l_table_getset_feature_flag(L, x, y, "looted", F_LOOTED);
         l_table_getset_feature_flag(L, x, y, "warned", F_WARNED);
+        break;
+    case FURNACE:
+        typ = FURNACE;
         break;
     case SINK:
         l_table_getset_feature_flag(L, x, y, "pudding", S_LPUDDING);

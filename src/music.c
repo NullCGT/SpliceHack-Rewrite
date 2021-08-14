@@ -294,6 +294,10 @@ do_earthquake(int force, int ox, int oy)
                 if (cansee(x, y))
                     pline_The("kitchen sink falls%s.", into_a_chasm);
                 goto do_pit;
+            case FURNACE:
+                if (cansee(x, y))
+                    pline_The("furnace tumbles%s.", into_a_chasm);
+                goto do_pit;
             case ALTAR:
                 /* always preserve the high altars */
                 if (Is_astralevel(&u.uz) || Is_sanctum(&u.uz))

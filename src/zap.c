@@ -3893,8 +3893,8 @@ bhit(int ddx, int ddy, int range,  /* direction and range */
                 && (is_pool(g.bhitpos.x, g.bhitpos.y)
                     || is_lava(g.bhitpos.x, g.bhitpos.y)))
                 break;
-            if (IS_SINK(typ) && weapon != FLASHED_LIGHT)
-                break; /* physical objects fall onto sink */
+            if ((IS_SINK(typ) || IS_FURNACE(typ)) && weapon != FLASHED_LIGHT)
+                break; /* physical objects fall onto sink / furnace */
         }
         /* limit range of ball so hero won't make an invalid move */
         if (weapon == THROWN_WEAPON && range > 0

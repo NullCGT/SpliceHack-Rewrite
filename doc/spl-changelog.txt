@@ -58,6 +58,13 @@ QOL
 - Wands of wonder now automatically identify themselves when used, and notify the player
   with a message.
 
+Furnaces
+- Furnaces can be used to combine items. While at a furnace, the player can use the #forge command
+  to combine two items into one more powerful item.
+  - Certain artifacts are only obtainable via furnaces:
+    - Frostburn: Deals double damage to all monsters that are not both cold and fire resistant.
+      Created by fusing Frost Brand and Fire Brand.
+
 Skill System
 - Rather than techniques, SpliceHack uses a skill system.
 - In addition to the regular skills offered in NetHack, roles and races provide access to their

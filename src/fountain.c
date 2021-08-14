@@ -11,6 +11,7 @@ static void dowaterdemon(void);
 static void dowaternymph(void);
 static void gush(int, int, genericptr_t);
 static void dofindgem(void);
+static void blowupfurnace(int, int);
 
 /* used when trying to dip in or drink from fountain or sink or pool while
    levitating above it, or when trying to move downwards in that state */
@@ -217,6 +218,41 @@ dryup(xchar x, xchar y, boolean isyou)
         if (isyou && in_town(x, y))
             (void) angry_guards(FALSE);
     }
+}
+
+void
+dipfurnace(obj)
+register struct obj *obj;
+{
+    burn_away_slime();
+    switch(rnd(30)) {
+        case 1:
+        case 2:
+        case 3:
+            bless(obj);
+            break;
+        case 4:
+            if (!Blind)
+                pline("%s flickers with purple light.", Doname2(obj));
+            else
+                pline("%s shudders slightly in your grip.", Doname2(obj));
+            obj->oerodeproof = 1;
+            break;
+        case 5:
+            blowupfurnace(u.ux, u.uy);
+            break;
+        case 6: /* Strange feeling */
+            pline("An unsettling tingling runs up your %s.", body_part(ARM));
+            break;
+        case 7: /* Strange feeling */
+            You_feel("a sudden flare of heat.");
+            break;
+        default:
+            pline("The lava in the furnace bubbles.");
+            break;
+    }
+    lava_damage(obj, u.ux, u.uy);
+    update_inventory();
 }
 
 void
@@ -519,6 +555,156 @@ dipfountain(register struct obj *obj)
     }
     update_inventory();
     dryup(u.ux, u.uy, TRUE);
+}
+
+void
+breakfurnace(x, y)
+int x, y;
+{
+    if (cansee(x, y) || (x == u.ux && y == u.uy))
+        pline_The("furnace breaks apart and spills its contents!");
+    levl[x][y].typ = LAVAPOOL, levl[x][y].flags = 0;
+    newsym(x, y);
+    g.level.flags.nfurnaces--;
+}
+
+void
+blowupfurnace(x, y)
+int x, y;
+{
+    if (cansee(x, y) || (x == u.ux && y == u.uy))
+        pline_The("furnace rumbles, then explodes into smithereens!");
+    levl[x][y].typ = ROOM, levl[x][y].flags = 0;
+    newsym(x, y);
+    g.level.flags.nfurnaces--;
+    explode(u.ux, u.uy, 11, rnd(30), TOOL_CLASS, EXPL_FIERY);
+}
+
+void
+drinkfurnace(void)
+{
+    if (Levitation) {
+        floating_above("furnace");
+        return;
+    }
+    if (!likes_lava(g.youmonst.data)) {
+        pline("Glug glug glug...");
+        /* ugly hack, look away */
+        u.uhp = 0;
+        losehp(1, "trying to drink lava", KILLED_BY);
+        return;
+    }
+    burn_away_slime();
+    switch(rn2(20)) {
+    case 0:
+        pline("You chug some lava. Yum!");
+        u.uhunger += rnd(50);
+        break;
+    case 1:
+        breakfurnace(u.ux, u.uy);
+        break;
+    case 2:
+    case 3:
+        pline_The("%s moves as though of its own will!", hliquid("lava"));
+        if ((g.mvitals[PM_LAVA_DEMON].mvflags & G_GONE)
+            || !makemon(&mons[PM_LAVA_DEMON], u.ux, u.uy, NO_MM_FLAGS))
+            pline("But it settles down.");
+        break;
+    default:
+        pline("You take a sip of the lava.");
+        u.uhunger += rnd(5);
+    }
+}
+
+static const short fusions[][3] = {
+    { IRON_CHAIN, KNIFE, SPIKED_CHAIN },
+    { IRON_CHAIN, DAGGER, SPIKED_CHAIN },
+    { AMULET_OF_REFLECTION, LARGE_SHIELD, SHIELD_OF_REFLECTION },
+    { FLAIL, FLAIL, TRIPLE_FLAIL },
+    { AXE, AXE, BATTLE_AXE },
+    { DENTED_POT, DUNCE_CAP, TINFOIL_HAT },
+    { RIN_HUNGER, RIN_AGGRAVATE_MONSTER, RIN_CONFLICT },
+    { RIN_TELEPORTATION, RIN_POLYMORPH_CONTROL, RIN_TELEPORT_CONTROL },
+    { RIN_POLYMORPH, RIN_TELEPORT_CONTROL, RIN_POLYMORPH_CONTROL },
+    { WAN_OPENING, WAN_LOCKING, WAN_NOTHING },
+    { IRON_CHAIN, BOULDER, HEAVY_IRON_BALL },
+    { C_RATION, K_RATION, FOOD_RATION },
+    { FOOD_RATION, TOOLED_HORN, HORN_OF_PLENTY },
+    { AMULET_OF_ESP, HELMET, HELM_OF_TELEPATHY },
+    { CLUB, RUBBER_HOSE, BASEBALL_BAT },
+    { 0, 0, 0, }
+    /* scale mail + dragon scales = dsm */
+};
+
+int
+doforging(void)
+{
+    struct obj* obj1;
+    struct obj* obj2;
+    boolean combi_done = FALSE;
+    int arti_id = 0;
+    int i;
+    if (!IS_FURNACE(levl[u.ux][u.uy].typ)) {
+        pline("You need a forge in order to forge items.");
+        return 1;
+    }
+    obj1 = getobj("use as a base", any_obj_ok, GETOBJ_PROMPT);
+    obj2 = getobj("combine with the base item", any_obj_ok, GETOBJ_PROMPT);
+    if (obj1 == obj2) {
+        pline("You cannot combine an item with itself!");
+        return 1;
+    }
+    if (!obj1 && !obj2) {
+        pline("You need more than one object.");
+        return 1;
+    }
+    if (obj2->oartifact && !obj1->oartifact) {
+        obj1 = obj2;
+    }
+    /* Artifact fusions. */
+    if (obj1->oartifact && obj2->oartifact) {
+        if (obj1->oartifact == ART_FROST_BRAND && obj2->oartifact == ART_FIRE_BRAND
+            || obj1->oartifact == ART_FIRE_BRAND && obj2->oartifact == ART_FROST_BRAND) {
+            arti_id = ART_FROSTBURN;
+            combi_done = TRUE;
+        }
+        if (combi_done) {
+            obj1->oartifact = 0;
+            obj1 = oname(obj1, artiname(arti_id));
+            pline("You create %s!", an(xname(obj1)));
+            livelog_printf(LL_DIVINEGIFT,
+                        "used a forge to create %s", an(xname(obj1)));
+            update_inventory();
+        } else {
+            pline("The artifact refuses to be combined.");
+            return 1;
+        }
+    }
+    /* Mundane item fusions */
+    if (!combi_done) {
+        for (int i = 0; fusions[i][0] > 0; i++) {
+            if ((obj1->otyp == fusions[i][0] && obj2->otyp == fusions[i][1]) ||
+                (obj2->otyp == fusions[i][0] && obj1->otyp == fusions[i][1])) {
+                obj1->otyp = fusions[i][2];
+                break;
+            }
+        }
+    }
+    /* Take on the secondary object's material. */
+    if (valid_obj_material(obj1, obj2->material)) obj1->material = obj2->material;
+    /* Use whichever enchantment is higher. */
+    if (obj2->spe > obj1->spe) obj1->spe = min(obj2->spe, 10);
+    /* Keep curses around. */
+    if (obj2->cursed) obj1->cursed = TRUE;
+    useup(obj2);
+    /* Print a message. */
+    if (!combi_done) pline("You combine the items in the furnace.");
+    /* Destroy the furnace. */
+    pline("The lava in the furnace cools.");
+    levl[u.ux][u.uy].typ = ROOM;
+    newsym(u.ux, u.uy);
+    g.level.flags.nfurnaces--;
+    return 0;
 }
 
 void

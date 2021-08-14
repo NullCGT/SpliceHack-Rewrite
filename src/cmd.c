@@ -1334,6 +1334,9 @@ wiz_map_levltyp(void)
         if (g.level.flags.nsinks)
             Sprintf(eos(dsc), " %c:%d", defsyms[S_sink].sym,
                     (int) g.level.flags.nsinks);
+        if (g.level.flags.nfurnaces)
+            Sprintf(eos(dsc), " %c:%d", defsyms[S_furnace].sym,
+                    (int) g.level.flags.nfurnaces);
         /* if (g.level.flags.nvents)
             Sprintf(eos(dsc), " %c:%d", defsyms[S_vent].sym,
                     (int) g.level.flags.nvents); */
@@ -1435,7 +1438,7 @@ const char *levltyp[] = {
     "tee-left wall", "tee-right wall", "drawbridge wall", "tree",
     "secret door", "secret corridor", "pool", "moat", "water",
     "drawbridge up", "lava pool", "iron bars", "door", "corridor", "room",
-    "stairs", "ladder", "fountain", "vent", "throne", "sink", "grave", "altar", "ice",
+    "stairs", "ladder", "fountain", "vent", "throne", "sink", "furnace", "grave", "altar", "ice",
     "drawbridge down", "air", "cloud",
     /* not a real terrain type, but used for undiggable stone
        by wiz_map_levltyp() */
@@ -1853,6 +1856,7 @@ struct ext_func_tab extcmdlist[] = {
               dofire, 0, NULL },
     { M('f'), "force", "force a lock",
               doforce, AUTOCOMPLETE, NULL },
+    { M('F'), "forge", "combine items", doforging, AUTOCOMPLETE },
     { ';',    "glance", "show what type of thing a map symbol corresponds to",
               doquickwhatis, IFBURIED | GENERALCMD, NULL },
     { '?',    "help", "give a help message",
@@ -4161,14 +4165,21 @@ here_cmd_menu(boolean doit)
     win = create_nhwindow(NHW_MENU);
     start_menu(win, MENU_BEHAVE_STANDARD);
 
-    if (IS_FOUNTAIN(typ) || IS_SINK(typ)) {
+    if (IS_FOUNTAIN(typ) || IS_SINK(typ) || IS_FURNACE(typ)) {
         Sprintf(buf, "Drink from the %s",
-                defsyms[IS_FOUNTAIN(typ) ? S_fountain : S_sink].explanation);
+                defsyms[IS_FOUNTAIN(typ) ? S_fountain : IS_FURNACE(typ) ? S_furnace : S_sink].explanation);
         add_herecmd_menuitem(win, dodrink, buf);
     }
-    if (IS_FOUNTAIN(typ))
-        add_herecmd_menuitem(win, dodip,
-                             "Dip something into the fountain");
+    if (IS_FOUNTAIN(typ) || IS_FURNACE(typ)) {
+        Sprintf(buf, "Dip something into the %s",
+                defsyms[IS_FOUNTAIN(typ) ? S_fountain : S_furnace].explanation);
+        add_herecmd_menuitem(win, dodip, buf);
+    }
+    if (IS_FURNACE(typ)) {
+        Sprintf(buf, "Combine items in the %s",
+                defsyms[S_furnace].explanation);
+        add_herecmd_menuitem(win, doforging, buf);
+    }
     if (IS_THRONE(typ))
         add_herecmd_menuitem(win, dosit,
                              "Sit on the throne");
@@ -4294,6 +4305,9 @@ click_to_cmd(int x, int y, int mod)
             if (IS_FOUNTAIN(levl[u.ux][u.uy].typ)
                 || IS_SINK(levl[u.ux][u.uy].typ)) {
                 cmd[0] = cmd_from_func(mod == CLICK_1 ? dodrink : dodip);
+                return cmd;
+            } else if (IS_FURNACE(levl[u.ux][u.uy].typ)) {
+                cmd[0] = cmd_from_func(mod == CLICK_1 ? doforging : dodip);
                 return cmd;
             } else if (IS_THRONE(levl[u.ux][u.uy].typ)) {
                 cmd[0] = cmd_from_func(dosit);

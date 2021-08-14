@@ -824,6 +824,8 @@ spec_applies(const struct artifact *weap, struct monst *mtmp)
             return !(yours ? Free_action : FALSE);
         case AD_PSYC:
             return !(yours ? Psychic_resistance : resists_psychic(mtmp));
+        case AD_DGST:
+            return !(yours ? (Fire_resistance && Cold_resistance) : (resists_fire(mtmp) && resists_cold(mtmp)));
         default:
             impossible("Weird weapon special attack.");
         }
@@ -1230,6 +1232,26 @@ artifact_hit(struct monst *magr, struct monst *mdef, struct obj *otmp,
         }
         if (!rn2(4))
             (void) destroy_mitem(mdef, POTION_CLASS, AD_COLD);
+        return realizes_damage;
+    }
+    if (attacks(AD_DGST, otmp)) {
+        if (realizes_damage) {
+            pline_The("steaming blade %s %s%c",
+                        !g.spec_dbon_applies ? "hits" : (rn2(2) ? "parboils" : "flash freezes" ), hittee,
+                        !g.spec_dbon_applies ? '.' : '!');
+        }
+        if (!rn2(4))
+            (void) destroy_mitem(mdef, POTION_CLASS, AD_COLD);
+        if (!rn2(4))
+            (void) destroy_mitem(mdef, POTION_CLASS, AD_FIRE);
+        if (!rn2(4))
+            (void) destroy_mitem(mdef, SCROLL_CLASS, AD_FIRE);
+        if (!rn2(7))
+            (void) destroy_mitem(mdef, SPBOOK_CLASS, AD_FIRE);
+        if (!rn2(4))
+            ignite_items(mdef->minvent);
+        if (youdefend && Slimed)
+            burn_away_slime();
         return realizes_damage;
     }
     if (attacks(AD_ACID, otmp)) {

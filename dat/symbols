@@ -194,7 +194,7 @@ start: Blank
         S_explode9: \032
         S_eye: \032
         S_falling_rock_trap: \032
-				S_furnace: \032
+		S_furnace: \032
         S_feline: \032
         S_fire_trap: \032
         S_flashbeam: \032

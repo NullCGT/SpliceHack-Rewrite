@@ -856,9 +856,13 @@ extern void floating_above(const char *);
 extern void dogushforth(int);
 extern void dryup(xchar, xchar, boolean);
 extern void drinkfountain(void);
+extern int doforging(void);
 extern void dipfountain(struct obj *);
+extern void breakfurnace(int, int);
 extern void breaksink(int, int);
 extern void drinksink(void);
+extern void drinkfurnace(void);
+extern void dipfurnace(struct obj *);
 
 /* ### hack.c ### */
 

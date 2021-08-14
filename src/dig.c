@@ -496,6 +496,8 @@ furniture_handled(int x, int y, boolean madeby_u)
         dryup(x, y, madeby_u);
     } else if (IS_SINK(lev->typ)) {
         breaksink(x, y);
+    } else if (IS_FURNACE(lev->typ)) {
+        breakfurnace(x, y);
     } else if (lev->typ == DRAWBRIDGE_DOWN
                || (is_drawbridge_wall(x, y) >= 0)) {
         int bx = x, by = y;
@@ -1652,6 +1654,9 @@ adj_pit_checks(coord *cc, char *msg)
 #endif
     } else if (IS_SINK(ltyp)) {
         Strcpy(msg, "A tangled mass of plumbing remains below the sink.");
+        return FALSE;
+    } else if (IS_FURNACE(ltyp)) {
+        Strcpy(msg, "A piping hot pipe remains below the furnace.");
         return FALSE;
     } else if (IS_VENT(ltyp)) {
         Strcpy(msg, "The vent remains intact.");

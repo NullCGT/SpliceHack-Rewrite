@@ -3143,6 +3143,12 @@ wizterrainwish(struct _readobjnam_data *d)
         lev->blessedftn = !strncmpi(bp, "magic ", 6);
         pline("A %sfountain.", lev->blessedftn ? "magic " : "");
         madeterrain = TRUE;
+    } else if (!BSTRCMPI(bp, p - 7, "furnace")) {
+        lev->typ = FURNACE;
+        g.level.flags.nfurnaces++;
+        lev->looted = 0; /* overlays 'flags' */
+        pline("A furnace.");
+        madeterrain = TRUE;
     } else if (!BSTRCMPI(bp, p - 6, "throne")) {
         lev->typ = THRONE;
         lev->looted = d->looted ? T_LOOTED : 0; /* overlays 'flags' */

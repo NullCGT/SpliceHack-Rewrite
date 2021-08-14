@@ -616,6 +616,25 @@ Z = (195, 195, 195)
   ................
   ................
 }
+# tile 31 (furnace)
+{
+ ................
+ ................
+ ..PPPPPPPPPPPPA.
+ ..PJKDPDDDCKJPA.
+ ..PDKDP.DDCJKPA.
+ ..PPPP...DCJDPA.
+ ..PDDDD.DDDKKPA.
+ ..PCDDDDDDDDDPA.
+ ..PDJDCDDDDCDPA.
+ ..PDDDDDDDCJKPA.
+ ..PDDDDDDDDKDPA.
+ ..PDCCDDDDDDDPA.
+ ..PCJJKDDDDDDPA.
+ ..PPPPPPPPPPPPA.
+ ..AAAAAAAAAAAAA.
+ ................
+}
 # tile 31 (fountain)
 {
   ....E....E......

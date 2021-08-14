@@ -387,6 +387,7 @@ const struct symparse loadsyms[] = {
     { SYM_PCHAR, S_grave, "S_grave" },
     { SYM_PCHAR, S_throne, "S_throne" },
     { SYM_PCHAR, S_sink, "S_sink" },
+    { SYM_PCHAR, S_furnace, "S_furnace" },
     { SYM_PCHAR, S_fountain, "S_fountain" },
     { SYM_PCHAR, S_vent, "S_vent" },
     { SYM_PCHAR, S_pool, "S_pool" },

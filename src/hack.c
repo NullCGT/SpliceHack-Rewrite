@@ -2869,6 +2869,8 @@ pickup_checks(void)
             pline("It must weigh%s a ton!", lev->looted ? " almost" : "");
         else if (IS_SINK(lev->typ))
             pline_The("plumbing connects it to the floor.");
+        else if (IS_FURNACE(lev->typ))
+            pline_The("furnace is far too heavy to move.");
         else if (IS_GRAVE(lev->typ))
             You("don't need a gravestone.  Yet.");
         else if (IS_FOUNTAIN(lev->typ))

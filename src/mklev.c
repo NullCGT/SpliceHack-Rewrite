@@ -13,6 +13,7 @@ static boolean generate_stairs_room_good(struct mkroom *, int);
 static struct mkroom *generate_stairs_find_room(void);
 static void generate_stairs(void);
 static void mkfount(int, struct mkroom *);
+static void mkfurnace(struct mkroom *);
 static void mkvent(int, struct mkroom *);
 static boolean find_okay_roompos(struct mkroom *, coord *);
 static void mksink(struct mkroom *);
@@ -751,6 +752,7 @@ clear_level_structures(void)
     g.level.flags.nfountains = 0;
     g.level.flags.nvents = 0;
     g.level.flags.nsinks = 0;
+    g.level.flags.nfurnaces = 0;
     g.level.flags.has_shop = 0;
     g.level.flags.has_vault = 0;
     g.level.flags.has_zoo = 0;
@@ -852,6 +854,8 @@ fill_ordinary_room(struct mkroom *croom)
         mksink(croom);
     if (!rn2(60))
         mkaltar(croom);
+    if (!rn2(70))
+        mkfurnace(croom);
     x = 80 - (depth(&u.uz) * 2);
     if (x < 2)
         x = 2;
@@ -1824,6 +1828,26 @@ mkvent(int mazeflag, struct mkroom *croom)
         levl[m.x][m.y].poisonvnt = 1;
     (void) start_timer((long) rnd(10), TIMER_LEVEL, FIXTURE_ACTIVATE,
                            long_to_any(((long) m.x << 16) | (long) m.y));
+}
+
+static void
+mkfurnace(croom)
+struct mkroom *croom;
+{
+    coord m;
+    register int tryct = 0;
+
+    do {
+        if (++tryct > 200)
+            return;
+        if (!somexy(croom, &m))
+            return;
+    } while (occupied(m.x, m.y) || bydoor(m.x, m.y));
+
+    /* Put a furnace at m.x, m.y */
+    levl[m.x][m.y].typ = FURNACE;
+
+    g.level.flags.nfurnaces++;
 }
 
 static boolean

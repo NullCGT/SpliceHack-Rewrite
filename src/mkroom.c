@@ -1029,6 +1029,9 @@ cmap_to_type(int sym)
     case S_sink:
         typ = SINK;
         break;
+    case S_furnace:
+        typ = FURNACE;
+        break;
     case S_fountain:
         typ = FOUNTAIN;
         break;

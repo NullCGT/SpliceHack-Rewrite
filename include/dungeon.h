@@ -196,6 +196,7 @@ typedef struct mapseen {
         /* feature knowledge that must be calculated from levl array */
         Bitfield(nfount, 2);
         Bitfield(nsink, 2);
+        Bitfield(nfurnace, 2);
         Bitfield(naltar, 2);
         Bitfield(nthrone, 2);
 

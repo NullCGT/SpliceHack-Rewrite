@@ -145,6 +145,15 @@ dosit(void)
         You(sit_message, "ladder");
     } else if (typ == VENT) {
         You(sit_message, "grate");
+    } else if (IS_FURNACE(typ)) {
+        You(sit_message, defsyms[S_furnace].explanation);
+        burn_away_slime();
+        if (likes_fire(g.youmonst.data) || Fire_resistance) {
+            pline_The("furnace feels nice and warm.");
+            return 1;
+        }
+        pline("Ouch! The furnace is hot!");
+        losehp(d(1,10), "sitting on a furnace", KILLED_BY);
     } else if (is_lava(u.ux, u.uy)) {
         /* must be WWalking */
         You(sit_message, hliquid("lava"));
