@@ -125,7 +125,7 @@ enum ms_sounds {
 #endif
 
 #define M2_NOPOLY       0x00000001L /* players mayn't poly into one */
-#define M2_UNDEAD       0x00000002L /* UNUSED */
+#define M2_JUMPER       0x00000002L /* UNUSED */
 #define M2_WERE         0x00000004L /* UNUSED */
 #define M2_HUMAN        0x00000008L /* UNUSED */
 #define M2_ELF          0x00000010L /* UNUSED */
@@ -177,7 +177,6 @@ enum ms_sounds {
 #define M3_INFRAVISIBLE 0x0200 /* visible by infravision */
 
 #define M3_DISPLACES    0x0400 /* moves monsters out of its way */
-#define M3_JUMPER       0x0800 /* can jump */ 
 
 #define MZ_TINY         0 /* < 2' */
 #define MZ_SMALL        1 /* 2-4' */

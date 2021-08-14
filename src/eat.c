@@ -82,6 +82,10 @@ is_edible(register struct obj *obj)
         && (g.youmonst.data != &mons[PM_RUST_MONSTER] || is_rustprone(obj)))
         return TRUE;
 
+    /* Koalas only eat Eucalyptus leaves */
+	if (u.umonnum == PM_KOALA)
+		return (boolean)(obj->otyp == EUCALYPTUS_LEAF);
+
     /* Ghouls only eat non-veggy corpses or eggs (see dogfood()) */
     if (u.umonnum == PM_GHOUL)
         return (boolean)((obj->otyp == CORPSE

@@ -700,6 +700,8 @@ domonability(void)
         return dohide();
     else if (is_mind_flayer(g.youmonst.data))
         return domindblast();
+    else if (is_jumper(g.youmonst.data))
+        return dojump();
     else if (u.umonnum == PM_GREMLIN) {
         if (IS_FOUNTAIN(levl[u.ux][u.uy].typ)) {
             if (split_mon(&g.youmonst, (struct monst *) 0))

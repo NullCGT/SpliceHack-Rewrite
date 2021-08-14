@@ -33,6 +33,7 @@ extern int doapply(void);
 extern int dorub(void);
 extern int dojump(void);
 extern int jump(int);
+boolean check_mon_jump(struct monst *, int, int);
 extern int number_leashed(void);
 extern void o_unleash(struct obj *);
 extern void m_unleash(struct monst *, boolean);
@@ -2609,6 +2610,7 @@ extern int mlevel_tele_trap(struct monst *, struct trap *, boolean, int);
 extern boolean rloco(struct obj *);
 extern int random_teleport_level(void);
 extern boolean u_teleport_mon(struct monst *, boolean);
+boolean rloc_pos_ok(int, int, struct monst *);
 
 /* ### tile.c ### */
 

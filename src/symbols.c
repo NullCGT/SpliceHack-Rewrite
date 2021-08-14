@@ -501,6 +501,7 @@ const struct symparse loadsyms[] = {
     { SYM_MON, S_WORM + SYM_OFF_M, "S_worm" },
     { SYM_MON, S_XAN + SYM_OFF_M, "S_xan" },
     { SYM_MON, S_LIGHT + SYM_OFF_M, "S_light" },
+    { SYM_MON, S_ZOUTHERN + SYM_OFF_M, "S_zouthern" },
     { SYM_MON, S_ANGEL + SYM_OFF_M, "S_angel" },
     { SYM_MON, S_BAT + SYM_OFF_M, "S_bat" },
     { SYM_MON, S_CENTAUR + SYM_OFF_M, "S_centaur" },

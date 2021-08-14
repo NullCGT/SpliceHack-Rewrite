@@ -829,6 +829,8 @@ polymon(int mntmp)
             pline(use_thec, monsterc, "use your horn");
         if (is_mind_flayer(g.youmonst.data))
             pline(use_thec, monsterc, "emit a mental blast");
+        if (is_jumper(g.youmonst.data))
+            pline(use_thec, monsterc, "jump");
         if (g.youmonst.data->msound == MS_SHRIEK) /* worthless, actually */
             pline(use_thec, monsterc, "shriek");
         if (is_vampire(g.youmonst.data) || is_vampshifter(&g.youmonst))

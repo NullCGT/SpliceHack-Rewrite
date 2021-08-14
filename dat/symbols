@@ -323,6 +323,7 @@ start: Blank
         S_xorn: \032
         S_yeti: \032
         S_zombie: \032
+		S_zouthern: \032
 finish
 
 start: IBMgraphics

@@ -91,7 +91,8 @@
                         (ptr) == &mons[PM_TENGU] || \
                         (ptr) == &mons[PM_VROCK])
 #define is_whirly(ptr) \
-    ((ptr)->mlet == S_VORTEX || (ptr) == &mons[PM_AIR_ELEMENTAL])
+    ((ptr)->mlet == S_VORTEX || (ptr) == &mons[PM_AIR_ELEMENTAL] || \
+      (ptr) == &mons[PM_TASMANIAN_DEVIL])
 #define flaming(ptr)                                                     \
     ((ptr) == &mons[PM_FIRE_VORTEX] || (ptr) == &mons[PM_FLAMING_SPHERE] \
      || (ptr) == &mons[PM_FIRE_ELEMENTAL] || (ptr) == &mons[PM_SALAMANDER])
@@ -156,7 +157,11 @@
                  (ptr) == &mons[PM_RAT_RULER] || \
 				 (ptr) == &mons[PM_RODENT_OF_UNUSUAL_SIZE])
 #define is_giant(ptr) (((ptr)->mhflags & MH_GIANT) != 0L)
+#define is_marsupial(ptr) ((ptr) == &mons[PM_WALLABY] || \
+                          (ptr) == &mons[PM_WALLAROO] || \
+                          (ptr) == &mons[PM_KANGAROO])
 #define is_golem(ptr) ((ptr)->mlet == S_GOLEM)
+#define is_jumper(ptr) (((ptr)->mflags2 & M2_JUMPER) != 0L)
 #define is_domestic(ptr) ((((ptr)->mflags2 & M2_DOMESTIC) != 0L) \
      || (Role_if(PM_DRAGON_RIDER) && (((ptr) >= &mons[PM_BABY_GRAY_DRAGON] && \
                              (ptr) <= &mons[PM_YELLOW_DRAGON]))))
@@ -215,7 +220,6 @@
 #define is_covetous(ptr) (((ptr)->mflags3 & M3_COVETOUS))
 #define infravision(ptr) (((ptr)->mflags3 & M3_INFRAVISION))
 #define infravisible(ptr) (((ptr)->mflags3 & M3_INFRAVISIBLE))
-#define is_jumper(ptr) (((ptr)->mflags3 & M3_JUMPER) != 0L)
 #define is_displacer(ptr) (((ptr)->mflags3 & M3_DISPLACES) != 0L)
 #define is_displaced(ptr) ((ptr) == &mons[PM_SHIMMERING_DRAGON] || \
     (ptr) == &mons[PM_BABY_SHIMMERING_DRAGON] || \
@@ -334,6 +338,7 @@
 /* instantly eats any organic object it comes into contact with */
 #define is_bigeater(ptr) \
     ((ptr) == &mons[PM_GELATINOUS_CUBE] \
+     || (ptr) == &mons[PM_TASMANIAN_DEVIL] \
      || (ptr) == &mons[PM_LOCUST])
 
 #define is_bones_monster(ptr) ((ptr) == &mons[PM_GHOST] || (ptr) == &mons[PM_GHOUL]        \

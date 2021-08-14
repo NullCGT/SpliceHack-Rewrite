@@ -8,7 +8,6 @@
 static boolean tele_jump_ok(int, int, int, int);
 static boolean teleok(int, int, boolean);
 static void vault_tele(void);
-static boolean rloc_pos_ok(int, int, struct monst *);
 static void mvault_tele(struct monst *);
 
 /* teleporting is prevented on this level for this monster? */
@@ -1133,7 +1132,7 @@ level_tele_trap(struct trap* trap, unsigned int trflags)
 }
 
 /* check whether monster can arrive at location <x,y> via Tport (or fall) */
-static boolean
+boolean
 rloc_pos_ok(
     register int x, 
     register int y, /* x,y - coordinates of candidate location */

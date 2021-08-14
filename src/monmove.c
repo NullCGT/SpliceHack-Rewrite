@@ -950,7 +950,7 @@ m_move(register struct monst* mtmp, register int after)
     boolean likegold = 0, likegems = 0, likeobjs = 0, likemagic = 0,
             conceals = 0;
     boolean likerock = 0, can_tunnel = 0;
-    boolean can_open = 0, can_unlock = 0 /*, doorbuster = 0 */;
+    boolean can_open = 0, can_unlock = 0, doorbuster = 0;
     boolean uses_items = 0, setlikes = 0;
     boolean avoid = FALSE;
     boolean better_with_displacing = FALSE;
@@ -992,10 +992,10 @@ m_move(register struct monst* mtmp, register int after)
 
     if (!Is_rogue_level(&u.uz))
         can_tunnel = tunnels(ptr);
-    can_open = !(nohands(ptr) || verysmall(ptr));
+    can_open = !(nohands(ptr) || verysmall(ptr) || is_marsupial(ptr));
     can_unlock = ((can_open && monhaskey(mtmp, TRUE))
                   || mtmp->iswiz || is_rider(ptr));
-    /* doorbuster = is_giant(ptr); */
+    doorbuster = is_giant(ptr) || is_marsupial(ptr);
     if (mtmp->wormno)
         goto not_special;
     /* my dog gets special treatment */
@@ -1062,6 +1062,31 @@ m_move(register struct monst* mtmp, register int after)
         return 2;
     }
 #endif
+
+    /* jump toward the player if that lies in our nature */
+    if (is_jumper(ptr) && !has_erid(mtmp)) {
+        int dist = dist2(mtmp->mx, mtmp->my, u.ux, u.uy);
+        if (!mtmp->mpeaceful && !rn2(3) && dist <= 20 && dist > 8) {
+            int x = u.ux - mtmp->mx;
+            int y = u.uy - mtmp->my;
+            if (x < 0)
+                x = 1;
+            else if (x > 0)
+                x = -1;
+            if (y < 0)
+                y = 1;
+            else if (y > 0)
+                y = -1;
+            if (rloc_pos_ok(u.ux + x, u.uy + y, mtmp)
+                && check_mon_jump(mtmp, u.ux + x, u.uy + y)) {
+                rloc_to(mtmp, u.ux + x, u.uy + y);
+                if (canseemon(mtmp))
+                    pline("%s leaps at you!", Monnam(mtmp));
+                mmoved = 1;
+                goto postmov;
+            }
+        }
+    }
 
     /* teleport if that lies in our nature */
     if (ptr == &mons[PM_TENGU] && !rn2(5) && !mtmp->mcan
@@ -1525,10 +1550,14 @@ m_move(register struct monst* mtmp, register int after)
                             return 2;
                     } else {
                         if (flags.verbose) {
-                            if (canseeit && canspotmon(mtmp))
-                                pline("%s smashes down a door.",
-                                      Monnam(mtmp));
-                            else if (canseeit)
+                            if (canseeit && canspotmon(mtmp)) {
+                                if (is_marsupial(ptr))
+                                    pline("%s kicks down a door.",
+                                          Monnam(mtmp));
+                                else
+                                    pline("%s smashes down a door.",
+                                          Monnam(mtmp));
+                            } else if (canseeit)
                                 You_see("a door crash open.");
                             else if (!Deaf)
                                 You_hear("a door crash open.");

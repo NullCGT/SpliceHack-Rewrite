@@ -556,7 +556,8 @@ mattacku(register struct monst *mtmp)
             set_apparxy(mtmp);
             newsym(u.ux, u.uy);
 
-            if (g.youmonst.data->mlet != S_PIERCER)
+            if (g.youmonst.data->mlet != S_PIERCER
+                  && g.youmonst.data != &mons[PM_DROP_BEAR])
                 return 0; /* lurkers don't attack */
 
             obj = which_armor(mtmp, WORN_HELMET);

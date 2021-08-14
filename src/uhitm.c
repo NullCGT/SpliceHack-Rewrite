@@ -3429,6 +3429,47 @@ mhitm_ad_halu(struct monst *magr, struct attack *mattk UNUSED,
 }
 
 void
+mhitm_ad_calm(magr, mattk, mdef, mhm)
+struct monst *magr;
+struct attack *mattk;
+struct monst *mdef;
+struct mhitm_data *mhm;
+{
+    if (magr == &g.youmonst) {
+        /* uhitm */
+        if (!mdef->iswiz && mdef->data != &mons[PM_MEDUSA] &&
+            !(mdef->data->mflags3 & M3_COVETOUS) &&
+            !(mdef->data->geno & G_UNIQ) &&
+              mdef->mtame) {
+              if (canseemon(mdef)) pline("%s looks calmer.", Monnam(mdef));
+              mdef->mpeaceful = 1;
+              mdef->mtame = 0;
+              mhm->damage = 0;
+        }
+        if (mhm->done)
+            return;
+    } else if (mdef == &g.youmonst) {
+        /* mhitu */
+       hitmsg(magr, mattk);
+        You_feel("much calmer.");
+        return;
+    } else {
+        /* mhitm */
+        if (!mdef->iswiz && mdef->data != &mons[PM_MEDUSA] &&
+            !(mdef->data->mflags3 & M3_COVETOUS) &&
+            !(mdef->data->geno & G_UNIQ) &&
+            (magr->mtame || mdef->mtame)) {
+              if (g.vis) pline("%s looks calmer.", Monnam(mdef));
+              mdef->mpeaceful = 1;
+              mdef->mtame = 0;
+              mhm->damage = 0;
+        }
+        if (mhm->done)
+            return;
+    }
+}
+
+void
 mhitm_ad_larv(magr, mattk, mdef, mhm)
 struct monst *magr;
 struct attack *mattk;
@@ -4412,6 +4453,7 @@ mhitm_adtyping(struct monst *magr, struct attack *mattk, struct monst *mdef,
     case AD_DGST: mhitm_ad_dgst(magr, mattk, mdef, mhm); break;
     case AD_HALU: mhitm_ad_halu(magr, mattk, mdef, mhm); break;
     /* Todo */
+    case AD_CALM: mhitm_ad_calm(magr, mattk, mdef, mhm); break;
     case AD_LARV: mhitm_ad_larv(magr, mattk, mdef, mhm); break;
     case AD_HNGY:  mhitm_ad_hngy(magr, mattk, mdef, mhm); break;
     case AD_WTHR: mhitm_ad_wthr(magr, mattk, mdef, mhm); break;

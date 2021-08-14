@@ -74,6 +74,7 @@ const struct class_sym def_monsyms[MAXMCLASSES] = {
     { DEF_WORM, "", "worm" },
     { DEF_XAN, "", "fantastic insect" },
     { DEF_LIGHT, "", "light" },
+    { DEF_ZOUTHERN, "", "zouthern animal" },
     { DEF_ANGEL, "", "angelic being" },
     { DEF_BAT, "", "bat or bird" },
     { DEF_CENTAUR, "", "centaur" },

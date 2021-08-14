@@ -37,44 +37,45 @@ enum mon_class_types {
     S_WORM       = 23, /* w */
     S_XAN        = 24, /* x */
     S_LIGHT      = 25, /* y: yellow light, black light */
-    S_ANGEL      = 26, /* A */
-    S_BAT        = 27, /* B */
-    S_CENTAUR    = 28, /* C */
-    S_DRAGON     = 29, /* D */
-    S_ELEMENTAL  = 30, /* E: includes invisible stalker */
-    S_FUNGUS     = 31, /* F */
-    S_GNOME      = 32, /* G */
-    S_GNOLL      = 33, /* 9 */
-    S_GIANT      = 34, /* H: large humanoid: giant, ettin, minotaur */
-    S_invisible  = 35, /* I: non-class present in def_monsyms[] */
-    S_JABBERWOCK = 36, /* J */
-    S_KOP        = 37, /* K */
-    S_LICH       = 38, /* L */
-    S_MUMMY      = 39, /* M */
-    S_NAGA       = 40, /* N */
-    S_OGRE       = 41, /* O */
-    S_PUDDING    = 42, /* P */
-    S_QUANTMECH  = 43, /* Q */
-    S_RUSTMONST  = 44, /* R */
-    S_SNAKE      = 45, /* S */
-    S_TROLL      = 46, /* T */
-    S_UMBER      = 47, /* U: umber hulk */
-    S_VAMPIRE    = 48, /* V */
-    S_WRAITH     = 49, /* W */
-    S_XORN       = 50, /* X */
-    S_YETI       = 51, /* Y: includes owlbear, monkey */
-    S_ZOMBIE     = 52, /* Z */
-    S_HUMAN      = 53, /* @ */
-    S_GHOST      = 54, /* <space> */
-    S_GOLEM      = 55, /* ' */
-    S_DEMON      = 56, /* & */
-    S_EEL        = 57, /* ; (fish) */
-    S_LIZARD     = 58, /* : (reptiles) */
+    S_ZOUTHERN   = 26, /* z */
+    S_ANGEL      = 27, /* A */
+    S_BAT        = 28, /* B */
+    S_CENTAUR    = 29, /* C */
+    S_DRAGON     = 30, /* D */
+    S_ELEMENTAL  = 31, /* E: includes invisible stalker */
+    S_FUNGUS     = 32, /* F */
+    S_GNOME      = 33, /* G */
+    S_GNOLL      = 34, /* 9 */
+    S_GIANT      = 35, /* H: large humanoid: giant, ettin, minotaur */
+    S_invisible  = 36, /* I: non-class present in def_monsyms[] */
+    S_JABBERWOCK = 37, /* J */
+    S_KOP        = 38, /* K */
+    S_LICH       = 39, /* L */
+    S_MUMMY      = 40, /* M */
+    S_NAGA       = 41, /* N */
+    S_OGRE       = 42, /* O */
+    S_PUDDING    = 43, /* P */
+    S_QUANTMECH  = 44, /* Q */
+    S_RUSTMONST  = 45, /* R */
+    S_SNAKE      = 46, /* S */
+    S_TROLL      = 47, /* T */
+    S_UMBER      = 48, /* U: umber hulk */
+    S_VAMPIRE    = 49, /* V */
+    S_WRAITH     = 50, /* W */
+    S_XORN       = 51, /* X */
+    S_YETI       = 52, /* Y: includes owlbear, monkey */
+    S_ZOMBIE     = 53, /* Z */
+    S_HUMAN      = 54, /* @ */
+    S_GHOST      = 55, /* <space> */
+    S_GOLEM      = 56, /* ' */
+    S_DEMON      = 57, /* & */
+    S_EEL        = 58, /* ; (fish) */
+    S_LIZARD     = 59, /* : (reptiles) */
 
-    S_WORM_TAIL  = 59, /* ~ */
-    S_MIMIC_DEF  = 60, /* ] */
+    S_WORM_TAIL  = 60, /* ~ */
+    S_MIMIC_DEF  = 61, /* ] */
 
-    MAXMCLASSES  = 61  /* number of monster classes */
+    MAXMCLASSES  = 62  /* number of monster classes */
 };
 
 /*
@@ -107,6 +108,7 @@ enum mon_class_types {
 #define DEF_WORM        'w'
 #define DEF_XAN         'x'
 #define DEF_LIGHT       'y'
+#define DEF_ZOUTHERN    'z'
 #define DEF_ANGEL       'A'
 #define DEF_BAT         'B'
 #define DEF_CENTAUR     'C'

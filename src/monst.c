@@ -1143,6 +1143,63 @@ NEARDATA struct permonst mons_init[] = {
         M1_FLY | M1_BREATHLESS | M1_AMORPHOUS | M1_NOEYES | M1_NOLIMBS
             | M1_NOHEAD | M1_MINDLESS | M1_UNSOLID | M1_SEE_INVIS | M1_NOTAKE,
         M2_HOSTILE | M2_NEUTER, 0, 7, CLR_BLACK),
+    /* "Zouthern" animals, originally from SLASH'EM. A few of these have been
+        nerfed in order to fit the balance of vanilla. */
+    MON("echidna", S_ZOUTHERN, LVL(2, 6, 9, 0, 0), (G_NOHELL | G_GENO | 1),
+        A(ATTK(AT_CLAW, AD_PHYS, 1, 2), ATTK(AT_CLAW, AD_PHYS, 1, 2),
+          NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(15, 10, MS_SILENT, MZ_TINY), 0, 0,
+        M1_ANIMAL | M1_NOHANDS | M1_CARNIVORE | M1_OVIPAROUS | M1_THICK_HIDE,
+        M2_WANDER, 0, 3, CLR_BROWN),
+    MON("platypus", S_ZOUTHERN, LVL(4, 8, 8, 0, 0), (G_NOHELL | G_GENO | 1),
+      A(ATTK(AT_CLAW, AD_PHYS, 1, 4), ATTK(AT_KICK, AD_DRST, 1, 4),
+        NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK), SIZ(20, 12, MS_SILENT, MZ_TINY),
+        0, 0, M1_ANIMAL | M1_NOHANDS | M1_CARNIVORE | M1_OVIPAROUS |
+        M1_SWIM | M1_THICK_HIDE, M2_WANDER, 0, 6, CLR_GREEN),
+    /* IRC YANI */
+    MON("drop bear", S_ZOUTHERN, LVL(4, 9, 7, 0, 0), (G_NOHELL | G_GENO | 1),
+        A(ATTK(AT_CLAW, AD_PHYS, 1, 2), ATTK(AT_CLAW, AD_PHYS, 1, 2),
+          NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(400, 100, MS_SQEEK, MZ_LARGE), 0, 0,
+        M1_ANIMAL | M1_CLING | M1_HIDE | M1_NOHANDS | M1_OMNIVORE,
+        0, M3_INFRAVISIBLE, 5, CLR_YELLOW),
+    MON("koala", S_ZOUTHERN, LVL(7, 4, 9, 10, 0), (G_NOHELL | G_GENO | 2),
+    	A(ATTK(AT_TUCH, AD_CALM, 0, 0),
+    	  NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+    	SIZ(150, 50, MS_SQEEK, MZ_SMALL), MR_POISON, 0,
+    	M1_ANIMAL | M1_HERBIVORE | M1_SEE_INVIS, M2_DOMESTIC, 0, 8, CLR_GRAY),
+    MON("wombat", S_ZOUTHERN, LVL(5, 12, 5, 0, 0), (G_NOHELL | G_GENO | 1),
+    	A(ATTK(AT_KICK, AD_PHYS, 1, 6), ATTK(AT_BITE, AD_PHYS, 1, 2),
+    	  NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+    	SIZ(100, 40, MS_GROWL, MZ_SMALL), 0, 0,
+    	M1_ANIMAL | M1_NOHANDS | M1_HERBIVORE,
+    	M2_DOMESTIC, 0, 6, CLR_BROWN),
+    MON("Tasmanian devil", S_ZOUTHERN, LVL(9, 12, 8, 0, 0),
+      (G_NOHELL | G_GENO | 1),
+    	A(ATTK(AT_CLAW, AD_PHYS, 3, 4), ATTK(AT_CLAW, AD_PHYS, 3, 4),
+    	  ATTK(AT_BITE, AD_PHYS, 3, 6), NO_ATTK, NO_ATTK, NO_ATTK),
+    	SIZ(500, 250, MS_GROWL, MZ_SMALL), 0, 0,
+    	M1_ANIMAL | M1_NOHANDS | M1_OMNIVORE, M2_HOSTILE, 0, 11, CLR_BLACK),
+    /* wallabies, wallaroos, and kangaroos can all jump */
+    MON("wallaby", S_ZOUTHERN, LVL(5, 16, 7, 0, 0), (G_NOHELL | G_GENO | 1),
+      A(ATTK(AT_KICK, AD_PHYS, 2, 4), ATTK(AT_BITE, AD_PHYS, 1, 4),
+        NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+      SIZ(400, 150, MS_SILENT, MZ_SMALL), 0, 0,
+      M1_ANIMAL | M1_HERBIVORE, M2_JUMPER, 0, 6, CLR_BROWN),
+    /* nerfed damage output */
+    MON("wallaroo", S_ZOUTHERN, LVL(6, 20, 8, 0, 0),
+      (G_NOHELL | G_GENO | G_SGROUP | 1),
+      A(ATTK(AT_KICK, AD_PHYS, 2, 6), ATTK(AT_BITE, AD_PHYS, 1, 6),
+        NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+      SIZ(600, 300, MS_SILENT, MZ_SMALL), 0, 0,
+      M1_ANIMAL | M1_HERBIVORE, M2_JUMPER, 0, 8, CLR_RED),
+    /* nerfed damage output */
+    MON("kangaroo", S_ZOUTHERN, LVL(10, 24, 6, 0, 0),
+      (G_NOHELL | G_GENO | G_SGROUP | 2),
+      A(ATTK(AT_KICK, AD_PHYS, 2, 8), ATTK(AT_KICK, AD_PHYS, 2, 8),
+        ATTK(AT_BITE, AD_PHYS, 1, 6), NO_ATTK, NO_ATTK, NO_ATTK),
+      SIZ(1000, 500, MS_SILENT, MZ_MEDIUM), 0, 0,
+      M1_ANIMAL | M1_HERBIVORE, M2_NASTY | M2_JUMPER, 0, 12, CLR_GRAY),
     /*
      * Angels and other lawful minions
      */
