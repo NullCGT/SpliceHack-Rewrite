@@ -865,7 +865,7 @@ struct permonst * pm;
     APPENDC(is_clinger(pm), "cling to the ceiling");
     APPENDC(needspick(pm), "mine");
     APPENDC(is_jumper(pm), "jump long distances");
-    APPENDC(is_jumper(pm), "jump long distances");
+    APPENDC(is_supporter(pm), "support allies")
     if (!needspick(pm))
         APPENDC(tunnels(pm), "dig");
     if (*buf) {

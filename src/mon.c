@@ -3613,6 +3613,7 @@ void
 m_respond(struct monst* mtmp)
 {
     int i;
+    struct monst* mon;
 
     if (mtmp->data->msound == MS_SHRIEK) {
         if (!Deaf) {
@@ -3659,6 +3660,32 @@ m_respond(struct monst* mtmp)
                 make_afraid((HAfraid & TIMEOUT) + (long) rn1(10, 5 * i), TRUE);
             } else {
                 You("hold firm.");
+            }
+        }
+    }
+    /* Supporter monsters. */
+    if (is_supporter(mtmp->data)) {
+        if (canseemon(mtmp)) {
+            pline("%s utters a complex chant.", Monnam(mtmp));
+        }
+        for (mon = fmon; mon; mon = mon->nmon) {
+            if (DEADMONSTER(mon))
+                continue;
+            if (mon == mtmp)
+                continue;
+            if (!same_race(mtmp->data, mon->data))
+                continue;
+            switch(monsndx(mtmp->data)) {
+            case PM_ORC_SHAMAN:
+            case PM_GNOLL_SHAMAN:
+            case PM_KOBOLD_SHAMAN:
+            default:
+                if (mon->mhp < mon->mhpmax && canseemon(mon)) {
+                    pline("%s looks better.", Monnam(mon));
+                }
+                mon->mhp += rn1(mtmp->m_lev, mtmp->m_lev);
+                if (mon->mhp > mon->mhpmax) mon->mhp = mon->mhpmax;
+                break;
             }
         }
     }

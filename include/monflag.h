@@ -125,8 +125,8 @@ enum ms_sounds {
 #endif
 
 #define M2_NOPOLY       0x00000001L /* players mayn't poly into one */
-#define M2_JUMPER       0x00000002L /* UNUSED */
-#define M2_WERE         0x00000004L /* UNUSED */
+#define M2_JUMPER       0x00000002L /* can jump around */
+#define M2_SUPPORTER    0x00000004L /* can support other monsters of their type */
 #define M2_HUMAN        0x00000008L /* UNUSED */
 #define M2_ELF          0x00000010L /* UNUSED */
 #define M2_DWARF        0x00000020L /* UNUSED */

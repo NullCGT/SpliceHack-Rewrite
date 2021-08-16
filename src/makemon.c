@@ -24,7 +24,7 @@ static void m_initthrow(struct monst *, int, int);
 static void m_initweap(struct monst *);
 static void m_initinv(struct monst *);
 static boolean makemon_rnd_goodpos(struct monst *, long, coord *);
-static int template_chance(struct monst *);
+static int template_chance(struct monst *, int);
 static boolean is_valid_template(struct monst *, int);
 
 #define m_initsgrp(mtmp, x, y, mmf) m_initgrp(mtmp, x, y, 3, mmf)
@@ -85,6 +85,7 @@ m_initgrp(struct monst *mtmp, int x, int y, int n, int mmflags)
 {
     coord mm;
     register int cnt = rnd(n);
+    int leader_type;
     struct monst *mon;
 #if defined(__GNUC__) && (defined(HPUX) || defined(DGUX))
     /* There is an unresolved problem with several people finding that
@@ -123,6 +124,40 @@ m_initgrp(struct monst *mtmp, int x, int y, int n, int mmflags)
 
     mm.x = x;
     mm.y = y;
+    /* Create a supporter monster. */
+    if (cnt >= 3 && is_orc(mtmp->data)) {
+        leader_type = PM_ORC_SHAMAN;
+        if (enexto(&mm, mm.x, mm.y, mtmp->data)) {
+            mon = makemon(&mons[leader_type], mm.x, mm.y, (mmflags | MM_NOGRP));
+            if (mon) {
+                mon->mpeaceful = FALSE;
+                mon->mavenge = 0;
+                set_malign(mon);
+                cnt--;
+            }
+        }
+    }
+    /* Create a group leader. Due to the requirement of at least three group members,
+       should not occur with extremely low level monsters such as grid bugs and jackals. */
+    if (cnt >= 3 && !peace_minded(mtmp->data)) {
+        leader_type = monsndx(mtmp->data);
+        if (little_to_big(leader_type) != NON_PM)
+            leader_type = little_to_big(leader_type);
+        if (enexto(&mm, mm.x, mm.y, mtmp->data)) {
+            mon = makemon(&mons[leader_type], mm.x, mm.y, (mmflags | MM_NOGRP));
+            if (mon) {
+                mon->mpeaceful = FALSE;
+                mon->mavenge = 0;
+                set_malign(mon);
+                if (leader_type == monsndx(mtmp->data)) {
+                    newetemplate(mtmp);
+                    initetemplate(mtmp, template_chance(mtmp, 20));
+                }
+                cnt--;
+            }
+        }
+    }
+    /* Loop through and create the group */
     while (cnt--) {
         if (peace_minded(mtmp->data))
             continue;
@@ -1701,7 +1736,7 @@ makemon(register struct permonst *ptr,
     /* Make a sound. One of the issues in SpliceHack is that deafness
             is often more useful than hearing, so we want to make sure that
             being able to hear is important. */
-    tindex = template_chance(mtmp);
+    tindex = template_chance(mtmp, 0);
     if (tindex >= 0) {
         newetemplate(mtmp);
         initetemplate(mtmp, tindex);
@@ -2809,7 +2844,7 @@ is_valid_template(struct monst *mtmp, int tindex) {
 }
 
 static int
-template_chance(struct monst *mtmp) {
+template_chance(struct monst *mtmp, int modifier) {
     int chance = 1;
     int template = -1;
     int tryct = 0;
@@ -2834,6 +2869,7 @@ template_chance(struct monst *mtmp) {
         if (u.uhave.menorah) chance += 1;
         if (u.uhave.amulet) chance += 2;
         chance += level_difficulty() / 6;
+        chance += modifier;
     }
 
     if (rn2(200) >= chance) {

@@ -506,6 +506,8 @@ dochug(register struct monst* mtmp)
         m_respond(mtmp);
     if (mdat == &mons[PM_MEDUSA] && couldsee(mtmp->mx, mtmp->my))
         m_respond(mtmp);
+    if (is_supporter(mdat) && couldsee(mtmp->mx, mtmp->my) && !rn2(4))
+        m_respond(mtmp);
     if (DEADMONSTER(mtmp))
         return 1; /* m_respond gaze can kill medusa */
 
@@ -926,6 +928,12 @@ m_balks_at_approaching(struct monst* mtmp)
     if (attacktype(mtmp->data, AT_BREA)
         && ((mtmp->mhp < (mtmp->mhpmax+1) / 3)
             || !mtmp->mspec_used))
+        return TRUE;
+    
+    /* Supporter monsters hang back. */
+    if (is_supporter(mtmp->data)
+        && dist2(mtmp->mx, mtmp->my, mtmp->mux, mtmp->muy) >= 9
+        && ((u.uhpmax / u.uhp) < 4))
         return TRUE;
     
     /* Bodaks try to stay away, unless they think you are weak. */

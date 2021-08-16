@@ -107,6 +107,9 @@ Monster Changes
   - When a monster turns to flee, it immediately gains a turn of movement points.
   - Fleeing monsters gain bonus movement points every turn, allowing them to flee
     more quickly.
+- Certain monsters are classed as supporters. These monsters can heal their compatriots, and
+  will attempt to hang back slightly from the player.
+- Monsters that small in small groups can spawn with leaders or supporting monsters.
 - New Yendorian Army Member: The General
   - Upgraded form of the captain. Highly dangerous, and very rare to encounter.
 - New Monster: The Slumber Hulk
