@@ -141,28 +141,28 @@ extern NEARDATA struct objdescr obj_descr[];
  * All objects have a class. Make sure that all classes have a corresponding
  * symbol below.
  */
-enum obj_class_types {
-    RANDOM_CLASS =  0, /* used for generating random objects */
-    ILLOBJ_CLASS =  1,
-    WEAPON_CLASS =  2,
-    ARMOR_CLASS  =  3,
-    RING_CLASS   =  4,
-    AMULET_CLASS =  5,
-    TOOL_CLASS   =  6,
-    FOOD_CLASS   =  7,
-    POTION_CLASS =  8,
-    SCROLL_CLASS =  9,
-    SPBOOK_CLASS = 10, /* actually SPELL-book */
-    WAND_CLASS   = 11,
-    COIN_CLASS   = 12,
-    GEM_CLASS    = 13,
-    ROCK_CLASS   = 14,
-    BALL_CLASS   = 15,
-    CHAIN_CLASS  = 16,
-    VENOM_CLASS  = 17,
 
-    MAXOCLASSES  = 18
+enum objclass_defchars {
+#define OBJCLASS_DEFCHAR_ENUM
+#include "defsym.h"
+#undef OBJCLASS_DEFCHAR_ENUM
 };
+
+enum objclass_classes {
+    RANDOM_CLASS =  0, /* used for generating random objects */
+#define OBJCLASS_CLASS_ENUM
+#include "defsym.h"
+#undef OBJCLASS_CLASS_ENUM
+    MAXOCLASSES
+};
+
+/* Default characters for object classes */
+enum objclass_syms {
+#define OBJCLASS_S_ENUM
+#include "defsym.h"
+#undef OBJCLASS_S_ENUM
+};
+
 /* for mkobj() use ONLY! odd '-SPBOOK_CLASS' is in case of unsigned enums */
 #define SPBOOK_no_NOVEL (0 - (int) SPBOOK_CLASS)
 
@@ -174,26 +174,6 @@ extern const struct class_sym
         def_oc_syms[MAXOCLASSES];       /* default class symbols */
 extern uchar oc_syms[MAXOCLASSES];      /* current class symbols */
 #endif
-
-/* Default definitions of all object-symbols (must match classes above). */
-
-#define ILLOBJ_SYM ']' /* also used for mimics */
-#define WEAPON_SYM ')'
-#define ARMOR_SYM '['
-#define RING_SYM '='
-#define AMULET_SYM '"'
-#define TOOL_SYM '('
-#define FOOD_SYM '%'
-#define POTION_SYM '!'
-#define SCROLL_SYM '?'
-#define SPBOOK_SYM '+'
-#define WAND_SYM '/'
-#define GOLD_SYM '$'
-#define GEM_SYM '*'
-#define ROCK_SYM '`'
-#define BALL_SYM '0'
-#define CHAIN_SYM '_'
-#define VENOM_SYM '.'
 
 struct fruit {
     char fname[PL_FSIZ];
