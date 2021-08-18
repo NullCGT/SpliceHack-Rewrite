@@ -2730,7 +2730,9 @@ check_special_room(boolean newlev)
             struct monst *oracle = monstinroom(&mons[PM_ORACLE], roomno);
 
             if (oracle) {
-                if (!oracle->mpeaceful)
+                if (u.uhave.amulet)
+                    verbalize("Get out of my sight, %s. I know now what you truly are.", g.plname);
+                else if (!oracle->mpeaceful)
                     verbalize("You're in Delphi, %s.", g.plname);
                 else
                     verbalize("%s, %s, welcome to Delphi!",

@@ -415,9 +415,6 @@ teenage mutant ninja turtle
 # Usagi Yojimbo
 samurai rabbit
 
-# Cerebus
-aardvark
-
 # Little Shop of Horrors
 =Audrey II
 
@@ -612,7 +609,7 @@ three-headed monkey
 little green man
 
 # Portal
-weighted Companion Cube
+weighted companion cube
 
 # corruptions and glitches
 +ZZAZZ
@@ -647,6 +644,7 @@ looooooooooooong cat
 
 # the internet has good dogs
 big doggo
+dogger
 
 # POWDER
 tridude

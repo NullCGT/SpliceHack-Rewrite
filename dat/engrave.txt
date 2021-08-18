@@ -15,8 +15,8 @@ All work and no play makes Urdo a dull priest.
 # The NetHack Song, by Rob Balder
 ASCII stupid question and you'll get a stupid ANSI.
 
-# Junenethack 2018
-Improved Tin Openers rule!
+# Junenethack
+The Order of the Cockatrice rules!
 
 # take-offs and other famous engravings
 Owlbreath
@@ -47,9 +47,9 @@ help help help help help
 my eyes
 they're after me
 RUN RUN RUN
-they all lived in a crooked house
 the end is near
 Hello? Anybody?
+no no no no no
 
 # Creepypasta
 Watch the sky.
