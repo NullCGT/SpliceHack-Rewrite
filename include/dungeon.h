@@ -19,6 +19,7 @@ typedef struct d_flags {     /* dungeon/level type flags */
     Bitfield(maze_like, 1);  /* is this a maze? */
     Bitfield(rogue_like, 1); /* is this an old-fashioned presentation? */
     Bitfield(align, 3);      /* dungeon alignment. */
+    Bitfield(nofood, 1);     /* is food prevented? */
     Bitfield(unused, 1);     /* etc... */
 } d_flags;
 

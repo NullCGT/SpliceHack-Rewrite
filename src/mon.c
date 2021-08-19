@@ -2818,6 +2818,12 @@ corpse_chance(
         }
     }
 
+    /* It should still be possible to receive food spawns on no food levels, but it should
+       be much much rarer.  */
+    if (no_food_spawns(&u.uz) && mdat->mlet != S_TROLL && rn2(6)) {
+        return FALSE;
+    }
+
     /* must duplicate this below check in xkilled() since it results in
      * creating no objects as well as no corpse
      */

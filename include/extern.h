@@ -633,6 +633,7 @@ extern boolean In_mines(d_level *);
 extern branch *dungeon_branch(const char *);
 extern boolean at_dgn_entrance(const char *);
 extern boolean In_hell(d_level *);
+extern boolean no_food_spawns(d_level *);
 extern boolean In_V_tower(d_level *);
 extern boolean On_W_tower_level(d_level *);
 extern boolean In_W_tower(int, int, d_level *);

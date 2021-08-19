@@ -98,6 +98,12 @@ in its own way.
   - Black rats cannot be genocided.
   - The rat king level generates in 25% of games, rather than 50%.
   - Contains a guaranteed bag of rats.
+- Added a flag to dungeon generation that allows the disabling of food in specific branches. This
+  will allow for adding an arbitrary number of branches in the future, since exploring a branch
+  will now have an associated cost (the user's hunger).
+- Food items generate significantly less frequently in Gehennom than in the main dungeon. In Gehennom,
+  food items are generated as frequently as amulets are in the main dungeon. Hopefully this makes
+  the food stash at the castle much more important.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
@@ -210,6 +216,10 @@ Balancing
   in 800 poisonable objects.
 - Converting an altar will ALWAYS result in a minion of that deity being summoned.
 - *Very* rarely, objects in the player's starting inventory may be of an odd material.
+- A user can pray to reduce their hunger normally once. Every subsequent prayer used to reduce
+  their hunger increases the total time of their prayer timeout. This is meant to eliminate slow,
+  degenerate play, and should not affect regular players much.
+- While the player is level one, they get hungry much more slowly.
 
 Bug Fixes
 - While porting the previous SpliceHack code, numerous bugs were discovered and fixed. The full

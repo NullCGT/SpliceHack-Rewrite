@@ -57,6 +57,7 @@ struct tmpbranch {
 #define HELLISH 2
 #define MAZELIKE 4
 #define ROGUELIKE 8
+#define NOFOOD 16
 
 #define D_ALIGN_NONE 0
 #define D_ALIGN_CHAOTIC (AM_CHAOTIC << 4)

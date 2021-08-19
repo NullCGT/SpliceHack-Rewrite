@@ -88,21 +88,23 @@ dumpit(void)
                 DD.num_dunlevs, DD.dunlev_ureached);
         fprintf(stderr, "    depth_start %d, ledger_start %d\n",
                 DD.depth_start, DD.ledger_start);
-        fprintf(stderr, "    flags:%s%s%s\n",
+        fprintf(stderr, "    flags:%s%s%s%s\n",
                 DD.flags.rogue_like ? " rogue_like" : "",
                 DD.flags.maze_like ? " maze_like" : "",
-                DD.flags.hellish ? " hellish" : "");
+                DD.flags.hellish ? " hellish" : "",
+                DD.flags.nofood ? " nofood" : "");
         getchar();
     }
     fprintf(stderr, "\nSpecial levels:\n");
     for (x = g.sp_levchn; x; x = x->next) {
         fprintf(stderr, "%s (%d): ", x->proto, x->rndlevs);
         fprintf(stderr, "on %d, %d; ", x->dlevel.dnum, x->dlevel.dlevel);
-        fprintf(stderr, "flags:%s%s%s%s\n",
+        fprintf(stderr, "flags:%s%s%s%s%s\n",
                 x->flags.rogue_like ? " rogue_like" : "",
                 x->flags.maze_like ? " maze_like" : "",
                 x->flags.hellish ? " hellish" : "",
-                x->flags.town ? " town" : "");
+                x->flags.town ? " town" : "",
+                x->flags.nofood ? " nofood" : "");
         getchar();
     }
     fprintf(stderr, "\nBranches:\n");
@@ -553,6 +555,7 @@ init_level(int dgn, int proto_index, struct proto_dungeon *pd)
     new_level->flags.hellish = !!(tlevel->flags & HELLISH);
     new_level->flags.maze_like = !!(tlevel->flags & MAZELIKE);
     new_level->flags.rogue_like = !!(tlevel->flags & ROGUELIKE);
+    new_level->flags.nofood = !!(tlevel->flags & NOFOOD);
     new_level->flags.align = ((tlevel->flags & D_ALIGN_MASK) >> 4);
     if (!new_level->flags.align)
         new_level->flags.align =
@@ -702,9 +705,9 @@ get_dgn_flags(lua_State *L)
 {
     int dgn_flags = 0;
     static const char *const flagstrs[] = {
-        "town", "hellish", "mazelike", "roguelike", NULL
+        "town", "hellish", "mazelike", "roguelike", "nofood", NULL
     };
-    static const int flagstrs2i[] = { TOWN, HELLISH, MAZELIKE, ROGUELIKE, 0 };
+    static const int flagstrs2i[] = { TOWN, HELLISH, MAZELIKE, ROGUELIKE, NOFOOD, 0 };
 
     lua_getfield(L, -1, "flags");
     if (lua_type(L, -1) == LUA_TTABLE) {
@@ -1026,6 +1029,7 @@ init_dungeons(void)
         g.dungeons[i].flags.hellish = !!(dgn_flags & HELLISH);
         g.dungeons[i].flags.maze_like = !!(dgn_flags & MAZELIKE);
         g.dungeons[i].flags.rogue_like = !!(dgn_flags & ROGUELIKE);
+        g.dungeons[i].flags.nofood = !!(dgn_flags & NOFOOD);
         g.dungeons[i].flags.align = dgn_align;
 
         /*
@@ -1829,6 +1833,13 @@ boolean
 In_hell(d_level *lev)
 {
     return (boolean) (g.dungeons[lev->dnum].flags.hellish);
+}
+
+/* can food spawn on this level? */
+boolean
+no_food_spawns(d_level *lev)
+{
+    return (boolean) (g.dungeons[lev->dnum].flags.nofood);
 }
 
 /* sets *lev to be the gateway to Gehennom... */

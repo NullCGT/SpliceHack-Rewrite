@@ -365,6 +365,7 @@ fix_worst_trouble(int trouble)
     case TROUBLE_HUNGRY:
         Your("%s feels content.", body_part(STOMACH));
         init_uhunger();
+        u.hungerprayers++;
         g.context.botl = 1;
         break;
     case TROUBLE_SICK:
@@ -1246,6 +1247,12 @@ pleased(aligntyp g_align)
         kick_on_butt++;
     if (kick_on_butt)
         u.ublesscnt += kick_on_butt * rnz(1000);
+
+    /* The more often a user prays away their hunger, the longer
+       their prayer timeout is. This should help prevent slow,
+       degenerate play. */
+    if (u.hungerprayers > 1)
+        u.ublesscnt += u.hungerprayers * rnd(100);
 
     /* Avoid games that go into infinite loops of copy-pasted commands
        with no human interaction; this is a DoS vector against the

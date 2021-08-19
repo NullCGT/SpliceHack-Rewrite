@@ -2964,12 +2964,16 @@ gethungry(void)
        this first uhunger decrement, but to stay in such form the hero
        will need to wear an Amulet of Unchanging so still burn a small
        amount of nutrition in the 'moves % 20' ring/amulet check below */
+    /* SpliceHack change: Players with only one experience level get hungry
+       much more slowly. This way, newer players
+       (who may take a long time exploring the first few dungeon levels) have a
+       better chance of dying in combat instead of starving to death :) */
     if ((!Unaware || !rn2(10)) /* slow metabolic rate while asleep */
         && (carnivorous(g.youmonst.data)
             || herbivorous(g.youmonst.data)
             || metallivorous(g.youmonst.data))
         && ((!Role_if(PM_CONVICT) && !Race_if(PM_GHOUL)) || (g.moves % 2) || (u.uhs < HUNGRY))
-        && !Slow_digestion)
+        && !Slow_digestion && (u.ulevel != 1 || (g.moves % 2)))
         u.uhunger--; /* ordinary food consumption */
 
     /*

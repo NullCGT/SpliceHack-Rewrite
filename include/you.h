@@ -428,6 +428,7 @@ struct you {
                    mamax;       /* for monster attribs */
     int ulycn;                  /* lycanthrope type */
     int mfemale;               /* saved human value of flags.female */
+    int hungerprayers;          /* how many times have we prayed away hunger? */
 
     unsigned ucreamed;
     unsigned uswldtim;          /* time you have been swallowed */

@@ -1327,6 +1327,8 @@ wiz_map_levltyp(void)
                 Strcat(dsc, " town");
             if (slev->flags.rogue_like)
                 Strcat(dsc, " roguelike");
+            if (slev->flags.nofood);
+                Strcat(dsc, "nofood");
             /* alignment currently omitted to save space */
         }
         /* level features */

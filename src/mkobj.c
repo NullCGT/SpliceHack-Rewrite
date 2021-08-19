@@ -57,16 +57,27 @@ static const struct icp rogueprobs[] = { { 12, WEAPON_CLASS },
                                          { 5, WAND_CLASS },
                                          { 5, RING_CLASS } };
 
-static const struct icp hellprobs[] = { { 20, WEAPON_CLASS },
-                                        { 20, ARMOR_CLASS },
-                                        { 16, FOOD_CLASS },
+static const struct icp hellprobs[] = { { 25, WEAPON_CLASS },
+                                        { 25, ARMOR_CLASS },
+                                        {  1, FOOD_CLASS },
                                         { 12, TOOL_CLASS },
-                                        { 10, GEM_CLASS },
+                                        { 15, GEM_CLASS },
                                         { 1, POTION_CLASS },
                                         { 1, SCROLL_CLASS },
                                         { 8, WAND_CLASS },
                                         { 8, RING_CLASS },
                                         { 4, AMULET_CLASS } };
+
+static const struct icp nofoodprobs[] = { { 12, WEAPON_CLASS },
+                                         { 12, ARMOR_CLASS },
+                                         { 10, TOOL_CLASS },
+                                         { 10, GEM_CLASS },
+                                         { 18, POTION_CLASS },
+                                         { 18, SCROLL_CLASS },
+                                         { 6, SPBOOK_CLASS },
+                                         { 6, WAND_CLASS },
+                                         { 5, RING_CLASS },
+                                         { 3, AMULET_CLASS } };
 
 static const struct oextra zerooextra = DUMMY;
 
@@ -213,6 +224,7 @@ mkobj(int oclass, boolean artif)
     if (oclass == RANDOM_CLASS) {
         const struct icp *iprobs = Is_rogue_level(&u.uz)
                                    ? (const struct icp *) rogueprobs
+                                   : no_food_spawns(&u.uz) ? (const struct icp *) nofoodprobs
                                    : Inhell ? (const struct icp *) hellprobs
                                             : (const struct icp *) mkobjprobs;
 
