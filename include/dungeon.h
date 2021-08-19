@@ -20,7 +20,7 @@ typedef struct d_flags {     /* dungeon/level type flags */
     Bitfield(rogue_like, 1); /* is this an old-fashioned presentation? */
     Bitfield(align, 3);      /* dungeon alignment. */
     Bitfield(nofood, 1);     /* is food prevented? */
-    Bitfield(unused, 1);     /* etc... */
+    /* Bitfield(unused, 1); */    /* etc... */
 } d_flags;
 
 typedef struct s_level { /* special dungeon level element */
