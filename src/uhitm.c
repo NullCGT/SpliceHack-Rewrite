@@ -2378,6 +2378,216 @@ mhitm_ad_acid(struct monst *magr, struct attack *mattk, struct monst *mdef,
 }
 
 void
+mhitm_ad_psyc(magr, mattk, mdef, mhm)
+struct monst *magr;
+struct attack *mattk;
+struct monst *mdef;
+struct mhitm_data *mhm;
+{
+    if (magr == &g.youmonst) {
+        /* uhitm */
+        int armpro = magic_negation(mdef);
+        /* since hero can't be cancelled, only defender's armor applies */
+        boolean negated = !(rn2(10) >= 3 * armpro);
+        if (negated) {
+            mhm->damage = 0;
+            return;
+        }
+        if (!Blind) {
+            You("trap %s in a mental assault!", mon_nam(mdef));
+            if (mindless(mdef->data)) {
+                shieldeff(mdef->mx, mdef->my);
+                mhm->damage = 0;
+                pline("You realize that %s has no mind to break.",
+                mon_nam(mdef));
+            } else if (resists_psychic(mdef)) {
+                shieldeff(mdef->mx, mdef->my);
+                mhm->damage = 0;
+                pline("%s fights it off!", Monnam(mdef));
+            } else
+                mdef->mconf = 1;
+        }
+        return;
+    } else if (mdef == &g.youmonst) {
+        /* mhitu */
+        int armpro = magic_negation(mdef);
+        boolean uncancelled = !magr->mcan && (rn2(10) >= 3 * armpro);
+
+        hitmsg(magr, mattk);
+        if (uncancelled) {
+            pline("Your mind is being attacked!");
+            if (Psychic_resistance) {
+                pline("You fend off the mental attack!");
+                mhm->damage = 0;
+            }
+        } else
+            mhm->damage = 0;
+        return;
+    } else {
+        /* mhitm */
+        int armpro = magic_negation(mdef);
+        boolean cancelled = magr->mcan || !(rn2(10) >= 3 * armpro);
+        if (cancelled || mindless(mdef->data)) {
+            mhm->damage = 0;
+            return;
+        }
+        if (g.vis && canseemon(mdef)) {
+            pline("%s appears to be struggling with something!",
+                  Monnam(mdef));
+            if (resists_psychic(mdef)) {
+                shieldeff(mdef->mx, mdef->my);
+                mhm->damage = 0;
+                pline("%s fights it off!", Monnam(mdef));
+            } else {
+                mdef->mconf = 1;
+                mdef->mstrategy &= ~STRAT_WAITFORU;
+            }
+        }
+        return;
+    }
+}
+
+void
+mhitm_ad_loud(magr, mattk, mdef, mhm)
+struct monst *magr;
+struct attack *mattk;
+struct monst *mdef;
+struct mhitm_data *mhm;
+{
+    if (magr == &g.youmonst) {
+        /* uhitm */
+        int armpro = magic_negation(mdef);
+        /* since hero can't be cancelled, only defender's armor applies */
+        boolean negated = !(rn2(10) >= 3 * armpro);
+        if (negated) {
+            mhm->damage = 0;
+            return;
+        }
+        if (!Deaf)
+            pline("%s is caught in a sonicboom!", Monnam(mdef));
+        mhm->damage += destroy_mitem(mdef, ARMOR_CLASS, AD_LOUD);
+        mhm->damage += destroy_mitem(mdef, RING_CLASS, AD_LOUD);
+        mhm->damage += destroy_mitem(mdef, TOOL_CLASS, AD_LOUD);
+        mhm->damage += destroy_mitem(mdef, WAND_CLASS, AD_LOUD);
+        if (resists_sonic(mdef)) {
+            if (!Blind)
+                pline_The("sonicboom doesn't seem to harm %s!", mon_nam(mdef));
+            shieldeff(mdef->mx, mdef->my);
+            mhm->damage = 0;
+        }
+        mhm->damage += destroy_mitem(mdef, POTION_CLASS, AD_LOUD);
+        if (mdef->data == &mons[PM_GLASS_GOLEM]) {
+            pline("%s shatters into a million pieces!", Monnam(mdef));
+            xkilled(mdef, XKILL_NOMSG | XKILL_NOCORPSE);
+            mhm->damage = 0;
+            return;
+        }
+        return;
+    } else if (mdef == &g.youmonst) {
+        /* mhitu */
+        int armpro = magic_negation(mdef);
+        boolean uncancelled = !magr->mcan && (rn2(10) >= 3 * armpro);
+
+        hitmsg(magr, mattk);
+        if (uncancelled) {
+            if (Deaf)
+                mhm->damage = 1;
+            if (Sonic_resistance)
+                mhm->damage = 0;
+            else {
+                pline("You are caught in a sonic blast!");
+                if (Sonic_resistance) {
+                    pline_The("noise isn't painful to you!");
+                    mhm->damage = 0;
+                }
+            }
+            if ((int) magr->m_lev > rn2(20))
+                destroy_item(ARMOR_CLASS, AD_LOUD);
+            if ((int) magr->m_lev > rn2(20))
+                destroy_item(POTION_CLASS, AD_LOUD);
+            if ((int) magr->m_lev > rn2(25))
+                destroy_item(RING_CLASS, AD_LOUD);
+            if ((int) magr->m_lev > rn2(25))
+                destroy_item(TOOL_CLASS, AD_LOUD);
+            if ((int) magr->m_lev > rn2(25))
+                destroy_item(WAND_CLASS, AD_LOUD);
+
+        } else
+            mhm->damage = 0;
+        if (mhm->damage > 0 && u.umonnum == PM_GLASS_GOLEM) {
+            You("shatter into a million pieces!");
+            rehumanize();
+            return;
+        }
+        return;
+    } else {
+        /* mhitm */
+        int armpro = magic_negation(mdef);
+        boolean cancelled = magr->mcan || !(rn2(10) >= 3 * armpro);
+        if (cancelled) {
+            mhm->damage = 0;
+            return;
+        }
+        if (g.vis && canseemon(mdef) && !Deaf)
+            pline("%s is caught in a sonicboom!", Monnam(mdef));
+        mhm->damage += destroy_mitem(mdef, ARMOR_CLASS, AD_LOUD);
+        mhm->damage += destroy_mitem(mdef, RING_CLASS, AD_LOUD);
+        mhm->damage += destroy_mitem(mdef, TOOL_CLASS, AD_LOUD);
+        mhm->damage += destroy_mitem(mdef, WAND_CLASS, AD_LOUD);
+        if (resists_sonic(mdef)) {
+            if (g.vis && canseemon(mdef))
+                pline_The("sonicboom doesn't seem to harm %s!", mon_nam(mdef));
+            shieldeff(mdef->mx, mdef->my);
+            mhm->damage = 0;
+        }
+        mhm->damage += destroy_mitem(mdef, POTION_CLASS, AD_LOUD);
+        if (mdef->data == &mons[PM_GLASS_GOLEM]) {
+            pline("%s shatters into a million pieces!", Monnam(mdef));
+            mondied(mdef);
+            if (mdef->mhp > 0)
+                return;
+            mhm->hitflags = (MM_DEF_DIED | (grow_up(magr, mdef) ? 0 : MM_AGR_DIED));
+            return;
+        }
+    }
+}
+
+void
+mhitm_ad_memr(magr, mattk, mdef, mhm)
+struct monst *magr;
+struct attack *mattk;
+struct monst *mdef;
+struct mhitm_data *mhm;
+{
+    if (magr == &g.youmonst) {
+        /* uhitm */
+        mhitm_ad_phys(magr, mattk, mdef, mhm);
+        if (mhm->done)
+            return;
+    } else if (mdef == &g.youmonst) {
+        /* mhitu */
+        int armpro = magic_negation(mdef);
+        boolean uncancelled = !magr->mcan && (rn2(10) >= 3 * armpro);
+        
+        hitmsg(magr, mattk);
+        if (uncancelled) {
+            if (Hallucination) {
+                pline("Your brain does a flip-flop!");
+            } else {
+                pline("Your memories seem muddled for a moment.");
+            }
+            forget_objects(2); /* lose memory of 2% of objects */
+            forget_levels(2); /* lose memory of 2% of levels */
+        }
+    } else {
+        /* mhitm */
+        mhitm_ad_phys(magr, mattk, mdef, mhm);
+        if (mhm->done)
+            return;
+    }
+}
+
+void
 mhitm_ad_sgld(struct monst *magr, struct attack *mattk, struct monst *mdef,
               struct mhitm_data *mhm)
 {
@@ -3470,6 +3680,38 @@ struct mhitm_data *mhm;
 }
 
 void
+mhitm_ad_luck(magr, mattk, mdef, mhm)
+struct monst *magr;
+struct attack *mattk;
+struct monst *mdef;
+struct mhitm_data *mhm;
+{
+    if (magr == &g.youmonst) {
+        /* uhitm */
+        mhitm_ad_phys(magr, mattk, mdef, mhm);
+        if (mhm->done)
+            return;
+    } else if (mdef == &g.youmonst) {
+        /* mhitu */
+        int armpro = magic_negation(mdef);
+        boolean uncancelled = !magr->mcan && (rn2(10) >= 3 * armpro);
+        
+        hitmsg(magr, mattk);
+        if (uncancelled) {
+            change_luck(-1);
+            You(is_undead(g.youmonst.data) ? "feel like someone just walked over your grave." 
+                                         : "feel like you just walked under a ladder.");
+        }
+        return;
+    } else {
+        /* mhitm */
+        mhitm_ad_phys(magr, mattk, mdef, mhm);
+        if (mhm->done)
+            return;
+    }
+}
+
+void
 mhitm_ad_larv(magr, mattk, mdef, mhm)
 struct monst *magr;
 struct attack *mattk;
@@ -4453,7 +4695,11 @@ mhitm_adtyping(struct monst *magr, struct attack *mattk, struct monst *mdef,
     case AD_DGST: mhitm_ad_dgst(magr, mattk, mdef, mhm); break;
     case AD_HALU: mhitm_ad_halu(magr, mattk, mdef, mhm); break;
     /* Todo */
+    case AD_PSYC: mhitm_ad_psyc(magr, mattk, mdef, mhm); break;
+    case AD_LOUD: mhitm_ad_loud(magr, mattk, mdef, mhm); break;
+    case AD_MEMR: mhitm_ad_memr(magr, mattk, mdef, mhm); break;
     case AD_CALM: mhitm_ad_calm(magr, mattk, mdef, mhm); break;
+    case AD_LUCK: mhitm_ad_luck(magr, mattk, mdef, mhm); break;
     case AD_LARV: mhitm_ad_larv(magr, mattk, mdef, mhm); break;
     case AD_HNGY:  mhitm_ad_hngy(magr, mattk, mdef, mhm); break;
     case AD_WTHR: mhitm_ad_wthr(magr, mattk, mdef, mhm); break;

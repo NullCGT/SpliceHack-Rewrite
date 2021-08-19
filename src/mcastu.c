@@ -306,6 +306,14 @@ castmu(register struct monst *mtmp,
             dmg = 0;
         }
         break;
+    case AD_PSYC:
+        pline("Your mind is being attacked!");
+        if (Psychic_resistance) {
+            shieldeff(u.ux, u.uy);
+            pline("You fend off the mental attack!");
+            dmg = 0;
+        }
+        break;
     case AD_MAGM:
         You("are hit by a shower of missiles!");
         if (Antimagic) {

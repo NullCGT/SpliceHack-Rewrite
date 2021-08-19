@@ -994,6 +994,7 @@ cpostfx(int pm)
         catch_lycanthropy = PM_WEREJACKAL;
         break;
     case PM_HUMAN_WEREWOLF:
+    case PM_HUMAN_PACK_LORD:
         catch_lycanthropy = PM_WEREWOLF;
         break;
     case PM_HUMAN_WERECOCKATRICE:

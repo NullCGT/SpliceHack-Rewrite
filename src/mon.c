@@ -2631,6 +2631,8 @@ mondead(register struct monst* mtmp)
         set_mon_data(mtmp, &mons[PM_HUMAN_WEREWOLF]);
     else if (mtmp->data == &mons[PM_WERECOCKATRICE])
         set_mon_data(mtmp, &mons[PM_HUMAN_WERECOCKATRICE]);
+    else if (mtmp->data == &mons[PM_PACK_LORD])
+        set_mon_data(mtmp, &mons[PM_HUMAN_PACK_LORD]);
     else if (mtmp->data == &mons[PM_WERERAT])
         set_mon_data(mtmp, &mons[PM_HUMAN_WERERAT]);
 
@@ -5052,9 +5054,11 @@ usmellmon(struct permonst* mdat)
         case PM_ORCUS:
             break;
         case PM_HUMAN_WEREJACKAL:
+        case PM_HUMAN_PACK_LORD:
         case PM_HUMAN_WERERAT:
         case PM_HUMAN_WEREWOLF:
         case PM_WEREJACKAL:
+        case PM_PACK_LORD:
         case PM_WERERAT:
         case PM_WEREWOLF:
         case PM_OWLBEAR:

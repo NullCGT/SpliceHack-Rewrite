@@ -807,10 +807,14 @@ name_to_monplus(
             { "human wererat", PM_HUMAN_WERERAT, NEUTRAL },
             { "human werejackal", PM_HUMAN_WEREJACKAL, NEUTRAL },
             { "human werewolf", PM_HUMAN_WEREWOLF, NEUTRAL },
+            { "human werecockatrice", PM_HUMAN_WERECOCKATRICE, NEUTRAL },
+            { "human pack lord", PM_HUMAN_PACK_LORD, NEUTRAL },
             /* for completeness */
             { "rat wererat", PM_WERERAT, NEUTRAL },
             { "jackal werejackal", PM_WEREJACKAL, NEUTRAL },
             { "wolf werewolf", PM_WEREWOLF, NEUTRAL },
+            { "cockatrice werecockatrice", PM_WERECOCKATRICE, NEUTRAL },
+            { "wolf pack lord", PM_PACK_LORD, NEUTRAL },
             /* Hyphenated names -- it would be nice to handle these via
                fuzzymatch() but it isn't able to ignore trailing stuff */
             { "ki rin", PM_KI_RIN, NEUTRAL },
@@ -1045,6 +1049,7 @@ static const short grownups[][2] = {
     { PM_CHICKATRICE, PM_COCKATRICE },
     { PM_LITTLE_DOG, PM_DOG },
     { PM_DOG, PM_LARGE_DOG },
+    { PM_LARGE_DOG, PM_GUARD_DOG },
     { PM_HELL_HOUND_PUP, PM_HELL_HOUND },
     { PM_WINTER_WOLF_PUP, PM_WINTER_WOLF_CUB },
     { PM_WINTER_WOLF_CUB, PM_WINTER_WOLF },
@@ -1126,6 +1131,8 @@ static const short grownups[][2] = {
     { PM_GLASS_PIERCER, PM_DIAMOND_PIERCER },
     { PM_DIAMOND_PIERCER, PM_GOD_PIERCER },
     { PM_DUST_VORTEX, PM_DUST_DEVIL },
+    { PM_WEREWOLF, PM_PACK_LORD },
+    { PM_HUMAN_WEREWOLF, PM_HUMAN_PACK_LORD },
     { NON_PM, NON_PM }
 };
 

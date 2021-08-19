@@ -651,6 +651,7 @@ extern char *get_annotation(d_level *);
 extern int donamelevel(void);
 extern int dooverview(void);
 extern void show_overview(int, int);
+extern void forget_mapseen(int);
 extern void rm_mapseen(int);
 extern void init_mapseen(d_level *);
 extern void recalc_mapseen(void);
@@ -2173,6 +2174,10 @@ extern void assign_candy_wrapper(struct obj *);
 extern int doread(void);
 extern int charge_ok(struct obj *);
 extern void recharge(struct obj *, int);
+extern void forget_objects(int);
+extern void forget_levels(int);
+extern void forget_traps(void);
+extern void forget_map(int);
 extern int seffects(struct obj *);
 extern void drop_boulder_on_player(boolean, boolean, boolean, boolean);
 extern boolean drop_boulder_on_monster(int, int, boolean, boolean);
@@ -2762,6 +2767,12 @@ extern void mhitm_ad_cold(struct monst *, struct attack *, struct monst *,
 extern void mhitm_ad_elec(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhitm_ad_acid(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
+extern void mhitm_ad_psyc(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
+extern void mhitm_ad_loud(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
+extern void mhitm_ad_memr(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhitm_ad_sgld(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);

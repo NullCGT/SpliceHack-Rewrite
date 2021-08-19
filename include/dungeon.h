@@ -167,7 +167,7 @@ typedef struct branch {
 struct linfo {
     unsigned char flags;
 #define VISITED 0x01      /* hero has visited this level */
-/* 0x02 was FORGOTTEN, when amnesia made you forget maps */
+#define FORGOTTEN 0x02  /* amnesia made you forget maps */
 #define LFILE_EXISTS 0x04 /* a level file exists for this level */
         /* Note:  VISITED and LFILE_EXISTS are currently almost always
          * set at the same time.  However they _mean_ different things.

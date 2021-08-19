@@ -2031,7 +2031,7 @@ lev_by_name(const char *nam)
                  && dlev.dnum == valley_level.dnum))
             && (/* either wizard mode or else seen and not forgotten */
                 wizard
-                || (g.level_info[idx].flags & (VISITED))
+                || (g.level_info[idx].flags & (FORGOTTEN | VISITED))
                        == VISITED)) {
             lev = depth(&dlev);
         }
@@ -2046,9 +2046,9 @@ lev_by_name(const char *nam)
             idx &= 0x00FF;
             /* either wizard mode, or else _both_ sides of branch seen */
             if (wizard
-                || (((g.level_info[idx].flags & (VISITED))
+                || (((g.level_info[idx].flags & (FORGOTTEN | VISITED))
                      == VISITED)
-                    && ((g.level_info[idxtoo].flags & (VISITED))
+                    && ((g.level_info[idxtoo].flags & (FORGOTTEN | VISITED))
                         == VISITED))) {
                 if (ledger_to_dnum(idxtoo) == u.uz.dnum)
                     idx = idxtoo;
@@ -2442,6 +2442,35 @@ find_mapseen_by_str(const char *s)
             break;
 
     return mptr;
+}
+
+void
+forget_mapseen(ledger_num)
+int ledger_num;
+{
+    mapseen *mptr;
+    struct cemetery *bp;
+
+    for (mptr = g.mapseenchn; mptr; mptr = mptr->next)
+        if (g.dungeons[mptr->lev.dnum].ledger_start + mptr->lev.dlevel
+            == ledger_num)
+            break;
+
+    /* if not found, then nothing to forget */
+    if (mptr) {
+        mptr->flags.forgot = 1;
+        mptr->br = (branch *) 0;
+
+        /* custom names are erased, not just forgotten until revisited */
+        if (mptr->custom) {
+            mptr->custom_lth = 0;
+            free((genericptr_t) mptr->custom);
+            mptr->custom = (char *) 0;
+        }
+        (void) memset((genericptr_t) mptr->msrooms, 0, sizeof mptr->msrooms);
+        for (bp = mptr->final_resting_place; bp; bp = bp->next)
+            bp->bonesknown = FALSE;
+    }
 }
 
 

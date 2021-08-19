@@ -32,6 +32,10 @@ were_change(struct monst *mon)
                     howler = "chicken";
                     howl = "squawking";
                     break;
+                case PM_PACK_LORD:
+                    howler = "pack of wolves";
+                    howl = "howling";
+                    break;
                 default:
                     howler = (char *) 0;
                     break;
@@ -55,6 +59,10 @@ int
 counter_were(int pm)
 {
     switch (pm) {
+    case PM_HUMAN_PACK_LORD:
+        return PM_PACK_LORD;
+    case PM_PACK_LORD:
+        return PM_HUMAN_PACK_LORD;
     case PM_WEREWOLF:
         return PM_HUMAN_WEREWOLF;
     case PM_HUMAN_WEREWOLF:
@@ -176,6 +184,15 @@ were_summon(struct permonst *ptr,
         case PM_WEREWOLF:
         case PM_HUMAN_WEREWOLF:
             typ = rn2(5) ? PM_WOLF : rn2(2) ? PM_WARG : PM_WINTER_WOLF;
+            if (genbuf)
+                Strcpy(genbuf, "wolf");
+            break;
+        case PM_HUMAN_PACK_LORD:
+        case PM_PACK_LORD:
+            if (!yours)
+                typ = !rn2(2) ? PM_WOLF : PM_WEREWOLF;
+            else
+                typ = rn2(4) ? PM_WOLF : PM_WINTER_WOLF;
             if (genbuf)
                 Strcpy(genbuf, "wolf");
             break;
