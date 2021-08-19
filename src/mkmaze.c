@@ -710,7 +710,7 @@ stolen_booty(void)
     }
     migr_booty_item(rn2(2) ? LONG_SWORD : SABER, gang);
     /* create the leader of the orc gang */
-    mtmp = makemon(&mons[PM_ORC_CAPTAIN], 0, 0, MM_NONAME);
+    mtmp = makemon(&mons[PM_ORC_WARLORD], 0, 0, MM_NONAME);
     if (mtmp) {
         mtmp = christen_monst(mtmp, upstart(gang));
         mtmp->mpeaceful = 0;

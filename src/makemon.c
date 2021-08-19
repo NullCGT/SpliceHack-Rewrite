@@ -611,6 +611,9 @@ m_initweap(register struct monst *mtmp)
             if (!rn2(3))
                 (void) mongets(mtmp, ORCISH_CHAIN_MAIL);
             break;
+        case PM_ORC_WARLORD:
+            (void) mongets(mtmp, FRAG_GRENADE);
+            /* FALLTHRU */
         case PM_URUK_HAI:
             if (!rn2(3))
                 (void) mongets(mtmp, ORCISH_CLOAK);

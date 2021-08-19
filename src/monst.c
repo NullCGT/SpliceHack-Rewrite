@@ -607,6 +607,13 @@ NEARDATA struct permonst mons_init[] = {
         SIZ(300, 200, MS_SQAWK, MZ_SMALL), MR_POISON, MR_POISON,
         M1_TPORT | M1_TPORT_CNTRL, M2_STALK, M3_INFRAVISIBLE | M3_INFRAVISION,
         7, CLR_CYAN),
+    MON2("dust devil", S_IMP, LVL(6, 20, -6, 20, 11),
+        (G_HELL | G_NOCORPSE | 2),
+        A(ATTK(AT_CLAW, AD_BLND, 1, 4), ATTK(AT_CLAW, AD_BLND, 1, 4),
+          ATTK(AT_ENGL, AD_PHYS, 2, 6), NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(WT_HUMAN, 400, MS_SILENT, MZ_HUMAN), MR_FIRE | MR_POISON, 0,
+        M1_POIS | M1_FLY | M1_THICK_HIDE, M2_STALK | M2_HOSTILE |
+        M2_NASTY, 0, MH_DEMON, 10, CLR_YELLOW),
     /*
      * jellies
      */
@@ -768,6 +775,12 @@ NEARDATA struct permonst mons_init[] = {
         SIZ(1350, 350, MS_ORC, MZ_HUMAN), 0, 0, M1_HUMANOID | M1_OMNIVORE,
         M2_STRONG | M2_GREEDY | M2_JEWELS | M2_COLLECT,
         M3_INFRAVISIBLE | M3_INFRAVISION, MH_ORC, 7, HI_LORD),
+    MON2("orc warlord", S_ORC, LVL(6, 5, 12, 0, -5), (G_GENO | G_NOGEN),
+        A(ATTK(AT_WEAP, AD_PHYS, 3, 4), ATTK(AT_WEAP, AD_PHYS, 2, 4), NO_ATTK,
+          NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(1350, 350, MS_ORC, MZ_HUMAN), 0, 0, M1_HUMANOID | M1_OMNIVORE,
+        M2_STRONG | M2_GREEDY | M2_JEWELS | M2_COLLECT,
+        M3_INFRAVISIBLE | M3_INFRAVISION, MH_ORC, 9, HI_LORD),
     /*
      * piercers
      */
@@ -792,6 +805,20 @@ NEARDATA struct permonst mons_init[] = {
         M1_CLING | M1_HIDE | M1_ANIMAL | M1_NOEYES | M1_NOLIMBS | M1_CARNIVORE
             | M1_NOTAKE,
         M2_HOSTILE, 0, 9, CLR_WHITE),
+    MON("diamond piercer", S_PIERCER, LVL(8, 1, 0, 0, 0), (G_GENO | G_NOGEN),
+        A(ATTK(AT_BITE, AD_PHYS, 8, 6), NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
+          NO_ATTK),
+        SIZ(400, 300, MS_SILENT, MZ_MEDIUM), MR_ACID | MR_FIRE, 0,
+        M1_CLING | M1_HIDE | M1_ANIMAL | M1_NOEYES | M1_NOLIMBS | M1_CARNIVORE
+            | M1_NOTAKE,
+        M2_HOSTILE, 0, 9, CLR_BLUE),
+    MON("god piercer", S_PIERCER, LVL(9, 1, 0, 0, 3), (G_GENO | G_NOGEN),
+        A(ATTK(AT_BITE, AD_PHYS, 16, 6), NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK,
+          NO_ATTK),
+        SIZ(400, 300, MS_SILENT, MZ_MEDIUM), MR_ACID | MR_ELEC | MR_FIRE | MR_COLD, 0,
+        M1_CLING | M1_HIDE | M1_ANIMAL | M1_NOEYES | M1_NOLIMBS | M1_CARNIVORE
+            | M1_NOTAKE,
+        M2_HOSTILE, 0, 17, CLR_BRIGHT_MAGENTA),
     /*
      * quadrupeds
      */
@@ -3264,6 +3291,13 @@ struct permonst _mons2[] = {
         M2_NOPOLY | M2_HOSTILE | M2_SHAPESHIFTER, 0, 7, CLR_BROWN),
     MON("crocodile", S_LIZARD, LVL(6, 9, 5, 0, 0), (G_GENO | 1),
         A(ATTK(AT_BITE, AD_PHYS, 4, 2), ATTK(AT_CLAW, AD_PHYS, 1, 12),
+          NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(WT_HUMAN, 400, MS_SILENT, MZ_LARGE), 0, 0,
+        M1_SWIM | M1_AMPHIBIOUS | M1_ANIMAL | M1_THICK_HIDE | M1_NOHANDS
+            | M1_OVIPAROUS | M1_CARNIVORE,
+        M2_STRONG | M2_HOSTILE, 0, 7, CLR_BROWN),
+    MON("killer croc", S_LIZARD, LVL(7, 9, 5, 0, 0), (G_GENO | G_NOGEN),
+        A(ATTK(AT_BITE, AD_PHYS, 10, 2), ATTK(AT_CLAW, AD_PHYS, 2, 12),
           NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
         SIZ(WT_HUMAN, 400, MS_SILENT, MZ_LARGE), 0, 0,
         M1_SWIM | M1_AMPHIBIOUS | M1_ANIMAL | M1_THICK_HIDE | M1_NOHANDS

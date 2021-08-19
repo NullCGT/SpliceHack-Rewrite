@@ -202,11 +202,13 @@
     (is_demon(ptr) && (((ptr)->mflags2 & (M2_LORD | M2_PRINCE)) == 0L))
 #define is_dlord(ptr) (is_demon(ptr) && is_lord(ptr))
 #define is_dprince(ptr) (is_demon(ptr) && is_prince(ptr))
-#define is_unkdemon(ptr) (is_ndemon(ptr) \
+#define is_unkdemon(ptr) ((is_ndemon(ptr) \
         && (ptr)->mlet == S_DEMON \
         && (ptr) != &mons[PM_WATER_DEMON] \
         && (ptr) != &mons[PM_LAVA_DEMON] \
-        && (ptr) != &mons[PM_DJINNI])
+        && (ptr) != &mons[PM_DJINNI]) \
+        || ((ptr) == &mons[PM_LEMURE] \
+            || (ptr) == &mons[PM_MANES]))
 #define is_minion(ptr) (((ptr)->mflags2 & M2_MINION) != 0L)
 #define likes_gold(ptr) (((ptr)->mflags2 & M2_GREEDY) != 0L)
 #define likes_gems(ptr) (((ptr)->mflags2 & M2_JEWELS) != 0L)

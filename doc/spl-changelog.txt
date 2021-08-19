@@ -133,6 +133,9 @@ Monster Changes
   - Attempt to avoid the player unless the player has less than one quarter of their
     hit points remaining.
   - Peaceful to neutral characters.
+- New Adult Monsters: Killer Croc, Diamond Piercer
+  - Not randomly generated.
+  - Only appear when a lower level monster grows up.
 - Ported UnnetHack Aleaxes: Aleaxes are generated with copies of the player's items.
 - Purple dragons have been renamed to violet dragons.
 - Dragons have been significantly altered.
@@ -165,6 +168,9 @@ Monster Changes
   - Drinking a potion of sickness kills all larvae.
 - The Dark One is no longer a human.
 - Allow grid bugs to grow up into more powerful electric bugs.
+- Piercers can grow up into more powerful piercers. This includes god piercers, which
+  have been significantly altered.
+- Dust vorticies can grow up into dust devils.
 
 Object Changes
 - Zapping a wand of water at an item will extinguish it.
