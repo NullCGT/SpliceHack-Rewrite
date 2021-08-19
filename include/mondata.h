@@ -342,6 +342,12 @@
      || (ptr) == &mons[PM_TASMANIAN_DEVIL] \
      || (ptr) == &mons[PM_LOCUST])
 
+#define horizontal_mover(ptr) \
+    ((ptr) == &mons[PM_GRID_BUG] \
+     || (ptr) == &mons[PM_SPARK_BUG] \
+     || (ptr) == &mons[PM_ARC_BUG] \
+     || (ptr) == &mons[PM_LIGHTNING_BUG])
+
 #define is_bones_monster(ptr) ((ptr) == &mons[PM_GHOST] || (ptr) == &mons[PM_GHOUL]        \
                                || (ptr) == &mons[PM_VAMPIRE] || (ptr) == &mons[PM_WRAITH]  \
                                || (ptr) == &mons[PM_GREEN_SLIME] || (ptr)->mlet == S_MUMMY)

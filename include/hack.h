@@ -476,7 +476,8 @@ enum bodypart_types {
 #define WAND_BACKFIRE_CHANCE 100
 #define BALL_IN_MON (u.uswallow && uball && uball->where == OBJ_FREE)
 #define CHAIN_IN_MON (u.uswallow && uchain && uchain->where == OBJ_FREE)
-#define NODIAG(monnum) ((monnum) == PM_GRID_BUG)
+#define NODIAG(monnum) ((monnum) == PM_GRID_BUG || (monnum) == PM_SPARK_BUG \
+                        || (monnum) == PM_ARC_BUG || (monnum) == PM_LIGHTNING_BUG)
 
 /* Flags to control menus */
 #define MENUTYPELEN sizeof("traditional ")

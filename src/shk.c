@@ -4821,7 +4821,7 @@ shk_move(struct monst* shkp)
     if (inhishop(shkp))
         remove_damage(shkp, FALSE);
 
-    if ((udist = distu(omx, omy)) < 3 && (shkp->data != &mons[PM_GRID_BUG]
+    if ((udist = distu(omx, omy)) < 3 && (!horizontal_mover(shkp->data)
                                           || (omx == u.ux || omy == u.uy))) {
         if (ANGRY(shkp) || (Conflict && !resist_conflict(shkp))) {
             if (Displaced)
