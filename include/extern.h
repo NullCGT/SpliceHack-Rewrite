@@ -2774,6 +2774,8 @@ extern void mhitm_ad_loud(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhitm_ad_memr(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
+extern void mhitm_ad_void(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
 extern void mhitm_ad_sgld(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhitm_ad_tlpt(struct monst *, struct attack *, struct monst *,
@@ -2835,6 +2837,8 @@ extern void mhitm_ad_sedu(struct monst *, struct attack *, struct monst *,
 extern void mhitm_ad_ssex(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhtim_ad_hngy(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
+extern void mhitm_ad_wind(struct monst *, struct attack *, struct monst *, 
                           struct mhitm_data *);
 extern void mhitm_ad_vorp(struct monst *, struct attack *, struct monst *, 
                           struct mhitm_data *);

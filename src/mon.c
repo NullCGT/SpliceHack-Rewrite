@@ -373,6 +373,7 @@ undead_to_corpse(int mndx)
     case PM_VAMPIRE_MAGE:
     case PM_HUMAN_ZOMBIE:
     case PM_HUMAN_MUMMY:
+    case PM_NOSFERATU:
         mndx = PM_HUMAN;
         break;
     case PM_GIANT_ZOMBIE:
@@ -552,6 +553,7 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
     case PM_VAMPIRE:
     case PM_VAMPIRE_LEADER:
     case PM_VAMPIRE_MAGE:
+    case PM_NOSFERATU:
         /* include mtmp in the mkcorpstat() call */
         num = undead_to_corpse(mndx);
         corpstatflags |= CORPSTAT_INIT;
@@ -1783,7 +1785,7 @@ mon_allowflags(struct monst* mtmp)
     if (is_minion(mtmp->data) || is_rider(mtmp->data))
         allowflags |= ALLOW_SANCT;
     /* unicorn may not be able to avoid hero on a noteleport level */
-    if (is_unicorn(mtmp->data) && !noteleport_level(mtmp))
+    if (avoids_player(mtmp->data) && !noteleport_level(mtmp))
         allowflags |= NOTONL;
     if (is_human(mtmp->data) || mtmp->data == &mons[PM_MINOTAUR])
         allowflags |= ALLOW_SSM;

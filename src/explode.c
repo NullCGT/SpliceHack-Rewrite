@@ -893,7 +893,10 @@ adtyp_to_expltype(const int adtyp)
     case AD_SPEL:
     case AD_DREN:
     case AD_ENCH:
+    case AD_PSYC:
         return EXPL_MAGICAL;
+    case AD_LOUD:
+        return EXPL_DARK;
     case AD_FIRE:
         return EXPL_FIERY;
     case AD_COLD:
@@ -903,6 +906,7 @@ adtyp_to_expltype(const int adtyp)
     case AD_DRCO:
     case AD_DISE:
     case AD_PEST:
+    case AD_ACID:
     case AD_PHYS: /* gas spore */
         return EXPL_NOXIOUS;
     default:

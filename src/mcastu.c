@@ -314,6 +314,11 @@ castmu(register struct monst *mtmp,
             dmg = 0;
         }
         break;
+    case AD_WIND:
+        You("are blasted by wind!");
+        hurtle(u.ux - mtmp->mx, u.uy - mtmp->my, dmg, TRUE);
+        dmg = 0;
+        break;
     case AD_MAGM:
         You("are hit by a shower of missiles!");
         if (Antimagic) {

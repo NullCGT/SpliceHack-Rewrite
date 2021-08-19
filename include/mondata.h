@@ -286,7 +286,8 @@
                      || ((ptr) == g.youmonst.data &&       \
                          !Upolyd && Race_if(PM_VAMPIRE)))
 
-#define hates_light(ptr) ((ptr) == &mons[PM_GREMLIN])
+#define hates_light(ptr) ((ptr) == &mons[PM_GREMLIN] \
+      || (ptr) == &mons[PM_NOSFERATU])
 
 /* used to vary a few messages */
 #define weirdnonliving(ptr) (is_golem(ptr) || (ptr)->mlet == S_VORTEX)
@@ -343,6 +344,10 @@
     ((ptr) == &mons[PM_GELATINOUS_CUBE] \
      || (ptr) == &mons[PM_TASMANIAN_DEVIL] \
      || (ptr) == &mons[PM_LOCUST])
+
+#define avoids_player(ptr) \
+    (is_unicorn(ptr) \
+     || (ptr) == &mons[PM_MAGICAL_EYE])
 
 #define horizontal_mover(ptr) \
     ((ptr) == &mons[PM_GRID_BUG] \

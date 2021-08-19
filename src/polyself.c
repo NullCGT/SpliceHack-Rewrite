@@ -713,10 +713,12 @@ polymon(int mntmp)
     set_uasmon();
 
     /* New stats for monster, to last only as long as polymorphed.
-     * Currently only strength gets changed.
      */
     if (strongmonst(&mons[mntmp]))
         ABASE(A_STR) = AMAX(A_STR) = STR18(100);
+    /* In the canon of a certain tabletop game, nosferatu are notoriously ugly */
+    if (mntmp == PM_NOSFERATU)
+        ABASE(A_CHA) = AMAX(A_CHA) = 3;
 
     if (Stone_resistance && Stoned) { /* parnes@eniac.seas.upenn.edu */
         make_stoned(0L, "You no longer seem to be petrifying.", 0,
@@ -1433,7 +1435,8 @@ dogaze(void)
 
     if (adtyp == AD_HNGY || adtyp == AD_LUCK) adtyp = AD_CONF;
 
-    if (adtyp != AD_CONF && adtyp != AD_FIRE && adtyp != AD_SLEE && adtyp != AD_FEAR) {
+    if (adtyp != AD_CONF && adtyp != AD_FIRE && adtyp != AD_SLEE && adtyp != AD_FEAR
+        && adtyp != AD_STUN && adtyp != AD_TLPT && adtyp != AD_PLYS && adtyp != AD_COLD) {
         impossible("gaze attack %d?", adtyp);
         return 0;
     }
@@ -1513,8 +1516,45 @@ dogaze(void)
                         mtmp->mhp -= dmg;
                     if (DEADMONSTER(mtmp))
                         killed(mtmp);
-                } else if (adtyp == AD_SLEE) {
+                } else if (adtyp == AD_COLD) {
+                    int dmg = d(2, 6), lev = (int) u.ulevel;
 
+                    You("attack %s with a chilling gaze!", mon_nam(mtmp));
+                    if (resists_cold(mtmp)) {
+                        pline_The("cold doesn't harm %s!", mon_nam(mtmp));
+                        dmg = 0;
+                    }
+                    if (lev > rn2(20))
+                        (void) destroy_mitem(mtmp, POTION_CLASS, AD_COLD);
+                    if (dmg)
+                        mtmp->mhp -= dmg;
+                    if (DEADMONSTER(mtmp))
+                        killed(mtmp);
+                } else if (adtyp == AD_PLYS) {
+                    You("fix %s with an aberrant glare...", mon_nam(mtmp));
+                    if (mtmp->data == &mons[PM_NOSFERATU]) {
+                        pline("%s looks disdainful, and mutters something about amateurs.", Monnam(mtmp));
+                    } else if (is_undead(mtmp->data) || mindless(mtmp->data) 
+                                || is_demon(mtmp->data)) {
+                        pline("%s does not seem to care.", Monnam(mtmp));
+                    } else {
+                        pline("%s reels in shock and horror!", Monnam(mtmp));
+                        paralyze_monst(mtmp, rnd(10));
+                    }
+                } else if (adtyp == AD_STUN) {
+                    pline("%s %s for a moment.", Monnam(mtmp),
+                        makeplural(stagger(mtmp->data, "stagger")));
+                    mtmp->mstun = 1;
+                } else if (adtyp == AD_TLPT) {
+                    char nambuf[BUFSZ];
+                    /* record the name before losing sight of monster */
+                    Strcpy(nambuf, Monnam(mtmp));
+                    if (u_teleport_mon(mtmp, FALSE)
+                        && !(canseemon(mtmp)))
+                        pline("%s suddenly disappears!", nambuf);
+                } else if (adtyp == AD_SLEE) {
+                    pline("%s falls into a trance.", Monnam(mtmp));
+                    mtmp->msleeping = 1;
                 }
                 /* For consistency with passive() in uhitm.c, this only
                  * affects you if the monster is still alive.

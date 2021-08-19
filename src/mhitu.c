@@ -1509,6 +1509,9 @@ explmu(struct monst *mtmp, struct attack *mattk, boolean ufound)
     case AD_COLD:
     case AD_FIRE:
     case AD_ELEC:
+    case AD_ACID:
+    case AD_LOUD:
+    case AD_PSYC:
         mon_explodes(mtmp, mattk);
         if (!DEADMONSTER(mtmp))
             kill_agr = FALSE; /* lifesaving? */
@@ -1542,6 +1545,11 @@ explmu(struct monst *mtmp, struct attack *mattk, boolean ufound)
             You("%s.", chg ? "are freaked out" : "seem unaffected");
         }
         break;
+    case AD_WIND:
+        You("are blasted by hurricane force winds!");
+        hurtle(u.ux - mtmp->mx, u.uy - mtmp->my, tmp, TRUE);
+        tmp = 0;
+        break;
     default:
         impossible("unknown exploder damage type %d", mattk->adtyp);
         break;
@@ -1565,8 +1573,8 @@ gazemu(struct monst *mtmp, struct attack *mattk)
         "stunned",               /* [1] */
         "puzzled",   "dazzled",  /* [2,3] */
         "irritated", "inflamed", /* [4,5] */
-        "tired",                 /* [6] */
-        "dulled",                /* [7] */
+        "chilly", "tired",       /* [6,7] */
+        "dulled",                /* [8] */
     };
     int react = -1;
     boolean cancelled = (mtmp->mcan != 0), already = FALSE;
@@ -1631,6 +1639,36 @@ gazemu(struct monst *mtmp, struct attack *mattk)
             g.killer.format = KILLED_BY;
             Strcpy(g.killer.name, pmname(mtmp->data, Mgender(mtmp)));
             done(STONING);
+        }
+        break;
+    case AD_PLYS:
+        if (!mtmp->mcan && canseemon(mtmp)
+            && couldsee(mtmp->mx, mtmp->my) && !is_fainted()
+            && !mtmp->mspec_used && rn2(4)
+            && g.multi>=0 && !((is_undead(g.youmonst.data) || Race_if(PM_GHOUL)
+                || is_demon(g.youmonst.data)) && is_undead(mtmp->data))) {
+            pline("%s aberrant stare frightens you to the core!",
+                s_suffix(Monnam(mtmp)));
+            if(Free_action){
+                pline("But you quickly regain composure.");
+            }
+            else {
+                    int prlys = d((int)mattk->damn, (int)mattk->damd);
+                int numhelp, numseen;
+                nomul(-prlys);
+                g.nomovemsg = 0;	/* default: "you can move again" */
+
+                if(!mtmp->cham && mtmp->data == &mons[PM_NOSFERATU] &&
+                    !mtmp->mcan && !rn2(3)){
+                    numhelp = were_summon(mtmp->data, FALSE, &numseen, 0);
+                    pline("%s summons help!", Monnam(mtmp));
+                    if (numhelp > 0) {
+                        if (numseen == 0)
+                            You_feel("hemmed in.");
+                    } else pline("But none comes.");
+                }
+                mtmp->mspec_used += prlys*3/2 + rn2(prlys);
+            }
         }
         break;
     case AD_HNGY:
@@ -1750,6 +1788,36 @@ gazemu(struct monst *mtmp, struct attack *mattk)
             }
         }
         break;
+    case AD_COLD:
+        if (canseemon(mtmp) && couldsee(mtmp->mx, mtmp->my) && mtmp->mcansee
+            && !mtmp->mspec_used && rn2(5)) {
+            if (cancelled) {
+                react = 8; /* "chilly" */
+            } else {
+                int dmg = d(2, 6), lev = (int) mtmp->m_lev;
+
+                pline("%s attacks you with a chilling gaze!", Monnam(mtmp));
+                stop_occupation();
+                if (Cold_resistance) {
+                    pline_The("chilling gaze doesn't feel cold!");
+                    dmg = 0;
+                }
+                if (lev > rn2(20))
+                    destroy_item(POTION_CLASS, AD_COLD);
+                if (dmg)
+                    mdamageu(mtmp, dmg);
+            }
+        }
+        break;
+    case AD_TLPT:
+        if(!mtmp->mcan && canseemon(mtmp) && mtmp->mcansee && !
+            mtmp->mspec_used && rn2(5)) {
+                pline("%s stares blinkingly at you!", Monnam(mtmp));
+                if (flags.verbose)
+                        Your("position suddenly seems very uncertain!");
+                tele();
+        }
+        break;
     case AD_SLEE:
         if (canseemon(mtmp) && couldsee(mtmp->mx, mtmp->my) && mtmp->mcansee
             && g.multi >= 0 && !rn2(5) && !Sleep_resistance) {
@@ -1782,7 +1850,6 @@ gazemu(struct monst *mtmp, struct attack *mattk)
             if (mtmp->data == &mons[PM_BODAK]) u.ugrave_arise = PM_BODAK;
         }
         break;
-#ifdef PM_BEHOLDER /* work in progress */
     case AD_SLOW:
         if (canseemon(mtmp) && couldsee(mtmp->mx, mtmp->my) && mtmp->mcansee
             && (HFast & (INTRINSIC | TIMEOUT)) && !defends(AD_SLOW, uwep)
@@ -1796,7 +1863,6 @@ gazemu(struct monst *mtmp, struct attack *mattk)
             }
         }
         break;
-#endif /* BEHOLDER */
     default:
         impossible("Gaze attack %d?", mattk->adtyp);
         break;

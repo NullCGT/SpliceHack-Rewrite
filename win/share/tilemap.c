@@ -57,7 +57,7 @@ struct conditionals_t {
     { MON_GLYPH, PM_HELL_HOUND, "Cerberus" },
 #endif
     /* commented out in monst.c at present */
-    { MON_GLYPH, PM_SHOCKING_SPHERE, "beholder" },
+    { MON_GLYPH, PM_BLINKING_EYE, "beholder" },
 #ifndef CHARON /* not supported yet */
     { MON_GLYPH, PM_CROESUS, "Charon" },
 #endif
