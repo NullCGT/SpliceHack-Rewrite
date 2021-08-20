@@ -244,8 +244,6 @@ Bug Fixes
 Known Bugs
 - Rare failed sanity check for improper mon data, possibly due to vampiric monsters shapeshifting.
 - Removing a mask that transformed you into a light-emitting monster will cause a program in disorder.
-- Wishing for "vampire blood" results in a potion of vampire blood. Wishing for "potion of vampire blood"
-  results in a random potion.
 
                             Version 0.8.3
 
