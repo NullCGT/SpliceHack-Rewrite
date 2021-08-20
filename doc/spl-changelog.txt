@@ -216,6 +216,7 @@ Role Changes
 Display Changes
 - Ridden monsters are highlighted in bright magenta.
 - The floor of the gnomish mines is rendered in the same color as the walls.
+- The walls of the black market have unique tiles in graphical builds.
 
 Balancing
 - Potions of paralysis injected via dipped weapons no longer paralyze monsters for rnd(25) turns.

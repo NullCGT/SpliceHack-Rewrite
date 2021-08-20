@@ -99,7 +99,9 @@ struct substitute {
                     { GLYPH_CMAP_OFF + S_vwall, GLYPH_CMAP_OFF + S_trwall,
                       "knox walls", "Is_knox(plev)" },
                     { GLYPH_CMAP_OFF + S_vwall, GLYPH_CMAP_OFF + S_trwall,
-                      "sokoban walls", "In_sokoban(plev)" } };
+                      "sokoban walls", "In_sokoban(plev)" },
+                    { GLYPH_CMAP_OFF + S_vwall, GLYPH_CMAP_OFF + S_trwall,
+                      "blackmarket walls", "Is_blackmarket(plev)" } };
 
 #if defined(TILETEXT) || defined(OBTAIN_TILEMAP)
 /*
