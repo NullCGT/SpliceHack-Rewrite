@@ -798,6 +798,14 @@ NEARDATA struct permonst mons_init[] = {
         SIZ(WT_HUMAN, 400, MS_SILENT, MZ_HUMAN), MR_FIRE | MR_POISON, 0,
         M1_POIS | M1_FLY | M1_THICK_HIDE, M2_STALK | M2_HOSTILE |
         M2_NASTY, 0, MH_DEMON, 10, CLR_YELLOW),
+    MON("redcap", S_IMP, LVL(10, 15, 2, 30, 7), (G_GENO | 1),
+        A(ATTK(AT_BITE, AD_PHYS, 1, 2), ATTK(AT_WEAP, AD_PHYS, 2, 4),
+          ATTK(AT_CLAW, AD_PHYS, 1, 4), NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(300, 200, MS_CUSS, MZ_SMALL), MR_POISON, MR_POISON,
+        M1_HUMANOID | M1_CARNIVORE | M1_NEEDPICK | M1_AMPHIBIOUS,
+        M2_STALK | M2_MALE | M2_HOSTILE | M2_STRONG,
+        M3_INFRAVISIBLE | M3_INFRAVISION,
+        7, CLR_RED),
     /*
      * jellies
      */
