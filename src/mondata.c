@@ -1134,6 +1134,8 @@ static const short grownups[][2] = {
     { PM_DUST_VORTEX, PM_DUST_DEVIL },
     { PM_WEREWOLF, PM_PACK_LORD },
     { PM_HUMAN_WEREWOLF, PM_HUMAN_PACK_LORD },
+    { PM_DEEP_ONE, PM_DEEPER_ONE },
+    { PM_DEEPER_ONE, PM_DEEPEST_ONE },
     { NON_PM, NON_PM }
 };
 
