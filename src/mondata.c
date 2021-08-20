@@ -1055,6 +1055,7 @@ static const short grownups[][2] = {
     { PM_WINTER_WOLF_CUB, PM_WINTER_WOLF },
     { PM_KITTEN, PM_HOUSECAT },
     { PM_HOUSECAT, PM_LARGE_CAT },
+    { PM_LARGE_CAT, PM_FAT_CAT },
     { PM_PONY, PM_HORSE },
     { PM_HORSE, PM_WARHORSE },
     { PM_KOBOLD, PM_LARGE_KOBOLD },

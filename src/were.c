@@ -24,6 +24,10 @@ were_change(struct monst *mon)
                     howler = "wolf";
                     howl = "howling";
                     break;
+                case PM_WERETIGER:
+                    howler = "tiger";
+                    howl = "yowling";
+                    break;
                 case PM_WEREJACKAL:
                     howler = "jackal";
                     howl = "howling";
@@ -79,6 +83,10 @@ counter_were(int pm)
         return PM_HUMAN_WERECOCKATRICE;
     case PM_HUMAN_WERECOCKATRICE:
         return PM_WERECOCKATRICE;
+    case PM_WERETIGER:
+        return PM_HUMAN_WERETIGER;
+    case PM_HUMAN_WERETIGER:
+        return PM_WERETIGER;
     default:
         return NON_PM;
     }
@@ -94,6 +102,9 @@ were_beastie(int pm)
     case PM_CHICKATRICE:
     case PM_PYROLISK:
         return PM_WERECOCKATRICE;
+    case PM_TIGER:
+    case PM_WERETIGER:
+        return PM_WERETIGER;
     case PM_WERERAT:
     case PM_SEWER_RAT:
     case PM_GIANT_RAT:
@@ -181,6 +192,12 @@ were_summon(struct permonst *ptr,
             typ = rn2(3) ? PM_CHICKATRICE : rn2(3) ? PM_PYROLISK : PM_CHICKATRICE;
             if (genbuf)
                 Strcpy(genbuf, "cockatrice");
+            break;
+        case PM_HUMAN_WERETIGER:
+        case PM_WERETIGER:
+            typ = PM_TIGER;
+            if (genbuf)
+                Strcpy(genbuf, "tiger");
             break;
         case PM_WEREWOLF:
         case PM_HUMAN_WEREWOLF:

@@ -208,7 +208,8 @@
         && (ptr) != &mons[PM_LAVA_DEMON] \
         && (ptr) != &mons[PM_DJINNI]) \
         || ((ptr) == &mons[PM_LEMURE] \
-            || (ptr) == &mons[PM_MANES]))
+            || (ptr) == &mons[PM_MANES] \
+            || (ptr) == &mons[PM_HELLCAT]))
 #define is_minion(ptr) (((ptr)->mflags2 & M2_MINION) != 0L)
 #define likes_gold(ptr) (((ptr)->mflags2 & M2_GREEDY) != 0L)
 #define likes_gems(ptr) (((ptr)->mflags2 & M2_JEWELS) != 0L)
@@ -263,7 +264,8 @@
     (ptr == &mons[PM_FIRE_ELEMENTAL] || ptr == &mons[PM_SALAMANDER] \
         || ptr == &mons[PM_MAGMA_ELEMENTAL])
 #define pm_invisible(ptr) \
-    ((ptr) == &mons[PM_STALKER] || (ptr) == &mons[PM_BLACK_LIGHT])
+    ((ptr) == &mons[PM_STALKER] || (ptr) == &mons[PM_BLACK_LIGHT] \
+      || (ptr) == &mons[PM_HELLCAT])
 
 /* could probably add more */
 #define likes_fire(ptr)                                                  \

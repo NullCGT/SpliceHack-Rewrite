@@ -1614,7 +1614,9 @@ makemon(register struct permonst *ptr,
         break;
     case S_LIGHT:
     case S_ELEMENTAL:
-        if (mndx == PM_STALKER || mndx == PM_BLACK_LIGHT) {
+    case S_FELINE:
+        if (mndx == PM_STALKER || mndx == PM_BLACK_LIGHT
+              || mndx == PM_HELLCAT) {
             mtmp->perminvis = TRUE;
             mtmp->minvis = TRUE;
         }
