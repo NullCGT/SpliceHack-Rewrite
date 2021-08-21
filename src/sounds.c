@@ -1076,6 +1076,8 @@ domonnoise(register struct monst* mtmp)
     case MS_ARREST:
         if (mtmp->mpeaceful)
             verbalize("Just the facts, %s.", flags.female == FEMALE ? "Ma'am" : flags.female == MALE ? "Sir" : "Mix");
+        else if (mtmp->data == &mons[PM_KORRUPT_KOP])
+            verbalize("Stop resisting arrest!");
         else {
             static const char *const arrest_msg[3] = {
                 "Anything you say can be used against you.",
