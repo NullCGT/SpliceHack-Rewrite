@@ -3923,6 +3923,37 @@ mhitm_ad_hngy(struct monst *magr, struct attack *mattk,
 }
 
 void
+mhitm_ad_fumb(magr, mattk, mdef, mhm)
+struct monst *magr;
+struct attack *mattk;
+struct monst *mdef;
+struct mhitm_data *mhm;
+{
+    if (magr == &g.youmonst) {
+        /* uhitm */
+        mhitm_ad_phys(magr, mattk, mdef, mhm);
+        if (mhm->done)
+            return;
+    } else if (mdef == &g.youmonst) {
+        /* mhitu */
+        int armpro = magic_negation(mdef);
+        boolean uncancelled = !magr->mcan && (rn2(10) >= 3 * armpro);
+        hitmsg(magr, mattk);
+        if (uncancelled && !thick_skinned(g.youmonst.data) 
+            && (Cold_resistance ? !rn2(3) : !rn2(2))) {
+            You_feel(Hallucination ? "wiggly" : "chilled to the bone.");
+            incr_itimeout(&HFumbling, rnd(30));
+        }
+        return;
+    } else {
+        /* mhitm */
+        mhitm_ad_phys(magr, mattk, mdef, mhm);
+        if (mhm->done)
+            return;
+    }
+}
+
+void
 mhitm_ad_wthr(magr, mattk, mdef, mhm)
 struct monst *magr;
 struct attack *mattk;
@@ -4831,6 +4862,7 @@ mhitm_adtyping(struct monst *magr, struct attack *mattk, struct monst *mdef,
     case AD_LUCK: mhitm_ad_luck(magr, mattk, mdef, mhm); break;
     case AD_LARV: mhitm_ad_larv(magr, mattk, mdef, mhm); break;
     case AD_HNGY:  mhitm_ad_hngy(magr, mattk, mdef, mhm); break;
+    case AD_FUMB:  mhitm_ad_fumb(magr, mattk, mdef, mhm); break;
     case AD_WTHR: mhitm_ad_wthr(magr, mattk, mdef, mhm); break;
     case AD_VORP: mhitm_ad_vorp(magr, mattk, mdef, mhm); break;
     /* case AD_FEAR: mhtim_ad_fear(magr, mattkm mdef, mhm); break; */
@@ -5672,6 +5704,27 @@ passive(struct monst *mon,
     else
         tmp = 0;
 
+    int mon_atyp = ptr->mattk[i].adtyp;
+    if (mon_atyp == AD_RBRE) {
+        switch(rn2(5)) {
+        case 0:
+            mon_atyp = AD_ELEC;
+            break;
+        case 1:
+            mon_atyp = AD_COLD;
+            break;
+        case 2:
+            mon_atyp = AD_FIRE;
+            break;
+        case 3:
+            mon_atyp = AD_STCK;
+            break;
+        default:
+            mon_atyp = AD_ACID;
+            break;
+        }
+    }
+
     /*  These affect you even if they just died.
      */
     switch (ptr->mattk[i].adtyp) {
@@ -5769,6 +5822,7 @@ passive(struct monst *mon,
             mdamageu(mon, tmp);
         }
         break;
+    case AD_MTRL:
     case AD_ENCH: /* KMH -- remove enchantment (disenchanter) */
         if (mhitb) {
             if (aatyp == AT_KICK) {

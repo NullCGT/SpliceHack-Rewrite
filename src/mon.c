@@ -1260,9 +1260,9 @@ register struct obj *otmp;
             else if (!Deaf && flags.verbose)
                 You("hear an unsettling writhing noise.");
             mon_givit(mtmp, &mons[otmp->corpsenm]);
-            if (mtmp->data == &mons[PM_ZUGGOTOMOY])
-                makemon(&mons[PM_ASPECT_OF_ZUGGOTOMOY], mtmp->mx, mtmp->my, NO_MINVENT);
-            else
+            if (mtmp->data == &mons[PM_ZUGGOTOMOY]) {
+                makemon(&mons[PM_ASPECT_OF_ZUGGOTOMOY], u.ux, u.uy, NO_MINVENT);
+            } else
                 clone_mon(mtmp, 0, 0);
             delobj(otmp);
             break; /* only eat one at a time... */

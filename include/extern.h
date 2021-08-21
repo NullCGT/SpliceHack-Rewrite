@@ -2842,6 +2842,8 @@ extern void mhtim_ad_hngy(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhitm_ad_wind(struct monst *, struct attack *, struct monst *, 
                           struct mhitm_data *);
+extern void mhitm_ad_fumb(struct monst *, struct attack *, struct monst *, 
+                          struct mhitm_data *);
 extern void mhitm_ad_vorp(struct monst *, struct attack *, struct monst *, 
                           struct mhitm_data *);
 extern void mhitm_adtyping(struct monst *, struct attack *, struct monst *,

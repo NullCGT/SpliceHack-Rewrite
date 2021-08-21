@@ -110,6 +110,8 @@ in its own way.
 - New Branch: The Bar
   - Inspired by the Guild of Disgruntled Adventurers, as well as conversations on IRC.
   - Replaces the banquet hall.
+- Juiblex's lair has a 50% chance of containing Juiblex and a 50% chance of containing
+  Zuggotomoy.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.

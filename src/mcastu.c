@@ -288,12 +288,20 @@ castmu(register struct monst *mtmp,
     ret = 1;
     switch (mattk->adtyp) {
     case AD_FIRE:
-        pline("You're enveloped in flames.");
-        if (Fire_resistance) {
-            shieldeff(u.ux, u.uy);
-            pline("But you resist the effects.");
-            monstseesu(M_SEEN_FIRE);
-            dmg = 0;
+        if (is_demon(mtmp->data)) {
+            pline("You're enveloped in blazing pillar of hellfire!");
+            if (Fire_resistance) {
+                shieldeff(u.ux, u.uy);
+                pline("You only partially resist the effects.");
+                dmg = (dmg + 1) / 2;
+            }
+        } else {
+            pline("You're enveloped in flames.");
+            if (Fire_resistance) {
+                shieldeff(u.ux, u.uy);
+                pline("But you resist the effects.");
+                dmg = 0;
+            }
         }
         burn_away_slime();
         break;

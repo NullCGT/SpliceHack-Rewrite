@@ -49,6 +49,10 @@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 local monster = { "j","b","P","F" }
 shuffle(monster)
 
+-- Random chance for Juiblex or Zuggotomoy
+local zugg = false
+if (percent(50)) then zugg = true; end
+
 local place = selection.new();
 place:set(04,02);
 place:set(46,02);
@@ -67,7 +71,11 @@ des.monster({ id = "giant mimic", coord = { place:rndcoord(1) }, appear_as = "te
 des.monster({ id = "giant mimic", coord = { place:rndcoord(1) }, appear_as = "ter:fountain" })
 des.monster({ id = "giant mimic", coord = { place:rndcoord(1) }, appear_as = "ter:fountain" })
 -- The demon of the swamp
-des.monster("Juiblex",25,08)
+if (zugg) then
+    des.monster("Zuggotomoy",25,08)
+else
+    des.monster("Juiblex",25,08)
+end
 -- And a couple demons
 des.monster("lemure",43,08)
 des.monster("lemure",44,08)
@@ -87,20 +95,38 @@ des.monster(monster[3],27,08)
 des.monster(monster[2],24,09)
 des.monster(monster[1],26,09)
 des.monster(monster[4],25,10)
-des.monster("j")
-des.monster("j")
-des.monster("j")
-des.monster("j")
 des.monster("P")
 des.monster("P")
 des.monster("P")
-des.monster({class="P",name="Nunechaur, daughter of Juiblex."})
-des.monster("b")
-des.monster("b")
-des.monster("b")
 des.monster("F")
 des.monster("F")
 des.monster("F")
+if not zugg then
+    des.monster("j")
+    des.monster("j")
+    des.monster("j")
+    des.monster("j")
+    des.monster({class="P",name="Nunechaur, daughter of Juiblex."})
+    des.monster("b")
+    des.monster("b")
+    des.monster("b")
+else
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+    des.monster("F")
+end
 des.monster("m")
 des.monster("m")
 des.monster("jellyfish")
@@ -113,6 +139,10 @@ des.object("%")
 des.object("%")
 des.object("%")
 des.object("boulder")
+-- A whole lot of corpses
+for i = 1, 20 do
+    des.object("corpse")
+end
 -- Some traps
 des.trap("sleep gas")
 des.trap("sleep gas")
