@@ -45,7 +45,7 @@ a basis for your own tilesets.
 
 # Why the Rewrite?
 
-When I started writing SpliceHack, I was not as opinionated or as trong of a developer
+When I started writing SpliceHack, I was not as opinionated or as strong of a developer
 as I am now, and I had much less experience in balancing a game and making it fun to play.
 This rewrite is an effort to improve both the code and the gameplay of SpliceHack, so 
 that it is more enjoyable and easier to maintain.
