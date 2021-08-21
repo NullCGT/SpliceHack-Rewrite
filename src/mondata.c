@@ -844,6 +844,10 @@ name_to_monplus(
             { "djinn", PM_DJINNI, NEUTRAL },
             { "mumakil", PM_MUMAK, NEUTRAL },
             { "erinyes", PM_ERINYS, NEUTRAL },
+            /* references */
+            { "bezekia", PM_HELLCAT, NEUTRAL },
+            { "zubat", PM_ZOO_BAT, NEUTRAL },
+            { "golbat", PM_GAOL_BAT, NEUTRAL },
             /* end of list */
             { 0, NON_PM, NEUTRAL }
         };
@@ -1086,6 +1090,7 @@ static const short grownups[][2] = {
     { PM_MASTER_LICH, PM_ARCH_LICH },
     { PM_VAMPIRE, PM_VAMPIRE_LEADER },
     { PM_BAT, PM_GIANT_BAT },
+    { PM_ZOO_BAT, PM_GAOL_BAT },
     { PM_BABY_GRAY_DRAGON, PM_GRAY_DRAGON },
     { PM_BABY_SILVER_DRAGON, PM_SILVER_DRAGON },
     {PM_BABY_SHIMMERING_DRAGON, PM_SHIMMERING_DRAGON},

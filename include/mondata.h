@@ -149,7 +149,8 @@
 #define your_race(ptr) (((ptr)->mhflags & g.urace.selfmask) != 0L)
 #define is_bat(ptr)                                         \
     ((ptr) == &mons[PM_BAT] || (ptr) == &mons[PM_GIANT_BAT] \
-     || (ptr) == &mons[PM_VAMPIRE_BAT])
+     || (ptr) == &mons[PM_VAMPIRE_BAT] \
+     || (ptr) == &mons[PM_ZOO_BAT] || (ptr) == &mons[PM_GAOL_BAT])
 #define is_bird(ptr) (((ptr)->mlet == S_BAT && !is_bat(ptr)) \
                         || ((ptr) == &mons[PM_CHICKEN]))
 #define is_rat(ptr) ((ptr) == &mons[PM_SEWER_RAT] || \

@@ -1508,6 +1508,12 @@ NEARDATA struct permonst mons_init[] = {
         SIZ(30, 30, MS_SQEEK, MZ_SMALL), 0, 0,
         M1_FLY | M1_ANIMAL | M1_NOHANDS | M1_CARNIVORE,
         M2_WANDER | M2_HOSTILE, M3_INFRAVISIBLE, 3, CLR_RED),
+    MON("zoo bat", S_BAT, LVL(3, 20, 7, 0, 0), (G_GENO | G_LGROUP | 3),
+        A(ATTK(AT_BITE, AD_PHYS, 1, 3), ATTK(AT_BITE, AD_CONF, 1, 6),
+          NO_ATTK, NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(30, 30, MS_SQEEK, MZ_SMALL), 0, 0,
+        M1_FLY | M1_ANIMAL | M1_NOHANDS | M1_CARNIVORE,
+        M2_WANDER | M2_HOSTILE, M3_INFRAVISIBLE, 5, CLR_CYAN),
     MON("raven", S_BAT, LVL(4, 20, 6, 0, 0), (G_GENO | 2),
         A(ATTK(AT_BITE, AD_PHYS, 1, 6), ATTK(AT_CLAW, AD_BLND, 1, 6), NO_ATTK,
           NO_ATTK, NO_ATTK, NO_ATTK),
@@ -1526,6 +1532,12 @@ NEARDATA struct permonst mons_init[] = {
         SIZ(30, 20, MS_SQEEK, MZ_SMALL), MR_SLEEP | MR_POISON, 0,
         M1_FLY | M1_ANIMAL | M1_NOHANDS | M1_POIS | M1_REGEN | M1_OMNIVORE,
         M2_HOSTILE, M3_INFRAVISIBLE, 7, CLR_BLACK),
+    MON("gaol bat", S_BAT, LVL(8, 20, 6, 0, 0), (G_GENO | G_HELL | G_SGROUP | 2),
+        A(ATTK(AT_BITE, AD_PHYS, 1, 6), ATTK(AT_BITE, AD_DRST, 0, 0),
+          ATTK(AT_BITE, AD_CONF, 1, 6), NO_ATTK, NO_ATTK, NO_ATTK),
+        SIZ(30, 20, MS_SQEEK, MZ_SMALL), MR_POISON, 0,
+        M1_FLY | M1_ANIMAL | M1_NOHANDS | M1_OMNIVORE,
+        M2_HOSTILE, M3_INFRAVISIBLE, 9, HI_GOLD),
     /*
      * Centaurs
      */

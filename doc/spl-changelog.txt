@@ -138,6 +138,9 @@ Monster Changes
   - Attempt to avoid the player unless the player has less than one quarter of their
     hit points remaining.
   - Peaceful to neutral characters.
+- New Monsters: Zoo Bat and Gaol Bat
+  - Bats with confusing attacks.
+  - Extremely annoying.
 - New Adult Monsters: Killer Croc, Diamond Piercer
   - Not randomly generated.
   - Only appear when a lower level monster grows up.
