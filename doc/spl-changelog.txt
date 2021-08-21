@@ -106,6 +106,7 @@ in its own way.
 - Food items generate significantly less frequently in Gehennom than in the main dungeon. In Gehennom,
   food items are generated as frequently as amulets are in the main dungeon. Hopefully this makes
   the food stash at the castle much more important.
+- Ported the Lost Tomb from SLASH'EM. It appears in the DNetHack dungeon range.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.

@@ -68,6 +68,7 @@
     <Luafiles Include = "soko3-2.lua"/>
     <Luafiles Include = "soko4-1.lua"/>
     <Luafiles Include = "soko4-2.lua"/>
+    <Luafiles Include = "tomb.lua"/>
     <Luafiles Include = "tower1.lua"/>
     <Luafiles Include = "tower2.lua"/>
     <Luafiles Include = "tower3.lua"/>

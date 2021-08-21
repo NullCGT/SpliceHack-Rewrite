@@ -121,17 +121,17 @@ themerooms = {
    -- Caged Dragon
    function()
       des.map({ map = [[
-   xxx-----xxx
-   x---...---x
-   x-.......-x
-   --.......--
-   |...FFF...|
-   |...F.F...|
-   |...FFF...|
-   --.......--
-   x-.......-x
-   x---...---x
-   xxx-----xxx]], contents = function(m) des.region({ region={5,5,5,5}, type="themed", irregular=true, filled=0 });
+xxx-----xxx
+x---...---x
+x-.......-x
+--.......--
+|...FFF...|
+|...F.F...|
+|...FFF...|
+--.......--
+x-.......-x
+x---...---x
+xxx-----xxx]], contents = function(m) des.region({ region={5,5,5,5}, type="themed", irregular=true, filled=0 });
    des.monster("D", 5, 5);
    des.object("$", 5, 5);
    end });

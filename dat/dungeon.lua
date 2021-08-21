@@ -14,6 +14,12 @@ dungeon = {
             range = 3
          },
          {
+            name = "The Lost Tomb",
+            base = 5,
+            range = 20,
+            direction = "down",
+         },
+         {
             name = "Sokoban",
             chainlevel = "oracle",
             base = 1,
@@ -304,6 +310,20 @@ dungeon = {
          {
             name = "banquet",
             bonetag = "b",
+            base = -1
+         }
+      }
+   },
+   {
+      name = "The Lost Tomb",
+      base = 1,
+      bonetag = "Z",
+      flags = { "mazelike", "nofood" },
+      alignment = "chaotic",
+      levels = {
+         {
+            name = "tomb",
+            bonetag = "Z",
             base = -1
          }
       }
