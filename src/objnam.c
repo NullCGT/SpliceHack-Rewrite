@@ -3920,6 +3920,7 @@ readobjnam_postparse1(struct _readobjnam_data* d)
          */
         if (!strstri(d->bp, "wand ") && !strstri(d->bp, "spellbook ")
             && !strstri(d->bp, "gauntlets ") && !strstri(d->bp, "gloves ")
+            && !strstri(d->bp, "hand grenade ")
             && !strstri(d->bp, "finger ") && !strstri(d->bp, "potion ")) {
             if ((d->p = strstri(d->bp, "tin of ")) != 0) {
                 if (!strcmpi(d->p + 7, "spinach")) {

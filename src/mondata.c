@@ -781,6 +781,8 @@ name_to_monplus(
             { "gray-elf", PM_GREY_ELF, NEUTRAL },
             { "mindflayer", PM_MIND_FLAYER, NEUTRAL },
             { "master mindflayer", PM_MASTER_MIND_FLAYER, NEUTRAL },
+            { "vampiric mindflayer", PM_VAMPIRIC_MIND_FLAYER, NEUTRAL },
+            { "mindflayer telepath", PM_MIND_FLAYER_TELEPATH, NEUTRAL },
             /* More alternates; priest and priestess are separate monster
                types but that isn't the case for {aligned,high} priests */
             { "aligned priest", PM_ALIGNED_CLERIC, MALE },
@@ -796,12 +798,16 @@ name_to_monplus(
             /* Outdated names */
             { "invisible stalker", PM_STALKER, NEUTRAL },
             { "high-elf", PM_ELVEN_MONARCH, NEUTRAL }, /* PM_HIGH_ELF is obsolete */
+            /* {"substance warper", PM_TRANSMUTER, NEUTRAL }, */
+            { "nova fox", PM_VULPENFERNO, NEUTRAL },
             /* other misspellings or incorrect words */
             { "wood-elf", PM_WOODLAND_ELF, NEUTRAL },
             { "wood elf", PM_WOODLAND_ELF, NEUTRAL },
             { "woodland nymph", PM_WOOD_NYMPH, NEUTRAL },
             { "halfling", PM_HOBBIT, NEUTRAL },    /* potential guess for polyself */
             { "genie", PM_DJINNI, NEUTRAL }, /* potential guess for ^G/#wizgenesis */
+            /* {"ifrit", PM_EFREET, NEUTRAL }, */
+            { "eye of flame and fear", PM_EYE_OF_FEAR_AND_FLAME, NEUTRAL },
             /* prefix used to workaround duplicate monster names for
                monsters with alternate forms */
             { "human wererat", PM_HUMAN_WERERAT, NEUTRAL },
