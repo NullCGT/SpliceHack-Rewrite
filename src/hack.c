@@ -1691,6 +1691,11 @@ domove_core(void)
                              && bad_rock(g.youmonst.data, x, u.uy0))))
                 && goodpos(u.ux0, u.uy0, mtmp, GP_ALLOW_U))
                 displaceu = TRUE;
+            
+            /* Pazuzu's aura of servile avians */
+            if (Flying && mtmp->data == &mons[PM_PAZUZU] && !rn2(3)) {
+                You("are unable to bring yourself to attack %s!", mon_nam(mtmp));
+            }
 
             /* try to attack; note that it might evade;
                also, we don't attack tame when _safepet_ */

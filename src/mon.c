@@ -1233,6 +1233,43 @@ meatmetal(register struct monst* mtmp)
     return 0;
 }
 
+/* Based on meatcorpse */
+void
+minfestcorpse(struct monst *mtmp)
+{
+register struct obj *otmp;
+    /* If a pet, eating is handled separately, in dog.c */
+    if (mtmp->mtame) return;
+
+    /* Infest topmost corpse if it is there */
+    for (otmp = g.level.objects[mtmp->mx][mtmp->my];
+                  otmp; otmp = otmp->nexthere)
+        if (otmp->otyp == CORPSE && !otmp->oeroded) {
+            /* touch sensitive items */
+            if (otmp->otyp == CORPSE && is_rider(&mons[otmp->corpsenm])) {
+                /* Rider corpse isn't just inedible; can't engulf it either */
+                if (cansee(mtmp->mx, mtmp->my) && flags.verbose)
+                    pline("%s attempts to infest %s!", Monnam(mtmp),
+                      distant_name(otmp,doname));
+                (void) revive_corpse(otmp);
+                return;
+            }
+            if (cansee(mtmp->mx,mtmp->my) && flags.verbose)
+                pline("%s infests %s!", Monnam(mtmp),
+                  distant_name(otmp,doname));
+            else if (!Deaf && flags.verbose)
+                You("hear an unsettling writhing noise.");
+            mon_givit(mtmp, &mons[otmp->corpsenm]);
+            if (mtmp->data == &mons[PM_ZUGGOTOMOY])
+                makemon(&mons[PM_ASPECT_OF_ZUGGOTOMOY], mtmp->mx, mtmp->my, NO_MINVENT);
+            else
+                clone_mon(mtmp, 0, 0);
+            delobj(otmp);
+            break; /* only eat one at a time... */
+        }
+    newsym(mtmp->mx, mtmp->my);
+}
+
 /* monster eats a pile of objects */
 int
 meatobj(struct monst* mtmp) /* for gelatinous cubes and other hungry monsters */
@@ -2060,6 +2097,27 @@ mm_2way_aggression(struct monst *magr, struct monst *mdef)
        times. */
     if (Is_bar(&u.uz))
         return (ALLOW_M | ALLOW_TM);
+    /* Since the quest guardians are under siege, it makes sense to have
+       them fight hostiles.  (But we don't want the quest leader to be in
+       danger.) */
+    if(magr->data->msound==MS_GUARDIAN && mdef->mpeaceful==FALSE)
+        return ALLOW_M|ALLOW_TM;
+  	/* elves vs. orcs */
+  	if(is_elf(magr->data) && is_orc(mdef->data) 
+        && !is_mercenary(magr->data) && !is_mercenary(mdef->data))
+  		  return ALLOW_M|ALLOW_TM;
+  	/* angels vs. demons */
+  	if(magr->data->mlet==S_ANGEL && is_demon(mdef->data))
+  		  return ALLOW_M|ALLOW_TM;
+    /* Nazgul vs. hobbits */
+    if(magr->data == &mons[PM_NAZGUL] && mdef->data == &mons[PM_HOBBIT])
+        return ALLOW_M | ALLOW_TM;
+    /* Asmodeus and Mephisto dislike one another. */
+    if(magr->data == &mons[PM_MEPHISTOPHOLES] && mdef->data == &mons[PM_ASMODEUS])
+        return ALLOW_M|ALLOW_TM;
+    /* Yeenoghu and Baphomet have an ancient rivalry. */
+    if(magr->data == &mons[PM_YEENOGHU] && mdef->data == &mons[PM_BAPHOMET])
+        return ALLOW_M|ALLOW_TM;
 
     return 0;
 }
@@ -2085,6 +2143,15 @@ mm_aggression(
     if ((mndx == PM_PURPLE_WORM || mndx == PM_BABY_PURPLE_WORM)
         && mdef->data == &mons[PM_SHRIEKER])
         return ALLOW_M | ALLOW_TM;
+    /* woodchucks vs. The Oracle */
+  	if(mndx == PM_WOODCHUCK && mndx == PM_ORACLE)
+  		  return ALLOW_M|ALLOW_TM;
+  	/* ravens like eyes */
+  	if(mndx == PM_RAVEN && mdef->data == &mons[PM_FLOATING_EYE])
+  		  return ALLOW_M|ALLOW_TM;
+    /* Endgame amulet theft / fleeing */
+    if(mon_has_amulet(magr) && In_endgame(&u.uz))
+        return ALLOW_M|ALLOW_TM;
     /* Various other combinations such as dog vs cat, cat vs rat, and
        elf vs orc have been suggested.  For the time being we don't
        support those. */
@@ -5062,6 +5129,8 @@ usmellmon(struct permonst* mdat)
         case PM_DISPATER:
         case PM_YEENOGHU:
         case PM_ORCUS:
+        case PM_MALCANTHET:
+        case PM_MEPHISTOPHOLES:
             break;
         case PM_HUMAN_WEREJACKAL:
         case PM_HUMAN_PACK_LORD:

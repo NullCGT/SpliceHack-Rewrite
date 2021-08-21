@@ -360,7 +360,7 @@ A humanoid shimmers into existence in front of you. Their form constantly shifts
 from female, to male, to neither. The only constant is their breathtaking beauty
 and the cloud of writhing tendrils protruding from their back.
 
-Malcanthet is here."]],
+Malcanthet is here.]],
       },
       Baalzebub = {
          synopsis = "[Baalzebub appears!]",

@@ -180,6 +180,7 @@ Monster Changes
   have been significantly altered.
 - Dust vorticies can grow up into dust devils.
 - Polymorphing into a nosferatu drops your charisma to 3.
+- Malcanthet's gender and associated tile oscillate constantly.
 
 Object Changes
 - Zapping a wand of water at an item will extinguish it.

@@ -994,6 +994,12 @@ m_move(register struct monst* mtmp, register int after)
     if (hides_under(ptr) && OBJ_AT(mtmp->mx, mtmp->my) && rn2(10))
         return 0; /* do not leave hiding place */
 
+    /* Malcanthet's gender oscilates. */
+    if (mtmp->data == &mons[PM_MALCANTHET]) {
+        mtmp->female = rn2(2);
+        newsym(mtmp->mx, mtmp->my);
+    }
+
     /* Where does 'mtmp' think you are?  Not necessary if m_move() called
        from this file, but needed for other calls of m_move(). */
     set_apparxy(mtmp); /* set mtmp->mux, mtmp->muy */
@@ -1647,6 +1653,11 @@ m_move(register struct monst* mtmp, register int after)
                 if ((etmp = meatcorpse(mtmp)) >= 2)
                     return etmp; /* it died or got forced off the level */
             }
+
+            /* Maybe a fungus infested a corpse */
+            if (ptr == &mons[PM_ZUGGOTOMOY] ||
+                ptr == &mons[PM_ASPECT_OF_ZUGGOTOMOY])
+                minfestcorpse(mtmp);
 
             if (!*in_rooms(mtmp->mx, mtmp->my, SHOPBASE) || !rn2(25)) {
                 boolean picked = FALSE;

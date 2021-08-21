@@ -1105,6 +1105,7 @@ cpostfx(int pm)
         }
         break;
     case PM_DISPLACER_BEAST:
+    case PM_SHIMMERING_DRAGON:
         if (!Displaced) /* give a message (before setting the timeout) */
             toggle_displacement((struct obj *) 0, 0L, TRUE);
         incr_itimeout(&HDisplaced, d(6, 6));

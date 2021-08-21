@@ -1449,6 +1449,7 @@ extern int pm_to_cham(int);
 extern int minliquid(struct monst *);
 extern int movemon(void);
 extern int meatmetal(struct monst *);
+extern void minfestcorpse(struct monst *);
 extern int meatobj(struct monst *);
 extern int meatcorpse(struct monst *);
 extern void mon_givit(struct monst *, struct permonst *);
