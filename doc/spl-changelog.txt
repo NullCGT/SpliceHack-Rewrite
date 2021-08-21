@@ -5,6 +5,7 @@
 Removed Content
 Since this release is a rewrite, a number of pieces of existing content have been heavily altered
 or outright removed. Rationale will be provided for all removed content upon request.
+- Removed cooking at furnaces. A new way to use furnaces is being cooked up instead.
 - Removed the following monsters: Anubites, Nuckelavees, Plant Monsters, Lords of Worms, Penguins,
   Mystic Scarabs, Memory Hounds.
 - Removed the following objects:
@@ -982,8 +983,6 @@ Misc. Changes
 - Monsters will occasionally wish for magical candles.
 - Monsters without infravision will use candles to light up dark places.
 - Fungi cannot propagate on burnt corpses.
-- Powerful fungi can grow on corpses starting at level 15 and deeper. This will
-  hopefully incentivise cooking corpses / not leaving a mess.
 - Humanoids can very rarely mount nearby monsters, creating dynamic monster steeds.
   The Wizard of Yendor is very aggressive about mounting monsters.
 - Monsters being ridden by other monsters can use breath weapons and take other
@@ -1041,22 +1040,6 @@ Known Bugs:
 
 
                     Version 0.7.0: Stranger Days
-
-Cooking
-- Cooking is done through the extended #cook command.
-- Cooking uses the cooking skill. Raising this skill increases the chances
-  of successfully cooking a corpse. The cooking skill can be increased by
-  cooking food.
-- Cooking a corpse increases nutrition the chance to gain an intrinsic, but 
-  overcooking greatly reduces that chance and have lower nutrition. Cooked
-  food is less likely to be rotted, and more likely to be safe to eat.
-- Rotten and homemade tinned food is considered to be uncooked, but all
-  other tins found by the player are treated as having a random amount of
-  cooking. Corpses found in ice boxes have a small chance of being cooked.
-- Monsters killed via fire usually leave burned corpses.
-- Cooked corpses cannot be sacrificed.
-- Cooking in front of a monster of the same race as the corpse being cooked
-  will cause them to become angry.
 
 Dungeon Changes
 - The Banquet Hall, found in the level just above Mine's End. A very large
@@ -1291,7 +1274,6 @@ Roles, Races, and Character Creation
   - The race is fully intact, although this was far harder to port to 3.6.x
     than any other piece of code I have encountered.
   - Vampires have a few additional roles available.
-  - Vampires CANNOT drain blood from cooked corpses.
 - New Role: Convict
   - Added the Convict Patch, originally written by Karl Garrison. The
     convict role is now fully 3.6.x compatible.
