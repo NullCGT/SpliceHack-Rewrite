@@ -234,6 +234,10 @@ m_initweap(register struct monst *mtmp)
      *          kops get clubs & cream pies.
      */
     switch (ptr->mlet) {
+    case S_EEL:
+        if (rn2(2) && mm == PM_MERFOLK)
+            (void) mongets(mtmp, TRIDENT);
+        break;
     case S_GIANT:
         if (rn2(2))
             (void) mongets(mtmp, (mm != PM_ETTIN) ? BOULDER : CLUB);

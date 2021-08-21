@@ -1943,6 +1943,12 @@ skill_init(const struct def_skill *class_skill)
     if (g.urole.petnum == PM_PONY || Role_if(PM_DRAGON_RIDER))
         P_SKILL(P_RIDING) = P_BASIC;
 
+    /* All merfolk can use tridents */
+    if (Race_if(PM_MERFOLK)) {
+        P_SKILL(P_TRIDENT) = P_BASIC;
+        P_MAX_SKILL(P_TRIDENT) = P_EXPERT;
+    }
+
     /*
      * Make sure we haven't missed setting the max on a skill
      * & set advance

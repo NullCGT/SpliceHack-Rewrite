@@ -50,7 +50,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_SNAKE,
       S_MUMMY,
       ART_ORB_OF_DETECTION,
-      MH_HUMAN | MH_DEMON | MH_DWARF | MH_GNOME | MH_UNDEAD,
+      MH_HUMAN | MH_DEMON | MH_DWARF | MH_GNOME | MH_UNDEAD | MH_MERFOLK,
       ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL
         | ROLE_NEUTRAL,
       /* Str Int Wis Dex Con Cha */
@@ -93,9 +93,8 @@ const struct Role roles[NUM_ROLES+1] = {
       S_OGRE,
       S_TROLL,
       ART_HEART_OF_AHRIMAN,
-      MH_HUMAN | MH_DEMON | MH_DWARF | MH_ORC | MH_UNDEAD,
-      ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_NEUTRAL
-        | ROLE_CHAOTIC,
+      MH_HUMAN | MH_DEMON | MH_DWARF | MH_ORC | MH_UNDEAD | MH_MERFOLK,
+      ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_NEUTRAL | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
       { 16, 7, 7, 15, 16, 6 },
       { 30, 6, 7, 20, 30, 7 },
@@ -256,7 +255,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_RODENT,
       S_YETI,
       ART_STAFF_OF_AESCULAPIUS,
-      MH_HUMAN | MH_GNOME,
+      MH_HUMAN | MH_GNOME | MH_MERFOLK,
       ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_NEUTRAL,
       /* Str Int Wis Dex Con Cha */
       { 7, 7, 13, 7, 11, 16 },
@@ -340,7 +339,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_ELEMENTAL,
       S_XORN,
       ART_EYES_OF_THE_OVERWORLD,
-      MH_HUMAN | MH_DEMON | MH_DWARF | MH_ORC,
+      MH_HUMAN | MH_DEMON | MH_DWARF | MH_ORC | MH_MERFOLK,
       ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL | ROLE_NEUTRAL
         | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
@@ -383,7 +382,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_ZOMBIE,
       S_WRAITH,
       ART_MITRE_OF_HOLINESS,
-      MH_HUMAN | MH_DEMON | MH_DWARF | MH_ELF | MH_GNOME | MH_ORC | MH_UNDEAD,
+      MH_HUMAN | MH_DEMON | MH_DWARF | MH_ELF | MH_GNOME | MH_ORC | MH_UNDEAD | MH_MERFOLK,
       ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL | ROLE_NEUTRAL | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
       { 7, 7, 10, 7, 7, 7 },
@@ -427,8 +426,9 @@ const struct Role roles[NUM_ROLES+1] = {
       S_RODENT,
       S_ELEMENTAL, /* Ghost pirates, soldiers, rats in the food stores, and the occasional storm*/
       ART_TREASURY_OF_PROTEUS,
-      MH_HUMAN | MH_DEMON | MH_GNOME | MH_ORC | MH_ELF | MH_UNDEAD,
+      MH_HUMAN | MH_DEMON | MH_GNOME | MH_ORC | MH_ELF | MH_UNDEAD | MH_MERFOLK,
       ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_CHAOTIC,
+      /* XXX if they must be ROLE_CHAOTIC, they can't be Merfolk */
       /* Str Int Wis Dex Con Cha */
       {   8,  7, 7,  8,  8,  7 },
       {  20, 15, 10, 20, 25, 10 },
@@ -470,8 +470,9 @@ const struct Role roles[NUM_ROLES+1] = {
       S_NYMPH,
       S_NAGA,
       ART_MASTER_KEY_OF_THIEVERY,
-      MH_HUMAN | MH_DEMON | MH_ELF | MH_GNOME | MH_ORC | MH_UNDEAD,
+      MH_HUMAN | MH_DEMON | MH_ELF | MH_GNOME | MH_ORC | MH_UNDEAD | MH_MERFOLK,
       ROLE_MALE | ROLE_NEUTER | ROLE_FEMALE | ROLE_CHAOTIC,
+      /* XXX exception will need to be made if Mer Rog is an intended combo */
       /* Str Int Wis Dex Con Cha */
       { 7, 7, 7, 10, 7, 6 },
       { 20, 10, 10, 30, 20, 10 },
@@ -526,7 +527,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_CENTAUR,
       S_SPIDER,
       ART_LONGBOW_OF_DIANA,
-      MH_HUMAN | MH_DEMON | MH_ELF | MH_DWARF | MH_GNOME | MH_ORC,
+      MH_HUMAN | MH_DEMON | MH_ELF | MH_DWARF | MH_GNOME | MH_ORC | MH_MERFOLK,
       ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER | ROLE_NEUTRAL | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
       { 13, 13, 13, 9, 13, 7 },
@@ -652,7 +653,7 @@ const struct Role roles[NUM_ROLES+1] = {
       S_ANT,
       S_GIANT,
       ART_ORB_OF_FATE,
-      MH_HUMAN | MH_DWARF,
+      MH_HUMAN | MH_DWARF | MH_MERFOLK,
       ROLE_FEMALE | ROLE_NEUTER | ROLE_LAWFUL | ROLE_NEUTRAL,
       /* Str Int Wis Dex Con Cha */
       { 10, 7, 7, 7, 10, 7 },
@@ -694,8 +695,8 @@ const struct Role roles[NUM_ROLES+1] = {
       S_BAT,
       S_WRAITH,
       ART_EYE_OF_THE_AETHIOPICA,
-      MH_HUMAN | MH_DWARF | MH_ELF | MH_GNOME | MH_ORC | MH_DEMON
-          | MH_UNDEAD,
+      MH_HUMAN | MH_DWARF | MH_ELF | MH_GNOME | MH_ORC
+        | MH_DEMON | MH_UNDEAD | MH_MERFOLK,
       ROLE_MALE | ROLE_FEMALE
         | ROLE_NEUTER | ROLE_NEUTRAL | ROLE_CHAOTIC,
       /* Str Int Wis Dex Con Cha */
@@ -824,6 +825,29 @@ const struct Race races[] = {
         /* Init   Lower  Higher */
         { 1, 0, 0, 1, 0, 0 }, /* Hit points */
         { 2, 0, 2, 0, 2, 0 }  /* Energy */
+    },
+     {
+        "merfolk",
+        "merfolkish",
+        "merfolken",
+        "Mer",
+        { 0, 0, 0 },
+        PM_MERFOLK,
+        NON_PM,
+        NON_PM,
+        NON_PM,
+/*        NON_PM, seems there were four NON_PM in 3.6, now only 3? */
+        MH_MERFOLK | ROLE_MALE | ROLE_FEMALE | ROLE_NEUTER
+            | ROLE_NEUTRAL | ROLE_LAWFUL,
+        MH_MERFOLK,
+        MH_MERFOLK,
+        MH_ORC,
+        /*  Str Int Wis Dex Con Cha */
+        { 3, 3, 3, 3, 3, 3 },
+        { 18, 20, 20, 16, 16, 14 },
+        /* Init   Lower  Higher */
+        { 1, 0, 0, 1, 1, 0 }, /* Hit points */
+        { 2, 0, 3, 0, 3, 0 }  /* Energy */
     },
     {
         "infernal",

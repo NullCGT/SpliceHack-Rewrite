@@ -128,6 +128,9 @@
 #define is_shapeshifter(ptr) (((ptr)->mflags2 & M2_SHAPESHIFTER) != 0L)
 #define is_undead(ptr) (((ptr)->mhflags & MH_UNDEAD) != 0L)
 #define is_were(ptr) (((ptr)->mhflags & MH_WERE) != 0L)
+#define is_merfolk(ptr) ((((ptr)->mhflags & MH_MERFOLK) != 0L) 	\
+		     || ((ptr) == g.youmonst.data &&		\
+			 !Upolyd && Race_if(PM_MERFOLK)))
 #define is_elf(ptr) ((((ptr)->mhflags & MH_ELF) != 0L)     \
                      || ((ptr) == g.youmonst.data &&       \
                          !Upolyd && Race_if(PM_ELF)))

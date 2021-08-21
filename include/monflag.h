@@ -197,6 +197,7 @@ enum ms_sounds {
 #define MH_WERE         0x00000040L
 #define MH_GIANT        0x00000080L
 #define MH_UNDEAD       0x00000100L
+#define MH_MERFOLK	0x00000200L
 
 #define MH_ANY 0x80000000L
 
