@@ -981,6 +981,7 @@ extern boolean junethack(void);
 extern boolean halloween(void);
 extern int night(void);
 extern int midnight(void);
+extern int current_holidays(void);
 extern void strbuf_init(strbuf_t *);
 extern void strbuf_append(strbuf_t *, const char *);
 extern void strbuf_reserve(strbuf_t *, int);
