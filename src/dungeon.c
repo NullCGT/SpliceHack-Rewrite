@@ -88,21 +88,23 @@ dumpit(void)
                 DD.num_dunlevs, DD.dunlev_ureached);
         fprintf(stderr, "    depth_start %d, ledger_start %d\n",
                 DD.depth_start, DD.ledger_start);
-        fprintf(stderr, "    flags:%s%s%s\n",
+        fprintf(stderr, "    flags:%s%s%s%s\n",
                 DD.flags.rogue_like ? " rogue_like" : "",
                 DD.flags.maze_like ? " maze_like" : "",
-                DD.flags.hellish ? " hellish" : "");
+                DD.flags.hellish ? " hellish" : "",
+                DD.flags.nofood ? " nofood" : "");
         getchar();
     }
     fprintf(stderr, "\nSpecial levels:\n");
     for (x = g.sp_levchn; x; x = x->next) {
         fprintf(stderr, "%s (%d): ", x->proto, x->rndlevs);
         fprintf(stderr, "on %d, %d; ", x->dlevel.dnum, x->dlevel.dlevel);
-        fprintf(stderr, "flags:%s%s%s%s\n",
+        fprintf(stderr, "flags:%s%s%s%s%s\n",
                 x->flags.rogue_like ? " rogue_like" : "",
                 x->flags.maze_like ? " maze_like" : "",
                 x->flags.hellish ? " hellish" : "",
-                x->flags.town ? " town" : "");
+                x->flags.town ? " town" : "",
+                x->flags.nofood ? " nofood" : "");
         getchar();
     }
     fprintf(stderr, "\nBranches:\n");
@@ -553,6 +555,7 @@ init_level(int dgn, int proto_index, struct proto_dungeon *pd)
     new_level->flags.hellish = !!(tlevel->flags & HELLISH);
     new_level->flags.maze_like = !!(tlevel->flags & MAZELIKE);
     new_level->flags.rogue_like = !!(tlevel->flags & ROGUELIKE);
+    new_level->flags.nofood = !!(tlevel->flags & NOFOOD);
     new_level->flags.align = ((tlevel->flags & D_ALIGN_MASK) >> 4);
     if (!new_level->flags.align)
         new_level->flags.align =
@@ -702,9 +705,9 @@ get_dgn_flags(lua_State *L)
 {
     int dgn_flags = 0;
     static const char *const flagstrs[] = {
-        "town", "hellish", "mazelike", "roguelike", NULL
+        "town", "hellish", "mazelike", "roguelike", "nofood", NULL
     };
-    static const int flagstrs2i[] = { TOWN, HELLISH, MAZELIKE, ROGUELIKE, 0 };
+    static const int flagstrs2i[] = { TOWN, HELLISH, MAZELIKE, ROGUELIKE, NOFOOD, 0 };
 
     lua_getfield(L, -1, "flags");
     if (lua_type(L, -1) == LUA_TTABLE) {
@@ -1026,6 +1029,7 @@ init_dungeons(void)
         g.dungeons[i].flags.hellish = !!(dgn_flags & HELLISH);
         g.dungeons[i].flags.maze_like = !!(dgn_flags & MAZELIKE);
         g.dungeons[i].flags.rogue_like = !!(dgn_flags & ROGUELIKE);
+        g.dungeons[i].flags.nofood = !!(dgn_flags & NOFOOD);
         g.dungeons[i].flags.align = dgn_align;
 
         /*
@@ -1831,6 +1835,13 @@ In_hell(d_level *lev)
     return (boolean) (g.dungeons[lev->dnum].flags.hellish);
 }
 
+/* can food spawn on this level? */
+boolean
+no_food_spawns(d_level *lev)
+{
+    return (boolean) (g.dungeons[lev->dnum].flags.nofood);
+}
+
 /* sets *lev to be the gateway to Gehennom... */
 void
 find_hell(d_level *lev)
@@ -2020,7 +2031,7 @@ lev_by_name(const char *nam)
                  && dlev.dnum == valley_level.dnum))
             && (/* either wizard mode or else seen and not forgotten */
                 wizard
-                || (g.level_info[idx].flags & (VISITED))
+                || (g.level_info[idx].flags & (FORGOTTEN | VISITED))
                        == VISITED)) {
             lev = depth(&dlev);
         }
@@ -2035,9 +2046,9 @@ lev_by_name(const char *nam)
             idx &= 0x00FF;
             /* either wizard mode, or else _both_ sides of branch seen */
             if (wizard
-                || (((g.level_info[idx].flags & (VISITED))
+                || (((g.level_info[idx].flags & (FORGOTTEN | VISITED))
                      == VISITED)
-                    && ((g.level_info[idxtoo].flags & (VISITED))
+                    && ((g.level_info[idxtoo].flags & (FORGOTTEN | VISITED))
                         == VISITED))) {
                 if (ledger_to_dnum(idxtoo) == u.uz.dnum)
                     idx = idxtoo;
@@ -2431,6 +2442,35 @@ find_mapseen_by_str(const char *s)
             break;
 
     return mptr;
+}
+
+void
+forget_mapseen(ledger_num)
+int ledger_num;
+{
+    mapseen *mptr;
+    struct cemetery *bp;
+
+    for (mptr = g.mapseenchn; mptr; mptr = mptr->next)
+        if (g.dungeons[mptr->lev.dnum].ledger_start + mptr->lev.dlevel
+            == ledger_num)
+            break;
+
+    /* if not found, then nothing to forget */
+    if (mptr) {
+        mptr->flags.forgot = 1;
+        mptr->br = (branch *) 0;
+
+        /* custom names are erased, not just forgotten until revisited */
+        if (mptr->custom) {
+            mptr->custom_lth = 0;
+            free((genericptr_t) mptr->custom);
+            mptr->custom = (char *) 0;
+        }
+        (void) memset((genericptr_t) mptr->msrooms, 0, sizeof mptr->msrooms);
+        for (bp = mptr->final_resting_place; bp; bp = bp->next)
+            bp->bonesknown = FALSE;
+    }
 }
 
 

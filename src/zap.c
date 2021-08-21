@@ -5344,7 +5344,6 @@ break_statue(struct obj *obj)
     fracture_rock(obj);
     return TRUE;
 }
-
 /*
  * destroy_strings[dindx][0:singular,1:plural,2:killer_reason]
  *      [0] freezing potion
@@ -5354,6 +5353,9 @@ break_statue(struct obj *obj)
  *      [4] burning spellbook
  *      [5] shocked ring
  *      [6] shocked wand
+ *      [7] sonic (potion)
+ *      [8] sonic (item)
+ *      [9] sonic (wand)
  * (books, rings, and wands don't stack so don't need plural form;
  *  crumbling ring doesn't do damage so doesn't need killer reason)
  */
@@ -5366,6 +5368,9 @@ const char *const destroy_strings[][3] = {
     { "catches fire and burns", "", "burning book" },
     { "turns to dust and vanishes", "", "" },
     { "breaks apart and explodes", "", "exploding wand" },
+    { "resonates and explodes", "resonate and explode", "shattered potion"},
+    { "resonates and shatters", "", "shattered item"},
+    { "resonates and explodes", "", "exploding wand"},
 };
 
 /* guts of destroy_item(), which ought to be called maybe_destroy_items();

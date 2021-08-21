@@ -100,6 +100,75 @@ themerooms = {
       end
    },
 
+   -- Steam room
+   {
+      mindiff = 6,
+      contents = function()
+         des.room({ type = "themed",
+                  contents = function(rm)
+                     for x = 0, rm.width - 1 do
+                        for y = 0, rm.height - 1 do
+                           if (percent(25)) then
+                              des.feature("vent", x, y);
+                           end
+                        end
+                     end
+                  end
+         });
+      end
+   },
+
+   -- Caged Dragon
+   function()
+      des.map({ map = [[
+   xxx-----xxx
+   x---...---x
+   x-.......-x
+   --.......--
+   |...FFF...|
+   |...F.F...|
+   |...FFF...|
+   --.......--
+   x-.......-x
+   x---...---x
+   xxx-----xxx]], contents = function(m) des.region({ region={5,5,5,5}, type="themed", irregular=true, filled=0 });
+   des.monster("D", 5, 5);
+   des.object("$", 5, 5);
+   end });
+      end,
+
+   -- Storage room
+   -- In SLASH'EM, this was a special level, but it works much better as
+   -- a themed room. I added a number of messages to confuse and unnerve
+   -- players, and also made the loot a bit more random.
+   function()
+      local wid = 3 + (nh.rn2(3) * 2);
+      local hei = 3 + (nh.rn2(3) * 2);
+      des.room({ type = "ordinary", filled = 1, w = wid, h = hei,
+               contents = function(rm)
+                  local warnings = { "Begone! Keep Off! Shoo!",
+                                    "Danger! Cursed Items! Do Not Touch!",
+                                    "Property of the Wizard! Do Not Touch!",
+                                    "Warning: Chest is Rigged to Explode.",
+                                    "Beware! A Unique Trap Guards This Chest!",
+                                    "Get off this level ASAP! Whatever you do, do not touch these items! - A Friend",
+                                    "elberethelberethelberethelberethelbzlx" };
+                  local loot = { "/", "(", "\"", "=", "*"};
+                  local cx = (rm.width - 1);
+                  local cy = (rm.height - 1);
+                  des.object({ id = "chest", coord = {cx,cy}});
+                  for i = 1, d(5) do
+                     des.object({loot[1], x = cx, y = cy});
+                  end
+                  for i = 1, d(4) do
+                     des.trap();
+                  end
+                  des.engraving({ type="engrave", text=warnings[1], x = cx, y = cy })
+                  des.object({ id = "corpse", montype = "@" });
+               end
+      });
+   end,
+
    -- Spider nest
    {
       mindiff = 10,
@@ -253,7 +322,7 @@ themerooms = {
       local hei = 3 + (nh.rn2(3) * 2);
       des.room({ type = "ordinary", filled = 1, w = wid, h = hei,
                  contents = function(rm)
-                    local feature = { "C", "L", "I", "P", "T" };
+                    local feature = { "C", "L", "I", "P", "T", "V" };
                     shuffle(feature);
                     des.terrain((rm.width - 1) / 2, (rm.height - 1) / 2,
 				feature[1]);

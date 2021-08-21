@@ -1310,7 +1310,7 @@ m_move(register struct monst* mtmp, register int after)
         if (!mtmp->mpeaceful && g.level.flags.shortsighted
             && nidist > (couldsee(nix, niy) ? 144 : 36) && appr == 1)
             appr = 0;
-        if (is_unicorn(ptr) && noteleport_level(mtmp)) {
+        if (avoids_player(ptr) && noteleport_level(mtmp)) {
             /* on noteleport levels, perhaps we cannot avoid hero */
             for (i = 0; i < cnt; i++)
                 if (!(info[i] & NOTONL))

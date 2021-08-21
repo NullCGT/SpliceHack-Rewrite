@@ -202,11 +202,14 @@
     (is_demon(ptr) && (((ptr)->mflags2 & (M2_LORD | M2_PRINCE)) == 0L))
 #define is_dlord(ptr) (is_demon(ptr) && is_lord(ptr))
 #define is_dprince(ptr) (is_demon(ptr) && is_prince(ptr))
-#define is_unkdemon(ptr) (is_ndemon(ptr) \
+#define is_unkdemon(ptr) ((is_ndemon(ptr) \
         && (ptr)->mlet == S_DEMON \
         && (ptr) != &mons[PM_WATER_DEMON] \
         && (ptr) != &mons[PM_LAVA_DEMON] \
-        && (ptr) != &mons[PM_DJINNI])
+        && (ptr) != &mons[PM_DJINNI]) \
+        || ((ptr) == &mons[PM_LEMURE] \
+            || (ptr) == &mons[PM_MANES] \
+            || (ptr) == &mons[PM_HELLCAT]))
 #define is_minion(ptr) (((ptr)->mflags2 & M2_MINION) != 0L)
 #define likes_gold(ptr) (((ptr)->mflags2 & M2_GREEDY) != 0L)
 #define likes_gems(ptr) (((ptr)->mflags2 & M2_JEWELS) != 0L)
@@ -261,7 +264,8 @@
     (ptr == &mons[PM_FIRE_ELEMENTAL] || ptr == &mons[PM_SALAMANDER] \
         || ptr == &mons[PM_MAGMA_ELEMENTAL])
 #define pm_invisible(ptr) \
-    ((ptr) == &mons[PM_STALKER] || (ptr) == &mons[PM_BLACK_LIGHT])
+    ((ptr) == &mons[PM_STALKER] || (ptr) == &mons[PM_BLACK_LIGHT] \
+      || (ptr) == &mons[PM_HELLCAT])
 
 /* could probably add more */
 #define likes_fire(ptr)                                                  \
@@ -284,7 +288,8 @@
                      || ((ptr) == g.youmonst.data &&       \
                          !Upolyd && Race_if(PM_VAMPIRE)))
 
-#define hates_light(ptr) ((ptr) == &mons[PM_GREMLIN])
+#define hates_light(ptr) ((ptr) == &mons[PM_GREMLIN] \
+      || (ptr) == &mons[PM_NOSFERATU])
 
 /* used to vary a few messages */
 #define weirdnonliving(ptr) (is_golem(ptr) || (ptr)->mlet == S_VORTEX)
@@ -341,6 +346,16 @@
     ((ptr) == &mons[PM_GELATINOUS_CUBE] \
      || (ptr) == &mons[PM_TASMANIAN_DEVIL] \
      || (ptr) == &mons[PM_LOCUST])
+
+#define avoids_player(ptr) \
+    (is_unicorn(ptr) \
+     || (ptr) == &mons[PM_MAGICAL_EYE])
+
+#define horizontal_mover(ptr) \
+    ((ptr) == &mons[PM_GRID_BUG] \
+     || (ptr) == &mons[PM_SPARK_BUG] \
+     || (ptr) == &mons[PM_ARC_BUG] \
+     || (ptr) == &mons[PM_LIGHTNING_BUG])
 
 #define is_bones_monster(ptr) ((ptr) == &mons[PM_GHOST] || (ptr) == &mons[PM_GHOUL]        \
                                || (ptr) == &mons[PM_VAMPIRE] || (ptr) == &mons[PM_WRAITH]  \

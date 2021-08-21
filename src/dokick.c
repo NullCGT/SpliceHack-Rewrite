@@ -1084,6 +1084,10 @@ dokick(void)
             if (Levitation)
                 goto dumb;
             You("kick %s.", (Blind ? something : "the furnace"));
+            if (martial()) {
+                breakfurnace(x, y);
+                You_feel("it shatter to pieces as your foot crashes through it!");
+            }
             if (!rn2(3))
                 goto ouch;
             /* make flammable boots burn */

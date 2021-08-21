@@ -320,7 +320,7 @@ hates_material(struct permonst *ptr, int material)
     if (material == SILVER) {
         if (ptr->mlet == S_IMP) {
             /* impish creatures that aren't actually demonic */
-            if (ptr == &mons[PM_TENGU])
+            if (ptr == &mons[PM_TENGU] || ptr == &mons[PM_REDCAP])
                 return FALSE;
         }
         return (is_were(ptr)
@@ -807,10 +807,14 @@ name_to_monplus(
             { "human wererat", PM_HUMAN_WERERAT, NEUTRAL },
             { "human werejackal", PM_HUMAN_WEREJACKAL, NEUTRAL },
             { "human werewolf", PM_HUMAN_WEREWOLF, NEUTRAL },
+            { "human werecockatrice", PM_HUMAN_WERECOCKATRICE, NEUTRAL },
+            { "human pack lord", PM_HUMAN_PACK_LORD, NEUTRAL },
             /* for completeness */
             { "rat wererat", PM_WERERAT, NEUTRAL },
             { "jackal werejackal", PM_WEREJACKAL, NEUTRAL },
             { "wolf werewolf", PM_WEREWOLF, NEUTRAL },
+            { "cockatrice werecockatrice", PM_WERECOCKATRICE, NEUTRAL },
+            { "wolf pack lord", PM_PACK_LORD, NEUTRAL },
             /* Hyphenated names -- it would be nice to handle these via
                fuzzymatch() but it isn't able to ignore trailing stuff */
             { "ki rin", PM_KI_RIN, NEUTRAL },
@@ -1045,11 +1049,13 @@ static const short grownups[][2] = {
     { PM_CHICKATRICE, PM_COCKATRICE },
     { PM_LITTLE_DOG, PM_DOG },
     { PM_DOG, PM_LARGE_DOG },
+    { PM_LARGE_DOG, PM_GUARD_DOG },
     { PM_HELL_HOUND_PUP, PM_HELL_HOUND },
     { PM_WINTER_WOLF_PUP, PM_WINTER_WOLF_CUB },
     { PM_WINTER_WOLF_CUB, PM_WINTER_WOLF },
     { PM_KITTEN, PM_HOUSECAT },
     { PM_HOUSECAT, PM_LARGE_CAT },
+    { PM_LARGE_CAT, PM_FAT_CAT },
     { PM_PONY, PM_HORSE },
     { PM_HORSE, PM_WARHORSE },
     { PM_KOBOLD, PM_LARGE_KOBOLD },
@@ -1063,6 +1069,7 @@ static const short grownups[][2] = {
     { PM_HILL_ORC, PM_ORC_CAPTAIN },
     { PM_MORDOR_ORC, PM_ORC_CAPTAIN },
     { PM_URUK_HAI, PM_ORC_CAPTAIN },
+    { PM_ORC_CAPTAIN, PM_ORC_WARLORD },
     { PM_SEWER_RAT, PM_GIANT_RAT },
     { PM_GIANT_RAT, PM_ENORMOUS_RAT },
 	{ PM_ENORMOUS_RAT, PM_RODENT_OF_UNUSUAL_SIZE },
@@ -1100,6 +1107,7 @@ static const short grownups[][2] = {
     { PM_BABY_LONG_WORM, PM_LONG_WORM },
     { PM_BABY_PURPLE_WORM, PM_PURPLE_WORM },
     { PM_BABY_CROCODILE, PM_CROCODILE },
+    { PM_CROCODILE, PM_KILLER_CROC },
     { PM_SOLDIER, PM_SERGEANT },
     { PM_SERGEANT, PM_LIEUTENANT },
     { PM_LIEUTENANT, PM_CAPTAIN },
@@ -1116,6 +1124,18 @@ static const short grownups[][2] = {
     { PM_KOP_SERGEANT, PM_KOP_LIEUTENANT },
     { PM_KOP_LIEUTENANT, PM_KOP_KAPTAIN },
     { PM_ICHNEUMON_LARVA, PM_GIANT_ICHNEUMON },
+    { PM_GRID_BUG, PM_SPARK_BUG },
+    { PM_SPARK_BUG, PM_ARC_BUG },
+    { PM_ARC_BUG, PM_LIGHTNING_BUG },
+    { PM_ROCK_PIERCER, PM_IRON_PIERCER },
+    { PM_IRON_PIERCER, PM_GLASS_PIERCER },
+    { PM_GLASS_PIERCER, PM_DIAMOND_PIERCER },
+    { PM_DIAMOND_PIERCER, PM_GOD_PIERCER },
+    { PM_DUST_VORTEX, PM_DUST_DEVIL },
+    { PM_WEREWOLF, PM_PACK_LORD },
+    { PM_HUMAN_WEREWOLF, PM_HUMAN_PACK_LORD },
+    { PM_DEEP_ONE, PM_DEEPER_ONE },
+    { PM_DEEPER_ONE, PM_DEEPEST_ONE },
     { NON_PM, NON_PM }
 };
 

@@ -1472,9 +1472,9 @@ goto_level(d_level *newlevel, boolean at_stairs, boolean falling, boolean portal
 
     if (!(g.level_info[new_ledger].flags & LFILE_EXISTS)) {
         /* entering this level for first time; make it now */
-        if (g.level_info[new_ledger].flags & (VISITED)) {
+        if (g.level_info[new_ledger].flags & (FORGOTTEN | VISITED)) {
             impossible("goto_level: returning to discarded level?");
-            g.level_info[new_ledger].flags &= ~(VISITED);
+            g.level_info[new_ledger].flags &= ~(FORGOTTEN | VISITED);
         }
         mklev();
         new = TRUE; /* made the level */
@@ -1623,6 +1623,14 @@ goto_level(d_level *newlevel, boolean at_stairs, boolean falling, boolean portal
         movebubbles();
     else if (Is_firelevel(&u.uz))
         fumaroles();
+
+    /* level forgotten due to amnesia */
+    if (g.level_info[new_ledger].flags & FORGOTTEN) {
+        forget_map(ALL_MAP); /* forget the map */
+        forget_traps();      /* forget all traps too */
+        familiar = TRUE;
+        g.level_info[new_ledger].flags &= ~FORGOTTEN;
+    }
 
     /* Reset the screen. */
     vision_reset(); /* reset the blockages */

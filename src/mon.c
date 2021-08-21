@@ -373,6 +373,7 @@ undead_to_corpse(int mndx)
     case PM_VAMPIRE_MAGE:
     case PM_HUMAN_ZOMBIE:
     case PM_HUMAN_MUMMY:
+    case PM_NOSFERATU:
         mndx = PM_HUMAN;
         break;
     case PM_GIANT_ZOMBIE:
@@ -552,6 +553,7 @@ make_corpse(register struct monst* mtmp, unsigned int corpseflags)
     case PM_VAMPIRE:
     case PM_VAMPIRE_LEADER:
     case PM_VAMPIRE_MAGE:
+    case PM_NOSFERATU:
         /* include mtmp in the mkcorpstat() call */
         num = undead_to_corpse(mndx);
         corpstatflags |= CORPSTAT_INIT;
@@ -1783,7 +1785,7 @@ mon_allowflags(struct monst* mtmp)
     if (is_minion(mtmp->data) || is_rider(mtmp->data))
         allowflags |= ALLOW_SANCT;
     /* unicorn may not be able to avoid hero on a noteleport level */
-    if (is_unicorn(mtmp->data) && !noteleport_level(mtmp))
+    if (avoids_player(mtmp->data) && !noteleport_level(mtmp))
         allowflags |= NOTONL;
     if (is_human(mtmp->data) || mtmp->data == &mons[PM_MINOTAUR])
         allowflags |= ALLOW_SSM;
@@ -2631,6 +2633,10 @@ mondead(register struct monst* mtmp)
         set_mon_data(mtmp, &mons[PM_HUMAN_WEREWOLF]);
     else if (mtmp->data == &mons[PM_WERECOCKATRICE])
         set_mon_data(mtmp, &mons[PM_HUMAN_WERECOCKATRICE]);
+    else if (mtmp->data == &mons[PM_WERETIGER])
+        set_mon_data(mtmp, &mons[PM_HUMAN_WERETIGER]);
+    else if (mtmp->data == &mons[PM_PACK_LORD])
+        set_mon_data(mtmp, &mons[PM_HUMAN_PACK_LORD]);
     else if (mtmp->data == &mons[PM_WERERAT])
         set_mon_data(mtmp, &mons[PM_HUMAN_WERERAT]);
 
@@ -2816,6 +2822,12 @@ corpse_chance(
             mon_explodes(mon, &mdat->mattk[i]);
             return FALSE;
         }
+    }
+
+    /* It should still be possible to receive food spawns on no food levels, but it should
+       be much much rarer.  */
+    if (no_food_spawns(&u.uz) && mdat->mlet != S_TROLL && rn2(6)) {
+        return FALSE;
     }
 
     /* must duplicate this below check in xkilled() since it results in
@@ -5046,11 +5058,15 @@ usmellmon(struct permonst* mdat)
         case PM_ORCUS:
             break;
         case PM_HUMAN_WEREJACKAL:
+        case PM_HUMAN_PACK_LORD:
         case PM_HUMAN_WERERAT:
         case PM_HUMAN_WEREWOLF:
+        case PM_HUMAN_WERETIGER:
         case PM_WEREJACKAL:
+        case PM_PACK_LORD:
         case PM_WERERAT:
         case PM_WEREWOLF:
+        case PM_WERETIGER:
         case PM_OWLBEAR:
             You("detect an odor reminiscent of an animal's den.");
             msg_given = TRUE;

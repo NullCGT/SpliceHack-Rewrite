@@ -633,6 +633,7 @@ extern boolean In_mines(d_level *);
 extern branch *dungeon_branch(const char *);
 extern boolean at_dgn_entrance(const char *);
 extern boolean In_hell(d_level *);
+extern boolean no_food_spawns(d_level *);
 extern boolean In_V_tower(d_level *);
 extern boolean On_W_tower_level(d_level *);
 extern boolean In_W_tower(int, int, d_level *);
@@ -650,6 +651,7 @@ extern char *get_annotation(d_level *);
 extern int donamelevel(void);
 extern int dooverview(void);
 extern void show_overview(int, int);
+extern void forget_mapseen(int);
 extern void rm_mapseen(int);
 extern void init_mapseen(d_level *);
 extern void recalc_mapseen(void);
@@ -2172,6 +2174,10 @@ extern void assign_candy_wrapper(struct obj *);
 extern int doread(void);
 extern int charge_ok(struct obj *);
 extern void recharge(struct obj *, int);
+extern void forget_objects(int);
+extern void forget_levels(int);
+extern void forget_traps(void);
+extern void forget_map(int);
 extern int seffects(struct obj *);
 extern void drop_boulder_on_player(boolean, boolean, boolean, boolean);
 extern boolean drop_boulder_on_monster(int, int, boolean, boolean);
@@ -2762,6 +2768,14 @@ extern void mhitm_ad_elec(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhitm_ad_acid(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
+extern void mhitm_ad_psyc(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
+extern void mhitm_ad_loud(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
+extern void mhitm_ad_memr(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
+extern void mhitm_ad_void(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
 extern void mhitm_ad_sgld(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhitm_ad_tlpt(struct monst *, struct attack *, struct monst *,
@@ -2823,6 +2837,8 @@ extern void mhitm_ad_sedu(struct monst *, struct attack *, struct monst *,
 extern void mhitm_ad_ssex(struct monst *, struct attack *, struct monst *,
                           struct mhitm_data *);
 extern void mhtim_ad_hngy(struct monst *, struct attack *, struct monst *,
+                          struct mhitm_data *);
+extern void mhitm_ad_wind(struct monst *, struct attack *, struct monst *, 
                           struct mhitm_data *);
 extern void mhitm_ad_vorp(struct monst *, struct attack *, struct monst *, 
                           struct mhitm_data *);

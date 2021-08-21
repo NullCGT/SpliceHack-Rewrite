@@ -238,6 +238,11 @@ m_initweap(register struct monst *mtmp)
         if (rn2(2))
             (void) mongets(mtmp, (mm != PM_ETTIN) ? BOULDER : CLUB);
         break;
+    case S_IMP:
+        if (mm == PM_REDCAP) {
+            (void) mongets(mtmp, SCYTHE);
+        }
+        break;
     case S_HUMAN:
         if (mm == PM_SHOPKEEPER) {
             (void) mongets(mtmp,SHOTGUN);
@@ -611,6 +616,9 @@ m_initweap(register struct monst *mtmp)
             if (!rn2(3))
                 (void) mongets(mtmp, ORCISH_CHAIN_MAIL);
             break;
+        case PM_ORC_WARLORD:
+            (void) mongets(mtmp, FRAG_GRENADE);
+            /* FALLTHRU */
         case PM_URUK_HAI:
             if (!rn2(3))
                 (void) mongets(mtmp, ORCISH_CLOAK);
@@ -1611,7 +1619,9 @@ makemon(register struct permonst *ptr,
         break;
     case S_LIGHT:
     case S_ELEMENTAL:
-        if (mndx == PM_STALKER || mndx == PM_BLACK_LIGHT) {
+    case S_FELINE:
+        if (mndx == PM_STALKER || mndx == PM_BLACK_LIGHT
+              || mndx == PM_HELLCAT) {
             mtmp->perminvis = TRUE;
             mtmp->minvis = TRUE;
         }

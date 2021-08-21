@@ -204,7 +204,7 @@ mdisplacem(register struct monst *magr, register struct monst *mdef,
         return MM_MISS;
 
     /* Grid bugs cannot displace at an angle. */
-    if (pa == &mons[PM_GRID_BUG] && magr->mx != mdef->mx
+    if (horizontal_mover(pa) && magr->mx != mdef->mx
         && magr->my != mdef->my)
         return MM_MISS;
 
@@ -299,7 +299,8 @@ mattackm(register struct monst *magr, register struct monst *mdef)
     pd = mdef->data;
 
     /* Grid bugs cannot attack at an angle. */
-    if (pa == &mons[PM_GRID_BUG] && magr->mx != mdef->mx
+    if ((horizontal_mover(pa))
+        && magr->mx != mdef->mx
         && magr->my != mdef->my)
         return MM_MISS;
     

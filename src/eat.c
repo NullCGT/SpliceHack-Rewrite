@@ -846,7 +846,10 @@ should_givit(int type, struct permonst *ptr)
         chance = 10;
         break;
     case TELEPORT_CONTROL:
-        chance = 12;
+        if (ptr == &mons[PM_BLINKING_EYE])
+            chance = 80;
+        else
+            chance = 12;
         break;
     case TELEPAT:
         chance = 1;
@@ -994,10 +997,14 @@ cpostfx(int pm)
         catch_lycanthropy = PM_WEREJACKAL;
         break;
     case PM_HUMAN_WEREWOLF:
+    case PM_HUMAN_PACK_LORD:
         catch_lycanthropy = PM_WEREWOLF;
         break;
     case PM_HUMAN_WERECOCKATRICE:
         catch_lycanthropy = PM_WERECOCKATRICE;
+        break;
+    case PM_HUMAN_WERETIGER:
+        catch_lycanthropy = PM_WERETIGER;
         break;
     case PM_NURSE:
         if (Upolyd)
@@ -1134,7 +1141,7 @@ cpostfx(int pm)
         struct permonst *ptr = &mons[pm];
 
         if (dmgtype(ptr, AD_STUN) || dmgtype(ptr, AD_HALU)
-            || pm == PM_VIOLET_FUNGUS) {
+            || pm == PM_VIOLET_FUNGUS || pm == PM_BLOODSHOT_EYE) {
             pline("Oh wow!  Great stuff!");
             (void) make_hallucinated((HHallucination & TIMEOUT) + 200L, FALSE,
                                      0L);
@@ -2964,12 +2971,16 @@ gethungry(void)
        this first uhunger decrement, but to stay in such form the hero
        will need to wear an Amulet of Unchanging so still burn a small
        amount of nutrition in the 'moves % 20' ring/amulet check below */
+    /* SpliceHack change: Players with only one experience level get hungry
+       much more slowly. This way, newer players
+       (who may take a long time exploring the first few dungeon levels) have a
+       better chance of dying in combat instead of starving to death :) */
     if ((!Unaware || !rn2(10)) /* slow metabolic rate while asleep */
         && (carnivorous(g.youmonst.data)
             || herbivorous(g.youmonst.data)
             || metallivorous(g.youmonst.data))
         && ((!Role_if(PM_CONVICT) && !Race_if(PM_GHOUL)) || (g.moves % 2) || (u.uhs < HUNGRY))
-        && !Slow_digestion)
+        && !Slow_digestion && (u.ulevel != 1 || (g.moves % 2)))
         u.uhunger--; /* ordinary food consumption */
 
     /*

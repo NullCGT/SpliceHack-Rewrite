@@ -725,7 +725,8 @@ score_targ(struct monst *mtmp, struct monst *mtarg)
 
         /* Never target quest friendlies */
         if (mtarg->data->msound == MS_LEADER
-            || mtarg->data->msound == MS_GUARDIAN)
+            || mtarg->data->msound == MS_GUARDIAN
+            || (mtmp->data == &mons[PM_SPHERE_OF_THE_VOID] && !resists_disint(mtmp)))
             return -5000L;
         /* D: Fixed angelic beings using gaze attacks on coaligned priests */
         if (faith1 && faith2 && align1 == align2 && mtarg->mpeaceful) {

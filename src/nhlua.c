@@ -244,6 +244,7 @@ const struct {
                 { 'H', SCORR },
                 { '{', FOUNTAIN },
                 { 'V', VENT },
+                { 'R', FURNACE }, /* Rurnace? - Kes */
                 { '\\', THRONE },
                 { 'K', SINK },
                 { '}', MOAT },

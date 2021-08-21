@@ -384,6 +384,7 @@ Set flags for this level.
 | noflip        | Prevent flipping the level.
 | noflipx       | Prevent flipping the level horizontally.
 | noflipy       | Prevent flipping the level vertically.
+| nofood        | Prevents food from appearing via death drops and reduces the chance of monster corpses.
 |===
 
 Example:

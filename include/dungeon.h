@@ -19,7 +19,8 @@ typedef struct d_flags {     /* dungeon/level type flags */
     Bitfield(maze_like, 1);  /* is this a maze? */
     Bitfield(rogue_like, 1); /* is this an old-fashioned presentation? */
     Bitfield(align, 3);      /* dungeon alignment. */
-    Bitfield(unused, 1);     /* etc... */
+    Bitfield(nofood, 1);     /* is food prevented? */
+    /* Bitfield(unused, 1); */    /* etc... */
 } d_flags;
 
 typedef struct s_level { /* special dungeon level element */
@@ -166,7 +167,7 @@ typedef struct branch {
 struct linfo {
     unsigned char flags;
 #define VISITED 0x01      /* hero has visited this level */
-/* 0x02 was FORGOTTEN, when amnesia made you forget maps */
+#define FORGOTTEN 0x02  /* amnesia made you forget maps */
 #define LFILE_EXISTS 0x04 /* a level file exists for this level */
         /* Note:  VISITED and LFILE_EXISTS are currently almost always
          * set at the same time.  However they _mean_ different things.

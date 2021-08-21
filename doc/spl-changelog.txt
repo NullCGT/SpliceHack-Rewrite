@@ -6,7 +6,8 @@ Removed Content
 Since this release is a rewrite, a number of pieces of existing content have been heavily altered
 or outright removed. Rationale will be provided for all removed content upon request.
 - Removed cooking at furnaces. A new way to use furnaces is being cooked up instead.
-- Removed the following monsters: Anubites, Nuckelavees, Plant Monsters, Lords of Worms, Penguins.
+- Removed the following monsters: Anubites, Nuckelavees, Plant Monsters, Lords of Worms, Penguins,
+  Mystic Scarabs, Memory Hounds.
 - Removed the following objects:
   - Razor whip.
   - Robe of the blood magus.
@@ -99,6 +100,12 @@ in its own way.
   - Black rats cannot be genocided.
   - The rat king level generates in 25% of games, rather than 50%.
   - Contains a guaranteed bag of rats.
+- Added a flag to dungeon generation that allows the disabling of food in specific branches. This
+  will allow for adding an arbitrary number of branches in the future, since exploring a branch
+  will now have an associated cost (the user's hunger).
+- Food items generate significantly less frequently in Gehennom than in the main dungeon. In Gehennom,
+  food items are generated as frequently as amulets are in the main dungeon. Hopefully this makes
+  the food stash at the castle much more important.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
@@ -127,6 +134,9 @@ Monster Changes
   - Attempt to avoid the player unless the player has less than one quarter of their
     hit points remaining.
   - Peaceful to neutral characters.
+- New Adult Monsters: Killer Croc, Diamond Piercer
+  - Not randomly generated.
+  - Only appear when a lower level monster grows up.
 - Ported UnnetHack Aleaxes: Aleaxes are generated with copies of the player's items.
 - Purple dragons have been renamed to violet dragons.
 - Dragons have been significantly altered.
@@ -158,6 +168,11 @@ Monster Changes
   - Having larvae hatch inside you deals 1d5 damage, then halves your hit points.
   - Drinking a potion of sickness kills all larvae.
 - The Dark One is no longer a human.
+- Allow grid bugs to grow up into more powerful electric bugs.
+- Piercers can grow up into more powerful piercers. This includes god piercers, which
+  have been significantly altered.
+- Dust vorticies can grow up into dust devils.
+- Polymorphing into a nosferatu drops your charisma to 3.
 
 Object Changes
 - Zapping a wand of water at an item will extinguish it.
@@ -202,6 +217,7 @@ Role Changes
 Display Changes
 - Ridden monsters are highlighted in bright magenta.
 - The floor of the gnomish mines is rendered in the same color as the walls.
+- The walls of the black market have unique tiles in graphical builds.
 
 Balancing
 - Potions of paralysis injected via dipped weapons no longer paralyze monsters for rnd(25) turns.
@@ -211,6 +227,10 @@ Balancing
   in 800 poisonable objects.
 - Converting an altar will ALWAYS result in a minion of that deity being summoned.
 - *Very* rarely, objects in the player's starting inventory may be of an odd material.
+- A user can pray to reduce their hunger normally once. Every subsequent prayer used to reduce
+  their hunger increases the total time of their prayer timeout. This is meant to eliminate slow,
+  degenerate play, and should not affect regular players much.
+- While the player is level one, they get hungry much more slowly.
 
 Bug Fixes
 - While porting the previous SpliceHack code, numerous bugs were discovered and fixed. The full
@@ -225,8 +245,6 @@ Bug Fixes
 Known Bugs
 - Rare failed sanity check for improper mon data, possibly due to vampiric monsters shapeshifting.
 - Removing a mask that transformed you into a light-emitting monster will cause a program in disorder.
-- Wishing for "vampire blood" results in a potion of vampire blood. Wishing for "potion of vampire blood"
-  results in a random potion.
 
                             Version 0.8.3
 

@@ -868,6 +868,7 @@ u_init(void)
     set_uasmon();
 
     u.ulevel = 0; /* set up some of the initial attributes */
+    u.hungerprayers = 0;
     u.uhp = u.uhpmax = newhp();
     u.uen = u.uenmax = newpw();
     u.uspellprot = 0;

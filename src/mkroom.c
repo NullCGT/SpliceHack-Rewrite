@@ -568,7 +568,7 @@ denmon(void)
     else if (i > 70)
         return &mons[PM_WOLF];
     else if (i > 40)
-        return &mons[PM_TIGER];
+        return &mons[PM_LION];
     else if (i > 20)
         return mkclass(S_FELINE, 0);
     else

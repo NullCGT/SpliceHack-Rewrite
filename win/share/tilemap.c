@@ -57,7 +57,7 @@ struct conditionals_t {
     { MON_GLYPH, PM_HELL_HOUND, "Cerberus" },
 #endif
     /* commented out in monst.c at present */
-    { MON_GLYPH, PM_SHOCKING_SPHERE, "beholder" },
+    { MON_GLYPH, PM_BLINKING_EYE, "beholder" },
 #ifndef CHARON /* not supported yet */
     { MON_GLYPH, PM_CROESUS, "Charon" },
 #endif
@@ -99,7 +99,9 @@ struct substitute {
                     { GLYPH_CMAP_OFF + S_vwall, GLYPH_CMAP_OFF + S_trwall,
                       "knox walls", "Is_knox(plev)" },
                     { GLYPH_CMAP_OFF + S_vwall, GLYPH_CMAP_OFF + S_trwall,
-                      "sokoban walls", "In_sokoban(plev)" } };
+                      "sokoban walls", "In_sokoban(plev)" },
+                    { GLYPH_CMAP_OFF + S_vwall, GLYPH_CMAP_OFF + S_trwall,
+                      "blackmarket walls", "Is_blackmarket(plev)" } };
 
 #if defined(TILETEXT) || defined(OBTAIN_TILEMAP)
 /*
