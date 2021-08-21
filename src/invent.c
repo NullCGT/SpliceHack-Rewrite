@@ -1,4 +1,4 @@
-/* NetHack 3.7	invent.c	$NHDT-Date: 1625969349 2021/07/11 02:09:09 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.334 $ */
+/* NetHack 3.7	invent.c	$NHDT-Date: 1629409876 2021/08/19 21:51:16 $  $NHDT-Branch: NetHack-3.7 $:$NHDT-Revision: 1.339 $ */
 /* Copyright (c) Stichting Mathematisch Centrum, Amsterdam, 1985. */
 /*-Copyright (c) Derek S. Ray, 2015. */
 /* NetHack may be freely redistributed.  See license for details. */
@@ -31,7 +31,7 @@ static boolean this_type_only(struct obj *);
 static void dounpaid(void);
 static struct obj *find_unpaid(struct obj *, struct obj **);
 static void menu_identify(int);
-static boolean tool_in_use(struct obj *);
+static boolean tool_being_used(struct obj *);
 static int adjust_ok(struct obj *);
 static int adjust_gold_ok(struct obj *);
 static char obj_to_let(struct obj *);
@@ -1082,6 +1082,7 @@ useupall(struct obj *obj)
     obfree(obj, (struct obj *) 0); /* deletes contents also */
 }
 
+/* an item in inventory is going away after being used */
 void
 useup(struct obj *obj)
 {
@@ -1099,8 +1100,9 @@ useup(struct obj *obj)
 
 /* use one charge from an item and possibly incur shop debt for it */
 void
-consume_obj_charge(struct obj *obj,
-                   boolean maybe_unpaid) /* false if caller handles shop billing */
+consume_obj_charge(
+    struct obj *obj,
+    boolean maybe_unpaid) /* false if caller handles shop billing */
 {
     if (maybe_unpaid)
         check_unpaid(obj);
@@ -1166,6 +1168,7 @@ freeinv(struct obj *obj)
     update_inventory();
 }
 
+/* drawbridge is destroying all objects at <x,y> */
 void
 delallobj(int x, int y)
 {
@@ -1197,6 +1200,7 @@ delobj(struct obj *obj)
          * are indestructible via drawbridges, and exploding
          * chests, and golem creation, and ...
          */
+        obj->in_use = 0; /* in case caller has set this to 1 */
         return;
     }
     update_map = (obj->where == OBJ_FLOOR);
@@ -3805,8 +3809,9 @@ dopramulet(void)
     return 0;
 }
 
+/* is 'obj' a tool that's in use?  can't simply check obj->owornmask */
 static boolean
-tool_in_use(struct obj *obj)
+tool_being_used(struct obj *obj)
 {
     if ((obj->owornmask & (W_TOOL | W_SADDLE)) != 0L)
         return TRUE;
@@ -3825,7 +3830,7 @@ doprtool(void)
     char lets[52 + 1];
 
     for (otmp = g.invent; otmp; otmp = otmp->nobj)
-        if (tool_in_use(otmp)) {
+        if (tool_being_used(otmp)) {
             /* we could be carrying more than 52 items; theoretically they
                might all be lit candles so avoid potential lets[] overflow */
             if (ct >= (int) sizeof lets - 1)
@@ -3850,7 +3855,7 @@ doprinuse(void)
     char lets[52 + 1];
 
     for (otmp = g.invent; otmp; otmp = otmp->nobj)
-        if (is_worn(otmp) || tool_in_use(otmp)) {
+        if (is_worn(otmp) || tool_being_used(otmp)) {
             /* we could be carrying more than 52 items; theoretically they
                might all be lit candles so avoid potential lets[] overflow */
             if (ct >= (int) sizeof lets - 1)
