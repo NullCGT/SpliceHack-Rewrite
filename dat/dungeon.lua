@@ -33,6 +33,12 @@ dungeon = {
             branchtype = "portal"
          },
          {
+            name = "The Bar",
+            base = 15,
+            range = 5,
+            direction = "up",
+         },
+         {
             name = "Fort Ludios",
             base = 18,
             range = 4,
@@ -208,14 +214,6 @@ dungeon = {
       alignment = "lawful",
       flags = { "mazelike" },
       lvlfill = "minefill",
-      branches = {
-         {
-            name = "The Great Banquet Hall",
-            base = -2,
-            range = 0,
-            direction = "up",
-         },
-      },
       levels = {
          {
             name = "minetn",
@@ -301,14 +299,14 @@ dungeon = {
       }
    },
    {
-      name = "The Great Banquet Hall",
+      name = "The Bar",
       base = 1,
       bonetag = "b",
-      flags = { "mazelike" },
+      flags = { "mazelike", "nofood" },
       alignment = "chaotic",
       levels = {
          {
-            name = "banquet",
+            name = "bar",
             bonetag = "b",
             base = -1
          }

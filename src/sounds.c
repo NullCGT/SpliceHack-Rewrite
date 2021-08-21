@@ -375,14 +375,25 @@ dosounds(void)
     }
     if (!Is_blackmarket(&u.uz) && at_dgn_entrance("One-eyed Sam's Market") &&
         !rn2(200)) {
-            static const char *blkmar_msg[3] = {
-                "You hear someone complaining about the prices.",
-                "Somebody whispers: \"Food rations? Only 900 zorkmids.\"",
-                "You feel like searching for more gold.",
-            };
+        static const char *blkmar_msg[3] = {
+            "You hear someone complaining about the prices.",
+            "Somebody whispers: \"Food rations? Only 900 zorkmids.\"",
+            "You feel like searching for more gold.",
+        };
         pline("%s", blkmar_msg[rn2(2)+hallu]);
     }
+
+    if (!Is_bar(&u.uz) && at_dgn_entrance("The Bar") &&
+        !rn2(300)) {
+        static const char *bar_msg[3] = {
+            "You hear snatches of a dwarvish drinking song.",
+            "You hear a distant barfight.",
+            "You hear disgruntled adventurers!"
+        };
+        pline("%s", bar_msg[rn2(2)+hallu]);
+    }
 }
+
 
 static const char *const h_sounds[] = {
     "beep",   "boing",   "sing",   "belche", "creak",   "cough",

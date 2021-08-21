@@ -44,6 +44,7 @@
     <Luafiles Include = "valley.lua"/>
     <Luafiles Include = "knox.lua"/>
     <Luafiles Include = "rats.lua"/>
+    <Luafiles Include = "bar.lua"/>
     <Luafiles Include = "minefill.lua"/>
     <Luafiles Include = "minend-1.lua"/>
     <Luafiles Include = "minend-2.lua"/>

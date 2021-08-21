@@ -187,7 +187,8 @@ o_in(struct obj *obj, char oclass)
         for (otmp = obj->cobj; otmp; otmp = otmp->nobj)
             if (otmp->oclass == oclass)
                 return otmp;
-            else if (Has_contents(otmp) && (temp = o_in(otmp, oclass)) != 0)
+            else if (Has_contents(otmp) && obj->otyp != KEG
+                && (temp = o_in(otmp, oclass)) != 0)
                 return temp;
     }
     return (struct obj *) 0;

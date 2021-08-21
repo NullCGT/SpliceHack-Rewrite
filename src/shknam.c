@@ -287,12 +287,12 @@ const struct shclass shtypes[] = {
       FOOD_CLASS,
       5,
       D_SHOP,
-      { { 83, FOOD_CLASS },
+      { { 80, FOOD_CLASS },
         { 5, -POT_FRUIT_JUICE },
         { 4, -POT_BOOZE },
         { 5, -POT_WATER },
         { 3, -ICE_BOX },
-        { 0, 0 } },
+        { 3, -KEG } },
       shkfoods },
     { "jewelers",
       RING_CLASS,
@@ -564,6 +564,11 @@ nameshk(struct monst* shk, const char* const* nlp)
         /* special-case minetown lighting shk */
         shname = "+Izchak";
         shk->female = FALSE;
+    } else if (Is_bar(&u.uz)) {
+        shname = "Barkeep";
+        /* Kind of a hack to do this here... */
+        newetemplate(shk);
+        initetemplate(shk, MT_OVERCLOCKED);
     } else {
         /* We want variation from game to game, without needing the save
            and restore support which would be necessary for randomization;

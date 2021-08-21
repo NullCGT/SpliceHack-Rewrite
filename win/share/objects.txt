@@ -4987,6 +4987,25 @@ Z = (195, 195, 195)
   ....AA..........
   ................
 }
+# tile 284 (keg)
+{
+  ................
+  ................
+  ..CCCCCCCCCC....
+  .KCJJJJJJJJJCK..
+  .JKKCCCCCCCKKJ..
+  .JKKJKKKKKJKKJ..
+  .JKKJKKKKKJKKJ..
+  .JKKJKKKKKJKKJ..
+  .JKKJKKKKKJKKJ..
+  .JKKJKKKKKJKKJ..
+  .JKKJKKKKKJKKJ..
+  .JKKJKKKKKJKKJHH
+  .JKKJKKKKKJKKJ.H
+  .JKKJKKKKKJKKJAA
+  .AKKKJKKKJKKKAAA
+  ..AAAAAAAAAAAA..
+}
 # tile 261 (glass orb / crystal ball)
 {
   ................

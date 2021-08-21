@@ -622,7 +622,7 @@ hitmm(register struct monst *magr, register struct monst *mdef,
                     break;
                 } /*FALLTHRU*/
             case AT_HUGS:
-                if (magr != u.ustuck) {
+                if (magr != u.ustuck && mattk->aatyp == AT_HUGS) {
                     Snprintf(buf, sizeof(buf), "%s squeezes", magr_name);
                     break;
                 }

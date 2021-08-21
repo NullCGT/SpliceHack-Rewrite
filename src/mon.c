@@ -2056,6 +2056,10 @@ mm_2way_aggression(struct monst *magr, struct monst *mdef)
         return (ALLOW_M | ALLOW_TM);
     if (is_pirate(magr->data) && !magr->mpeaceful && u.ukinghill)
         return (ALLOW_M | ALLOW_TM);
+    /* Everyone on the bar level is involved in a massive brawl at all
+       times. */
+    if (Is_bar(&u.uz))
+        return (ALLOW_M | ALLOW_TM);
 
     return 0;
 }
@@ -3837,7 +3841,9 @@ setmangry(struct monst* mtmp, boolean via_attack)
                         }
                         /* shopkeepers and temple priests might gasp in
                            surprise, but they won't become angry here */
-                        if (mon->isshk || mon->ispriest) {
+                        /* does not apply to the bar level, because the barkeep
+                           is very protective. */
+                        if ((mon->isshk || mon->ispriest) && !Is_bar(&u.uz)) {
                             if (exclaimed)
                                 pline("%s%s", buf, " then shrugs.");
                             continue;

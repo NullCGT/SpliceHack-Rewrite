@@ -2297,6 +2297,7 @@ in_container(struct obj *obj)
 
     /* boxes, boulders, and big statues can't fit into any container */
     if (obj->otyp == ICE_BOX || Is_box(obj) || obj->otyp == BOULDER
+        || obj->otyp == KEG
         || (obj->otyp == STATUE && bigmonst(&mons[obj->corpsenm]))) {
         /*
          *  xname() uses a static result array.  Save obj's name

@@ -4034,6 +4034,7 @@ int
 doapply(void)
 {
     struct obj *obj;
+    struct obj *pseudo;
     register int res = 1;
 
     if (nohands(g.youmonst.data)) {
@@ -4211,6 +4212,22 @@ doapply(void)
     case LEATHER_DRUM:
     case DRUM_OF_EARTHQUAKE:
         res = do_play_instrument(obj);
+        break;
+    case KEG:
+        if (obj->spe > 0) {
+            consume_obj_charge(obj, TRUE);
+            pseudo = mksobj(POT_BOOZE, FALSE, FALSE);
+            pseudo->blessed = obj->blessed;
+            pseudo->cursed = obj->cursed;
+            u.uconduct.alcohol++;
+            You("chug some booze from %s.",
+                    yname(obj));
+            (void) peffects(pseudo);
+            obfree(pseudo, (struct obj *) 0);
+        } else if (Hallucination) 
+            pline("Where has the rum gone?");
+        else
+            pline("It's empty.");
         break;
     case HORN_OF_PLENTY: /* not a musical instrument */
         (void) hornoplenty(obj, FALSE);

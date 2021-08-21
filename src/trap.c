@@ -4110,6 +4110,11 @@ fire_damage(
                     place_object(otmp, x, y);
             }
         }
+        if (obj->otyp == KEG && obj->spe > 0) {
+            if (in_sight)
+                pline("It explodes!");
+            explode(x, y, 11, d(12, 6), 0, EXPL_FIERY);
+        }
         setnotworn(obj);
         delobj(obj);
         return TRUE;

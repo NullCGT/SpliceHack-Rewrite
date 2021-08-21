@@ -107,6 +107,9 @@ in its own way.
   food items are generated as frequently as amulets are in the main dungeon. Hopefully this makes
   the food stash at the castle much more important.
 - Ported the Lost Tomb from SLASH'EM. It appears in the DNetHack dungeon range.
+- New Branch: The Bar
+  - Inspired by the Guild of Disgruntled Adventurers, as well as conversations on IRC.
+  - Replaces the banquet hall.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.

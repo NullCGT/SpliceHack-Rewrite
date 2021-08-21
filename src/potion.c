@@ -524,7 +524,8 @@ ghost_from_bottle(void)
 static int
 drink_ok(struct obj *obj)
 {
-    if (obj && obj->oclass == POTION_CLASS)
+    if (obj && (obj->oclass == POTION_CLASS 
+        || obj->otyp == KEG))
         return GETOBJ_SUGGEST;
 
     return GETOBJ_EXCLUDE;
@@ -594,6 +595,40 @@ dodrink(void)
         remove_worn_item(otmp, FALSE);
     }
     otmp->in_use = TRUE; /* you've opened the stopper */
+
+    if (otmp->otyp == KEG) {
+        if (yn("Really drink the entire keg at once?") == 'n') {
+            pline("Perhaps not.");
+            return 0;
+        }
+        if (otmp->spe) {
+            int quan = 0;
+            while (otmp->spe) {
+                u.uconduct.alcohol++;
+                consume_obj_charge(otmp, TRUE);
+                check_unpaid(otmp);
+                if (!otmp->cursed)
+                    healup(1, 0, FALSE, FALSE);
+                if (!otmp->blessed)
+                    make_confused(itimeout_incr(HConfusion, d(3, 8)), FALSE);
+                u.uhunger += 10 * (2 + bcsign(otmp));
+                quan++;
+            }
+            You("down the entire keg! You are incredibly drunk!");
+            if (quan > 5 && !maybe_polyd(is_dwarf(g.youmonst.data) || is_giant(g.youmonst.data), 
+                Race_if(PM_DWARF))) {
+                u.uhp = 0;
+                losehp(1, "drinking too much booze", KILLED_BY);
+            }
+        } else {
+            pline("Unfortunately, your keg is dry as a desert.");
+            return 0;
+        }
+        return 1;
+    } else if (otmp->oclass != POTION_CLASS) {
+        pline(silly_thing_to, "drink");
+        return 0;
+    }
 
     if (objdescr_is(otmp, "milky")
         && !(g.mvitals[PM_GHOST].mvflags & G_GONE)

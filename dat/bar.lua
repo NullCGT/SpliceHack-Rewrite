@@ -16,23 +16,27 @@ des.map({ halign = "center", valign = "center", map = [[
 .....|..................................................|.....
 ..............................................................
 .....|......--..................................--......|.....
-    .|......--..|.............---...............--......|.    
-    .|..........|------.......---......-----|..........|.     
+    .|......--..|.............---...........|...--......|.    
+    .|..........|------.......---......-----|...........|.    
                  .............---............                 
                  ............................                 
                  .--......................--.                 
                  .--......................--.                 
-                 ............................                  
+                 ............................                 
 ]]});
 
 -- Features
-des.levregion({ region = {30,01,30,01}, exclude = {0,0,0,0}, type="branch" })
-des.stair("down", 30,01)
+des.region(selection.area(00,00,75,19), "lit")
+des.levregion({ region = {15,01,15,01}, exclude = {0,0,0,0}, type="branch" })
+des.stair("down", 15,01)
+des.door("locked",31,03)
+
+-- The bar shop.
+des.region({ region={26,01, 35,02}, lit=1, type="shop", filled=1 })
 
 -- Some statues by the entrance.
 des.object({id="statue", x=17, y=12,montype="h",historic=false})
 des.object({id="statue", x=44, y=12,montype="H",historic=true})
-des.door(31,02)
 
 -- Adventurer Types
 local patrons = { "apprentice", "warrior", "ninja", "thug",
@@ -42,30 +46,29 @@ local patrons = { "apprentice", "warrior", "ninja", "thug",
                     "samurai", "rogue", "ranger", "cleric", 
                     "monk", "knight", "healer",
                     "cave dweller", "barbarian",
-                    "archeologist", "dragon rider",
-                    "doppelganger" };
+                    "archeologist", "doppelganger" };
 
 -- "Disgruntled" Adventurers.
-for i = 0, 30 do
+for i = 0, 15 do
     shuffle(patrons)
     des.monster({id = patrons[1], peaceful = 0})
 end
 
 -- Peaceful Patrons
-for i = 0, 15 do
+for i = 0, 10 do
     shuffle(patrons)
     des.monster({id = patrons[1], peaceful = 1})
 end
 
--- Graffiti
-des.engravying({type="graffiti", text="Welcome to the bar of disgruntled adventurers!"})
-des.engravying({type="graffiti", text="Rodney stinks!"})
-des.engravying({type="graffiti", text="Drinking >>>> Questing!"})
+-- mark
+des.engraving({type="mark", text="Welcome to the bar of disgruntled adventurers!"})
+des.engraving({type="mark", text="Rodney stinks!"})
+des.engraving({type="mark", text="Drinking >>>> Questing!"})
 
 -- Booze
-des.object("keg", 0, 2)
-des.object("keg")
-des.object("keg")
+--des.object("keg", 0, 2)
+--des.object("keg")
+--des.object("keg")
 des.object("booze")
 des.object("booze")
 des.object("booze")
