@@ -661,6 +661,7 @@ extern void recbranch_mapseen(d_level *, d_level *);
 extern void overview_stats(winid, const char *, long *, long *);
 extern void remdun_mapseen(int);
 extern const char *endgamelevelname(char *, int);
+extern int dynamic_levname(void);
 
 /* ### eat.c ### */
 

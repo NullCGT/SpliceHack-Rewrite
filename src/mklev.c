@@ -1059,6 +1059,10 @@ makelevel(void)
     for (i = 0; i < g.nroom; ++i) {
         fill_special_room(&g.rooms[i]);
     }
+
+    /* Dynamically name the level depending on the contents. */
+    dynamic_levname();
+
 }
 
 /*

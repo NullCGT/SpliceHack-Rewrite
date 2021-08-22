@@ -1758,7 +1758,7 @@ goto_level(d_level *newlevel, boolean at_stairs, boolean falling, boolean portal
 #endif
 
     if ((annotation = get_annotation(&u.uz)) != 0)
-        You("remember this level as %s.", annotation);
+        You(new ? "are in the %s." : "return to the %s.", annotation);
 
     /* give room entrance message, if any */
     check_special_room(FALSE);
