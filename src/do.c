@@ -895,7 +895,7 @@ menu_drop(int retry)
         bypass_objlist(g.invent, FALSE);
     } else {
         /* should coordinate with perm invent, maybe not show worn items */
-        n = query_objlist(Role_if(PM_PIRATE) ? "What would ye like to drop?" : 
+        n = query_objlist(Role_if(PM_PIRATE) ? "What would ye like to drop?" :
                             "What would you like to drop?", &g.invent,
                           (USE_INVLET | INVORDER_SORT | INCLUDE_VENOM),
                           &pick_list, PICK_ANY,
@@ -1758,7 +1758,7 @@ goto_level(d_level *newlevel, boolean at_stairs, boolean falling, boolean portal
 #endif
 
     if ((annotation = get_annotation(&u.uz)) != 0)
-        You(new ? "are in the %s." : "return to the %s.", annotation);
+        You(new ? "are at %s." : "return to %s.", annotation);
 
     /* give room entrance message, if any */
     check_special_room(FALSE);
