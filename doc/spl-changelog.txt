@@ -112,6 +112,7 @@ in its own way.
   - Replaces the banquet hall.
 - Juiblex's lair has a 50% chance of containing Juiblex and a 50% chance of containing
   Zuggotomoy.
+- Levels have dynamically generated names.
 
 Monster Changes
 - Many monsters have gender-variant names. For example, female pigs are sows.
