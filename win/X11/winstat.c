@@ -56,13 +56,14 @@
 #define F_POWER    12
 #define F_MAXPOWER 13
 #define F_AC       14
-#define F_TOHIT    15
-#define F_XP_LEVL  16
+#define F_DR       15
+#define F_TOHIT    16
+#define F_XP_LEVL  17
 /*#define F_HD F_XP_LEVL*/
-#define F_EXP_PTS  17
-#define F_ALIGN    18
-#define F_TIME     19
-#define F_SCORE    20
+#define F_EXP_PTS  18
+#define F_ALIGN    19
+#define F_TIME     20
+#define F_SCORE    21
 
 /* status conditions grouped by columns; tty orders these differently;
    hunger/encumbrance/movement used to be in the middle with fatal
@@ -70,32 +71,32 @@
    renumbered to match new order (forcing shown_stats[] to be reordered);
    some mutually exclusive conditions are overloaded during display--
    they're separate within shown_stats[] but share the same widget */
-#define F_HUNGER   21
-#define F_ENCUMBER 22
-#define F_TRAPPED  23
-#define F_TETHERED 24 /* overloads trapped rather than having its own slot */
-#define F_LEV      25
-#define F_FLY      26
-#define F_RIDE     27
+#define F_HUNGER   22
+#define F_ENCUMBER 23
+#define F_TRAPPED  24
+#define F_TETHERED 25 /* overloads trapped rather than having its own slot */
+#define F_LEV      26
+#define F_FLY      27
+#define F_RIDE     28
 
-#define F_GRABBED  28
-#define F_STONE    29
-#define F_SLIME    30
-#define F_STRNGL   31
-#define F_FOODPOIS 32
-#define F_TERMILL  33
-#define F_IN_LAVA  34 /* could overload trapped but severity differs a lot */
+#define F_GRABBED  29
+#define F_STONE    30
+#define F_SLIME    31
+#define F_STRNGL   32
+#define F_FOODPOIS 33
+#define F_TERMILL  34
+#define F_IN_LAVA  35 /* could overload trapped but severity differs a lot */
 
-#define F_HELD     35 /* could overload grabbed but severity differs a lot */
-#define F_HOLDING  36 /* overloads held */
-#define F_BLIND    37
-#define F_DEAF     38
-#define F_STUN     39
-#define F_CONF     40
-#define F_HALLU    41
-#define F_AFRAID   42
+#define F_HELD     36 /* could overload grabbed but severity differs a lot */
+#define F_HOLDING  37 /* overloads held */
+#define F_BLIND    38
+#define F_DEAF     39
+#define F_STUN     40
+#define F_CONF     41
+#define F_HALLU    42
+#define F_AFRAID   43
 
-#define NUM_STATS  43
+#define NUM_STATS  44
 
 static int condcolor(long, unsigned long *);
 static int condattr(long, unsigned long *);
@@ -142,7 +143,7 @@ static enum statusfields X11_fieldorder[][X11_NUM_STATUS_FIELD] = {
       BL_SCORE, BL_FLUSH, BL_FLUSH, BL_FLUSH, BL_FLUSH, BL_FLUSH,
       BL_FLUSH },
     { BL_LEVELDESC, BL_GOLD, BL_HP, BL_HPMAX, BL_ENE, BL_ENEMAX,
-      BL_AC, BL_TOHIT, BL_XP, BL_EXP, BL_HD, BL_TIME, BL_HUNGER,
+      BL_AC, BL_DR, BL_TOHIT, BL_XP, BL_EXP, BL_HD, BL_TIME, BL_HUNGER,
       BL_CAP, BL_CONDITION, BL_FLUSH }
 };
 
@@ -841,6 +842,7 @@ X11_status_update_fancy(int fld, genericptr_t ptr, int chg UNUSED,
         { BL_ENEMAX, F_MAXPOWER },
         { BL_XP, F_XP_LEVL }, /* shares with BL_HD, depending upon Upolyd */
         { BL_AC, F_AC },
+        { BL_DR, F_DR },
         { BL_TOHIT, F_TOHIT },
         { BL_TIME, F_TIME },
         { BL_HUNGER, F_HUNGER },

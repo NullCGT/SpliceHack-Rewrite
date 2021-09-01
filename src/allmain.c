@@ -434,6 +434,7 @@ moveloop(boolean resuming)
 
         clear_splitobjs();
         find_ac();
+        find_dr();
         if (!g.context.mv || Blind) {
             /* redo monsters if hallu or wearing a helm of telepathy */
             if (Hallucination) { /* update screen randomly */

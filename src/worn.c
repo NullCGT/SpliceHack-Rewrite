@@ -484,6 +484,24 @@ find_mac(struct monst *mon)
     return base;
 }
 
+int
+find_mdr(struct monst *mon)
+{
+    register struct obj *obj;
+    int base = mon->data->dr;
+    long mwflags = mon->misc_worn_check;
+
+    for (obj = mon->minvent; obj; obj = obj->nobj) {
+        if (obj->owornmask & mwflags) {
+            base += DR_BONUS(obj);
+        }
+    }
+    
+    if (abs(base) > DR_MAX)
+        base = sgn(base) * DR_MAX;
+    return base;
+}
+
 /*
  * weapons are handled separately;
  * rings and eyewear aren't used by monsters

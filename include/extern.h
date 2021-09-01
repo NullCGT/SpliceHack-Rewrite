@@ -505,6 +505,7 @@ extern int canwearobj(struct obj *, long *, boolean);
 extern int dowear(void);
 extern int doputon(void);
 extern void find_ac(void);
+extern void find_dr(void);
 extern void glibr(void);
 extern struct obj *some_armor(struct monst *);
 extern struct obj *stuck_ring(struct obj *, int);
@@ -3248,6 +3249,7 @@ extern void mon_adjust_speed(struct monst *, int, struct obj *);
 extern void update_mon_intrinsics(struct monst *, struct obj *, boolean,
                                   boolean);
 extern int find_mac(struct monst *);
+extern int find_mdr(struct monst *);
 extern void m_dowear(struct monst *, boolean);
 extern struct obj *which_armor(struct monst *, long);
 extern void mon_break_armor(struct monst *, boolean);

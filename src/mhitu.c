@@ -685,7 +685,7 @@ mattacku(register struct monst *mtmp)
 
     /*  Work out the armor class differential   */
     tmp = AC_VALUE(u.uac) + 10; /* tmp ~= 0 - 20 */
-    tmp += mtmp->m_lev;
+    tmp += mtmp->m_lev >= 20 ? mtmp->m_lev : (int) (20 + (mtmp->m_lev - 20)^(1 / 2));
     if (g.multi < 0)
         tmp += 4;
     if ((Invis && !perceives(mdat)) || !mtmp->mcansee)
@@ -900,6 +900,8 @@ mattacku(register struct monst *mtmp)
                 g.nomovemsg = "The combat suddenly awakens you.";
             }
         }
+        if (mattk->aatyp != AT_NONE)
+            pline("Target: %d. Roll: %d", tmp, j);
         if ((sum[i] & MM_AGR_DIED))
             return 1; /* attacker dead */
         if ((sum[i] & MM_AGR_DONE))
@@ -1156,8 +1158,16 @@ hitmu(register struct monst *mtmp, register struct attack *mattk)
     /*  Negative armor class reduces damage done instead of fully protecting
      *  against hits.
      */
+    #if 0
     if (mhm.damage && u.uac < 0) {
         mhm.damage -= rnd(-u.uac);
+        if (mhm.damage < 1)
+            mhm.damage = 1;
+    }
+    #endif
+
+    if (mhm.damage && u.udr > 0) {
+        mhm.damage -= u.udr;
         if (mhm.damage < 1)
             mhm.damage = 1;
     }

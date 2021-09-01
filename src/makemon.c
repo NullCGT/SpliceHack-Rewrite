@@ -2989,6 +2989,7 @@ apply_template(struct permonst basemon, int tindex)
     basemon.mlevel += template.mlevel;
     basemon.mmove += template.mmove;
     basemon.ac += template.ac;
+    basemon.dr += template.dr;
     basemon.mr += template.mr;
     basemon.maligntyp += template.maligntyp;
     basemon.geno |= template.geno;

@@ -645,6 +645,13 @@ basics_enlightenment(int mode UNUSED, int final)
                 (u.uac < 0) ? "best" : "worst");
     enl_msg("Your armor class ", "is ", "was ", buf, "");
 
+    find_dr(); /* enforces DR_MAX cap */
+    Sprintf(buf, "%d", u.udr);
+    if (abs(u.udr) == DR_MAX)
+        Sprintf(eos(buf), ", the %s possible",
+                (u.uac < 0) ? "best" : "worst");
+    enl_msg("Your damage reduction ", "is ", "was ", buf, "");
+
     Sprintf(buf, "%d", botl_hitbonus());
     enl_msg("Your to-hit bonus ", "is ", "was ", buf, "");
 
@@ -2921,9 +2928,9 @@ mstatusline(struct monst *mtmp)
     Strcpy(monnambuf, x_monnam(mtmp, ARTICLE_THE, (char *) 0,
                                (SUPPRESS_IT | SUPPRESS_INVISIBLE), FALSE));
 
-    pline("Status of %s (%s):  Level %d  HP %d(%d)  AC %d%s.", monnambuf,
+    pline("Status of %s (%s):  Level %d  HP %d(%d)  AC %d  DR %d%s.", monnambuf,
           align_str(alignment), mtmp->m_lev, mtmp->mhp, mtmp->mhpmax,
-          find_mac(mtmp), info);
+          find_mac(mtmp), find_mdr(mtmp), info);
 }
 
 /* stethoscope or probing applied to hero -- one-line feedback */
@@ -2990,10 +2997,10 @@ ustatusline(void)
         Strcat(info, mon_nam(u.ustuck));
     }
 
-    pline("Status of %s (%s):  Level %d  HP %d(%d)  AC %d%s.", g.plname,
+    pline("Status of %s (%s):  Level %d  HP %d(%d)  AC %d DR%d%s.", g.plname,
           piousness(FALSE, align_str(u.ualign.type)),
           Upolyd ? mons[u.umonnum].mlevel : u.ulevel, Upolyd ? u.mh : u.uhp,
-          Upolyd ? u.mhmax : u.uhpmax, u.uac, info);
+          Upolyd ? u.mhmax : u.uhpmax, u.uac, u.udr, info);
 }
 
 /*insight.c*/

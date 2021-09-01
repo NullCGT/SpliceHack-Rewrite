@@ -3717,9 +3717,9 @@ static const char *encvals[3][6] = {
 static const enum statusfields
     twolineorder[3][MAX_PER_ROW] = {
     { BL_TITLE, BL_STR, BL_DX, BL_CO, BL_IN, BL_WI, BL_CH, BL_ALIGN,
-      BL_SCORE, BL_FLUSH, blPAD, blPAD, blPAD, blPAD, blPAD },
+      BL_SCORE, BL_TIME, BL_FLUSH, blPAD, blPAD, blPAD, blPAD },
     { BL_LEVELDESC, BL_GOLD, BL_HP, BL_HPMAX, BL_ENE, BL_ENEMAX,
-      BL_AC, BL_TOHIT, BL_XP, BL_EXP, BL_HD, BL_TIME, BL_HUNGER,
+      BL_AC, BL_DR, BL_TOHIT, BL_XP, BL_EXP, BL_HD, BL_HUNGER,
       BL_CAP, BL_CONDITION, BL_FLUSH },
     /* third row of array isn't used for twolineorder */
     { BL_FLUSH, blPAD, blPAD, blPAD, blPAD, blPAD, blPAD, blPAD,
@@ -3730,8 +3730,8 @@ static const enum statusfields
     { BL_TITLE, BL_STR, BL_DX, BL_CO, BL_IN, BL_WI, BL_CH,
       BL_SCORE, BL_FLUSH, blPAD, blPAD, blPAD, blPAD, blPAD, blPAD },
     { BL_ALIGN, BL_GOLD, BL_HP, BL_HPMAX, BL_ENE, BL_ENEMAX,
-      BL_AC, BL_TOHIT, BL_XP, BL_EXP, BL_HD, BL_HUNGER,
-      BL_CAP, BL_FLUSH, blPAD, blPAD },
+      BL_AC, BL_DR, BL_TOHIT, BL_XP, BL_EXP, BL_HD, BL_HUNGER,
+      BL_CAP, BL_FLUSH, blPAD },
     { BL_LEVELDESC, BL_TIME, BL_CONDITION, BL_FLUSH, blPAD, blPAD,
       blPAD, blPAD, blPAD, blPAD, blPAD, blPAD, blPAD, blPAD, blPAD }
 };
@@ -3813,7 +3813,7 @@ tty_status_enablefield(int fieldidx, const char *nm, const char *fmt,
  *      -- fldindex could be any one of the following from botl.h:
  *         BL_TITLE, BL_STR, BL_DX, BL_CO, BL_IN, BL_WI, BL_CH,
  *         BL_ALIGN, BL_SCORE, BL_CAP, BL_GOLD, BL_ENE, BL_ENEMAX,
- *         BL_XP, BL_AC, BL_TOHIT, BL_HD, BL_TIME, BL_HUNGER, BL_HP, BL_HPMAX,
+ *         BL_XP, BL_AC, BL_DR, BL_TOHIT, BL_HD, BL_TIME, BL_HUNGER, BL_HP, BL_HPMAX,
  *         BL_LEVELDESC, BL_EXP, BL_CONDITION
  *      -- fldindex could also be BL_FLUSH (-1), which is not really
  *         a field index, but is a special trigger to tell the
@@ -4177,9 +4177,9 @@ status_sanity_check(void)
     static const char *const idxtext[] = {
         "BL_TITLE", "BL_STR", "BL_DX", "BL_CO", "BL_IN", "BL_WI", /* 0.. 5   */
         "BL_CH","BL_ALIGN", "BL_SCORE", "BL_CAP", "BL_GOLD",     /* 6.. 10  */
-        "BL_ENE", "BL_ENEMAX", "BL_XP", "BL_AC", "BL_TOHIT", "BL_HD",       /* 11.. 16 */
-        "BL_TIME", "BL_HUNGER", "BL_HP", "BL_HPMAX",           /* 17.. 20 */
-        "BL_LEVELDESC", "BL_EXP", "BL_CONDITION"              /* 21.. 23 */
+        "BL_ENE", "BL_ENEMAX", "BL_XP", "BL_AC", "BL_DR", "BL_TOHIT", "BL_HD",       /* 11.. 17 */
+        "BL_TIME", "BL_HUNGER", "BL_HP", "BL_HPMAX",           /* 18.. 21 */
+        "BL_LEVELDESC", "BL_EXP", "BL_CONDITION"              /* 22.. 24 */
     };
    
     if (in_sanity_check)

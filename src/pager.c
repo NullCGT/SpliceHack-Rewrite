@@ -754,8 +754,8 @@ struct permonst * pm;
 
     /* Misc */
 
-    Sprintf(buf, "Speed: %d, Base AC: %d, Magic Res: %d, Weight: %d.",
-            pm->mmove, pm->ac, pm->mr, pm->cwt);
+    Sprintf(buf, "Speed: %d, Base AC: %d, Base DR: %d, Magic Res: %d, Weight: %d.",
+            pm->mmove, pm->ac, pm->dr, pm->mr, pm->cwt);
     MONPUTSTR(buf);
 
     /* Generation */

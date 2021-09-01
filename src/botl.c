@@ -530,6 +530,7 @@ static struct istat_s initblstats[MAXBLSTATS] = {
     INIT_BLSTAT("power-max", "(%s)", ANY_INT, 10, BL_ENEMAX),
     INIT_BLSTATP("experience-level", " Xp:%s", ANY_INT, 10, BL_EXP, BL_XP),
     INIT_BLSTAT("armor-class", " AC:%s", ANY_INT, 10, BL_AC),
+    INIT_BLSTAT("damage-reduction", " DR:%s", ANY_INT, 10, BL_DR),
     INIT_BLSTAT("to-hit", " HIT:%s", ANY_INT, 10, BL_TOHIT),
     INIT_BLSTAT("HD", " HD:%s", ANY_INT, 10, BL_HD),
     INIT_BLSTAT("time", " T:%s", ANY_LONG, 20, BL_TIME),
@@ -811,6 +812,9 @@ bot_via_windowport(void)
 
     /* Armor class */
     g.blstats[idx][BL_AC].a.a_int = u.uac;
+
+    /* Damage Reduction */
+    g.blstats[idx][BL_DR].a.a_int = u.udr;
 
     /* To-hit bonus */
     g.blstats[idx][BL_TOHIT].a.a_int = botl_hitbonus();
@@ -1781,6 +1785,7 @@ static struct fieldid_t {
     { "xl",       BL_XP },
     { "xplvl",    BL_XP },
     { "ac",       BL_AC },
+    { "dr",       BL_DR },
     { "tohit",    BL_TOHIT },
     { "hit-dice", BL_HD },
     { "turns",    BL_TIME },
@@ -2485,7 +2490,7 @@ parse_status_hl2(char (*s)[QBUFSZ], boolean from_configfile)
                 /* AC and TOHIT are the only fields where negative values make sense but
                    accept >-1 for other fields; reject <0 for non-AC */
                 && (hilite.value.a_int
-                    < ((fld == BL_AC || fld == BL_TOHIT) ? -128 : gt ? -1 : lt ? 1 : 0)
+                    < ((fld == BL_AC || fld == BL_DR || fld == BL_TOHIT) ? -128 : gt ? -1 : lt ? 1 : 0)
                 /* percentages have another more comprehensive check below */
                     || hilite.value.a_int > (percent ? (lt ? 101 : 100)
                                                      : LARGEST_INT))) {
@@ -3537,7 +3542,7 @@ choose_value:
 
         /* reject negative values except for AC and >-1; reject 0 for < */
         } else if (dt == ANY_INT
-                   && (aval.a_int < ((fld == BL_AC || fld == BL_TOHIT) ? -128
+                   && (aval.a_int < ((fld == BL_AC || fld == BL_DR || fld == BL_TOHIT) ? -128
                                      : (lt_gt_eq == GT_VALUE) ? -1
                                        : (lt_gt_eq == LT_VALUE) ? 1 : 0))) {
             pline("%s'%s%d'%s", threshold_value,
@@ -3553,7 +3558,7 @@ choose_value:
 
         if (lt_gt_eq == NO_LTEQGT) {
             boolean ltok = ((dt == ANY_INT)
-                            ? (aval.a_int > 0 || fld == BL_AC || fld == BL_TOHIT)
+                            ? (aval.a_int > 0 || fld == BL_AC || fld == BL_DR || fld == BL_TOHIT)
                             : (aval.a_long > 0L)),
                     gtok = (!percent || aval.a_long < 100);
 

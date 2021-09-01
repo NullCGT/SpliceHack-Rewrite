@@ -1415,9 +1415,9 @@ doname_base(struct obj* obj, unsigned int doname_flags)
         }
     } else if (obj->oclass == ARMOR_CLASS) {
         if (obj->known) {
-            Sprintf(eos(bp), " [%dAC]", ARM_BONUS(obj));
+            Sprintf(eos(bp), " [%dAC|%dDR]", ARM_BONUS(obj), DR_BONUS(obj));
         } else {
-            Sprintf(eos(bp), " [%dAC]", UNK_ARM_BONUS(obj));
+            Sprintf(eos(bp), " [%dAC|%dDR]", UNK_ARM_BONUS(obj), UNK_DR_BONUS(obj));
         }
     }
 

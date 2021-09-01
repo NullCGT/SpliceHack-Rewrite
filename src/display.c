@@ -2250,23 +2250,23 @@ map_glyphinfo(xchar x, xchar y, int glyph,
                 color = CLR_BLUE;
             else if (Is_blackmarket(&u.uz))
                 color = CLR_ORANGE;
-        		else if (In_W_tower(x, y, &u.uz))
-        		    color = CLR_MAGENTA;
-        		else if (In_mines(&u.uz))
-        		    color = CLR_BROWN;
-        		else if (In_hell(&u.uz) && !Is_valley(&u.uz))
-        		    color =  CLR_RED;
-                else if (Is_firelevel(&u.uz))
-                    color = CLR_YELLOW;
-        		else if (Is_astralevel(&u.uz))
-        		    color = CLR_WHITE;
+            else if (In_W_tower(x, y, &u.uz))
+                color = CLR_MAGENTA;
+            else if (In_mines(&u.uz))
+                color = CLR_BROWN;
+            else if (In_hell(&u.uz) && !Is_valley(&u.uz))
+                color =  CLR_RED;
+            else if (Is_firelevel(&u.uz))
+                color = CLR_YELLOW;
+            else if (Is_astralevel(&u.uz))
+                color = CLR_WHITE;
       	} else if (iflags.use_color && offset == S_room) {
-        		if (*in_rooms(x,y,BEEHIVE))
-        		    color = CLR_YELLOW;
-                else if (In_mines(&u.uz))
-        		    color = CLR_BROWN;
-        		else if (Is_juiblex_level(&u.uz))
-                    color = CLR_GREEN;
+            if (*in_rooms(x,y,BEEHIVE))
+                color = CLR_YELLOW;
+            else if (In_mines(&u.uz))
+                color = CLR_BROWN;
+            else if (Is_juiblex_level(&u.uz))
+                color = CLR_GREEN;
 #endif
         /* try to provide a visible difference between water and lava
            if they use the same symbol and color is disabled */
@@ -2459,6 +2459,9 @@ map_glyphinfo(xchar x, xchar y, int glyph,
                 idx = ovidx;
         }
     }
+
+    /* In the VOTD, the world is gray */
+    if (Is_valley(&u.uz)) color = NO_COLOR;
 
 #ifdef TEXTCOLOR
     /* Turn off color if no color defined, or rogue level w/o PC graphics. */

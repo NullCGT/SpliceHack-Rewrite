@@ -2265,6 +2265,40 @@ doputon(void)
     return otmp ? accessory_or_armor_on(otmp) : 0;
 }
 
+void
+find_dr(void)
+{
+    int udr = mons[u.umonnum].dr; /* base damage reduction for current form */
+
+    /* DR from worn gear */
+    if (uarm)
+        udr += DR_BONUS(uarm);
+    if (uarmc)
+        udr += DR_BONUS(uarmc);
+    if (uarmh)
+        udr += DR_BONUS(uarmh);
+    if (uarmf)
+        udr += DR_BONUS(uarmf);
+    if (uarms)
+        udr += DR_BONUS(uarms);
+    if (uarmg)
+        udr += DR_BONUS(uarmg);
+    if (uarmu)
+        udr += DR_BONUS(uarmu);
+
+    /* Potentially add calculations for protection */
+
+    /* put a cap on armor class [3.7: was +127,-128, now reduced to +/- 99 */
+    if (abs(udr) > DR_MAX)
+        udr = sgn(udr) * DR_MAX;
+
+    if (udr != u.udr) {
+        u.udr = udr;
+        g.context.botl = 1;
+    }
+    
+}
+
 /* calculate current armor class */
 void
 find_ac(void)

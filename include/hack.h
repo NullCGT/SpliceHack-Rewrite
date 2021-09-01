@@ -593,9 +593,10 @@ enum optset_restrictions {
 #define plur(x) (((x) == 1) ? "" : "s")
 
 #define ARM_BONUS(obj)                      \
-    (objects[(obj)->otyp].a_ac + (obj)->spe + material_bonus(obj) \
+    (objects[(obj)->otyp].a_ac + material_bonus(obj) \
      - min((int) greatest_erosion(obj), \
-          objects[(obj)->otyp].a_ac + material_bonus(obj)))
+          objects[(obj)->otyp].a_ac + material_bonus(obj)) \
+     + (is_metallic(obj) ? 0 : (obj)->spe))
 
 #define UNK_ARM_BONUS(obj)                      \
     (objects[(obj)->otyp].a_ac + material_bonus(obj) \
@@ -605,6 +606,14 @@ enum optset_restrictions {
 #define W_ARM_BONUS(obj) \
     ((is_weptool((obj)) || (obj)->oclass == WEAPON_CLASS) ? \
         (objects[(obj)->otyp].w_acbon) : 0)
+
+#define DR_BONUS(obj) \
+    (objects[(obj)->otyp].a_dr \
+        - min((int) greatest_erosion(obj), objects[(obj)->otyp].a_dr) \
+        + (is_metallic(obj) ? (obj)->spe : 0))
+
+#define UNK_DR_BONUS(obj) \
+    (objects[(obj)->otyp].a_dr - min((int) greatest_erosion(obj), objects[(obj)->otyp].a_dr))
 
 #define makeknown(x) discover_object((x), TRUE, TRUE)
 #define distu(xx, yy) dist2((int)(xx), (int)(yy), (int) u.ux, (int) u.uy)

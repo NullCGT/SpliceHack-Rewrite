@@ -47,10 +47,14 @@ Combat System Changes
     - Given the emphasis on to-hit bonus, these small bonuses and penalties are now much more
       important than they would otherwise be.
     - [PLANNED] These values can be influenced by the material of the weapon.
-- [PLANNED] AC and DR have been split. This system is similar to the one in dnethack, but with
+- AC and DR have been split. This system is similar to the one in dnethack, but with
   some significant changes.
 - [PLANNED] Role-based power regen?
 - [PLANNED] Dexterity contributes to AC, but the amount it contributes depends on weight?
+- Monster to-hit roles are handled differently: Monsters no longer get an automatic +10 to hit the
+  player.
+- [PLANNED] If a monster is vulnerable to a material, that material will cut through their damage
+  reduction. This goes for the player as well.
 
 QOL
 - Added a number of QOL fixes to the wish parser. Many of these were pulled from the NetHack YANI
