@@ -48,6 +48,8 @@
 #### Cave Dwellers
   - T-Rexes and Velociraptors only randomly generate when playing this role.
 - Added a few new role/species/alignment combinations.
+#### Archeologists
+- Archeologists can safely enchant their lucky fedoras when the fedora is +4 or +5.
 #### Kicking & Punching
 - Martial artists and players wearing kicking boots can destroy most dungeon features with a kick.
 - Martial artists and players wearing kicking boots can't have clumsy kicks.

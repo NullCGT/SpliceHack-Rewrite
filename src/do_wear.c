@@ -408,6 +408,10 @@ Helmet_on(void)
 {
     switch (uarmh->otyp) {
     case FEDORA:
+       if (Role_if(PM_ARCHEOLOGIST)) {
+           change_luck(1);
+       }
+       break;
     case HELMET:
     case DENTED_POT:
     case ELVEN_HELM:
@@ -489,6 +493,10 @@ Helmet_off(void)
 
     switch (uarmh->otyp) {
     case FEDORA:
+       if (Role_if(PM_ARCHEOLOGIST)) {
+           change_luck(-1);
+       }
+       break;
     case HELMET:
     case DENTED_POT:
     case ELVEN_HELM:
@@ -1280,7 +1288,7 @@ Blindf_on(struct obj *otmp)
     if (ublindf && ublindf->oartifact == ART_LENSES_OF_DEATH_PERCEPTION)
         pline("With madness comes clarity.");
     if (ublindf && ublindf->otyp == MASK)
-        if (use_mask(&ublindf)) return; 
+        if (use_mask(&ublindf)) return;
 }
 
 void
