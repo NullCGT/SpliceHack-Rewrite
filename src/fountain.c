@@ -79,6 +79,28 @@ dowaterdemon(void)
         pline_The("fountain bubbles furiously for a moment, then calms.");
 }
 
+/* Water Gnome */
+static void
+dowatergnome(void)
+{
+    register struct monst *mtmp;
+
+    if (!(g.mvitals[PM_GNOME].mvflags & G_GONE)
+        && (mtmp = makemon(&mons[PM_GNOME], u.ux, u.uy,
+                           NO_MM_FLAGS)) != 0) {
+        if (!Blind)
+            You("are beset by a feral fountain %s!", m_monnam(mtmp));
+        else
+            You_feel("something trying to grab your %s!", body_part(FACE));
+        mtmp->msleeping = 0;
+        if (t_at(mtmp->mx, mtmp->my))
+            (void) mintrap(mtmp);
+    } else if (!Blind)
+        pline("A small bubble rises to the surface and pops.");
+    else
+        You_hear("a quiet pop.");
+}
+
 /* Water Nymph */
 static void
 dowaternymph(void)
@@ -312,6 +334,8 @@ drinkfountain(void)
                 pline("Oh wow!  Great stuff!");
                 (void) make_hallucinated((HHallucination & TIMEOUT) +
                         rnd(100), FALSE, 0L);
+            } else if (In_mines(&u.uz)) {
+                dowatergnome();
             } else {
                 pline_The("water is foul!  You gag and vomit.");
                 morehungry(rn1(20, 11));
@@ -482,6 +506,8 @@ dipfountain(register struct obj *obj)
     case 17:
     case 18:
     case 19:
+        if (In_mines(&u.uz))
+                dowatergnome();
     case 20: /* Uncurse the item */
         if (obj->cursed) {
             if (!Blind)

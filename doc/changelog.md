@@ -137,6 +137,8 @@ in its own way.
 - Occasionally, mines level will generate with several trees in them.
 - The orcs in orctown have built a kitchen, complete with furnace, sink, and icebox!
 - Two Oracle levels arrived from xNetHack, and the standard level varies a bit.
+- Oracle fountains can help you hallucinate, and gnomish fountains contain
+helpful gnomes.
 - Secret corridors no longer generate; secret doors still exist.
 #### Furnaces
 - Furnaces can be used to combine items. While at a furnace, the player can use the #forge command
