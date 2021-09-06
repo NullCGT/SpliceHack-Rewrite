@@ -2051,6 +2051,12 @@ create_monster(monster* m, struct mkroom* croom)
             mtmp->mflee = 1;
             mtmp->mfleetim = (m->fleeing % 127);
         }
+        if (m->dead) {
+            mondied(mtmp);
+            /* kludge for this: it didn't actually die while the player was
+             * around, so revert mondead() incrementing this */
+            g.mvitals[monsndx(mtmp->data)].died--;
+        }
         if (m->waiting) {
             mtmp->mstrategy |= STRAT_WAITFORU;
         }
@@ -3060,6 +3066,7 @@ lspo_monster(lua_State *L)
     tmpmons.confused = 0;
     tmpmons.seentraps = 0;
     tmpmons.has_invent = 0;
+    tmpmons.dead = 0;
     tmpmons.waiting = 0;
     tmpmons.mm_flags = NO_MM_FLAGS;
 
@@ -3125,6 +3132,7 @@ lspo_monster(lua_State *L)
         tmpmons.paralyzed = get_table_int_opt(L, "paralyzed", 0);
         tmpmons.stunned = get_table_int_opt(L, "stunned", 0);
         tmpmons.confused = get_table_int_opt(L, "confused", 0);
+        tmpmons.dead = get_table_int_opt(L, "dead", 0);
         tmpmons.waiting = get_table_int_opt(L, "waiting", 0);
         tmpmons.seentraps = 0; /* TODO: list of trap names to bitfield */
         tmpmons.has_invent = 0;
