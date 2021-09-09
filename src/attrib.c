@@ -457,8 +457,6 @@ void
 exercise(int i, boolean inc_or_dec)
 {
     debugpline0("Exercise:");
-    if (i == A_INT || i == A_CHA)
-        return; /* can't exercise these */
 
     /* no physical exercise while polymorphed; the body's temporary */
     if (Upolyd && i != A_WIS && i != A_INT && i != A_CHA)
@@ -1005,7 +1003,7 @@ adjabil(int oldlevel, int newlevel, int role_index, int oldrolelevel, int newrol
             mask = FROMRACE;
         }
         prevabil = *(abil->ability);
-        if (((mask == FROMRACE) ? oldlevel : oldrolelevel) < abil->ulevel 
+        if (((mask == FROMRACE) ? oldlevel : oldrolelevel) < abil->ulevel
             && ((mask == FROMRACE) ? newlevel : newrolelevel) >= abil->ulevel) {
             /* Abilities gained at level 1 can never be lost
              * via level loss, only via means that remove _any_
