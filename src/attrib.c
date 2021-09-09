@@ -462,8 +462,6 @@ void
 exercise(int i, boolean inc_or_dec)
 {
     debugpline0("Exercise:");
-    if (i == A_INT || i == A_CHA)
-        return; /* can't exercise these */
 
     /* no physical exercise while polymorphed; the body's temporary */
     if (Upolyd && i != A_WIS)
@@ -1013,7 +1011,7 @@ adjabil(int oldlevel, int newlevel, int role_index, int oldrolelevel, int newrol
             mask = FROMRACE;
         }
         prevabil = *(abil->ability);
-        if (((mask == FROMRACE) ? oldlevel : oldrolelevel) < abil->ulevel 
+        if (((mask == FROMRACE) ? oldlevel : oldrolelevel) < abil->ulevel
             && ((mask == FROMRACE) ? newlevel : newrolelevel) >= abil->ulevel) {
             /* Must do this check before we set the FROMEXPER flag */
             if ((*(abil->ability) & TIMEOUT) < 100 && newlevel != 1) {
