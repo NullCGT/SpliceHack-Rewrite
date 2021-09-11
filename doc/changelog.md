@@ -33,9 +33,6 @@
       if you lack drain resistance.
     - For each role in addition to your main role, the experience required to reach subsequent levels
       will be higher.
-  - BUG: Godname is overwritten, leading to segfaults when leveling into a priest.
-  - BUG: Entering the quest as a role other than the one you began the game as causes a lot of weird
-         things to happen.
 #### Dragon Rider
   - Rename dragonmasters to dragon riders. This name change puts greater emphasis on the bond the
     character has with dragons.
