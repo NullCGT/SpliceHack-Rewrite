@@ -29,43 +29,35 @@ des.region(selection.area(00,00,25,13), "lit")
 des.non_diggable(selection.area(00,00,25,13))
 des.non_passwall(selection.area(00,00,25,13))
 
--- Boulders
-des.object("boulder",02,03)
-des.object("boulder",08,03)
-des.object("boulder",09,04)
-des.object("boulder",02,05)
-des.object("boulder",04,05)
-des.object("boulder",09,05)
-des.object("boulder",02,06)
-des.object("boulder",05,06)
-des.object("boulder",06,07)
-des.object("boulder",03,08)
-des.object("boulder",07,08)
-des.object("boulder",05,09)
-des.object("boulder",10,09)
-des.object("boulder",07,10)
-des.object("boulder",10,10)
-des.object("boulder",03,11)
+boulders =
+{ {02,03}, {08,03}, {09,04}, {02,05}, {04,05}, {09,05}, {02,06}, {05,06},
+  {06,07}, {03,08}, {07,08}, {05,09}, {10,09}, {07,10}, {10,10}, {03,11} }
+shuffle(boulders)
+eyeballs =
+{ "freezing sphere", "freezing sphere", "shocking sphere", "whirling sphere",
+  "flaming sphere", "flaming sphere", "concussive sphere", "psionic sphere" }
+
+des.object("boulder",boulders[1]) -- spawn just one boulder
+for pos=2,16 do
+    if percent(65) then
+        des.monster("gas spore", boulders[pos])
+    elseif percent(90) then
+        shuffle(eyeballs)
+        des.monster(eyeballs[1], boulders[pos])
+    else
+        des.monster("e", boulders[pos])
+    end
+end
 
 -- Traps
-des.trap("hole",12,10)
-des.trap("hole",13,10)
-des.trap("hole",14,10)
-des.trap("hole",15,10)
-des.trap("hole",16,10)
-des.trap("hole",17,10)
-des.trap("hole",18,10)
-des.trap("hole",19,10)
-des.trap("hole",20,10)
-des.trap("hole",21,10)
-des.trap("hole",22,10)
 des.trap("hole",23,10)
+des.trap("land mine") -- a little spice
 
 -- Random objects
-des.object({ class = "%" });
-des.object({ class = "%" });
-des.object({ class = "%" });
-des.object({ class = "%" });
+-- no food, because you don't have to spend many turns pushing boulders around.
 des.object({ class = "=" });
 des.object({ class = "/" });
 
+for i=0,15 do
+    des.monster("gas spore", 20, 02)
+end

@@ -166,6 +166,7 @@ in its own way.
 - The orcs in orctown have built a kitchen, complete with furnace, sink, and icebox!
 - Two Oracle levels arrived from xNetHack, and the standard level varies a bit.
 - Secret corridors no longer generate; secret doors still exist.
+- The second floor of Sokoban has been upgraded to demogorgon22's Lokoban.
 #### Furnaces
 - Furnaces can be used to combine items. While at a furnace, the player can use the #forge command
   to combine two items into one more powerful item.

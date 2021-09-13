@@ -614,7 +614,10 @@ explode(
                 }
                 if (iflags.last_msg == PLNMSG_CAUGHT_IN_EXPLOSION
                     || iflags.last_msg == PLNMSG_TOWER_OF_FLAME) /*seffects()*/
-                    pline("It is fatal.");
+                    if (!rn2(4))
+                        Your("%s is blasted off!", body_part(FACE));
+                    else
+                        pline("It is fatal.");
                 else
                     pline_The("%s is fatal.", str);
                 /* Known BUG: BURNING suppresses corpse in bones data,
@@ -980,17 +983,17 @@ mon_explodes(struct monst *mon, struct attack *mattk)
 
 void arm_bomb(struct obj *obj, boolean yours)
 {
-    /* Three shall be the number of the counting and the 
+    /* Three shall be the number of the counting and the
        number of the counting shall be three. */
     if (obj->oarmed)
         return;
 	if (obj->oartifact == ART_HAND_GRENADE_OF_ANTIOCH) {
         attach_bomb_blow_timeout(obj, 3, yours);
     } else if (is_grenade(obj)) {
-		attach_bomb_blow_timeout(obj, 
-			    (obj->cursed ? rn2(5) + 2 : obj->blessed ? 4 : 
+		attach_bomb_blow_timeout(obj,
+			    (obj->cursed ? rn2(5) + 2 : obj->blessed ? 4 :
 			    	rn2(2) + 3)
-			     , yours);			
+			     , yours);
 	}
 	/* Otherwise, do nothing */
 }

@@ -27,53 +27,35 @@ des.region(selection.area(00,00,28,11), "lit")
 des.non_diggable(selection.area(00,00,28,11))
 des.non_passwall(selection.area(00,00,28,11))
 
--- Boulders
-des.object("boulder",03,02)
-des.object("boulder",04,02)
---
-des.object("boulder",06,02)
-des.object("boulder",06,03)
-des.object("boulder",07,02)
---
-des.object("boulder",03,06)
-des.object("boulder",02,07)
-des.object("boulder",03,07)
-des.object("boulder",03,08)
-des.object("boulder",02,09)
-des.object("boulder",03,09)
-des.object("boulder",04,09)
---
-des.object("boulder",06,07)
-des.object("boulder",06,09)
-des.object("boulder",08,07)
-des.object("boulder",08,10)
-des.object("boulder",09,08)
-des.object("boulder",09,09)
-des.object("boulder",10,07)
-des.object("boulder",10,10)
+boulders =
+{ {03,02}, {04,02}, {06,02}, {06,03}, {07,02}, {03,06}, {02,07}, {03,07}, {03,08}, {02,09},
+  {03,09}, {04,09}, {06,07}, {06,09}, {08,07}, {08,10}, {09,08}, {09,09}, {10,07}, {10,10} }
+shuffle(boulders)
+eyeballs =
+{ "freezing sphere", "freezing sphere", "shocking sphere", "whirling sphere",
+  "flaming sphere", "flaming sphere", "concussive sphere", "psionic sphere" }
+
+des.object("boulder",boulders[1]) -- spawn just one boulder
+for pos=2,20 do
+    if percent(70) then
+        des.monster("gas spore", boulders[pos])
+    elseif percent(90) then
+        shuffle(eyeballs)
+        des.monster(eyeballs[1], boulders[pos])
+    else
+        des.monster("e", boulders[pos])
+    end
+end
 
 -- Traps
-des.trap("hole",12,10)
-des.trap("hole",13,10)
-des.trap("hole",14,10)
-des.trap("hole",15,10)
-des.trap("hole",16,10)
-des.trap("hole",17,10)
-des.trap("hole",18,10)
-des.trap("hole",19,10)
-des.trap("hole",20,10)
-des.trap("hole",21,10)
-des.trap("hole",22,10)
-des.trap("hole",23,10)
-des.trap("hole",24,10)
-des.trap("hole",25,10)
 des.trap("hole",26,10)
+des.trap("land mine") -- a little spice
 
 -- Random objects
-des.object({ class = "%" });
-des.object({ class = "%" });
-des.object({ class = "%" });
-des.object({ class = "%" });
+-- no food, because you don't have to spend many turns pushing boulders around.
 des.object({ class = "=" });
 des.object({ class = "/" });
 
+for i=0,12 do
+    des.monster("gas spore", 23, 02)
+end
