@@ -1285,7 +1285,8 @@ seffects(struct obj *sobj) /* sobj - scroll or fake spellbook for spell */
         }
         /* elven armor vibrates warningly when enchanted beyond a limit */
         special_armor = is_elven_armor(otmp)
-                        || (Role_if(PM_WIZARD) && otmp->otyp == CORNUTHAUM);
+                        || (Role_if(PM_WIZARD) && otmp->otyp == CORNUTHAUM)
+                        || (Role_if(PM_ARCHEOLOGIST) && otmp->otyp == FEDORA);
         hypermagical = otmp->material == ORICHALCUM;
         
         if (scursed)
