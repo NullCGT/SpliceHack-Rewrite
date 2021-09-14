@@ -239,6 +239,7 @@ role_bab()
     case PM_TOURIST:
     case PM_CONVICT:
     case PM_HEALER:
+    case PM_CARTOMANCER:
         return 0.5;
     case PM_MONK:
     case PM_ARCHEOLOGIST:
@@ -248,6 +249,22 @@ role_bab()
         return 0.75;
     default:
         return 1;
+    }
+}
+
+int
+role_powregen()
+{
+    switch(Role_switch) {
+    case PM_WIZARD:
+        return 2;
+    case PM_TOURIST:
+    case PM_MONK:
+    case PM_ARCHEOLOGIST:
+    case PM_CLERIC:
+        return 3;
+    default:
+        return 4;
     }
 }
 

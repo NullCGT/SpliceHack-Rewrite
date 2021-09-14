@@ -816,7 +816,7 @@ mksobj(int otyp, boolean init, boolean artif)
             if (artif && !rn2(Role_if(PM_PIRATE) ? 5 : 20))
                 otmp = mk_artifact(otmp, (aligntyp) A_NONE);
             if (!otmp->oartifact && !otmp->cursed
-                && (otmp->spe + (otmp->corpsenm ? 3 : 0) + otmp->oerodeproof > rnd(5)))
+                && (otmp->spe + otmp->oerodeproof > (long) rnd(5)))
                 otmp = weapon_oname(otmp);
             break;
         case FOOD_CLASS:
@@ -1542,6 +1542,7 @@ const int matdensities[] = {
     60,  // ADAMANTINE
     80,  // COLD IRON
     50, /* MITHRIL */
+    90, /* ORICHALCUM */
     20,  // PLASTIC
     60,  // GLASS
     55,  // GEMSTONE
@@ -1669,25 +1670,27 @@ const int matac[] = {
      7,  // ADAMANTINE
      5,  // COLD IRON
      6,  // MITHRIL
+     6,  // ORICHALCUM
      3,  // PLASTIC
      3,  // SLIME
      5,  // GLASS
      7,  // GEMSTONE
-     5,  // SHADOW
+     3,  // SHADOW
      6,  // MINERAL
 };
 
 /* Compute the bonus or penalty to AC an armor piece should get for being a
  * non-default material. */
 int
-material_bonus(obj)
-struct obj * obj;
+material_bonus(struct obj *obj)
 {
     int diff = matac[obj->material] - matac[objects[obj->otyp].oc_material];
 
-    /* don't allow the armor's base AC to go below 0 */
-    if (objects[obj->otyp].a_ac + diff < 0) {
-        diff = -(objects[obj->otyp].a_ac);
+    /* don't allow the armor's base AC to go below 0...
+     * or go below 1, if the armor is metallic */
+    const int min_ac = is_metallic(obj) ? 1 : 0;
+    if (objects[obj->otyp].a_ac + diff < min_ac) {
+        diff = min_ac - objects[obj->otyp].a_ac;
     }
     return diff;
 }
@@ -3177,7 +3180,7 @@ pudding_merge_message(struct obj* otmp, struct obj* otmp2)
 
 /* for objects which are normally iron or metal */
 static const struct icp metal_materials[] = {
-    {746, 0}, /* default to base type, iron or metal */
+    {740, 0}, /* default to base type, iron or metal */
     { 49, IRON},
     { 50, WOOD},
     { 50, SILVER},
@@ -3186,12 +3189,16 @@ static const struct icp metal_materials[] = {
     { 10, GOLD},
     { 10, BONE},
     { 10, GLASS},
-    { 10, PLASTIC},
+    {  5, MINERAL},
+    {  8, PLASTIC},
     {  1, SLIME },
     {  1, ADAMANTINE},
     {  1, SHADOW },
     {  1, COLD_IRON},
-    {  1, GEMSTONE}
+    {  1, GEMSTONE},
+    {  1, ORICHALCUM},
+    {  1, PAPER},
+    {  1, WAX},
 };
 
 /* for objects related to firearms */
@@ -3199,10 +3206,11 @@ static const struct icp firearm_materials[] = {
     {645, IRON},
     {125, SILVER},
     {125, COPPER},
-    { 75, MITHRIL},
+    { 70, MITHRIL},
     { 10, GOLD},
     { 10, PLATINUM},
-    { 10, ADAMANTINE},
+    { 10, ORICHALCUM},
+    {  5, ADAMANTINE},
 };
 
 /* Reflectable items - the shield of reflection; anything
@@ -3215,22 +3223,25 @@ static const struct icp shiny_materials[] = {
     {120, GLASS},
     { 70, MITHRIL},
     { 50, METAL}, /* aluminum, or similar */
-    { 19, PLATINUM},
+    { 18, PLATINUM},
     {  5, ADAMANTINE},
-    {  1, SLIME}
+    {  1, SLIME},
+    {  1, ORICHALCUM},
     /* Avoiding cold iron because a cold iron amulet in Sokoban would be
        really nasty for elves. */
 };
 
 /* for objects which are normally wooden */
 static const struct icp wood_materials[] = {
-    {799, WOOD},
+    {788, WOOD},
     {100, MINERAL},
     { 50, IRON},
     { 30, BONE},
     { 10, COPPER},
     { 10, SILVER},
-    {  1, SLIME}
+    { 10, PAPER},
+    {  1, SLIME},
+    {  1, WAX},
 };
 
 /* for objects which are normally cloth */
@@ -3238,18 +3249,21 @@ static const struct icp cloth_materials[] = {
     {799, CLOTH},
     {100, LEATHER},
     { 70, PLASTIC},
-    { 28, PAPER},
+    { 27, PAPER},
     {  2, SHADOW},
-    {  1, SLIME}
+    {  1, SLIME},
+    {  1, WAX},
 };
 
 /* for objects which are normally leather */
 static const struct icp leather_materials[] = {
-    {749, LEATHER},
+    {747, LEATHER},
     {170, CLOTH},
-    { 70, PLASTIC},
+    { 69, PLASTIC},
     { 10, PAPER},
-    {  1, SLIME}
+    {  2, SHADOW},
+    {  1, SLIME},
+    {  1, WAX}
 };
 
 /* for objects of dwarvish make */
@@ -3259,9 +3273,10 @@ static const struct icp dwarvish_materials[] = {
     { 20, COPPER},
     { 10, SILVER},
     { 10, GOLD},
-    { 10, PLATINUM},
+    {  9, PLATINUM},
     {  5, GEMSTONE},
     {  2, ADAMANTINE},
+    {  1, ORICHALCUM},
 };
 
 /* for armor-y objects of elven make - no iron!
@@ -3277,7 +3292,7 @@ static const struct icp elven_materials[] = {
 /* for bells and other tools, especially instruments, which are normally copper
  * or metal.  Wood and glass in other lists precludes us from using those. */
 static const struct icp resonant_materials[] = {
-    {544, 0}, /* use base material */
+    {543, 0}, /* use base material */
     {250, COPPER},
     { 60, SILVER},
     { 50, IRON},
@@ -3285,7 +3300,8 @@ static const struct icp resonant_materials[] = {
     { 30, GOLD},
     { 10, PLATINUM},
     {  5, GEMSTONE},
-    {  1, ADAMANTINE}
+    {  1, ADAMANTINE},
+    {  1, ORICHALCUM}
 };
 /* for horns, currently. */
 static const struct icp horn_materials[] = {
@@ -3294,10 +3310,11 @@ static const struct icp horn_materials[] = {
     { 80, MITHRIL},
     { 50, WOOD},
     { 50, SILVER},
-    { 20, GOLD},
+    { 15, GOLD},
     {  5, SHADOW},
     {  5, ADAMANTINE},
-    {  5, GEMSTONE}
+    {  5, GEMSTONE},
+    {  5, ORICHALCUM}
 };
 /* hacks for specific objects... not great because it's a lot of data, but it's
  * a relatively clean solution */
@@ -3424,18 +3441,13 @@ boolean by_you;
 
     int j = 0;
     int newmat;
-    while (j < 1000) {
+    while (j < 200) {
         newmat = 1 + rn2(NUM_MATERIAL_TYPES);
-        if (newmat != origmat && newmat != VEGGY
-            && newmat != DRAGON_HIDE && newmat != FLESH
-            && newmat != LIQUID)
+        if (newmat != origmat && valid_obj_material(obj, newmat))
             break;
         j++;
     }
-    /* This can cause some *very* weird materials. DANGEROUS hack. */
-    if (!Hate_material(newmat) && newmat != VEGGY 
-        && newmat != DRAGON_HIDE && newmat != FLESH
-        && newmat != LIQUID)
+    if (!Hate_material(newmat))
         obj->material = newmat;
     else
         /* can use a 0 in the list to default to the base material */

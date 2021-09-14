@@ -29,13 +29,14 @@ enum obj_material_types {
     ADAMANTINE  = 17,
     COLD_IRON   = 18, /* Iron that has been cold-forged */
     MITHRIL     = 19,
-    PLASTIC     = 20,
-    SLIME       = 21,
-    GLASS       = 22,
-    GEMSTONE    = 23,
-    SHADOW      = 24,
-    MINERAL     = 25,
-    NUM_MATERIAL_TYPES = 26
+    ORICHALCUM  = 20,
+    PLASTIC     = 21,
+    SLIME       = 22,
+    GLASS       = 23,
+    GEMSTONE    = 24,
+    SHADOW      = 25,
+    MINERAL     = 26,
+    NUM_MATERIAL_TYPES = 27
 };
 
 enum obj_armor_types {

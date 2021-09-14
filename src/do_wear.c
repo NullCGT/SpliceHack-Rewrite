@@ -1346,7 +1346,7 @@ Blindf_off(struct obj *otmp)
             otmp->cursed = 1;
             pline("This mask is about to break.");
         }
-        rehumanize();
+        /* rehumanize(); */
     }
 }
 

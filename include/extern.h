@@ -3109,6 +3109,7 @@ extern int vms_get_saved_games(const char *, char ***);
 extern const char *weapon_descr(struct obj *);
 extern int base_hitbonus(struct obj *);
 extern float role_bab(void);
+extern int role_powregen(void);
 extern int botl_hitbonus(void);
 extern char *describe_dmgval(char *, struct obj *, boolean);
 extern int hitval(struct obj *, struct monst *);

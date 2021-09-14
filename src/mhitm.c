@@ -1508,12 +1508,12 @@ cursed_weapon_proc(struct monst *magr, struct monst *mdef) {
         if (youattack && observes) pline("%s out a groan.",
             Yobjnam2(obj, "let"));
         
-        if (youattack && obj->spe < 0 && rn2(min(-1 * obj->spe, 2))) {
+        if (youattack && obj && obj->spe < 0 && rn2(min(-1 * obj->spe, 2))) {
             pline("%s!", Yobjnam2(obj, "break"));
             uwepgone();
             useup(obj);
             ret = 2;
-        } else if (obj->spe < 0 && rn2(min(-1 * obj->spe, 2))) {
+        } else if (mcarried(obj) && obj->spe < 0 && rn2(min(-1 * obj->spe, 2))) {
             if (observes) pline("%s!", Tobjnam(obj, "break"));
             m_useup(magr, obj);
             ret = 2;

@@ -33,9 +33,6 @@
       if you lack drain resistance.
     - For each role in addition to your main role, the experience required to reach subsequent levels
       will be higher.
-  - BUG: Godname is overwritten, leading to segfaults when leveling into a priest.
-  - BUG: Entering the quest as a role other than the one you began the game as causes a lot of weird
-         things to happen.
 #### Dragon Rider
   - Rename dragonmasters to dragon riders. This name change puts greater emphasis on the bond the
     character has with dragons.
@@ -67,6 +64,12 @@
   - Does not generate randomly. Dropped only by Worms that Walk.
 - New Artifact: Shamblestick
   - Has stats randomly determined at the beginning of the game, like a shambling horror.
+- New Materials:
+  - Orichalcum
+    - Can be safely enchanted to higher values.
+    - Stolen by gold-stealing monsters, since it is an alloy of a number of metals.
+    - If an orichalcum item is disenchanted, all of its enchantment instantly disappears,
+      since it is such a superb magical conductor.
 
 ### Skill System
 - Rather than techniques, SpliceHack uses a skill system.
@@ -88,15 +91,13 @@
 - Whenever a non-tame monster kills another monster, it will automatically grow up.
 - Monsters gain a large bonus to hit when flanking the player (located on opposite sides of
   the player's position),
+- Power regen is based on role.
 - Weapons have gone through a rebalance.
   -Many weapons now have bonuses or penalties to hit, and can also influence AC when wielded.
   - Given the emphasis on to-hit bonus, these small bonuses and penalties are now much more
     important than they would otherwise be.
   - [PLANNED] These values can be influenced by the material of the weapon.
-- [PLANNED] AC and DR have been split. This system is similar to the one in dnethack, but with
-  some significant changes.
-- [PLANNED] Role-based power regen?
-- [PLANNED] Dexterity contributes to AC, but the amount it contributes depends on weight?
+- [PLANNED] AC and DR have been split.
 
 ### QOL
 - Added several QOL fixes to the wish parser. Many of these came from the NetHack YANI archive.
@@ -311,6 +312,9 @@ that Excalibur doesn't crowd out all the other artifact weapons as much.
 - Monsters summoned by the Wizard of Yendor appear at the upstairs of a level, rather than surrounding
   the player.
 - While flying, you are unable to attack Pazuzu.
+- Due to expanded object materail lists, transmuters are much more dangeorus, since they can
+  transmute metal into stone, potentially overloading the player.
+- Removing a mask no longer causes you to instantly rehumanize.
 
 ### Removed Content
 Since this release is a rewrite, several pieces of existing content have been heavily altered
@@ -356,9 +360,8 @@ or outright removed. Rationale can be provided for removed content upon request.
 - Fixed grenade explosions being incorrectly blamed on the player.
 
 ### Known Bugs
-- Rare failed sanity check for improper mon data, possibly due to vampiric monsters shapeshifting.
-- Rare crash, also likely related to vampiric monsters shapeshifting while templated.
-- Removing a mask that changed you into a light-emitting monster will cause a program in disorder.
 - Phoenix egg revival via fire is very buggy.
 - Rare write_ls: can't find
-- Hand grenade explosions are magical.
+- Hand grenade explosions are magical, but only when hurled by an enemy, and only when using a frag grenade.
+- Failed mon sanity checks with werecreatures.
+- Moldiers and other infesting mons spawn adjacent to player.

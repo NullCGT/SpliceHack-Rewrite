@@ -1448,6 +1448,10 @@ oname(struct obj *obj, const char *name)
         case ART_IRON_BALL_OF_LIBERATION:
             obj->material = IRON;
             break;
+        /* Magicbane is of course made of the most magically conductive material. */
+        case ART_MAGICBANE:
+            obj->material = ORICHALCUM;
+            break;
         default:
             /* prevent any wishes for materials on an artifact */
             obj->material = objects[obj->otyp].oc_material;

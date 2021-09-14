@@ -1333,7 +1333,7 @@ register struct obj *otmp;
             } else if (mtmp->data == &mons[PM_MAGGOT]) {
                 makemon(&mons[rn2(3) ? PM_GIANT_FLY : PM_WORM_THAT_WALKS], u.ux, u.uy, NO_MINVENT);
             } else
-                clone_mon(mtmp, 0, 0);
+                makemon(&mons[mtmp->mnum], u.ux, u.uy, NO_MINVENT);
             delobj(otmp);
             break; /* only eat one at a time... */
         }
@@ -3892,7 +3892,7 @@ m_respond(struct monst* mtmp)
 
 void
 remove_fearedmon() {
-    u.fearedmon = 0;
+    u.fearedmon = (struct monst *) 0;
     if (u.ugrave_arise == PM_BODAK)
         u.ugrave_arise = NON_PM;
 }

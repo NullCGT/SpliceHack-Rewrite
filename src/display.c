@@ -2130,6 +2130,37 @@ static const int explcolors[] = {
 #define GMAP_ROGUELEVEL          0x00000002
 #define GMAP_ALTARCOLOR          0x00000004
 
+/* Externify this array if it's ever needed anywhere else. */
+static const int materialclr[] = {
+    CLR_BLACK,
+    HI_ORGANIC,         /* LIQUID */
+    CLR_WHITE,          /* WAX */
+    HI_ORGANIC,         /* VEGGY */
+    CLR_RED,            /* FLESH */
+    CLR_WHITE,          /* PAPER */
+    HI_CLOTH,           /* CLOTH */
+    HI_LEATHER,         /* LEATHER */
+    HI_WOOD,            /* WOOD */
+    CLR_WHITE,          /* BONE */
+    CLR_BLACK,          /* DRAGONHIDE */
+    HI_METAL,           /* IRON */
+    HI_METAL,           /* METAL */
+    HI_COPPER,          /* COPPER */
+    HI_SILVER,          /* SILVER */
+    HI_GOLD,            /* GOLD */
+    CLR_WHITE,          /* PLATNIMU */
+    CLR_GREEN,          /* ADAMANTINE */
+    HI_METAL,           /* COLD IRON */
+    HI_SILVER,          /* MITHRIL */
+    CLR_YELLOW,         /* ORICHALCUM */
+    CLR_WHITE,          /* PLASTIC */
+    CLR_BRIGHT_GREEN,   /* SLIME */
+    HI_GLASS,           /* GLASS */
+    CLR_RED,            /* GEMSTONE */
+    CLR_BLACK,          /* SHADOW */
+    CLR_GRAY            /* MINERAL */
+};
+
 void
 map_glyphinfo(xchar x, xchar y, int glyph,
               unsigned mgflags, glyph_info *glyphinfo)
@@ -2186,7 +2217,10 @@ map_glyphinfo(xchar x, xchar y, int glyph,
         idx = mons[offset].mlet + SYM_OFF_M;
         if (has_rogue_color)
             color = CLR_RED;
-        else
+        else if (iflags.use_color && obj && obj->otyp == STATUE
+            && obj->material != MINERAL) {
+            color = materialclr[obj->material];
+        } else
             obj_color(STATUE);
         special |= MG_STATUE;
         if (is_objpile(x,y))
@@ -2336,6 +2370,7 @@ map_glyphinfo(xchar x, xchar y, int glyph,
             color = blood_color(levl[x][y].splatpm);
         }
     } else if ((offset = (glyph - GLYPH_OBJ_OFF)) >= 0) { /* object */
+        struct obj* otmp = vobj_at(x, y);
         idx = objects[offset].oc_class + SYM_OFF_O;
         if (offset == BOULDER)
             idx = SYM_BOULDER + SYM_OFF_X;
@@ -2351,6 +2386,11 @@ map_glyphinfo(xchar x, xchar y, int glyph,
                 color = CLR_BRIGHT_BLUE;
                 break;
             }
+#ifdef TEXTCOLOR
+        } else if (iflags.use_color && otmp && otmp->otyp == offset
+            && otmp->material != objects[offset].oc_material) {
+            color = materialclr[otmp->material];
+#endif
         } else
             obj_color(offset);
         if (offset != BOULDER && is_objpile(x,y))

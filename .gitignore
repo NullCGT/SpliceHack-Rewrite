@@ -90,3 +90,6 @@ targets/*
 
 # Perl scripts
 tiletool.pl
+
+# Dev
+src/sysconf

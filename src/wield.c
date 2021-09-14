@@ -872,6 +872,7 @@ chwepon(struct obj *otmp, int amount)
     const char *xtime, *wepname = "";
     boolean multiple;
     int otyp = STRANGE_OBJECT;
+    int limit = uwep->material == ORICHALCUM ? 7 : 5;
 
     if (!uwep || (uwep->oclass != WEAPON_CLASS && !is_weptool(uwep))) {
         char buf[BUFSZ];
@@ -947,7 +948,7 @@ chwepon(struct obj *otmp, int amount)
         return 1;
     }
     /* there is a (soft) upper and lower limit to uwep->spe */
-    if (((uwep->spe > 5 && amount >= 0) || (uwep->spe < -5 && amount < 0))
+    if (((uwep->spe > limit && amount >= 0) || (uwep->spe < (-1 * limit) && amount < 0))
         && rn2(3)) {
         if (!Blind)
             pline("%s %s for a while and then %s.",

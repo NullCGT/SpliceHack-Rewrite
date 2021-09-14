@@ -109,8 +109,9 @@ const char *materialnm[] = { "mysterious", "liquid",  "wax",        "organic",
                              "wooden",     "bone",    "dragonhide", "iron",
                              "metal",      "copper",  "silver",     "gold",
                              "platinum",   "adamantine", "cold iron", "mithril", 
+                             "orichalcum",
                              "plastic",    "gelatinous", "glass",     "crystal",   
-                             "shadowspun", "stone" };
+                             "shadeweave", "stone" };
 
 char emptystr[] = {0};       /* non-const */
 

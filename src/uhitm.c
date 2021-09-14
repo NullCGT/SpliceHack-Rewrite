@@ -925,6 +925,11 @@ hmon_hitmon(struct monst *mon,
                     hittxt = TRUE;
                 }
 
+                /* In SpliceHack, launchers contribute to damage. */
+                if (uwep && ammo_and_launcher(obj, uwep) && obj->spe < uwep->spe) {
+                    tmp += (uwep->spe - obj->spe);
+                }
+
                 /* handle the damages of special artifacts */
                 if (obj->oartifact && obj->oartifact == ART_LUCKLESS_FOLLY) {
                     tmp -= 2 * Luck;
@@ -5018,6 +5023,7 @@ mhitm_ad_sedu(struct monst *magr, struct attack *mattk, struct monst *mdef,
             mhm->done = TRUE;
             return;
         case 0:
+            mhm->done = TRUE;
             return;
         default:
             if (!is_animal(magr->data) && !tele_restrict(magr))
@@ -5027,9 +5033,9 @@ mhitm_ad_sedu(struct monst *magr, struct attack *mattk, struct monst *mdef,
                     pline("%s tries to %s away with %s.", Monnam(magr),
                           locomotion(magr->data, "run"), buf);
             }
-            monflee(magr, 0, FALSE, FALSE);
             mhm->hitflags = MM_AGR_DONE; /* return 3??? */
             mhm->done = TRUE;
+            monflee(magr, 0, FALSE, FALSE);
             return;
         }
     } else {
@@ -5975,6 +5981,7 @@ hmonas(struct monst *mon)
         case AT_BREA:
         case AT_SPIT:
         case AT_VOLY:
+        case AT_SCRE:
         case AT_GAZE: /* all done using #monster command */
             dhit = 0;
             break;
@@ -6420,6 +6427,13 @@ passive_obj(struct monst *mon,
     case AD_CORR:
         if (!mon->mcan) {
             (void) erode_obj(obj, (char *) 0, ERODE_CORRODE, EF_GREASE);
+        }
+        break;
+    case AD_MTRL:
+        if (!mon->mcan) {
+            if (warp_material(obj, TRUE) && carried(obj)) {
+                pline("Your %s warps!", simpleonames(obj));
+            }
         }
         break;
     case AD_ENCH:
