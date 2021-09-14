@@ -3071,6 +3071,11 @@ static const struct alt_spellings {
     { "gdsm", GRAY_DRAGON_SCALE_MAIL },
     { "sdsm", SILVER_DRAGON_SCALE_MAIL },
     { "AoR", AMULET_OF_REFLECTION },
+    { "AoLS", AMULET_OF_LIFE_SAVING },
+    { "wod", WAN_DEATH },
+    { "mkot", ART_MASTER_KEY_OF_THIEVERY },
+    { "oof", ART_ORB_OF_FATE },
+    { "eota", ART_EYE_OF_THE_AETHIOPICA },
     /* Just for fun */
     { "love", SCR_TAMING },
     { "world peace", SCR_TAMING },
