@@ -1547,7 +1547,7 @@ clarity in her eyes.
 
 "What have I done?  Those demons have been clouding my mind.
 Please forgive me, %p, although I know that I
-probably do not deserve it.  Take 
+probably do not deserve it.  Take
 %o back to %l
 with my blessing."
 
@@ -1565,7 +1565,7 @@ life should go back to normal before long.
 see that %o has already attuned
 itself to you.  I offer it to you in hopes that
 it will aid in your quest to recover the Amulet
-of Yendor." 
+of Yendor."
 %E [%lC tells you to take %o.]
 %Cc Con 00082
 %l looks upon %o
@@ -1908,7 +1908,7 @@ near %i."
 %Cc Kni 00015
 "Ah, %p.  We see thou hast received Our summons.
 We are in dire need of thy prowess.  But first, We must needs
-decide if thou art ready for this great undertaking."
+decide whether thou art ready for this great undertaking."
 %E [%lC checks whether you are ready for a great undertaking.]
 %Cp Kni 00016
 "Welcome again, %p.  We hope thou art ready now."
@@ -1917,24 +1917,24 @@ decide if thou art ready for this great undertaking."
 "Once again, thou standest before Us, %p.  Art thou ready now?"
 %E
 %Cc Kni 00018
-"Thou disgracest this noble court with thine impure presence.  We have been
-lenient with thee, but no more.  Thy name shall be spoken no more.  We
-hereby strip thee of thy title, thy lands, and thy standing as %ca.
+"Thou disgracest this noble court with thine slovenly presence.  We have
+been lenient with thee, but no more.  Thy name shall be spoken no more.
+We hereby strip thee of thy title, thy lands, and thy standing as %ca.
 Begone from Our sight!"
 %E [You are a disgrace as %ca.]
 %Cc Kni 00019
 "Verily, %p, thou hast done well.  That thou hast survived thus
 far is a credit to thy valor, but thou art yet unprepared for
 the demands required as Our Champion.  %rA, no matter how
-pure, could never hope to defeat the foul %n.
+passionate, could never hope to defeat the foul %n.
 
 "Journey forth from this place, and hone thy skills.  Return to
 Our presence when thou hast attained the noble title of %R."
 %E [You are not prepared to face %n.  Return when you are %Ra.]
 %Cc Kni 00020
-"Thou dishonourest Us, %p!  Thou hast strayed from the path of
-chivalry! Go from Our presence and do penance.  Only when thou art again
-pure mayst thou return hence."
+"Thou dishonourest Us, %p!  Thou hast strayed from thy chosen path and
+passions! Go from Our presence and contemplate.  Only when thou art again
+true to thy calling mayst thou return hence."
 %E [Go and do penance.  Return when you are truly %a.]
 %Cc Kni 00021
 "Ah, %p.  Thou art truly ready, as no %c before thee hath
@@ -1988,7 +1988,7 @@ Go carefully."
 "Call upon %d when thou art in need."
 %E
 %Cp Kni 00034
-"To find %i, thou must keep thy heart pure."
+"To find %i, thou must remain true to thyself."
 %E
 %Cc Kni 00035
 You stand at the foot of %i.  Atop, you can %x a shrine.
