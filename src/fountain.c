@@ -622,47 +622,51 @@ drinkfurnace(void)
     }
 }
 
+/* RECENTLY REFACTORED: the first item in the array is the target item *
+ *   the items after that first item are the objects to be used up.    *
+ *   In other words, to get fusions[0], put in fusions[1] and [2]      */
 static const short fusions[][3] = {
     /* weapons */
-    { IRON_CHAIN, KNIFE, SPIKED_CHAIN },
-    { IRON_CHAIN, DAGGER, SPIKED_CHAIN },
-    { AMULET_OF_REFLECTION, LARGE_SHIELD, SHIELD_OF_REFLECTION },
-    { FLAIL, FLAIL, TRIPLE_FLAIL },
-    { AXE, AXE, BATTLE_AXE },
-    { SHORT_SWORD, SHORT_SWORD, LONG_SWORD },
-    { IRON_CHAIN, BOULDER, HEAVY_IRON_BALL }, /* arguably non-weapon, but */
-    { CLUB, RUBBER_HOSE, BASEBALL_BAT },
+    { BASEBALL_BAT,  CLUB, RUBBER_HOSE },
+    { BATTLE_AXE,  AXE, AXE },
+    { HEAVY_IRON_BALL,  IRON_CHAIN, BOULDER }, /* arguably non-weapon, but */
+    { LONG_SWORD,  SHORT_SWORD, SHORT_SWORD },
+    { SPIKED_CHAIN,  IRON_CHAIN, DAGGER },
+    { SPIKED_CHAIN,  IRON_CHAIN, KNIFE },
+    { TRIPLE_FLAIL,  FLAIL, FLAIL },
     /* armor */
-    { DENTED_POT, DUNCE_CAP, TINFOIL_HAT },
-    { AMULET_OF_ESP, HELMET, HELM_OF_TELEPATHY },
+    { HELM_OF_TELEPATHY,  AMULET_OF_ESP, HELMET },
+    { SHIELD_OF_REFLECTION,  AMULET_OF_REFLECTION, LARGE_SHIELD },
+    { TINFOIL_HAT,  DENTED_POT, DUNCE_CAP },
     /* rings */
-    { RIN_HUNGER, RIN_AGGRAVATE_MONSTER, RIN_CONFLICT },
-    { RIN_TELEPORTATION, RIN_POLYMORPH_CONTROL, RIN_TELEPORT_CONTROL },
-    { RIN_POLYMORPH, RIN_TELEPORT_CONTROL, RIN_POLYMORPH_CONTROL },
+    { RIN_CONFLICT,  RIN_HUNGER, RIN_AGGRAVATE_MONSTER },
+    { RIN_POLYMORPH_CONTROL,  RIN_POLYMORPH, RIN_TELEPORT_CONTROL },
+    { RIN_TELEPORT_CONTROL,  RIN_TELEPORTATION, RIN_POLYMORPH_CONTROL },
     /* tools */
-    { FOOD_RATION, TOOLED_HORN, HORN_OF_PLENTY },
-    { FLUTE, SCR_TAMING, MAGIC_FLUTE },
-    { LOADSTONE, SCR_IDENTIFY, CRYSTAL_BALL },
-    { LUCKSTONE, SCR_IDENTIFY, CRYSTAL_BALL },
-    { CRYSTAL_BALL, TOWEL, LENSES },
-    { LOCK_PICK, LOCK_PICK, SKELETON_KEY },
-    { SKELETON_KEY, SKELETON_KEY, LOCK_PICK },
-    { CAN_OF_GREASE, BAG_OF_RATS, OILSKIN_SACK },
-    { CAN_OF_GREASE, BAG_OF_HOLDING, OILSKIN_SACK },
+    { LENSES,  CRYSTAL_BALL, TOWEL },
+    { LOCK_PICK,  SKELETON_KEY, SKELETON_KEY },
+    { SKELETON_KEY,  LOCK_PICK, LOCK_PICK },
+    /* magical tools */
+    { CRYSTAL_BALL,  LOADSTONE, SCR_IDENTIFY },
+    { CRYSTAL_BALL,  LUCKSTONE, SCR_IDENTIFY },
+    { HORN_OF_PLENTY,  FOOD_RATION, TOOLED_HORN },
+    { MAGIC_FLUTE,  FLUTE, SCR_TAMING },
+    { OILSKIN_SACK,  CAN_OF_GREASE, BAG_OF_HOLDING },
+    { OILSKIN_SACK,  CAN_OF_GREASE, BAG_OF_RATS },
     /* wands */
-    { WAN_OPENING, WAN_LOCKING, WAN_NOTHING },
-    { WAN_OPENING, WAN_LIGHT, WAN_ENLIGHTENMENT },
-    { WAN_POLYMORPH, WAN_NOTHING, WAN_CREATE_MONSTER },
+    { WAN_CREATE_MONSTER,  WAN_POLYMORPH, WAN_NOTHING },
+    { WAN_ENLIGHTENMENT,  WAN_OPENING, WAN_LIGHT },
+    { WAN_NOTHING,  WAN_OPENING, WAN_LOCKING },
     /* food/gems/junk */
-    { C_RATION, FOOD_RATION, K_RATION },
+    { K_RATION,  C_RATION, FOOD_RATION },
     { 0, 0, 0, }
     /* scale mail + dragon scales = dsm */
 };
 
 static const short artifusions[][3] = {
-    { ART_FROST_BRAND, ART_FIRE_BRAND, ART_FROSTBURN },
-    { ART_TROLLSBANE, ART_WEREBANE, ART_MORTALITY_DIAL },
-    { ART_SUNSPOT, ART_SONICBOOM, ART_SQUALL },
+    { ART_FROSTBURN,  ART_FROST_BRAND,ART_FIRE_BRAND },
+    { ART_MORTALITY_DIAL,  ART_TROLLSBANE,ART_WEREBANE },
+    { ART_SQUALL,  ART_SUNSPOT,ART_SONICBOOM },
 };
 
 int
@@ -706,9 +710,9 @@ doforging(void)
     /* Artifact fusions. */
     if (obj1->oartifact && obj2->oartifact) {
         for (int i = 0; fusions[i][0] > 0; i++) {
-            if ((obj1->oartifact == artifusions[i][0] && obj2->oartifact == artifusions[i][1]) ||
-                (obj2->oartifact == artifusions[i][0] && obj1->oartifact == artifusions[i][1])) {
-                arti_id = artifusions[i][2];
+            if ((obj1->oartifact == artifusions[i][1] && obj2->oartifact == artifusions[i][2]) ||
+                (obj2->oartifact == artifusions[i][1] && obj1->oartifact == artifusions[i][2])) {
+                arti_id = artifusions[i][0];
                 combi_done = TRUE;
                 break;
             }
@@ -747,15 +751,15 @@ doforging(void)
     /* Mundane item fusions */
     if (!combi_done) {
         for (int i = 0; fusions[i][0] > 0; i++) {
-            if ((obj1->otyp == fusions[i][0] && obj2->otyp == fusions[i][1]) ||
-                (obj2->otyp == fusions[i][0] && obj1->otyp == fusions[i][1])) {
-                obj1->otyp = fusions[i][2];
+            if ((obj1->otyp == fusions[i][1] && obj2->otyp == fusions[i][2]) ||
+                (obj2->otyp == fusions[i][1] && obj1->otyp == fusions[i][2])) {
+                obj1->otyp = fusions[i][0];
                 break;
             }
         }
     }
     /* Take on the secondary object's material. */
-    if (valid_obj_material(obj1, obj2->material)) obj1->material = obj2->material;
+    // if (valid_obj_material(obj1, obj2->material)) obj1->material = obj2->material;
     /* Use whichever enchantment is higher. */
     if (obj2->spe > obj1->spe) obj1->spe = min(obj2->spe, 10);
     /* Keep curses around. */
