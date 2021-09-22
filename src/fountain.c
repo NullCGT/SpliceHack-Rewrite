@@ -739,10 +739,11 @@ doforging(void)
         useup(obj2);
         update_inventory();
         if (!rn2(2)) {
-            pline("The lava in the furnace cools.");
-            levl[u.ux][u.uy].typ = ROOM;
-            newsym(u.ux, u.uy);
-            g.level.flags.nfurnaces--;
+            combi_done = TRUE;
+            // pline("The lava in the furnace cools imbuely.");
+            // levl[u.ux][u.uy].typ = ROOM;
+            // newsym(u.ux, u.uy);
+            // g.level.flags.nfurnaces--;
         } else {
             pline("The lava in the furnace bubbles ominously.");
         }
@@ -752,8 +753,15 @@ doforging(void)
     if (!combi_done) {
         for (int i = 0; fusions[i][0] > 0; i++) {
             if ((obj1->otyp == fusions[i][1] && obj2->otyp == fusions[i][2]) ||
-                (obj2->otyp == fusions[i][1] && obj1->otyp == fusions[i][2])) {
+                (obj2->otyp == fusions[i][1] && obj1->otyp == fusions[i][2]))
+            {
+                pline("You had a %s and a %s",yobjnam(obj1, (char *) 0),
+                                              yobjnam(obj2, (char *) 0));
                 obj1->otyp = fusions[i][0];
+                pline("now you got a %s",yobjnam(obj1, (char *) 0));
+                if (!rn2(2))
+                    combi_done = TRUE;
+                else pline("Wow! This furnace is great!")
                 break;
             }
         }
@@ -769,12 +777,13 @@ doforging(void)
     useup(obj2);
     update_inventory();
     /* Print a message. */
-    if (!combi_done) pline("You combine the items in the furnace.");
-    /* Destroy the furnace. */
-    pline("The lava in the furnace cools.");
-    levl[u.ux][u.uy].typ = ROOM;
-    newsym(u.ux, u.uy);
-    g.level.flags.nfurnaces--;
+    if (!combi_done) pline("You had trouble with the furnace.");
+    else { /* Destroy the furnace. */
+        pline("The lava in the furnace cools. yep");
+        levl[u.ux][u.uy].typ = ROOM;
+        newsym(u.ux, u.uy);
+        g.level.flags.nfurnaces--;
+    }
     return 0;
 }
 
